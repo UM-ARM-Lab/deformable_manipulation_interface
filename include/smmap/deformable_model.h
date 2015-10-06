@@ -7,10 +7,15 @@ namespace smmap
 class DeformableModel
 {
     public:
-        void getPrediction() { return doGetPrediction(); }
+        inline void getPrediction() { return doGetPrediction(); }
+        inline void perturbModel() { return doPerturbModel(); }
+
+    protected:
+        ~DeformableModel() {}
 
     private:
         virtual void doGetPrediction() = 0;
+        virtual void doPerturbModel() = 0;
 };
 
 }

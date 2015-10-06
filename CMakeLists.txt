@@ -1,14 +1,14 @@
-cmake_minimum_required(VERSION 2.8.3)
-project(smmap)
+cmake_minimum_required( VERSION 2.8.3 )
+project( smmap )
 
 ## Find catkin macros and libraries
-find_package(catkin REQUIRED COMPONENTS
+find_package( catkin REQUIRED COMPONENTS
   geometry_msgs
   tf_conversions
 )
 
 ## System dependencies are found with CMake's conventions
-find_package(Eigen3)
+find_package( Eigen3 )
 
 ################################################
 ## Declare ROS messages, services and actions ##
@@ -48,7 +48,7 @@ find_package(Eigen3)
 catkin_package(
   INCLUDE_DIRS    include
                   ${EIGEN3_INCLUDE_DIR}
-  LIBRARIES       deformable_model
+#  LIBRARIES       deformable_model
   CATKIN_DEPENDS  geometery_msgs
                   tf_conversions
 #  DEPENDS system_lib
@@ -60,16 +60,38 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(include)
-include_directories(${EIGEN3_INCLUDE_DIR})
+include_directories( include )
+include_directories( ${EIGEN3_INCLUDE_DIR} )
 
 ## Declare a C++ library
-add_library(deformable_model
+add_library( deformable_model
   src/deformable_model.cpp
 )
-add_dependencies(deformable_model ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+add_dependencies( deformable_model
+  ${catkin_EXPORTED_TARGETS}
+)
 
-message(STATUS ${${PROJECT_NAME}_EXPORTED_TARGETS})
+## Declare a C++ library
+add_library(diminishing_rigidity_model
+  src/diminishing_rigidity_model.cpp
+)
+add_dependencies(diminishing_rigidity_model 
+  deformable_model
+  ${catkin_EXPORTED_TARGETS}
+)
+
+## Declare a executable target
+add_executable( test_node
+  nodes/test_node.cpp
+)
+target_link_libraries( test_node
+  diminishing_rigidity_model
+  ${catkin_LIBRARIES}
+)
+add_dependencies( test_node
+  diminishing_rigidity_model
+  ${catkin_EXPORTED_TARGETS}
+)
 
 #############
 ## Install ##
