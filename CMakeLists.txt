@@ -3,12 +3,14 @@ project( smmap )
 
 ## Find catkin macros and libraries
 find_package( catkin REQUIRED COMPONENTS
-  geometry_msgs
-  tf_conversions
+    arc_utilities
+    geometry_msgs
+    tf_conversions
 )
 
 ## System dependencies are found with CMake's conventions
-find_package( Eigen3 )
+find_package( cmake_modules REQUIRED )
+find_package( Eigen REQUIRED )
 
 ################################################
 ## Declare ROS messages, services and actions ##
@@ -16,29 +18,29 @@ find_package( Eigen3 )
 
 ## Generate messages in the 'msg' folder
 # add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
+#     FILES
+#     Message1.msg
+#     Message2.msg
 # )
 
 ## Generate services in the 'srv' folder
 # add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
+#     FILES
+#     Service1.srv
+#     Service2.srv
 # )
 
 ## Generate actions in the 'action' folder
 # add_action_files(
-#   FILES
-#   Action1.action
-#   Action2.action
+#     FILES
+#     Action1.action
+#     Action2.action
 # )
 
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
+#     DEPENDENCIES
+#     std_msgs    # Or other packages containing msgs
 # )
 
 ###################################
@@ -46,12 +48,13 @@ find_package( Eigen3 )
 ###################################
 
 catkin_package(
-  INCLUDE_DIRS    include
-                  ${EIGEN3_INCLUDE_DIR}
-#  LIBRARIES       deformable_model
-  CATKIN_DEPENDS  geometery_msgs
-                  tf_conversions
-#  DEPENDS system_lib
+    INCLUDE_DIRS    include
+    LIBRARIES       ${PROJECT_NAME}
+    CATKIN_DEPENDS  arc_utilities
+                    geometery_msgs
+                    tf_conversions
+    DEPENDS         Eigen
+                    Boost
 )
 
 ###########
@@ -60,37 +63,34 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories( include )
-include_directories( ${EIGEN3_INCLUDE_DIR} )
-
-## Declare a C++ library
-add_library( deformable_model
-  src/deformable_model.cpp
-)
-add_dependencies( deformable_model
-  ${catkin_EXPORTED_TARGETS}
+include_directories( include
+    SYSTEM 
+    ${Eigen_INCLUDE_DIRS}
+    ${catkin_INCLUDE_DIRS}
 )
 
-## Declare a C++ library
-add_library(diminishing_rigidity_model
-  src/diminishing_rigidity_model.cpp
+set( CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS} -O3 -Wall -Wextra -Werror" )
+
+## Library file for the whole project
+add_library( ${PROJECT_NAME}
+    src/diminishing_rigidity_model.cpp
+    src/model_set.cpp
 )
-add_dependencies(diminishing_rigidity_model 
-  deformable_model
-  ${catkin_EXPORTED_TARGETS}
+add_dependencies( ${PROJECT_NAME}
+    ${catkin_EXPORTED_TARGETS}
 )
 
-## Declare a executable target
+## Test files to test specific functionality
 add_executable( test_node
-  nodes/test_node.cpp
-)
-target_link_libraries( test_node
-  diminishing_rigidity_model
-  ${catkin_LIBRARIES}
+    nodes/test_node.cpp
 )
 add_dependencies( test_node
-  diminishing_rigidity_model
-  ${catkin_EXPORTED_TARGETS}
+    ${PROJECT_NAME}
+    ${catkin_EXPORTED_TARGETS}
+)
+target_link_libraries( test_node
+    ${PROJECT_NAME}
+    ${catkin_LIBRARIES}
 )
 
 #############
@@ -103,29 +103,29 @@ add_dependencies( test_node
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 # install(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+#     scripts/my_python_script
+#     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
 ## Mark executables and/or libraries for installation
 # install(TARGETS smmap smmap_node
-#   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+#     ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#     LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+#     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
 ## Mark cpp header files for installation
 # install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#   FILES_MATCHING PATTERN "*.h"
-#   PATTERN ".svn" EXCLUDE
+#     DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+#     FILES_MATCHING PATTERN "*.h"
+#     PATTERN ".svn" EXCLUDE
 # )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES
-#   # myfile1
-#   # myfile2
-#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+#     # myfile1
+#     # myfile2
+#     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 # )
 
 #############
@@ -135,7 +135,7 @@ add_dependencies( test_node
 ## Add gtest based cpp test target and link libraries
 # catkin_add_gtest(${PROJECT_NAME}-test test/test_smmap.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
+#     target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
 
 ## Add folders to be run by python nosetests
