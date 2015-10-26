@@ -1,29 +1,16 @@
-#include "smmap/model_set.h"
-#include "smmap/diminishing_rigidity_model.h"
+#include "smmap/planner.h"
 
 using namespace smmap;
-using std::shared_ptr;
 
-void populateInitialModelSet( ModelSet& model_set, const ObjectPointSetPtr& point_set );
-
-int main()
+int main( int argc, char* argv[] )
 {
-    // Simulator sim;
-    // ObjectHandle rope = sim.addObject('rope');
+    // Read in all ROS parameters
+    ros::init( argc, argv, "custom_scene", ros::init_options::NoSigintHandler );
 
-    // we have 5 points in our object, all uninitialized
-    shared_ptr< ObjectPointSet > object_starting_points(
-            new ObjectPointSet( 3, 5 ) );
+    ros::NodeHandle nh;
 
-    ModelSet model_set;
-
-    populateInitialModelSet( model_set, object_starting_points );
+    Planner planner( nh );
+    planner.run();
 
     return 0;
-}
-
-void populateInitialModelSet( ModelSet& model_set, const ObjectPointSetPtr& point_set )
-{
-    DeformableModel::Ptr m( new DiminishingRigidityModel( point_set ) );
-    model_set.addModel( m );
 }

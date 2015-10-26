@@ -1,12 +1,15 @@
 cmake_minimum_required( VERSION 2.8.3 )
 project( smmap )
 
-## Find catkin macros and libraries
-find_package( catkin REQUIRED COMPONENTS
+set( CATKIN_PACKAGES
     arc_utilities
     geometry_msgs
     tf_conversions
+    deform_simulator
 )
+
+## Find catkin macros and libraries
+find_package( catkin REQUIRED COMPONENTS ${CATKIN_PACKAGES})
 
 ## System dependencies are found with CMake's conventions
 find_package( cmake_modules REQUIRED )
@@ -50,9 +53,7 @@ find_package( Eigen REQUIRED )
 catkin_package(
     INCLUDE_DIRS    include
     LIBRARIES       ${PROJECT_NAME}
-    CATKIN_DEPENDS  arc_utilities
-                    geometery_msgs
-                    tf_conversions
+    CATKIN_DEPENDS  ${CATKIN_PACKAGES}
     DEPENDS         Eigen
                     Boost
 )
@@ -69,12 +70,13 @@ include_directories( include
     ${catkin_INCLUDE_DIRS}
 )
 
-set( CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS} -O3 -Wall -Wextra -Werror" )
+set( CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS} -O3 -Wall -Wextra -Wpedantic" )
 
 ## Library file for the whole project
 add_library( ${PROJECT_NAME}
     src/diminishing_rigidity_model.cpp
     src/model_set.cpp
+    src/planner.cpp
 )
 add_dependencies( ${PROJECT_NAME}
     ${catkin_EXPORTED_TARGETS}

@@ -9,7 +9,6 @@
 
 namespace smmap
 {
-
     class ModelSet
     {
         public:
@@ -23,7 +22,6 @@ namespace smmap
 
             std::shared_ptr< std::mt19937_64 > rnd_generator;
     };
-
 }
 
 #endif
