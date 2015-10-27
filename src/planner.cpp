@@ -5,7 +5,7 @@
 #include <boost/thread.hpp>
 #include <ros/callback_queue.h>
 #include <arc_utilities/arc_helpers.hpp>
-#include <arc_utilities/eigen_helpers.hpp>
+#include <arc_utilities/eigen_helpers_conversions.hpp>
 #include <arc_utilities/pretty_print.hpp>
 
 using namespace smmap;
@@ -130,11 +130,11 @@ void Planner::updateModels( boost::mutex::scoped_lock& lock )
     // then we do the actual conversion to Eigen
     for ( size_t ind = 0; ind < simulator_fbk_buffer_.size() ; ind++ )
     {
-        object_trajectory[ind] = EigenHelpers::VectorGeometryPointToEigenMatrix3Xd( simulator_fbk_buffer_[ind].object_configuration );
+        object_trajectory[ind] = EigenHelpersConversions::VectorGeometryPointToEigenMatrix3Xd( simulator_fbk_buffer_[ind].object_configuration );
 
         for ( size_t gripper_ind = 0; gripper_ind < gripper_names_.size(); gripper_ind++ )
         {
-            gripper_trajectories[gripper_ind][ind] = EigenHelpers::GeometryPoseToEigenAffine3d( simulator_fbk_buffer_[ind].gripper_poses[gripper_ind] );
+            gripper_trajectories[gripper_ind][ind] = EigenHelpersConversions::GeometryPoseToEigenAffine3d( simulator_fbk_buffer_[ind].gripper_poses[gripper_ind] );
         }
     }
 
