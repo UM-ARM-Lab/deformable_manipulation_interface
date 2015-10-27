@@ -16,6 +16,13 @@ namespace smmap
             ~ModelSet();
 
             void addModel( const DeformableModel::Ptr& m );
+            void makePredictions( const GripperTrajectory& gripper_trajectory );
+            void evaluateAccuracy(
+                    const std::vector< GripperTrajectory >& gripper_trajectories,
+                    const ObjectTrajectory& object_trajectory );
+            void updateModels(
+                    const std::vector< GripperTrajectory >& gripper_trajectories,
+                    const ObjectTrajectory& object_trajectory );
 
         private:
             std::list< DeformableModel::Ptr > model_list;

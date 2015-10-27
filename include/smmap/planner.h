@@ -2,6 +2,7 @@
 #define smmap_planner_h
 
 #include <ros/ros.h>
+#include <arc_utilities/maybe.hpp>
 #include <custom_scene/custom_scene.h>
 
 #include "smmap/model_set.h"
@@ -13,28 +14,34 @@ namespace smmap
         public:
             Planner( ros::NodeHandle& nh,
                     CustomScene::TaskType task = CustomScene::TaskType::COVERAGE,
-                    std::string cmd_gripper_traj_topic = "cmd_gripper_traj",
-                    std::string gripper_pose_topic = "gripper_pose",
-                    std::string object_configuration_topic = "object_configuration",
-                    std::string get_gripper_names_topic = "get_gripper_names" );
+                    const std::string& cmd_gripper_traj_topic = "cmd_gripper_traj",
+                    const std::string& simulator_fbk_topic = "simulator_fbk",
+                    const std::string& get_gripper_names_topic = "get_gripper_names" );
 
             ////////////////////////////////////////////////////////////////////
             // Main function that makes things happen
             ////////////////////////////////////////////////////////////////////
 
-            void run();
+            void run( double loop_rate = 10 );
 
         private:
             CustomScene::TaskType task_;
-            ModelSet models;
+            ModelSet model_set_;
             std::vector< std::string > gripper_names_;
+
+            ////////////////////////////////////////////////////////////////////
+            // Input data parsing and model management
+            ////////////////////////////////////////////////////////////////////
+
+            void updateModels( boost::mutex::scoped_lock& lock );
 
             ////////////////////////////////////////////////////////////////////
             // ROS Callbacks
             ////////////////////////////////////////////////////////////////////
 
-            void gripperPoseCallback( const deform_simulator::GripperPoseStamped& gripper_pose );
-            void objectConfigurationCallback( const deform_simulator::ObjectConfigurationStamped& object_configuration );
+            // TODO: when moving to a real robot, create a node that deals with
+            // synchronization problems, and rename this function
+            void simulatorFbkCallback( const deform_simulator::SimulatorFbkStamped& fbk );
 
             ////////////////////////////////////////////////////////////////////
             // ROS Objects and Helpers
@@ -47,8 +54,12 @@ namespace smmap
 
             ros::Publisher cmd_gripper_traj_pub_;
 
-            ros::Subscriber gripper_pose_sub_;
-            ros::Subscriber object_configuration_sub_;
+            // global input mutex
+            boost::mutex input_mtx_;
+
+            ros::Subscriber simulator_fbk_sub_;
+            std::vector< deform_simulator::SimulatorFbkStamped > simulator_fbk_buffer_;
+            bool fbk_buffer_initialized_;
     };
 }
 

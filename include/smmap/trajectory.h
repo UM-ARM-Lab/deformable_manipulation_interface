@@ -15,6 +15,17 @@ namespace smmap
     typedef EigenHelpers::VectorAffine3d GripperTrajectory;
     typedef std::shared_ptr< GripperTrajectory > GripperTrajectoryPtr;
 
+    inline double distance( const ObjectTrajectory& traj1, const ObjectTrajectory& traj2 )
+    {
+        assert( traj1.size() == traj2.size() );
+        double dist = 0;
+        for ( size_t ind = 0; ind < traj1.size(); ind++ )
+        {
+            dist += (traj1[ind] - traj2[ind]).squaredNorm();
+        }
+
+        return sqrt(dist);
+    }
 }
 
 #endif

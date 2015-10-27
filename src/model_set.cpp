@@ -1,6 +1,7 @@
 #include "smmap/model_set.h"
 
 #include <chrono>
+#include <assert.h>
 
 using namespace smmap;
 
@@ -15,4 +16,16 @@ ModelSet::~ModelSet()
 void ModelSet::addModel( const DeformableModel::Ptr& m )
 {
     model_list.push_front( m );
+}
+
+void ModelSet::evaluateAccuracy(
+        const std::vector< GripperTrajectory >& gripper_trajectories,
+        const ObjectTrajectory& object_trajectory )
+{
+}
+
+void ModelSet::updateModels(
+        const std::vector< GripperTrajectory >& gripper_trajectories,
+        const ObjectTrajectory& object_trajectory )
+{
 }
