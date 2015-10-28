@@ -16,7 +16,8 @@ namespace smmap
                     CustomScene::TaskType task = CustomScene::TaskType::COVERAGE,
                     const std::string& cmd_gripper_traj_topic = "cmd_gripper_traj",
                     const std::string& simulator_fbk_topic = "simulator_fbk",
-                    const std::string& get_gripper_names_topic = "get_gripper_names" );
+                    const std::string& get_gripper_names_topic = "get_gripper_names",
+                    const std::string& get_object_initial_configuratoin_topic = "get_object_initial_configuration" );
 
             ////////////////////////////////////////////////////////////////////
             // Main function that makes things happen
@@ -26,8 +27,9 @@ namespace smmap
 
         private:
             CustomScene::TaskType task_;
-            ModelSet model_set_;
+            std::unique_ptr< ModelSet > model_set_;
             std::vector< std::string > gripper_names_;
+            ObjectPointSet object_initial_configuration_;
 
             ////////////////////////////////////////////////////////////////////
             // Input data parsing and model management
@@ -49,6 +51,8 @@ namespace smmap
 
             // Our internal version of ros::spin()
             static void spin( double loop_rate );
+            void getGripperNames( const std::string& topic );
+            void getObjectInitialConfiguration( const std::string& topic );
 
             ros::NodeHandle nh_;
 

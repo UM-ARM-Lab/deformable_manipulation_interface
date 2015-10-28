@@ -12,12 +12,12 @@ namespace smmap
     class ModelSet
     {
         public:
-            ModelSet();
+            ModelSet( const ObjectPointSet& object_initial_configuration );
             ~ModelSet();
 
-            void addModel( const DeformableModel::Ptr& m );
-            void makePredictions( const GripperTrajectory& gripper_trajectory );
-            void evaluateAccuracy(
+            void makePredictions(
+                    const GripperTrajectory& gripper_trajectory );
+            void evaluateConfidence(
                     const std::vector< GripperTrajectory >& gripper_trajectories,
                     const ObjectTrajectory& object_trajectory );
             void updateModels(
@@ -25,9 +25,13 @@ namespace smmap
                     const ObjectTrajectory& object_trajectory );
 
         private:
-            std::list< DeformableModel::Ptr > model_list;
+            void addModel( DeformableModel::Ptr model );
 
-            std::shared_ptr< std::mt19937_64 > rnd_generator;
+            const ObjectPointSet object_initial_configuration_;
+            std::vector< DeformableModel::Ptr > model_list_;
+            std::vector< double > model_confidence_;
+
+            std::mt19937_64 rnd_generator_;
     };
 }
 

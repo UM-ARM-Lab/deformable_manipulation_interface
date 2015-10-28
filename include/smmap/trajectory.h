@@ -7,13 +7,8 @@
 namespace smmap
 {
     typedef Eigen::Matrix3Xd ObjectPointSet;
-    typedef std::shared_ptr< ObjectPointSet > ObjectPointSetPtr;
-
-    typedef std::vector< ObjectPointSet > ObjectTrajectory;
-    typedef std::shared_ptr< ObjectTrajectory > ObjectTrajectoryPtr;
-
+    typedef std::vector< ObjectPointSet, Eigen::aligned_allocator<Eigen::Matrix3Xd> > ObjectTrajectory;
     typedef EigenHelpers::VectorAffine3d GripperTrajectory;
-    typedef std::shared_ptr< GripperTrajectory > GripperTrajectoryPtr;
 
     inline double distance( const ObjectTrajectory& traj1, const ObjectTrajectory& traj2 )
     {
@@ -24,7 +19,7 @@ namespace smmap
             dist += (traj1[ind] - traj2[ind]).squaredNorm();
         }
 
-        return sqrt(dist);
+        return std::sqrt(dist);
     }
 }
 

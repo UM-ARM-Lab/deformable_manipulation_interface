@@ -4,8 +4,8 @@ project( smmap )
 set( CATKIN_PACKAGES
     arc_utilities
     geometry_msgs
-    tf_conversions
     deform_simulator
+    kinematics_toolbox
 )
 
 ## Find catkin macros and libraries

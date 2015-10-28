@@ -9,12 +9,14 @@
 #include <arc_utilities/pretty_print.hpp>
 
 using namespace smmap;
+using namespace EigenHelpersConversions;
 
 Planner::Planner( ros::NodeHandle& nh,
         CustomScene::TaskType task,
         const std::string& cmd_gripper_traj_topic,
         const std::string& simulator_fbk_topic,
-        const std::string& get_gripper_names_topic )
+        const std::string& get_gripper_names_topic,
+        const std::string& get_object_initial_configuration_topic )
     : task_( task )
     , nh_( nh )
     , fbk_buffer_initialized_( false )
@@ -27,17 +29,10 @@ Planner::Planner( ros::NodeHandle& nh,
     cmd_gripper_traj_pub_ = nh_.advertise< deform_simulator::GripperTrajectoryStamped >(
             cmd_gripper_traj_topic, 1 );
 
-    // Find out the names of grippers in the world
-    ros::ServiceClient gripper_names_client =
-        nh_.serviceClient< deform_simulator::GetGripperNames >( get_gripper_names_topic );
+    getGripperNames( get_gripper_names_topic );
+    getObjectInitialConfiguration( get_object_initial_configuration_topic );
 
-    gripper_names_client.waitForExistence();
-
-    deform_simulator::GetGripperNames srv_data;
-    gripper_names_client.call( srv_data );
-    gripper_names_ = srv_data.response.names;
-
-    ROS_INFO( "Gripper names: %s", PrettyPrint::PrettyPrint( gripper_names_ ).c_str() );
+    model_set_ = std::unique_ptr< ModelSet >( new ModelSet( object_initial_configuration_ ) );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -114,7 +109,7 @@ void Planner::updateModels( boost::mutex::scoped_lock& lock )
     }
 
     // convert the data over to Eigen format
-    ROS_INFO( "Number of data points: %lu", simulator_fbk_buffer_.size() );
+    ROS_INFO( "Number of data points: %zu", simulator_fbk_buffer_.size() );
 
     // TODO: move this to a helper function
     // first we allocate space
@@ -130,11 +125,11 @@ void Planner::updateModels( boost::mutex::scoped_lock& lock )
     // then we do the actual conversion to Eigen
     for ( size_t ind = 0; ind < simulator_fbk_buffer_.size() ; ind++ )
     {
-        object_trajectory[ind] = EigenHelpersConversions::VectorGeometryPointToEigenMatrix3Xd( simulator_fbk_buffer_[ind].object_configuration );
+        object_trajectory[ind] = VectorGeometryPointToEigenMatrix3Xd( simulator_fbk_buffer_[ind].object_configuration );
 
         for ( size_t gripper_ind = 0; gripper_ind < gripper_names_.size(); gripper_ind++ )
         {
-            gripper_trajectories[gripper_ind][ind] = EigenHelpersConversions::GeometryPoseToEigenAffine3d( simulator_fbk_buffer_[ind].gripper_poses[gripper_ind] );
+            gripper_trajectories[gripper_ind][ind] = GeometryPoseToEigenAffine3d( simulator_fbk_buffer_[ind].gripper_poses[gripper_ind] );
         }
     }
 
@@ -145,8 +140,8 @@ void Planner::updateModels( boost::mutex::scoped_lock& lock )
 
     lock.unlock();
 
-    model_set_.evaluateAccuracy( gripper_trajectories, object_trajectory );
-    model_set_.updateModels( gripper_trajectories, object_trajectory );
+    model_set_->evaluateConfidence( gripper_trajectories, object_trajectory );
+    model_set_->updateModels( gripper_trajectories, object_trajectory );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -192,4 +187,34 @@ void Planner::spin( double loop_rate )
     {
         ros::getGlobalCallbackQueue()->callAvailable( ros::WallDuration( loop_rate ) );
     }
+}
+
+void Planner::getGripperNames( const std::string& topic )
+{
+    ros::ServiceClient gripper_names_client =
+        nh_.serviceClient< deform_simulator::GetGripperNames >( topic );
+
+    gripper_names_client.waitForExistence();
+
+    deform_simulator::GetGripperNames srv_data;
+    gripper_names_client.call( srv_data );
+    gripper_names_ = srv_data.response.names;
+
+    ROS_INFO( "Gripper names: %s", PrettyPrint::PrettyPrint( gripper_names_ ).c_str() );
+}
+
+void Planner::getObjectInitialConfiguration( const std::string& topic )
+{
+    // Get the initial configuration of the object
+    ros::ServiceClient object_initial_configuration_client =
+        nh_.serviceClient< deform_simulator::GetObjectInitialConfiguration >( topic );
+
+    object_initial_configuration_client.waitForExistence();
+
+    deform_simulator::GetObjectInitialConfiguration srv_data;
+    object_initial_configuration_client.call( srv_data );
+    object_initial_configuration_ =
+        VectorGeometryPointToEigenMatrix3Xd( srv_data.response.config );
+
+    ROS_INFO( "Number of points on object: %zu", srv_data.response.config.size() );
 }

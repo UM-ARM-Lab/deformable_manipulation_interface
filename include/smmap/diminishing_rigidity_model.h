@@ -7,17 +7,15 @@ namespace smmap
 {
     class DiminishingRigidityModel : public DeformableModel
     {
-        public:
-            typedef std::shared_ptr< DiminishingRigidityModel > Ptr;
+        typedef std::shared_ptr< DiminishingRigidityModel > Ptr;
 
+        public:
             ////////////////////////////////////////////////////////////////////
             /// Constructors and Destructor
             ////////////////////////////////////////////////////////////////////
 
-            DiminishingRigidityModel( ObjectPointSetPtr starting_points_,
-                    double k_translation = 0.5 );
-            DiminishingRigidityModel( ObjectPointSetPtr starting_points_,
-                    double k_translation, double k_rotation );
+            DiminishingRigidityModel( const ObjectPointSet& object_initial_configuration, double k = 0.5 );
+            DiminishingRigidityModel( const ObjectPointSet& object_initial_configuration, double k_translation, double k_rotation );
 
         private:
 
@@ -26,9 +24,11 @@ namespace smmap
             ////////////////////////////////////////////////////////////////////
 
             ObjectTrajectory doGetPrediction(
-                    const GripperTrajectory& gripper_traj_ ) const;
+                    const ObjectPointSet& object_configuration,
+                    const std::vector< GripperTrajectory >& gripper_trajectories,
+                    const std::vector< kinematics::VectorVector6d >& gripper_velocities ) const;
 
-            void doPerturbModel( const std::shared_ptr< std::mt19937_64 >& generator );
+            void doPerturbModel( std::mt19937_64& generator );
 
             ////////////////////////////////////////////////////////////////////
             /// Static members
@@ -40,9 +40,9 @@ namespace smmap
             /// Private members
             ////////////////////////////////////////////////////////////////////
 
-            const ObjectPointSetPtr starting_points;
-            double k_translation;
-            double k_rotation;
+            const ObjectPointSet object_initial_configuration_;
+            double k_translation_;
+            double k_rotation_;
 
     };
 }

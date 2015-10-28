@@ -4,6 +4,8 @@
 #include <memory>
 #include <random>
 
+#include <kinematics_toolbox/kinematics.h>
+
 #include "smmap/trajectory.h"
 
 namespace smmap
@@ -18,12 +20,14 @@ namespace smmap
             ////////////////////////////////////////////////////////////////////
 
             ObjectTrajectory getPrediction(
-                    const GripperTrajectory& gripper_traj_ ) const
+                    const ObjectPointSet& object_configuration,
+                    const std::vector< GripperTrajectory >& gripper_trajectories,
+                    const std::vector< kinematics::VectorVector6d >& gripper_velocities ) const
             {
-                return doGetPrediction( gripper_traj_ );
+                return doGetPrediction( object_configuration, gripper_trajectories, gripper_velocities );
             }
 
-            void perturbModel( const std::shared_ptr< std::mt19937_64 >& generator )
+            void perturbModel( std::mt19937_64& generator )
             {
                 return doPerturbModel( generator );
             }
@@ -43,9 +47,11 @@ namespace smmap
             ////////////////////////////////////////////////////////////////////
 
             virtual ObjectTrajectory doGetPrediction(
-                    const GripperTrajectory & gripper_traj_ ) const = 0;
+                    const ObjectPointSet& object_configuration,
+                    const std::vector< GripperTrajectory > & gripper_trajectories,
+                    const std::vector< kinematics::VectorVector6d >& gripper_velocities ) const = 0;
 
-            virtual void doPerturbModel( const std::shared_ptr< std::mt19937_64 >& generator ) = 0;
+            virtual void doPerturbModel( std::mt19937_64& generator ) = 0;
     };
 
 }

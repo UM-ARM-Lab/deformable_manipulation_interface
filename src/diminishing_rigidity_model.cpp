@@ -9,16 +9,16 @@ using namespace smmap;
 /// Constructors and Destructor
 ////////////////////////////////////////////////////////////////////////////////
 
-DiminishingRigidityModel::DiminishingRigidityModel
-    ( ObjectPointSetPtr starting_points_, double k_translation_ )
-    : DiminishingRigidityModel( starting_points_, k_translation_, k_translation_ )
+DiminishingRigidityModel::DiminishingRigidityModel(
+        const ObjectPointSet& object_initial_configuration, double k )
+    : DiminishingRigidityModel( object_initial_configuration, k, k )
 {}
 
-DiminishingRigidityModel::DiminishingRigidityModel
-    ( ObjectPointSetPtr starting_points_, double k_translation_, double k_rotation_ )
-    : starting_points( starting_points_ )
-    , k_translation( k_translation_ )
-    , k_rotation ( k_rotation_ )
+DiminishingRigidityModel::DiminishingRigidityModel(
+        const ObjectPointSet& object_initial_configuration, double k_translation, double k_rotation )
+    : object_initial_configuration_( object_initial_configuration )
+    , k_translation_( k_translation )
+    , k_rotation_( k_rotation )
 {
     if ( k_translation <= 0 )
     {
@@ -43,24 +43,28 @@ std::normal_distribution< double > DiminishingRigidityModel::perturbation_distri
 ////////////////////////////////////////////////////////////////////////////////
 
 ObjectTrajectory DiminishingRigidityModel::doGetPrediction(
-        const GripperTrajectory &gripper_traj_ ) const
+        const ObjectPointSet& object_configuration,
+        const std::vector< GripperTrajectory>& gripper_trajectories,
+        const std::vector< kinematics::VectorVector6d >& gripper_velocities ) const
 {
-    ObjectTrajectory object_traj( gripper_traj_.size(), *starting_points );
+    assert( gripper_trajectories.size() > 0 );
+    assert( gripper_velocities.size() == gripper_trajectories.size() );
+
+    ObjectTrajectory object_traj( gripper_trajectories[0].size(), object_configuration );
     return object_traj;
 }
 
-void DiminishingRigidityModel::doPerturbModel(
-        const std::shared_ptr< std::mt19937_64 >& generator )
+void DiminishingRigidityModel::doPerturbModel( std::mt19937_64& generator )
 {
-    k_translation += perturbation_distribution( *generator );
-    k_rotation += perturbation_distribution( *generator );
+    k_translation_ += perturbation_distribution( generator );
+    k_rotation_ += perturbation_distribution( generator );
 
-    if ( k_translation <= 0 )
+    if ( k_translation_ <= 0 )
     {
-        k_translation = std::numeric_limits< double >::epsilon();
+        k_translation_ = std::numeric_limits< double >::epsilon();
     }
-    if ( k_rotation <= 0 )
+    if ( k_rotation_ <= 0 )
     {
-        k_rotation = std::numeric_limits< double >::epsilon();
+        k_rotation_ = std::numeric_limits< double >::epsilon();
     }
 }
