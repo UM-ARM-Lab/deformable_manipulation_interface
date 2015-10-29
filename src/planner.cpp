@@ -98,6 +98,7 @@ void Planner::run( double loop_rate )
 // Input data parsing and model management
 ////////////////////////////////////////////////////////////////////////////////
 
+// TODO: split this into multiple functions
 void Planner::updateModels( boost::mutex::scoped_lock& lock )
 {
     // first read in all the input data, we assume that data is already locked
@@ -140,7 +141,6 @@ void Planner::updateModels( boost::mutex::scoped_lock& lock )
 
     lock.unlock();
 
-    model_set_->evaluateConfidence( gripper_trajectories, object_trajectory );
     model_set_->updateModels( gripper_trajectories, object_trajectory );
 }
 

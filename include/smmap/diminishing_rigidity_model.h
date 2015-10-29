@@ -7,11 +7,11 @@ namespace smmap
 {
     class DiminishingRigidityModel : public DeformableModel
     {
-        typedef std::shared_ptr< DiminishingRigidityModel > Ptr;
+//        typedef std::shared_ptr< DiminishingRigidityModel > Ptr;
 
         public:
             ////////////////////////////////////////////////////////////////////
-            /// Constructors and Destructor
+            // Constructors and Destructor
             ////////////////////////////////////////////////////////////////////
 
             DiminishingRigidityModel( const ObjectPointSet& object_initial_configuration, double k = 0.5 );
@@ -20,8 +20,21 @@ namespace smmap
         private:
 
             ////////////////////////////////////////////////////////////////////
-            /// Virtual function overrides
+            // Constructor helpers
             ////////////////////////////////////////////////////////////////////
+
+            void computeObjectNodeDistanceMatrix();
+
+            ////////////////////////////////////////////////////////////////////
+            // Virtual function overrides
+            ////////////////////////////////////////////////////////////////////
+
+            void doUpdateModel(
+                    const std::vector< std::vector< size_t > >& gripper_node_indices,
+                    const std::vector< GripperTrajectory >& gripper_trajectories,
+                    const std::vector< kinematics::VectorVector6d >& gripper_velocities,
+                    const ObjectTrajectory& object_trajectory,
+                    const kinematics::VectorMatrix3Xd& object_velocities );
 
             ObjectTrajectory doGetPrediction(
                     const ObjectPointSet& object_configuration,
@@ -31,13 +44,20 @@ namespace smmap
             void doPerturbModel( std::mt19937_64& generator );
 
             ////////////////////////////////////////////////////////////////////
-            /// Static members
+            // Model update parameters
+            ////////////////////////////////////////////////////////////////////
+
+            void computeJacobian();
+
+            ////////////////////////////////////////////////////////////////////
+            // Static members
             ////////////////////////////////////////////////////////////////////
 
             static std::normal_distribution< double > perturbation_distribution;
+            static Eigen::MatrixXd object_initial_node_distance_;
 
             ////////////////////////////////////////////////////////////////////
-            /// Private members
+            // Private members
             ////////////////////////////////////////////////////////////////////
 
             const ObjectPointSet object_initial_configuration_;

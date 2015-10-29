@@ -12,20 +12,35 @@ namespace smmap
     class ModelSet
     {
         public:
+            ////////////////////////////////////////////////////////////////////
+            // Constructor and destructor
+            ////////////////////////////////////////////////////////////////////
+
             ModelSet( const ObjectPointSet& object_initial_configuration );
             ~ModelSet();
 
             void makePredictions(
-                    const GripperTrajectory& gripper_trajectory );
-            void evaluateConfidence(
                     const std::vector< GripperTrajectory >& gripper_trajectories,
-                    const ObjectTrajectory& object_trajectory );
+                    const ObjectPointSet& object_configuration ) const;
+
             void updateModels(
+                    const std::vector< std::vector< size_t > >& gripper_node_indices,
                     const std::vector< GripperTrajectory >& gripper_trajectories,
                     const ObjectTrajectory& object_trajectory );
 
         private:
             void addModel( DeformableModel::Ptr model );
+
+            std::vector< kinematics::VectorVector6d > calculateGripperVelocities(
+                    const std::vector< GripperTrajectory >& gripper_trajectories ) const;
+
+            kinematics::VectorMatrix3Xd calculateObjectVelocities(
+                    const ObjectTrajectory& object_trajectory ) const;
+
+            void evaluateConfidence(
+                    const std::vector< GripperTrajectory >& gripper_trajectories,
+                    const std::vector< kinematics::VectorVector6d >& gripper_velocities,
+                    const ObjectTrajectory& object_trajectory );
 
             const ObjectPointSet object_initial_configuration_;
             std::vector< DeformableModel::Ptr > model_list_;
