@@ -14,8 +14,12 @@ namespace smmap
             // Constructors and Destructor
             ////////////////////////////////////////////////////////////////////
 
-            DiminishingRigidityModel( const ObjectPointSet& object_initial_configuration, double k = 0.5 );
-            DiminishingRigidityModel( const ObjectPointSet& object_initial_configuration, double k_translation, double k_rotation );
+            DiminishingRigidityModel( const GrippersDataVector& grippers_data,
+                    const ObjectPointSet& object_initial_configuration,
+                    double k = 0.5 );
+            DiminishingRigidityModel( const GrippersDataVector& grippers_data,
+                    const ObjectPointSet& object_initial_configuration,
+                    double k_translation, double k_rotation );
 
         private:
 
@@ -30,7 +34,7 @@ namespace smmap
             ////////////////////////////////////////////////////////////////////
 
             void doUpdateModel(
-                    const std::vector< std::vector< size_t > >& gripper_node_indices,
+                    const GrippersDataVector& gripper_data,
                     const std::vector< GripperTrajectory >& gripper_trajectories,
                     const std::vector< kinematics::VectorVector6d >& gripper_velocities,
                     const ObjectTrajectory& object_trajectory,
@@ -60,9 +64,11 @@ namespace smmap
             // Private members
             ////////////////////////////////////////////////////////////////////
 
+            const GrippersDataVector grippers_data_;
             const ObjectPointSet object_initial_configuration_;
             double k_translation_;
             double k_rotation_;
+            Eigen::MatrixXd J_;
 
     };
 }

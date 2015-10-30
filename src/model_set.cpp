@@ -1,5 +1,6 @@
 #include "smmap/model_set.h"
 
+#include <cmath>
 #include <chrono>
 #include <assert.h>
 
@@ -9,22 +10,30 @@
 
 using namespace smmap;
 
-ModelSet::ModelSet( const ObjectPointSet& object_initial_configuration )
-    : object_initial_configuration_( object_initial_configuration )
+ModelSet::ModelSet( const GrippersDataVector& grippers_data,
+        const ObjectPointSet& object_initial_configuration )
+    : grippers_data_( grippers_data )
+    , object_initial_configuration_( object_initial_configuration )
     , rnd_generator_( std::chrono::system_clock::now().time_since_epoch().count() )
 {
-    for ( double k = 0.1; k <= 1; k += 0.1 )
+    for ( double k = 0.01; k <= 1; k += 0.01 )
     {
         addModel( DeformableModel::Ptr( new DiminishingRigidityModel(
-                        object_initial_configuration_, k ) ) );
+                        grippers_data, object_initial_configuration_, k ) ) );
     }
 }
 
 ModelSet::~ModelSet()
 {}
 
+void ModelSet::makePredictions(
+        const std::vector< GripperTrajectory >& gripper_trajectories,
+        const ObjectPointSet& object_configuration ) const
+{
+    assert("THIS FUNCTION IS NOT YET IMPLEMENTED!" && false);
+}
+
 void ModelSet::updateModels(
-        const std::vector< std::vector< size_t > >& gripper_node_indices,
         const std::vector< GripperTrajectory >& gripper_trajectories,
         const ObjectTrajectory& object_trajectory )
 {
@@ -43,7 +52,7 @@ void ModelSet::updateModels(
     // Allow each model to update itself based on the new data
     for ( auto& model: model_list_ )
     {
-        model->updateModel( gripper_node_indices,
+        model->updateModel( grippers_data_,
                 gripper_trajectories,
                 gripper_velocities,
                 object_trajectory,
@@ -51,6 +60,14 @@ void ModelSet::updateModels(
     }
 }
 
+const std::vector< double >& ModelSet::getModelConfidence() const
+{
+    return model_confidence_;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Private helpers
+////////////////////////////////////////////////////////////////////////////////
 
 void ModelSet::evaluateConfidence(
         const std::vector< GripperTrajectory >& gripper_trajectories,
@@ -59,9 +76,11 @@ void ModelSet::evaluateConfidence(
 {
     for ( size_t ind = 0; ind < model_list_.size(); ind++ )
     {
-        model_confidence_[ind] = 1.0 / ( 1 + 50*distance(  object_trajectory,
+        model_confidence_[ind] = 1.0 / ( 1 + 5*distance(  object_trajectory,
                     model_list_[ind]->getPrediction( object_trajectory[0],
                         gripper_trajectories, gripper_velocities ) ) );
+
+        model_confidence_[ind] = std::pow( model_confidence_[ind], 5 );
     }
 }
 

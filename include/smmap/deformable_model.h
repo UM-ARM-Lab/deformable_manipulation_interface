@@ -20,13 +20,13 @@ namespace smmap
             ////////////////////////////////////////////////////////////////////
 
             void updateModel(
-                    const std::vector< std::vector< size_t > >& gripper_node_indices,
+                    const GrippersDataVector& gripper_data,
                     const std::vector< GripperTrajectory >& gripper_trajectories,
                     const std::vector< kinematics::VectorVector6d >& gripper_velocities,
                     const ObjectTrajectory& object_trajectory,
                     const kinematics::VectorMatrix3Xd& object_velocities )
             {
-                doUpdateModel( gripper_node_indices,
+                doUpdateModel( gripper_data,
                         gripper_trajectories,
                         gripper_velocities,
                         object_trajectory,
@@ -61,7 +61,7 @@ namespace smmap
             ////////////////////////////////////////////////////////////////////
 
             virtual void doUpdateModel(
-                    const std::vector< std::vector< size_t > >& gripper_node_indices,
+                    const GrippersDataVector& gripper_data,
                     const std::vector< GripperTrajectory >& gripper_trajectories,
                     const std::vector< kinematics::VectorVector6d >& gripper_velocities,
                     const ObjectTrajectory& object_trajectory,

@@ -6,6 +6,8 @@ set( CATKIN_PACKAGES
     geometry_msgs
     deform_simulator
     kinematics_toolbox
+    image_transport
+    cv_bridge
 )
 
 ## Find catkin macros and libraries

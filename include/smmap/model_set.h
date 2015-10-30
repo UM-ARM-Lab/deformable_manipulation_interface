@@ -16,7 +16,8 @@ namespace smmap
             // Constructor and destructor
             ////////////////////////////////////////////////////////////////////
 
-            ModelSet( const ObjectPointSet& object_initial_configuration );
+            ModelSet( const GrippersDataVector& grippers_data,
+                    const ObjectPointSet& object_initial_configuration );
             ~ModelSet();
 
             void makePredictions(
@@ -24,11 +25,16 @@ namespace smmap
                     const ObjectPointSet& object_configuration ) const;
 
             void updateModels(
-                    const std::vector< std::vector< size_t > >& gripper_node_indices,
                     const std::vector< GripperTrajectory >& gripper_trajectories,
                     const ObjectTrajectory& object_trajectory );
 
+            const std::vector< double >& getModelConfidence() const;
+
         private:
+            ////////////////////////////////////////////////////////////////////
+            // Private helpers
+            ////////////////////////////////////////////////////////////////////
+
             void addModel( DeformableModel::Ptr model );
 
             std::vector< kinematics::VectorVector6d > calculateGripperVelocities(
@@ -42,6 +48,8 @@ namespace smmap
                     const std::vector< kinematics::VectorVector6d >& gripper_velocities,
                     const ObjectTrajectory& object_trajectory );
 
+            // TODO: move this to *somewhere* else
+            const GrippersDataVector grippers_data_;
             const ObjectPointSet object_initial_configuration_;
             std::vector< DeformableModel::Ptr > model_list_;
             std::vector< double > model_confidence_;
