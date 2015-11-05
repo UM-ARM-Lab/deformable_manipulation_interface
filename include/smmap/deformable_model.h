@@ -20,25 +20,32 @@ namespace smmap
             ////////////////////////////////////////////////////////////////////
 
             void updateModel(
-                    const GrippersDataVector& gripper_data,
-                    const std::vector< GripperTrajectory >& gripper_trajectories,
-                    const std::vector< kinematics::VectorVector6d >& gripper_velocities,
+                    const VectorGrippersData& gripper_data,
+                    const AllGrippersTrajectory& grippers_trajectory,
+                    const std::vector< kinematics::VectorVector6d >& grippers_velocities,
                     const ObjectTrajectory& object_trajectory,
                     const kinematics::VectorMatrix3Xd& object_velocities )
             {
-                doUpdateModel( gripper_data,
-                        gripper_trajectories,
-                        gripper_velocities,
-                        object_trajectory,
-                        object_velocities );
+                doUpdateModel( gripper_data, grippers_trajectory,
+                        grippers_velocities, object_trajectory, object_velocities );
             }
 
             ObjectTrajectory getPrediction(
                     const ObjectPointSet& object_configuration,
-                    const std::vector< GripperTrajectory >& gripper_trajectories,
-                    const std::vector< kinematics::VectorVector6d >& gripper_velocities ) const
+                    const AllGrippersTrajectory& grippers_trajectory,
+                    const std::vector< kinematics::VectorVector6d >& grippers_velocities ) const
             {
-                return doGetPrediction( object_configuration, gripper_trajectories, gripper_velocities );
+                return doGetPrediction( object_configuration, grippers_trajectory, grippers_velocities );
+            }
+
+            AllGrippersTrajectory getDesiredGrippersTrajectory(
+                    ObjectPointSet object_current_configuration,
+                    ObjectPointSet object_desired_configuration,
+                    EigenHelpers::VectorAffine3d grippers_pose,
+                    double max_step, size_t num_steps ) const
+            {
+                return doGetDesiredGrippersTrajectory( object_current_configuration,
+                        object_desired_configuration, grippers_pose, max_step, num_steps );
             }
 
             void perturbModel( std::mt19937_64& generator )
@@ -61,16 +68,22 @@ namespace smmap
             ////////////////////////////////////////////////////////////////////
 
             virtual void doUpdateModel(
-                    const GrippersDataVector& gripper_data,
-                    const std::vector< GripperTrajectory >& gripper_trajectories,
-                    const std::vector< kinematics::VectorVector6d >& gripper_velocities,
+                    const VectorGrippersData& gripper_data,
+                    const AllGrippersTrajectory& grippers_trajectory,
+                    const std::vector< kinematics::VectorVector6d >& grippers_velocities,
                     const ObjectTrajectory& object_trajectory,
                     const kinematics::VectorMatrix3Xd& object_velocities ) = 0;
 
             virtual ObjectTrajectory doGetPrediction(
                     const ObjectPointSet& object_configuration,
-                    const std::vector< GripperTrajectory > & gripper_trajectories,
-                    const std::vector< kinematics::VectorVector6d >& gripper_velocities ) const = 0;
+                    const AllGrippersTrajectory& grippers_trajectory,
+                    const std::vector< kinematics::VectorVector6d >& grippers_velocities ) const = 0;
+
+            virtual AllGrippersTrajectory doGetDesiredGrippersTrajectory(
+                    ObjectPointSet object_current_configuration,
+                    ObjectPointSet object_desired_configuration,
+                    EigenHelpers::VectorAffine3d grippers_pose,
+                    double max_step, size_t num_steps ) const = 0;
 
             virtual void doPerturbModel( std::mt19937_64& generator ) = 0;
     };

@@ -11,30 +11,32 @@
 namespace smmap
 {
     typedef Eigen::Matrix3Xd ObjectPointSet;
-    typedef std::vector< ObjectPointSet, Eigen::aligned_allocator<Eigen::Matrix3Xd> > ObjectTrajectory;
-    typedef EigenHelpers::VectorAffine3d GripperTrajectory;
+    typedef std::vector< ObjectPointSet, Eigen::aligned_allocator< Eigen::Matrix3Xd > > ObjectTrajectory;
+
+    typedef EigenHelpers::VectorAffine3d SingleGripperTrajectory;
+    typedef std::vector< SingleGripperTrajectory, Eigen::aligned_allocator< SingleGripperTrajectory > > AllGrippersTrajectory;
 
     // TODO: move this somewhere else
     struct GripperData
     {
-        GripperData( const Eigen::Affine3d& tf, const std::vector< size_t >& inds, const std::string& n )
-            : transform( tf )
-            , node_indices( inds )
-            , name( n )
+        GripperData( const Eigen::Affine3d& pose, const std::vector< size_t >& node_indices, const std::string& name )
+            : pose( pose )
+            , node_indices( node_indices )
+            , name( name )
         {}
 
         friend std::ostream& operator<< ( std::ostream& out, const GripperData& data )
         {
             out << data.name << " " << PrettyPrint::PrettyPrint( data.node_indices ) << std::endl
-                << data.transform.matrix() << std::endl;
+                << PrettyPrint::PrettyPrint( data.pose ) << std::endl;
             return out;
         }
 
-        Eigen::Affine3d transform;
+        Eigen::Affine3d pose;
         std::vector< size_t > node_indices;
         std::string name;
     };
-    typedef std::vector< GripperData > GrippersDataVector;
+    typedef std::vector< GripperData, Eigen::aligned_allocator<Eigen::Matrix4d> > VectorGrippersData;
 
     // TODO what about normalizing for the trajectory length?
     // Currently returns the RMS distance

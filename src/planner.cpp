@@ -77,9 +77,11 @@ void Planner::run( double loop_rate )
         traj.pose[ traj.pose.size() - 1 ].orientation.w = 1;
     }
 
+    ros::Rate rate( loop_rate );
+    rate.sleep();
+
     // Run the planner at whatever rate we've been given
     ROS_INFO( "Running our planner" );
-    ros::Rate rate( loop_rate );
     while ( ros::ok() )
     {
         // Publish a trajectory to follow
@@ -94,15 +96,8 @@ void Planner::run( double loop_rate )
         cmd_gripper_traj_pub_.publish( msg );
         rate.sleep();
 
-        boost::mutex::scoped_lock lock( input_mtx_ );
-        // TODO: determine if it's time to replan
-        if ( simulator_fbk_buffer_.size() >= 2 )
-        {
-            // collect all the data and update the models
-            updateModels( lock );
-
-            // now replan?
-        }
+        std::pair< ObjectTrajectory, AllGrippersTrajectory > fbk = readSimulatorFeedbackBuffer();
+        updateModels( fbk.first, fbk.second );
     }
 
     ROS_INFO( "Terminating" );
@@ -113,50 +108,37 @@ void Planner::run( double loop_rate )
 // Input data parsing and model management
 ////////////////////////////////////////////////////////////////////////////////
 
-// TODO: split this into multiple functions
-void Planner::updateModels( boost::mutex::scoped_lock& lock )
+std::pair< ObjectTrajectory, AllGrippersTrajectory > Planner::readSimulatorFeedbackBuffer()
 {
-    // first read in all the input data, we assume that data is already locked
-    // TODO: smart mutex locking to ensure this
-    if ( !lock )
+    boost::mutex::scoped_lock lock( input_mtx_ );
+
+    std::pair< ObjectTrajectory, AllGrippersTrajectory > fbk;
+
+    fbk.first = object_trajectory_;
+    fbk.second = grippers_trajectory_;
+
+    object_trajectory_.clear();
+    object_trajectory_.push_back( fbk.first[0] );
+
+    for ( size_t gripper_ind = 0; gripper_ind < grippers_trajectory_.size(); gripper_ind++ )
     {
-        ROS_WARN( "updateModels called without a lock already in place, this code was not designed to handle that situation." );
-        lock.lock();
+        grippers_trajectory_[gripper_ind].clear();
+        grippers_trajectory_[gripper_ind].push_back( fbk.second[gripper_ind][0] );
     }
-
-    // convert the data over to Eigen format
-    ROS_INFO( "Number of data points: %zu", simulator_fbk_buffer_.size() );
-
-    // TODO: move this to a helper function
-    // first we allocate space
-    ObjectTrajectory object_trajectory( simulator_fbk_buffer_.size() );
-    // TODO: we assume here that the order of the gripper trajectories matches
-    // the order in gripper_names_
-    std::vector< GripperTrajectory > gripper_trajectories( gripper_data_.size() );
-    for ( size_t ind = 0; ind < gripper_data_.size(); ind++ )
-    {
-        gripper_trajectories[ind].resize( simulator_fbk_buffer_.size() );
-    }
-
-    // then we do the actual conversion to Eigen
-    for ( size_t ind = 0; ind < simulator_fbk_buffer_.size() ; ind++ )
-    {
-        object_trajectory[ind] = VectorGeometryPointToEigenMatrix3Xd( simulator_fbk_buffer_[ind].object_configuration );
-
-        for ( size_t gripper_ind = 0; gripper_ind < gripper_data_.size(); gripper_ind++ )
-        {
-            gripper_trajectories[gripper_ind][ind] = GeometryPoseToEigenAffine3d( simulator_fbk_buffer_[ind].gripper_poses[gripper_ind] );
-        }
-    }
-
-    // clear the buffers now that we've consumed the data
-    auto last_fbk = simulator_fbk_buffer_[ simulator_fbk_buffer_.size() - 1 ];
-    simulator_fbk_buffer_.clear();
-    simulator_fbk_buffer_.push_back( last_fbk );
 
     lock.unlock();
 
-    model_set_->updateModels( gripper_trajectories, object_trajectory );
+    return fbk;
+}
+
+void Planner::updateModels( const ObjectTrajectory& object_trajectory,
+                            const AllGrippersTrajectory& grippers_trajectory )
+{
+    assert( object_trajectory.size() >= 2 );
+    assert( grippers_trajectory.size() >= 1 );
+    assert( object_trajectory.size() == grippers_trajectory[0].size() );
+
+    model_set_->updateModels( grippers_trajectory, object_trajectory );
     const std::vector<double> model_confidence = model_set_->getModelConfidence();
 
     cv::Mat image( 1, model_confidence.size(), CV_8UC3 );
@@ -191,25 +173,21 @@ void Planner::simulatorFbkCallback(
     boost::mutex::scoped_lock lock( input_mtx_ );
 
     // If we've already received at least one data element, it's business as usual
-    if ( fbk_buffer_initialized_ )
+    if ( unlikely( !fbk_buffer_initialized_.load() ) )
     {
-        // if this data arrived out of order, discard it
-        // TODO: do something smart instead of discarding
-        if ( fbk.header.seq > simulator_fbk_buffer_[ simulator_fbk_buffer_.size() - 1 ].header.seq )
-        {
-            simulator_fbk_buffer_.push_back( fbk );
-        }
-        else
-        {
-            ROS_WARN( "Out of sequence data, dropping message %u", fbk.header.seq );
-        }
+        fbk_buffer_initialized_.store( true );
+        object_trajectory_.clear();
+        grippers_trajectory_.clear();
+        grippers_trajectory_.resize( fbk.gripper_names.size() );
     }
-    // otherwise initialize some data
-    else
+
+    // TODO: if this data arrived out of order, do something smart
+    object_trajectory_.push_back( VectorGeometryPointToEigenMatrix3Xd( fbk.object_configuration ) );
+
+    for ( size_t gripper_ind = 0; gripper_ind < fbk.gripper_names.size(); gripper_ind++ )
     {
-        fbk_buffer_initialized_ = true;
-        simulator_fbk_buffer_.clear();
-        simulator_fbk_buffer_.push_back( fbk );
+        grippers_trajectory_[gripper_ind].push_back(
+                GeometryPoseToEigenAffine3d( fbk.gripper_poses[gripper_ind] ) );
     }
 }
 
@@ -233,35 +211,32 @@ void Planner::getGrippersData( const std::string& names_topic, const std::string
         nh_.serviceClient< deform_simulator::GetGripperNames >( names_topic );
     gripper_names_client.waitForExistence();
 
-    deform_simulator::GetGripperNames srv_data;
-    gripper_names_client.call( srv_data );
-    std::vector< std::string > gripper_names = srv_data.response.names;
+    deform_simulator::GetGripperNames names_srv_data;
+    gripper_names_client.call( names_srv_data );
+    std::vector< std::string > gripper_names = names_srv_data.response.names;
 
     // Get the attached nodes for each gripper
     ros::ServiceClient gripper_node_indices_client =
         nh_.serviceClient< deform_simulator::GetGripperAttachedNodeIndices >( indices_topic );
     gripper_node_indices_client.waitForExistence();
-    for ( size_t ind = 0; ind < gripper_names.size(); ind++ )
+
+    for ( size_t gripper_ind = 0; gripper_ind < gripper_names.size(); gripper_ind++ )
     {
         deform_simulator::GetGripperAttachedNodeIndices srv_data;
-        srv_data.request.name = gripper_names[ind];
+        srv_data.request.name = gripper_names[gripper_ind];
         gripper_node_indices_client.call( srv_data );
 
-        // TODO: get rid of this, currently used to ensure we have some data from the simulator
-        boost::mutex::scoped_lock lock( input_mtx_ );
-        while ( !fbk_buffer_initialized_ )
+        // Still single threaded, so I don't need to worry about the locking here
+        while ( !fbk_buffer_initialized_.load() )
         {
-            lock.unlock();
             usleep( 1000 );
             ros::spinOnce();
-            lock.lock();
         }
-        lock.unlock();
-        gripper_data_.push_back( GripperData(
-                    EigenHelpersConversions::GeometryPoseToEigenAffine3d( simulator_fbk_buffer_[0].gripper_poses[ind] ),
-                    srv_data.response.indices, gripper_names[ind] ) );
 
-        ROS_INFO( "Gripper #%zu: %s", ind, PrettyPrint::PrettyPrint( gripper_data_[ind] ).c_str() );
+        gripper_data_.push_back( GripperData( grippers_trajectory_[gripper_ind][0],
+                    srv_data.response.indices, gripper_names[gripper_ind] ) );
+
+        ROS_INFO( "Gripper #%zu: %s", gripper_ind, PrettyPrint::PrettyPrint( gripper_data_[gripper_ind] ).c_str() );
     }
 }
 

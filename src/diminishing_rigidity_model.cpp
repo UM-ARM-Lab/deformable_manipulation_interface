@@ -15,13 +15,13 @@ using namespace smmap;
 ////////////////////////////////////////////////////////////////////////////////
 
 DiminishingRigidityModel::DiminishingRigidityModel(
-        const GrippersDataVector& grippers_data,
+        const VectorGrippersData& grippers_data,
         const ObjectPointSet& object_initial_configuration, double k )
     : DiminishingRigidityModel( grippers_data, object_initial_configuration, k, k )
 {}
 
 DiminishingRigidityModel::DiminishingRigidityModel(
-        const GrippersDataVector& grippers_data,
+        const VectorGrippersData& grippers_data,
         const ObjectPointSet& object_initial_configuration, double k_translation, double k_rotation )
     : grippers_data_( grippers_data )
     , object_initial_configuration_( object_initial_configuration )
@@ -85,7 +85,7 @@ void DiminishingRigidityModel::computeJacobian()
     {
         // Get all the data we need for a given gripper
         const std::vector< size_t >& gripper_node_indices = grippers_data_[gripper_ind].node_indices;
-        const Eigen::Matrix3d gripper_rot = grippers_data_[gripper_ind].transform.rotation();
+        const Eigen::Matrix3d gripper_rot = grippers_data_[gripper_ind].pose.rotation();
 
         for ( size_t node_ind = 0; node_ind < num_nodes; node_ind++ )
         {
@@ -98,7 +98,7 @@ void DiminishingRigidityModel::computeJacobian()
             // Vector from gripper to node
             const Eigen::Vector3d gripper_to_node =
                     object_initial_configuration_.block< 3, 1 >( 0, node_ind ) -
-                    grippers_data_[gripper_ind].transform.translation();
+                    grippers_data_[gripper_ind].pose.translation();
             J_rot.block< 3, 1 >( 0, 0 ) = gripper_rot.block< 3, 1 >( 0, 0 ).cross( gripper_to_node );
             J_rot.block< 3, 1 >( 0, 1 ) = gripper_rot.block< 3, 1 >( 0, 1 ).cross( gripper_to_node );
             J_rot.block< 3, 1 >( 0, 2 ) = gripper_rot.block< 3, 1 >( 0, 2 ).cross( gripper_to_node );
@@ -116,33 +116,39 @@ void DiminishingRigidityModel::computeJacobian()
 ////////////////////////////////////////////////////////////////////////////////
 
 void DiminishingRigidityModel::doUpdateModel(
-        const GrippersDataVector& gripper_data,
-        const std::vector< GripperTrajectory >& gripper_trajectories,
-        const std::vector< kinematics::VectorVector6d >& gripper_velocities,
+        const VectorGrippersData& grippers_data,
+        const AllGrippersTrajectory& grippers_trajectory,
+        const std::vector< kinematics::VectorVector6d >& grippers_velocities,
         const ObjectTrajectory& object_trajectory,
         const kinematics::VectorMatrix3Xd& object_velocities )
 {
-    //TODO: do
+    // This model doesn't do any updates, so tell the compiler that it's okay
+    // that these values are unused.
+    (void)grippers_data;
+    (void)grippers_trajectory;
+    (void)grippers_velocities;
+    (void)object_trajectory;
+    (void)object_velocities;
 }
 
 ObjectTrajectory DiminishingRigidityModel::doGetPrediction(
         const ObjectPointSet& object_configuration,
-        const std::vector< GripperTrajectory>& gripper_trajectories,
-        const std::vector< kinematics::VectorVector6d >& gripper_velocities ) const
+        const AllGrippersTrajectory& grippers_trajectory,
+        const std::vector< kinematics::VectorVector6d >& grippers_velocities ) const
 {
-    assert( gripper_trajectories.size() > 0 );
-    assert( gripper_velocities.size() == gripper_trajectories.size() );
+    assert( grippers_trajectory.size() > 0 );
+    assert( grippers_velocities.size() == grippers_trajectory.size() );
 
-    ObjectTrajectory object_traj( gripper_trajectories[0].size(), object_configuration );
+    ObjectTrajectory object_traj( grippers_trajectory[0].size(), object_configuration );
 
-    for ( size_t vel_ind = 0; vel_ind < gripper_velocities[0].size(); vel_ind++ )
+    for ( size_t vel_ind = 0; vel_ind < grippers_velocities[0].size(); vel_ind++ )
     {
         // create a 6g by 1 vector that contains all the gripper velocities at this time step
-        Eigen::MatrixXd combined_gripper_vel( gripper_velocities.size()*6, 1 );
-        for ( size_t gripper_ind = 0; gripper_ind < gripper_velocities.size(); gripper_ind++ )
+        Eigen::MatrixXd combined_gripper_vel( grippers_velocities.size()*6, 1 );
+        for ( size_t gripper_ind = 0; gripper_ind < grippers_velocities.size(); gripper_ind++ )
         {
             combined_gripper_vel.block< 6, 1 >( gripper_ind * 6, 0 ) =
-                gripper_velocities[gripper_ind][vel_ind];
+                grippers_velocities[gripper_ind][vel_ind];
         }
 
         // calculate the velocity of the object given the gripper velocity
@@ -153,6 +159,47 @@ ObjectTrajectory DiminishingRigidityModel::doGetPrediction(
     }
 
     return object_traj;
+}
+
+AllGrippersTrajectory DiminishingRigidityModel::doGetDesiredGrippersTrajectory(
+        ObjectPointSet object_current_configuration,
+        ObjectPointSet object_desired_configuration,
+        EigenHelpers::VectorAffine3d grippers_pose,
+        double max_step, size_t num_steps ) const
+{
+    assert( grippers_pose.size() == grippers_data_.size() );
+    // Initialize the starting point of the trajectory with the current gripper
+    // poses
+    AllGrippersTrajectory traj( grippers_pose.size() );
+    for ( size_t gripper_ind = 0; gripper_ind < grippers_pose.size(); gripper_ind++ )
+    {
+        traj[gripper_ind].push_back( grippers_pose[gripper_ind] );
+    }
+
+    object_current_configuration.conservativeResize( object_current_configuration.cols() * object_current_configuration.rows(), 1 );
+    object_desired_configuration.conservativeResizeLike( object_current_configuration );
+
+    const Eigen::MatrixXd J_inv = EigenHelpers::Pinv( J_, EigenHelpers::SuggestedRcond() );
+
+    for ( size_t traj_step = 1; traj_step <= num_steps; traj_step++ )
+    {
+        const Eigen::VectorXd object_delta = object_desired_configuration - object_current_configuration;
+        Eigen::VectorXd combined_grippers_velocity = J_inv * object_delta;
+        if ( combined_grippers_velocity.norm() > max_step )
+        {
+            combined_grippers_velocity = combined_grippers_velocity / combined_grippers_velocity.norm() * max_step;
+        }
+
+        for ( size_t gripper_ind = 0; gripper_ind < grippers_data_.size(); gripper_ind++ )
+        {
+            kinematics::Vector6d gripper_velocity = combined_grippers_velocity.block< 6, 1 >( gripper_ind * 6, 0 );
+
+            traj[gripper_ind].push_back( traj[gripper_ind][traj_step - 1] *
+                    kinematics::expTwistAffine3d( gripper_velocity, 1 ) );
+        }
+    }
+
+    return traj;
 }
 
 void DiminishingRigidityModel::doPerturbModel( std::mt19937_64& generator )

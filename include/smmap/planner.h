@@ -1,6 +1,8 @@
 #ifndef smmap_planner_h
 #define smmap_planner_h
 
+#include <atomic>
+
 #include <ros/ros.h>
 #include <arc_utilities/maybe.hpp>
 #include <custom_scene/custom_scene.h>
@@ -37,14 +39,20 @@ namespace smmap
             CustomScene::TaskType task_;
             std::unique_ptr< ModelSet > model_set_;
             // Stores a "gripper name", {gripper_node_indices} pair for each gripper
-            GrippersDataVector gripper_data_;
+            VectorGrippersData gripper_data_;
             ObjectPointSet object_initial_configuration_;
 
             ////////////////////////////////////////////////////////////////////
             // Input data parsing and model management
             ////////////////////////////////////////////////////////////////////
 
-            void updateModels( boost::mutex::scoped_lock& lock );
+            std::pair<ObjectTrajectory, AllGrippersTrajectory> readSimulatorFeedbackBuffer();
+            void updateModels( const ObjectTrajectory& object_trajectory,
+                               const AllGrippersTrajectory& grippers_trajectory );
+
+            ////////////////////////////////////////////////////////////////////
+            // Task specific functionality
+            ////////////////////////////////////////////////////////////////////
 
             ////////////////////////////////////////////////////////////////////
             // ROS Callbacks
@@ -74,8 +82,9 @@ namespace smmap
             boost::mutex input_mtx_;
 
             ros::Subscriber simulator_fbk_sub_;
-            std::vector< deform_simulator::SimulatorFbkStamped > simulator_fbk_buffer_;
-            bool fbk_buffer_initialized_;
+            ObjectTrajectory object_trajectory_;
+            AllGrippersTrajectory grippers_trajectory_;
+            std::atomic<bool> fbk_buffer_initialized_;
     };
 }
 
