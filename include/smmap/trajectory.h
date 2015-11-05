@@ -36,6 +36,8 @@ namespace smmap
     };
     typedef std::vector< GripperData > GrippersDataVector;
 
+    // TODO what about normalizing for the trajectory length?
+    // Currently returns the RMS distance
     inline double distance( const ObjectTrajectory& traj1, const ObjectTrajectory& traj2 )
     {
         assert( traj1.size() == traj2.size() );
@@ -45,7 +47,7 @@ namespace smmap
             dist += (traj1[ind] - traj2[ind]).squaredNorm();
         }
 
-        return std::sqrt(dist);
+        return std::sqrt( dist / traj1.size() );
     }
 
     // TODO: move this somewhere else

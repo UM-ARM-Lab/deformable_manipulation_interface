@@ -10,6 +10,8 @@
 #include <arc_utilities/pretty_print.hpp>
 #include <sensor_msgs/image_encodings.h>
 
+#include "smmap/ConfidenceStamped.h"
+
 using namespace smmap;
 using namespace EigenHelpersConversions;
 
@@ -20,6 +22,7 @@ Planner::Planner( ros::NodeHandle& nh,
         const std::string& get_gripper_names_topic,
         const std::string& get_gripper_attached_node_indices_topic,
         const std::string& get_object_initial_configuration_topic,
+        const std::string& confidence_topic,
         const std::string& confidence_image_topic )
     : task_( task )
     , nh_( nh )
@@ -34,7 +37,8 @@ Planner::Planner( ros::NodeHandle& nh,
     cmd_gripper_traj_pub_ = nh_.advertise< deform_simulator::GripperTrajectoryStamped >(
             cmd_gripper_traj_topic, 1 );
 
-    // Publish a confidence image
+    // Publish a our confidence values
+    confidence_pub_ = nh_.advertise< smmap::ConfidenceStamped >( confidence_topic, 1 );
     confidence_image_pub_ = it_.advertise( confidence_image_topic, 1 );
 
     getGrippersData( get_gripper_names_topic, get_gripper_attached_node_indices_topic );
@@ -162,14 +166,19 @@ void Planner::updateModels( boost::mutex::scoped_lock& lock )
 
     for ( size_t ind = 0; ind < model_confidence.size(); ind++ )
     {
-        //image.at< cv::Vec3b >( 0, ind )[0] = (model_confidence[ind] - 0.9) * 10.0 * 255.0;
         image.at< cv::Vec3b >( 0, ind )[0] = (model_confidence[ind] - min_conf) / ( max_conf - min_conf) * 255.0;
         image.at< cv::Vec3b >( 0, ind )[1] = 0;
         image.at< cv::Vec3b >( 0, ind )[2] = 0;
     }
 
-    sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), sensor_msgs::image_encodings::BGR8, image).toImageMsg();
-    confidence_image_pub_.publish( msg );
+    sensor_msgs::ImagePtr img_msg = cv_bridge::CvImage(std_msgs::Header(), sensor_msgs::image_encodings::BGR8, image).toImageMsg();
+    img_msg->header.stamp = ros::Time::now();
+    confidence_image_pub_.publish( img_msg );
+
+    smmap::ConfidenceStamped double_msg;
+    double_msg.confidence = model_confidence;
+    double_msg.header.stamp = img_msg->header.stamp;
+    confidence_pub_.publish( double_msg );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

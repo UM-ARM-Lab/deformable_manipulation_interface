@@ -23,6 +23,7 @@ namespace smmap
                     const std::string& get_gripper_names_topic = "get_gripper_names",
                     const std::string& get_gripper_attached_node_indices_topic = "get_gripper_attached_node_indices",
                     const std::string& get_object_initial_configuratoin_topic = "get_object_initial_configuration",
+                    const std::string& confidence_image = "confidence",
                     const std::string& confidence_image_topic = "confidence_image" );
 
             ////////////////////////////////////////////////////////////////////
@@ -65,6 +66,7 @@ namespace smmap
             ros::NodeHandle nh_;
 
             ros::Publisher cmd_gripper_traj_pub_;
+            ros::Publisher confidence_pub_;
             image_transport::ImageTransport it_;
             image_transport::Publisher confidence_image_pub_;
 

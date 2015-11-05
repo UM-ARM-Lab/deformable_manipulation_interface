@@ -80,9 +80,12 @@ void ModelSet::evaluateConfidence(
     // TODO: deal with the object/gripers not moving at all
     for ( size_t ind = 0; ind < model_list_.size(); ind++ )
     {
-        model_confidence_[ind] = 1.0 / ( 1 + 5*distance(  object_trajectory,
-                    model_list_[ind]->getPrediction( object_trajectory[0],
-                        gripper_trajectories, gripper_velocities ) ) );
+        const ObjectTrajectory model_prediction = model_list_[ind]->getPrediction(
+                object_trajectory[0], gripper_trajectories, gripper_velocities );
+
+        const double dist = distance(  object_trajectory, model_prediction );
+
+        model_confidence_[ind] = 1.0 / ( 1 + 5*dist );
     }
 }
 

@@ -7,6 +7,6 @@
         output="screen"/>
 
     <node name="visualizer"
-        pkg="rqt_image_view"
-        type="rqt_image_view"/>
+        pkg="matplotlib_wrapper"
+        type="matplotlib_wrapper.py"/>
 </launch>
