@@ -32,6 +32,7 @@ namespace smmap
             void run( double loop_rate = 5 );
 
         private:
+            // TODO: Use this
             CustomScene::TaskType task_;
             std::unique_ptr< ModelSet > model_set_;
             // Stores a "gripper name", {gripper_node_indices} pair for each gripper

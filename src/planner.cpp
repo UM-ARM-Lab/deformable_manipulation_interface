@@ -61,7 +61,7 @@ void Planner::run( double loop_rate )
     msg.trajectories.resize( gripper_data_.size() );
     for ( size_t ind = 0; ind < gripper_data_.size(); ind++ )
     {
-        msg.gripper_names.push_back( gripper_data_[ind].first );
+        msg.gripper_names.push_back( gripper_data_[ind].name );
         auto& traj = msg.trajectories[ind];
         traj.pose.resize( 20 );
         traj.pose[ traj.pose.size() - 1 ].position.x = -0.6;
@@ -237,8 +237,20 @@ void Planner::getGrippersData( const std::string& names_topic, const std::string
         deform_simulator::GetGripperAttachedNodeIndices srv_data;
         srv_data.request.name = gripper_names[ind];
         gripper_node_indices_client.call( srv_data );
-        gripper_data_.push_back( std::pair< std::string, std::vector< size_t > >(
-                    gripper_names[ind], srv_data.response.indices ) );
+
+        // TODO: get rid of this, currently used to ensure we have some data from the simulator
+        boost::mutex::scoped_lock lock( input_mtx_ );
+        while ( !fbk_buffer_initialized_ )
+        {
+            lock.unlock();
+            usleep( 1000 );
+            ros::spinOnce();
+            lock.lock();
+        }
+        lock.unlock();
+        gripper_data_.push_back( GripperData(
+                    EigenHelpersConversions::GeometryPoseToEigenAffine3d( simulator_fbk_buffer_[0].gripper_poses[ind] ),
+                    srv_data.response.indices, gripper_names[ind] ) );
 
         ROS_INFO( "Gripper #%zu: %s", ind, PrettyPrint::PrettyPrint( gripper_data_[ind] ).c_str() );
     }

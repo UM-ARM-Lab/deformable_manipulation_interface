@@ -5,4 +5,8 @@
         pkg="smmap"
         type="test_node"
         output="screen"/>
+
+    <node name="visualizer"
+        pkg="rqt_image_view"
+        type="rqt_image_view"/>
 </launch>

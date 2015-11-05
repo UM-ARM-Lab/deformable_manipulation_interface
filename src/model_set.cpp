@@ -16,7 +16,8 @@ ModelSet::ModelSet( const GrippersDataVector& grippers_data,
     , object_initial_configuration_( object_initial_configuration )
     , rnd_generator_( std::chrono::system_clock::now().time_since_epoch().count() )
 {
-    for ( double k = 0.01; k <= 1; k += 0.01 )
+    // 0 is totally rigid (weight is 1), 2 is loose (weight is e^-2*dist)
+    for ( double k = 0; k <= 2; k += 0.1 )
     {
         addModel( DeformableModel::Ptr( new DiminishingRigidityModel(
                         grippers_data, object_initial_configuration_, k ) ) );
@@ -30,6 +31,7 @@ void ModelSet::makePredictions(
         const std::vector< GripperTrajectory >& gripper_trajectories,
         const ObjectPointSet& object_configuration ) const
 {
+    //TODO: do
     assert("THIS FUNCTION IS NOT YET IMPLEMENTED!" && false);
 }
 
@@ -44,7 +46,8 @@ void ModelSet::updateModels(
     std::vector< kinematics::VectorVector6d > gripper_velocities =
         calculateGripperVelocities( gripper_trajectories );
 
-    kinematics::VectorMatrix3Xd object_velocities = calculateObjectVelocities( object_trajectory );
+    kinematics::VectorMatrix3Xd object_velocities =
+            calculateObjectVelocities( object_trajectory );
 
     // Evaluate our confidence in each model
     evaluateConfidence( gripper_trajectories, gripper_velocities, object_trajectory );
@@ -74,13 +77,12 @@ void ModelSet::evaluateConfidence(
         const std::vector< kinematics::VectorVector6d >& gripper_velocities,
         const ObjectTrajectory& object_trajectory )
 {
+    // TODO: deal with the object/gripers not moving at all
     for ( size_t ind = 0; ind < model_list_.size(); ind++ )
     {
         model_confidence_[ind] = 1.0 / ( 1 + 5*distance(  object_trajectory,
                     model_list_[ind]->getPrediction( object_trajectory[0],
                         gripper_trajectories, gripper_velocities ) ) );
-
-        model_confidence_[ind] = std::pow( model_confidence_[ind], 5 );
     }
 }
 
@@ -98,7 +100,12 @@ std::vector< kinematics::VectorVector6d > ModelSet::calculateGripperVelocities(
 kinematics::VectorMatrix3Xd ModelSet::calculateObjectVelocities(
         const ObjectTrajectory& object_trajectory ) const
 {
-    kinematics::VectorMatrix3Xd object_velocities;
+    kinematics::VectorMatrix3Xd object_velocities( object_trajectory.size() - 1, object_trajectory[0] );
+
+    for ( size_t ind = 0; ind < object_trajectory.size() - 1; ind ++ )
+    {
+        object_velocities[ind] = object_trajectory[ind + 1] - object_trajectory[ind];
+    }
 
     return object_velocities;
 }

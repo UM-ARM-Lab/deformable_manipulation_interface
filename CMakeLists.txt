@@ -72,12 +72,17 @@ include_directories( include
     ${catkin_INCLUDE_DIRS}
 )
 
-set( CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS} -O3 -Wall -Wextra -Wpedantic" )
+set( CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS} -g -O3 -Wall -Wextra -Wpedantic" )
 
 ## Library file for the whole project
 add_library( ${PROJECT_NAME}
+    include/${PROJECT_NAME}/trajectory.h
+    include/${PROJECT_NAME}/deformable_model.h
+    include/${PROJECT_NAME}/diminishing_rigidity_model.h
     src/diminishing_rigidity_model.cpp
+    include/${PROJECT_NAME}/model_set.h
     src/model_set.cpp
+    include/${PROJECT_NAME}/planner.h
     src/planner.cpp
 )
 add_dependencies( ${PROJECT_NAME}

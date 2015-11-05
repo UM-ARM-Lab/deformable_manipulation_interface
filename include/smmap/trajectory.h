@@ -2,8 +2,11 @@
 #define trajectory_h
 
 #include <arc_utilities/eigen_helpers.hpp>
+#include <arc_utilities/pretty_print.hpp>
 #include <limits>
 #include <memory>
+#include <tuple>
+#include <exception>
 
 namespace smmap
 {
@@ -12,7 +15,26 @@ namespace smmap
     typedef EigenHelpers::VectorAffine3d GripperTrajectory;
 
     // TODO: move this somewhere else
-    typedef std::vector< std::pair< std::string, std::vector< size_t > > > GrippersDataVector;
+    struct GripperData
+    {
+        GripperData( const Eigen::Affine3d& tf, const std::vector< size_t >& inds, const std::string& n )
+            : transform( tf )
+            , node_indices( inds )
+            , name( n )
+        {}
+
+        friend std::ostream& operator<< ( std::ostream& out, const GripperData& data )
+        {
+            out << data.name << " " << PrettyPrint::PrettyPrint( data.node_indices ) << std::endl
+                << data.transform.matrix() << std::endl;
+            return out;
+        }
+
+        Eigen::Affine3d transform;
+        std::vector< size_t > node_indices;
+        std::string name;
+    };
+    typedef std::vector< GripperData > GrippersDataVector;
 
     inline double distance( const ObjectTrajectory& traj1, const ObjectTrajectory& traj2 )
     {
