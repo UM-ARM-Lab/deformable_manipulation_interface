@@ -17,7 +17,7 @@ ModelSet::ModelSet( const VectorGrippersData& grippers_data,
     , rnd_generator_( std::chrono::system_clock::now().time_since_epoch().count() )
 {
     // 0 is totally rigid (weight is 1), 2 is loose (weight is e^-2*dist)
-    for ( double k = 0; k <= 5; k += 0.1 )
+    for ( double k = 0; k <= 10; k += 0.1 )
     {
         addModel( DeformableModel::Ptr( new DiminishingRigidityModel(
                         grippers_data, object_initial_configuration_, k ) ) );
@@ -116,6 +116,9 @@ std::vector< kinematics::VectorVector6d > ModelSet::calculateGrippersVelocities(
     for ( size_t ind = 0; ind < grippers_trajectory.size(); ind++ )
     {
         grippers_velocities[ind] = kinematics::calculateVelocities( grippers_trajectory[ind] );
+
+//        std::cout << "GripperTraj:\n" << PrettyPrint::PrettyPrint( grippers_trajectory[ind], true, "\n\n" ) << std::endl;
+//        std::cout << "GripperVel:\n" << PrettyPrint::PrettyPrint( grippers_velocities[ind], true , "\n\n" ) << std::endl;
     }
     return grippers_velocities;
 }

@@ -39,8 +39,8 @@ namespace smmap
             }
 
             AllGrippersTrajectory getDesiredGrippersTrajectory(
-                    ObjectPointSet object_current_configuration,
-                    ObjectPointSet object_desired_configuration,
+                    const ObjectPointSet& object_current_configuration,
+                    const ObjectPointSet& object_desired_configuration,
                     EigenHelpers::VectorAffine3d grippers_pose,
                     double max_step, size_t num_steps ) const
             {
@@ -80,8 +80,8 @@ namespace smmap
                     const std::vector< kinematics::VectorVector6d >& grippers_velocities ) const = 0;
 
             virtual AllGrippersTrajectory doGetDesiredGrippersTrajectory(
-                    ObjectPointSet object_current_configuration,
-                    ObjectPointSet object_desired_configuration,
+                    const ObjectPointSet& object_current_configuration,
+                    const ObjectPointSet& object_desired_configuration,
                     EigenHelpers::VectorAffine3d grippers_pose,
                     double max_step, size_t num_steps ) const = 0;
 

@@ -5,8 +5,6 @@
 #include <arc_utilities/pretty_print.hpp>
 #include <limits>
 #include <memory>
-#include <tuple>
-#include <exception>
 
 namespace smmap
 {
@@ -15,6 +13,16 @@ namespace smmap
 
     typedef EigenHelpers::VectorAffine3d SingleGripperTrajectory;
     typedef std::vector< SingleGripperTrajectory, Eigen::aligned_allocator< SingleGripperTrajectory > > AllGrippersTrajectory;
+
+    inline EigenHelpers::VectorAffine3d getLastGrippersPose( const AllGrippersTrajectory& grippers_trajectory )
+    {
+        EigenHelpers::VectorAffine3d last_poses( grippers_trajectory.size() );
+        for ( size_t gripper_ind = 0; gripper_ind < grippers_trajectory.size(); gripper_ind++ )
+        {
+            last_poses[gripper_ind] = grippers_trajectory[gripper_ind].back();
+        }
+        return last_poses;
+    }
 
     // TODO: move this somewhere else
     struct GripperData
@@ -27,8 +35,8 @@ namespace smmap
 
         friend std::ostream& operator<< ( std::ostream& out, const GripperData& data )
         {
-            out << data.name << " " << PrettyPrint::PrettyPrint( data.node_indices ) << std::endl
-                << PrettyPrint::PrettyPrint( data.pose ) << std::endl;
+            out << data.name << " Num Indices: " << PrettyPrint::PrettyPrint( data.node_indices )
+                << " " << PrettyPrint::PrettyPrint( data.pose );
             return out;
         }
 

@@ -162,8 +162,8 @@ ObjectTrajectory DiminishingRigidityModel::doGetPrediction(
 }
 
 AllGrippersTrajectory DiminishingRigidityModel::doGetDesiredGrippersTrajectory(
-        ObjectPointSet object_current_configuration,
-        ObjectPointSet object_desired_configuration,
+        const ObjectPointSet& object_current_configuration,
+        const ObjectPointSet& object_desired_configuration,
         EigenHelpers::VectorAffine3d grippers_pose,
         double max_step, size_t num_steps ) const
 {
@@ -176,15 +176,26 @@ AllGrippersTrajectory DiminishingRigidityModel::doGetDesiredGrippersTrajectory(
         traj[gripper_ind].push_back( grippers_pose[gripper_ind] );
     }
 
-    object_current_configuration.conservativeResize( object_current_configuration.cols() * object_current_configuration.rows(), 1 );
-    object_desired_configuration.conservativeResizeLike( object_current_configuration );
+    // TODO: get rid of this uglyness
+    Eigen::MatrixXd tmp_current = object_current_configuration;
+    Eigen::MatrixXd tmp_desired = object_desired_configuration;
+    const Eigen::VectorXd desired = Eigen::Map< Eigen::VectorXd >( tmp_current.data(), object_desired_configuration.cols() * object_desired_configuration.rows() );
+    const Eigen::VectorXd current = Eigen::Map< Eigen::VectorXd >( tmp_desired.data(), object_current_configuration.cols() * object_current_configuration.rows() );
+
+//    std::cout << "Model with k = " << k_translation_ << std::endl;
+//    std::cout << "Current Config:\n" << object_current_configuration << std::endl;
+//    std::cout << "Current transformed:\n" << current.transpose() << std::endl;
+//    std::cout << "Desired Config:\n" << object_desired_configuration << std::endl;
+//    std::cout << "Desired transformed:\n" << desired.transpose() << std::endl;
 
     const Eigen::MatrixXd J_inv = EigenHelpers::Pinv( J_, EigenHelpers::SuggestedRcond() );
 
     for ( size_t traj_step = 1; traj_step <= num_steps; traj_step++ )
     {
-        const Eigen::VectorXd object_delta = object_desired_configuration - object_current_configuration;
+        const Eigen::VectorXd object_delta = -(desired - current);
         Eigen::VectorXd combined_grippers_velocity = J_inv * object_delta;
+
+//        std::cout << "object_delta: " << object_delta.transpose() << std::endl;
         if ( combined_grippers_velocity.norm() > max_step )
         {
             combined_grippers_velocity = combined_grippers_velocity / combined_grippers_velocity.norm() * max_step;
