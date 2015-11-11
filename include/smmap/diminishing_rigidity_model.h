@@ -80,4 +80,4 @@ namespace smmap
     };
 }
 
-#endif
+#endif // diminishing_rigidity_model_h

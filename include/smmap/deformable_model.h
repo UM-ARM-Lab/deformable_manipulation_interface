@@ -7,6 +7,7 @@
 #include <kinematics_toolbox/kinematics.h>
 
 #include "smmap/trajectory.h"
+#include "smmap/gripper_helpers.h"
 
 namespace smmap
 {
@@ -90,4 +91,4 @@ namespace smmap
 
 }
 
-#endif
+#endif // deformable_model_h

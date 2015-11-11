@@ -50,7 +50,7 @@ void DiminishingRigidityModel::computeObjectNodeDistanceMatrix()
     // TODO: replace this ugly hack
     if ( object_initial_node_distance_.size() == 0 )
     {
-        ROS_INFO( "Computing object initial distance matrix" );
+        ROS_INFO_NAMED( "diminishing_rigidity_model" , "Computing object initial distance matrix" );
 
         const size_t num_nodes = object_initial_configuration_.cols();
         object_initial_node_distance_.resize( num_nodes, num_nodes );
@@ -70,7 +70,7 @@ void DiminishingRigidityModel::computeObjectNodeDistanceMatrix()
 
 void DiminishingRigidityModel::computeJacobian()
 {
-    ROS_INFO( "Computing object Jacobian: Diminishing rigidity k_trans: %f k_rot: %f", k_translation_, k_rotation_ );
+    ROS_DEBUG_NAMED( "diminishing_rigidity_model" , "Computing object Jacobian: Diminishing rigidity k_trans: %f k_rot: %f", k_translation_, k_rotation_ );
 
     const size_t num_grippers = grippers_data_.size();
     const size_t num_Jcols = 6*num_grippers;
@@ -106,7 +106,7 @@ void DiminishingRigidityModel::computeJacobian()
             J_.block< 3, 3 >( node_ind * 3, gripper_ind * 6 ) =
                     std::exp( -k_translation_ * dist_to_gripper.second ) * J_trans;
             J_.block< 3, 3 >( node_ind * 3, gripper_ind * 6 + 3 ) =
-                    std::exp( -k_rotation_ * dist_to_gripper.second ) * J_rot;
+                    std::exp( -k_rotation_ * dist_to_gripper.second ) * J_rot * 0; // NOTE: I am wiping out rotation here
         }
     }
 }

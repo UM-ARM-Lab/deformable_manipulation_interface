@@ -103,9 +103,15 @@ void ModelSet::evaluateConfidence(
         const ObjectTrajectory model_prediction = model_list_[ind]->getPrediction(
                 object_trajectory[0], grippers_trajectory, grippers_velocities );
 
-        const double dist = distance(  object_trajectory, model_prediction );
+        const double dist = distanceRMS(  object_trajectory, model_prediction );
 
-        model_confidence_[ind] = 1.0 / ( 1 + 5*dist );
+        model_confidence_[ind] = 1.0 / ( 1 + dist );
+
+        if ( ind > 0 && model_confidence_[ind] == model_confidence_[ind-1])
+        {
+            std::cout << PrettyPrint::PrettyPrint( grippers_velocities, true, "\n" ) << std::endl;
+            assert(false);
+        }
     }
 }
 

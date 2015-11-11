@@ -3,6 +3,8 @@
 
 #include <algorithm>
 #include <assert.h>
+#include <chrono>
+
 #include <boost/thread.hpp>
 #include <ros/callback_queue.h>
 #include <arc_utilities/arc_helpers.hpp>
@@ -22,155 +24,165 @@ Planner::Planner( ros::NodeHandle& nh,
         const std::string& get_gripper_names_topic,
         const std::string& get_cover_points_topic,
         const std::string& get_gripper_attached_node_indices_topic,
+        const std::string& get_gripper_pose_topic,
         const std::string& get_object_initial_configuration_topic,
         const std::string& confidence_topic,
-        const std::string& confidence_image_topic )
+        const std::string& confidence_image_topic,
+        const std::string& set_visualization_marker_topic )
     : task_( task )
     , nh_( nh )
     , it_( nh_ )
-    , fbk_buffer_initialized_( false )
 {
     // Subscribe to feedback channels
     simulator_fbk_sub_ = nh_.subscribe(
             simulator_fbk_topic, 20, &Planner::simulatorFbkCallback, this );
 
-    // Publish to the desired gripper trajectory channel
-    cmd_gripper_traj_pub_ = nh_.advertise< deform_simulator::GripperTrajectoryStamped >(
-            cmd_gripper_traj_topic, 1 );
-
     // Publish a our confidence values
     confidence_pub_ = nh_.advertise< smmap::ConfidenceStamped >( confidence_topic, 1 );
     confidence_image_pub_ = it_.advertise( confidence_image_topic, 1 );
 
-    getGrippersData( get_gripper_names_topic, get_gripper_attached_node_indices_topic );
+    getGrippersData( get_gripper_names_topic, get_gripper_attached_node_indices_topic, get_gripper_pose_topic );
     getObjectInitialConfiguration( get_object_initial_configuration_topic );
     getCoverPoints( get_cover_points_topic );
 
     model_set_ = std::unique_ptr< ModelSet >(
             new ModelSet( gripper_data_, object_initial_configuration_ ) );
+
+    cmd_gripper_traj_client_ =
+            nh_.serviceClient< deform_simulator::CmdGrippersTrajectory >( cmd_gripper_traj_topic, true );
+    cmd_gripper_traj_client_.waitForExistence();
+
+    visualization_client_ =
+            nh_.serviceClient< deform_simulator::SetVisualizationMarker >( set_visualization_marker_topic, true );
+    visualization_client_.waitForExistence();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // Main function that makes things happen
 ////////////////////////////////////////////////////////////////////////////////
 
-void Planner::run( double loop_rate )
+void Planner::run( const size_t num_traj_cmds_per_loop )
 {
-    ROS_INFO( "Starting feedback spinner" );
     // TODO: remove this hardcoded spin rate
     boost::thread spin_thread( boost::bind( &Planner::spin, 1000 ) );
+    // TODO: This is lame. There needs to be a better way.
+    // Wait for ROS to finish making topic connections
+    usleep( 500000 );
 
     // Initialize the trajectory command message
-    ROS_INFO( "Initializing gripper command message" );
-    static deform_simulator::GripperTrajectoryStamped msg;
+    ROS_INFO_NAMED( "planner" , "Initializing gripper command message" );
+    deform_simulator::CmdGrippersTrajectory::Request cmd_traj_req;
+    deform_simulator::CmdGrippersTrajectory::Response cmd_traj_res;
 
-    msg.trajectories.resize( gripper_data_.size() );
-    for ( size_t ind = 0; ind < gripper_data_.size(); ind++ )
+    // Get the initial best traj
+    const AllGrippersTrajectory best_grippers_traj = replan( num_traj_cmds_per_loop );
+
+    // fill the request structure
+    cmd_traj_req.trajectories.resize( gripper_data_.size() );
+    for ( size_t gripper_ind = 0; gripper_ind < gripper_data_.size(); gripper_ind++ )
     {
-        msg.gripper_names.push_back( gripper_data_[ind].name );
-        auto& pose = msg.trajectories[ind].pose;
-        pose.resize(1);
-        pose[0].position.x = -0.6;
-        pose[0].position.y = 0.0;
-        pose[0].position.z = 0.75;
-        pose[0].orientation.x = 0;
-        pose[0].orientation.y = 0;
-        pose[0].orientation.z = 0;
-        pose[0].orientation.w = 1;
-
-        pose.resize( 100/loop_rate, pose[0] );
-
-        for ( size_t i = 1; i < pose.size(); i++ )
-        {
-            pose[i].position.y = pose[i-1].position.y + 0.001;
-        }
+        cmd_traj_req.gripper_names.push_back( gripper_data_[gripper_ind].name );
+        cmd_traj_req.trajectories[gripper_ind].pose = VectorAffine3dToVectorGeometryPose( best_grippers_traj[gripper_ind] );
     }
-
-    // Send our first stupid trajectory
-    msg.header.stamp = ros::Time::now();
-    cmd_gripper_traj_pub_.publish( msg );
-    ros::Rate rate( loop_rate );
-    rate.sleep();
+    cmd_gripper_traj_client_.call( cmd_traj_req, cmd_traj_res );
 
     // Run the planner at whatever rate we've been given
-    ROS_INFO( "Running our planner" );
+    ROS_INFO_NAMED( "planner" , "Running our planner" );
     while ( ros::ok() )
     {
-        ROS_INFO( "Updating models" );
-        // Update the models with whatever feedback we have
-        std::pair< ObjectTrajectory, AllGrippersTrajectory > fbk = readSimulatorFeedbackBuffer();
-        updateModels( fbk.first, fbk.second );
-
-        // here we make a better trajectory
-        ROS_INFO( "Finding 'best' configuration" );
-        ObjectPointSet object_desired_config = findObjectDesiredConfiguration( fbk.first.back() );
-
-        std::vector< std::pair< AllGrippersTrajectory, double > > suggested_trajectories =
-                model_set_->getDesiredGrippersTrajectories( fbk.first.back(), object_desired_config, getLastGrippersPose( fbk.second ), 0.001, 10 );
-
-        int min_weighted_cost_ind = -1;
-        double min_weighted_cost = std::numeric_limits< double >::infinity();
-
-        ROS_INFO( "Finding 'best' trajectory" );
-        for ( size_t traj_ind = 0; traj_ind < suggested_trajectories.size(); traj_ind++ )
+        // TODO: remove this 'continue' crap
+        boost::recursive_mutex::scoped_lock lock ( input_mtx_ );
+        if ( object_trajectory_.size() < num_traj_cmds_per_loop + 1 )
         {
-            double weighted_cost = suggested_trajectories[traj_ind].second; //*
-                    //( suggested_trajectories[traj_ind].first.back() - object_desired_config ).norm();
-            if ( weighted_cost < min_weighted_cost )
-            {
-                min_weighted_cost = weighted_cost;
-                min_weighted_cost_ind = traj_ind;
-            }
+            lock.unlock();
+            usleep( 500 );
+            continue;
         }
 
-        // copy the best trajectory over
-        ROS_INFO( "Sending 'best' trajectory" );
-        const AllGrippersTrajectory best_grippers_traj = suggested_trajectories[min_weighted_cost_ind].first;
-        msg.trajectories.resize( best_grippers_traj.size() );
-        for ( size_t gripper_ind = 0; gripper_ind < msg.trajectories.size(); gripper_ind++ )
+        const AllGrippersTrajectory best_grippers_traj = replan( num_traj_cmds_per_loop );
+        lock.unlock();
+
+        cmd_traj_req.trajectories.resize( best_grippers_traj.size() );
+        for ( size_t gripper_ind = 0; gripper_ind < cmd_traj_req.trajectories.size(); gripper_ind++ )
         {
-            msg.trajectories[gripper_ind].pose = VectorAffine3dToVectorGeometryPose( best_grippers_traj[gripper_ind] );
+            cmd_traj_req.trajectories[gripper_ind].pose = VectorAffine3dToVectorGeometryPose( best_grippers_traj[gripper_ind] );
         }
 
-//        auto& pose = msg.trajectories[0].pose;
-//        pose[0] = pose[ pose.size() - 1 ];
-//        for ( size_t i = 1; i < pose.size(); i++ )
-//        {
-//            pose[i].position.y = pose[i-1].position.y + 0.001;
-//        }
-
-        msg.header.stamp = ros::Time::now();
-        cmd_gripper_traj_pub_.publish( msg );
-        rate.sleep();
+        ROS_INFO_NAMED( "planner" , "Sending 'best' trajectory" );
+        cmd_gripper_traj_client_.call( cmd_traj_req, cmd_traj_res );
     }
 
-    ROS_INFO( "Terminating" );
+    ROS_INFO_NAMED( "planner" , "Terminating" );
     spin_thread.join();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Input data parsing and model management
+// Internal helpers for the run() function
 ////////////////////////////////////////////////////////////////////////////////
+
+AllGrippersTrajectory Planner::replan( size_t num_traj_cmds_per_loop )
+{
+     boost::recursive_mutex::scoped_lock lock( input_mtx_ );
+
+    // Update the models with whatever feedback we have
+    std::pair< ObjectTrajectory, AllGrippersTrajectory > fbk = readSimulatorFeedbackBuffer();
+    updateModels( fbk.first, fbk.second );
+
+    lock.unlock();
+
+    // here we make a better trajectory
+    ObjectPointSet object_desired_config = findObjectDesiredConfiguration( fbk.first.back() );
+    // Send this to the visualizer to plot
+    std_msgs::ColorRGBA color;
+    color.r = 0; color.g = 0; color.b = 1; color.a = 1;
+    visualizeRopeObject( "rope_desired_config", object_desired_config, color );
+
+    std::vector< std::pair< AllGrippersTrajectory, double > > suggested_trajectories =
+            model_set_->getDesiredGrippersTrajectories( fbk.first.back(), object_desired_config, getLastGrippersPose( fbk.second ), 0.001, num_traj_cmds_per_loop );
+
+    int min_weighted_cost_ind = -1;
+    double min_weighted_cost = std::numeric_limits< double >::infinity();
+
+    ROS_INFO_NAMED( "planner" , "Finding 'best' trajectory" );
+    for ( size_t traj_ind = 0; traj_ind < suggested_trajectories.size(); traj_ind++ )
+    {
+        double weighted_cost = suggested_trajectories[traj_ind].second; //*
+                //( suggested_trajectories[traj_ind].first.back() - object_desired_config ).norm();
+        if ( weighted_cost < min_weighted_cost )
+        {
+            min_weighted_cost = weighted_cost;
+            min_weighted_cost_ind = traj_ind;
+        }
+    }
+
+    std::cout << "Best trajectory:\n" << PrettyPrint::PrettyPrint( suggested_trajectories[min_weighted_cost_ind].first, true, "\n" ) << std::endl;
+
+    return suggested_trajectories[min_weighted_cost_ind].first;
+}
 
 std::pair< ObjectTrajectory, AllGrippersTrajectory > Planner::readSimulatorFeedbackBuffer()
 {
-    boost::mutex::scoped_lock lock( input_mtx_ );
+    // TODO: inherit this lock from the callee
+    //boost::mutex::scoped_lock lock( input_mtx_ );
 
     std::pair< ObjectTrajectory, AllGrippersTrajectory > fbk;
 
+    // record the data we have
     fbk.first = object_trajectory_;
     fbk.second = grippers_trajectory_;
 
+    // reset our buffers
     object_trajectory_.clear();
-    object_trajectory_.push_back( fbk.first[0] );
+    //object_trajectory_.push_back( fbk.first[0] );
 
     for ( size_t gripper_ind = 0; gripper_ind < grippers_trajectory_.size(); gripper_ind++ )
     {
         grippers_trajectory_[gripper_ind].clear();
-        grippers_trajectory_[gripper_ind].push_back( fbk.second[gripper_ind][0] );
+//        grippers_trajectory_[gripper_ind].push_back( fbk.second[gripper_ind][0] );
     }
 
-    lock.unlock();
+//    std::cout << "Amount of data: " << fbk.second[0].size() << std::endl;
+//    std::cout << PrettyPrint::PrettyPrint( fbk.second[0], true, "\n" ) << std::endl;
 
     return fbk;
 }
@@ -178,6 +190,8 @@ std::pair< ObjectTrajectory, AllGrippersTrajectory > Planner::readSimulatorFeedb
 void Planner::updateModels( const ObjectTrajectory& object_trajectory,
                             const AllGrippersTrajectory& grippers_trajectory )
 {
+    ROS_INFO_NAMED( "planner" , "Updating models" );
+
     assert( grippers_trajectory.size() >= 1 );
     assert( object_trajectory.size() == grippers_trajectory[0].size() );
 
@@ -210,12 +224,15 @@ void Planner::updateModels( const ObjectTrajectory& object_trajectory,
     }
 }
 
+
 ////////////////////////////////////////////////////////////////////////////////
 // Task specific functionality
 ////////////////////////////////////////////////////////////////////////////////
 
 ObjectPointSet Planner::findObjectDesiredConfiguration( const ObjectPointSet& current_configuration )
 {
+    ROS_INFO_NAMED( "planner" , "Finding 'best' configuration" );
+
     // point should be the same size
     assert( current_configuration.rows() == cover_points_.rows() );
 
@@ -285,6 +302,23 @@ ObjectPointSet Planner::findObjectDesiredConfiguration( const ObjectPointSet& cu
     return desired_configuration;
 }
 
+void Planner::visualizeRopeObject( const std::string& marker_name,
+                                   const ObjectPointSet& rope,
+                                   const std_msgs::ColorRGBA& color )
+{
+    deform_simulator::SetVisualizationMarker::Request srv_req;
+    deform_simulator::SetVisualizationMarker::Response srv_res;
+
+    srv_req.marker.type = visualization_msgs::Marker::LINE_STRIP;
+    srv_req.marker.ns = marker_name;
+    srv_req.marker.id = 0;
+    srv_req.marker.scale.x = 0.1;
+    srv_req.marker.points = EigenMatrix3XdToVectorGeometryPoint( rope );
+    srv_req.marker.colors = std::vector< std_msgs::ColorRGBA >( rope.cols(), color );
+
+    visualization_client_.call( srv_req, srv_res );
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // ROS Callbacks
 ////////////////////////////////////////////////////////////////////////////////
@@ -292,16 +326,7 @@ ObjectPointSet Planner::findObjectDesiredConfiguration( const ObjectPointSet& cu
 void Planner::simulatorFbkCallback(
         const deform_simulator::SimulatorFbkStamped& fbk )
 {
-    boost::mutex::scoped_lock lock( input_mtx_ );
-
-    // If we've already received at least one data element, it's business as usual
-    if ( unlikely( !fbk_buffer_initialized_.load() ) )
-    {
-        fbk_buffer_initialized_.store( true );
-        object_trajectory_.clear();
-        grippers_trajectory_.clear();
-        grippers_trajectory_.resize( fbk.gripper_names.size() );
-    }
+    boost::recursive_mutex::scoped_lock lock( input_mtx_ );
 
     // TODO: if this data arrived out of order, do something smart
     object_trajectory_.push_back( VectorGeometryPointToEigenMatrix3Xd( fbk.object_configuration ) );
@@ -320,15 +345,18 @@ void Planner::simulatorFbkCallback(
 
 void Planner::spin( double loop_rate )
 {
-    ros::NodeHandle nh;
+    ros::NodeHandle ph("~");
+    ROS_INFO_NAMED( "planner" , "Starting feedback spinner" );
     while ( ros::ok() )
     {
         ros::getGlobalCallbackQueue()->callAvailable( ros::WallDuration( loop_rate ) );
     }
 }
 
-void Planner::getGrippersData( const std::string& names_topic, const std::string& indices_topic )
+void Planner::getGrippersData(const std::string& names_topic, const std::string& indices_topic, const std::string& pose_topic )
 {
+    ROS_INFO_NAMED( "planner" , "Getting grippers data" );
+
     // Get the names of each gripper
     ros::ServiceClient gripper_names_client =
         nh_.serviceClient< deform_simulator::GetGripperNames >( names_topic );
@@ -338,33 +366,42 @@ void Planner::getGrippersData( const std::string& names_topic, const std::string
     gripper_names_client.call( names_srv_data );
     std::vector< std::string > gripper_names = names_srv_data.response.names;
 
-    // Get the attached nodes for each gripper
+    // Get the attached nodes and transform for each gripper
     ros::ServiceClient gripper_node_indices_client =
         nh_.serviceClient< deform_simulator::GetGripperAttachedNodeIndices >( indices_topic );
     gripper_node_indices_client.waitForExistence();
 
+    ros::ServiceClient gripper_pose_client =
+        nh_.serviceClient< deform_simulator::GetGripperPose >( pose_topic );
+    gripper_pose_client.waitForExistence();
+
+    grippers_trajectory_.resize( gripper_names.size() );
     for ( size_t gripper_ind = 0; gripper_ind < gripper_names.size(); gripper_ind++ )
     {
-        deform_simulator::GetGripperAttachedNodeIndices srv_data;
-        srv_data.request.name = gripper_names[gripper_ind];
-        gripper_node_indices_client.call( srv_data );
+        deform_simulator::GetGripperAttachedNodeIndices node_srv_data;
+        node_srv_data.request.name = gripper_names[gripper_ind];
+        gripper_node_indices_client.call( node_srv_data );
 
-        // Still single threaded, so I don't need to worry about the locking here
-        while ( !fbk_buffer_initialized_.load() )
-        {
-            usleep( 1000 );
-            ros::spinOnce();
-        }
+        deform_simulator::GetGripperPose pose_srv_data;
+        pose_srv_data.request.name = gripper_names[gripper_ind];
+        gripper_pose_client.call( pose_srv_data );
 
-        gripper_data_.push_back( GripperData( grippers_trajectory_[gripper_ind][0],
-                    srv_data.response.indices, gripper_names[gripper_ind] ) );
+        gripper_data_.push_back(
+                    GripperData( GeometryPoseToEigenAffine3d( pose_srv_data.response.pose ),
+                                 node_srv_data.response.indices,
+                                 gripper_names[gripper_ind] ) );
 
-        ROS_INFO( "Gripper #%zu: %s", gripper_ind, PrettyPrint::PrettyPrint( gripper_data_[gripper_ind] ).c_str() );
+        grippers_trajectory_[gripper_ind].push_back(
+                GeometryPoseToEigenAffine3d( pose_srv_data.response.pose ) );
+
+        ROS_INFO_NAMED( "planner" , "Gripper #%zu: %s", gripper_ind, PrettyPrint::PrettyPrint( gripper_data_[gripper_ind] ).c_str() );
     }
 }
 
 void Planner::getObjectInitialConfiguration( const std::string& topic )
 {
+    ROS_INFO_NAMED( "planner" , "Getting object initial configuration" );
+
     // Get the initial configuration of the object
     ros::ServiceClient object_initial_configuration_client =
         nh_.serviceClient< deform_simulator::GetPointSet >( topic );
@@ -376,11 +413,16 @@ void Planner::getObjectInitialConfiguration( const std::string& topic )
     object_initial_configuration_ =
         VectorGeometryPointToEigenMatrix3Xd( srv_data.response.points );
 
-    ROS_INFO( "Number of points on object: %zu", srv_data.response.points.size() );
+    object_trajectory_.clear();
+    object_trajectory_.push_back( object_initial_configuration_ );
+
+    ROS_INFO_NAMED( "planner" , "Number of points on object: %zu", srv_data.response.points.size() );
 }
 
 void Planner::getCoverPoints( const std::string& topic )
 {
+    ROS_INFO_NAMED( "planner" , "Getting cover points" );
+
     // Get the initial configuration of the object
     ros::ServiceClient cover_points_client =
         nh_.serviceClient< deform_simulator::GetPointSet >( topic );
@@ -392,5 +434,5 @@ void Planner::getCoverPoints( const std::string& topic )
     cover_points_ =
         VectorGeometryPointToEigenMatrix3Xd( srv_data.response.points );
 
-    ROS_INFO( "Number of cover points: %zu", srv_data.response.points.size() );
+    ROS_INFO_NAMED( "planner" , "Number of cover points: %zu", srv_data.response.points.size() );
 }

@@ -64,4 +64,4 @@ namespace smmap
     };
 }
 
-#endif
+#endif // model_set_h

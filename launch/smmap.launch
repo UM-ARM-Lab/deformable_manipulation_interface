@@ -6,7 +6,7 @@
         type="test_node"
         output="screen"/>
 
-    <node name="visualizer"
+    <!--node name="visualizer"
         pkg="matplotlib_wrapper"
-        type="matplotlib_wrapper.py"/>
+        type="matplotlib_wrapper.py"/-->
 </launch>
