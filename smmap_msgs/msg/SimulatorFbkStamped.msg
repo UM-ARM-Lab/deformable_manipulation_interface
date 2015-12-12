@@ -3,6 +3,6 @@ geometry_msgs/Point[] object_configuration
 string[] gripper_names
 geometry_msgs/Pose[] gripper_poses
 geometry_msgs/Point[] gripper_nearest_point_to_obstacle
-geometry_msgs/Point[] obstacle_nearest_point_to_gripper
+geometry_msgs/Vector3[] obstacle_surface_normal
 float64[] gripper_distance_to_obstacle
 float64 sim_time

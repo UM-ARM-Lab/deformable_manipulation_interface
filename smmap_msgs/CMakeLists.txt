@@ -28,6 +28,7 @@ add_service_files(
     GetGripperAttachedNodeIndices.srv
     GetGripperPose.srv
     GetPointSet.srv
+    GetMirrorLine.srv
 )
 
 ## Generate actions in the 'action' folder
