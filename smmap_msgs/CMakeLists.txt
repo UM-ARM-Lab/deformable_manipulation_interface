@@ -2,6 +2,7 @@ cmake_minimum_required( VERSION 2.8.3 )
 project( smmap_msgs )
 
 set( CATKIN_PACKAGES
+  actionlib_msgs
   geometry_msgs
   std_msgs
 )
@@ -16,14 +17,13 @@ find_package( catkin REQUIRED COMPONENTS ${CATKIN_PACKAGES} message_generation )
 add_message_files(
     FILES
     ConfidenceStamped.msg
-    GripperTrajectory.msg 
-    SimulatorFbkStamped.msg
+    GripperTrajectory.msg
+    SimulatorFeedback.msg
 )
 
 ## Generate services in the 'srv' folder
 add_service_files(
     FILES
-    CmdGrippersTrajectory.srv
     GetGripperNames.srv
     GetGripperAttachedNodeIndices.srv
     GetGripperPose.srv
@@ -32,17 +32,17 @@ add_service_files(
 )
 
 ## Generate actions in the 'action' folder
-# add_action_files(
-#     FILES
-#     Action1.action
-#     Action2.action
-# )
+add_action_files(
+    FILES
+    CmdGrippersTrajectory.action
+)
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
     DEPENDENCIES
-    std_msgs
+    actionlib_msgs
     geometry_msgs
+    std_msgs
 )
 
 ###################################
@@ -64,7 +64,7 @@ catkin_package(
 ## Let QtCreator find these files...
 
 include_directories( include
-    SYSTEM 
+    SYSTEM
     ${catkin_INCLUDE_DIRS}
 )
 

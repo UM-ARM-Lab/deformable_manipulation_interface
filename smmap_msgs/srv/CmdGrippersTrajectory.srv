@@ -1,3 +1,0 @@
-string[] gripper_names
-smmap_msgs/GripperTrajectory[] trajectories
----

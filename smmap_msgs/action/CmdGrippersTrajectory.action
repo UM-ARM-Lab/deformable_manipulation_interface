@@ -1,0 +1,9 @@
+# define the goal
+string[] gripper_names
+smmap_msgs/GripperTrajectory[] trajectories
+---
+# define the result
+smmap_msgs/SimulatorFeedback[] sim_state_trajectory
+---
+# define the feedback
+smmap_msgs/SimulatorFeedback sim_state
