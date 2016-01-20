@@ -17,7 +17,7 @@ find_package( catkin REQUIRED COMPONENTS ${CATKIN_PACKAGES} message_generation )
 add_message_files(
     FILES
     ConfidenceStamped.msg
-    GripperTrajectory.msg
+    VectorPose.msg
     SimulatorFeedback.msg
 )
 
