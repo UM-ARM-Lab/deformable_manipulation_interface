@@ -1,7 +1,7 @@
 clc; clear;
 %%
 base_dir = '../logs/';
-experiment = 'cloth_table';
+experiment = 'colab_folding';
 log_folders = dir( [base_dir experiment] );
 
 error_image = [];
@@ -18,8 +18,8 @@ for folder_ind = 1:length(log_folders)
         
         errors = load( [base_dir experiment '/' log_folders(folder_ind).name '/error.txt'] );
         
-        x = (trans_deform * 2) - 19;
-        y = (rot_deform * 2) - 19;
+        x = trans_deform/2 + 1;
+        y = rot_deform/2 + 1;
         
         error_image(x, y, :) = errors;
         trans_list = [trans_list trans_deform];
@@ -71,7 +71,7 @@ for t_ind = 1:length(time)
 
     imagesc( linspace( rot_min, rot_max, size( error_image, 2 ) ), ...
              linspace( trans_min, trans_max, size( error_image, 1 ) ), ...
-             error_image(:,:,t_ind), [min(error_image(:)) max(error_image(:))] );
+             error_image(:,:,t_ind), [0 50] );%[min(error_image(:)) max(error_image(:))] );
 
     set(gca, 'FontSize', fsz ); %<- Set properties
     set(gca,'YDir','normal')
