@@ -4,67 +4,78 @@ experiment = 'colab_folding';
 base_dir = ['../logs/' experiment '/'];
 
 %%
-% multi_model_error = load( [base_dir 'multi_model/error.txt'] );
-% time = load( [base_dir 'multi_model/time.txt'] );
-% time = time - time(1);
+multi_model_error = load( [base_dir 'multi_model/error.txt'] );
+time = load( [base_dir 'multi_model/time.txt'] );
+time = time - time(1);
 
 %%
 deform_range = 10:0.5:20;
 single_model_base_dir = [ base_dir 'deformability_range_10_to_20/' ];
 
 % single_model_errors = zeros( length( multi_model_error ), length( deform_range ) );
-single_model_errors = zeros( 399, length( deform_range ) );
-for deform_ind = 1:length( deform_range )
-     single_model_errors( :, deform_ind ) = load( [single_model_base_dir sprintf( 'trans_%g_rot_%g/error.txt', deform_range( deform_ind ), deform_range( deform_ind ) )] );
+single_model_errors = zeros( length(time), length(deform_range), length( deform_range ) );
+for trans_deform_ind = 1:length( deform_range )
+    for rot_deform_ind = 1:length( deform_range )
+        single_model_errors( :, trans_deform_ind, rot_deform_ind ) = ...
+            load( [single_model_base_dir sprintf( 'trans_%g_rot_%g/error.txt', deform_range( trans_deform_ind ), deform_range( rot_deform_ind ) )] );
+    end
 end
 %%
 % https://dgleich.github.io/hq-matlab-figs/
+% http://blogs.mathworks.com/loren/2007/12/11/making-pretty-graphs/
 
 width = 7;      % Width in inches
 height = 6;     % Height in inches
-alw = 1;        % AxesLineWidth
-fsz = 24;       % Fontsize
-lw = 2;         % LineWidth
+alw = 0.7;      % AxesLineWidth
+fsz = 18;       % Fontsize
+lw = 1;         % LineWidth
 msz = 12;       % MarkerSize
 
-% The properties we've been using in the figures
-set(0,'defaultLineLineWidth',lw);   % set the default line width to lw
-set(0,'defaultLineMarkerSize',msz); % set the default line marker size to msz
-set(0,'defaultLineLineWidth',lw);   % set the default line width to lw
-set(0,'defaultLineMarkerSize',msz); % set the default line marker size to msz
-
-% Set the default Size for display
-defpos = get(0,'defaultFigurePosition');
-set(0,'defaultFigurePosition', [defpos(1) defpos(2) width*100, height*100]);
-
-% Set the defaults for saving/printing to a file
-set(0,'defaultFigureInvertHardcopy','on'); % This is the default anyway
-set(0,'defaultFigurePaperUnits','inches'); % This is the default anyway
-defsize = get(gcf, 'PaperSize');
-left = (defsize(1)- width)/2;
-bottom = (defsize(2)- height)/2;
-defsize = [left, bottom, width, height];
-set(0, 'defaultFigurePaperPosition', defsize);
-
 %%
-figure(1); clf;
+close all;
+h_single_model = [];
+fig = figure( 'Units', 'inches', ...
+              'Position', [0, 0, width, height] );
+set( fig, 'PaperPositionMode', 'auto' );
 
-% plot( time, multi_model_error );
-hold on
+h_multi_model = plot( time, multi_model_error );
+hold on;
 
-set(gca, 'FontSize', fsz ); %<- Set properties
-xlabel( 'Time (s)' );
-ylabel( 'Error' );
-% title( 'Colaborative folding results' );
+h_Xlabel = xlabel( 'Time (s)' );
+h_Ylabel = ylabel( 'Error' );
+% h_title = title( 'Colaborative folding results' );
 
-for deform_ind = 1:length( deform_range )
-    plot( single_model_errors(:,deform_ind), 'Color', [ 1, deform_ind/(length( deform_range )+10), 0] );
+for trans_deform_ind = length( deform_range ):-1:1
+    for rot_deform_ind = length( deform_range ):-1:1
+        h = plot( time, single_model_errors(:, trans_deform_ind, rot_deform_ind), ...
+            'Color', [ 1, trans_deform_ind/(length( deform_range )+10), rot_deform_ind/(length( deform_range )+10)], ...
+            'LineWidth', lw/4 );
+        
+        if rot_deform_ind == 1 && trans_deform_ind == 1
+            h_single_model = h;
+        end
+        
+        if deform_range(rot_deform_ind) == 14 && deform_range(trans_deform_ind) == 14
+            h_manual_best = h;
+            set( h, 'Color', [0, 1, 0], 'LineWidth', lw );
+        end
+    end
 end
-
-legend( 'Multi model (follows ''best'' single model)', 'Single model (darker is more rigid)' );
 
 hold off
 
-%%
+h_legend = legend( [h_multi_model, h_single_model, h_manual_best], ...
+    'Multi Model', 'Single Model', ['Manual K = 14' repmat(char(3), 1, 2)] );
+
+uistack( h_manual_best, 'top' );
+uistack( h_multi_model, 'top' );
+
+set([h_Xlabel, h_Ylabel, h_legend], ...
+    'FontName'   , 'Helvetica');
+set([gca, h_legend]            , ...
+    'FontSize'   , fsz-2       );
+set([h_Xlabel, h_Ylabel]       , ...
+    'FontSize'   , fsz         );
+
 output_name = ['output_images/' experiment '/multimodel-comparison.eps' ];
 print( output_name, '-depsc2', '-r300');
