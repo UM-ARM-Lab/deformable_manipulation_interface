@@ -1,6 +1,6 @@
 clc; clear;
 %%
-experiment = 'colab_folding';
+experiment = 'cloth_table';
 base_dir = ['../logs/' experiment '/'];
 
 %%
