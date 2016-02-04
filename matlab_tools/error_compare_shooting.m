@@ -5,14 +5,16 @@ experiment = 'colab_folding';
 base_dir = ['../logs/' experiment '/'];
 
 %%
-time = load( [base_dir 'shooting_method/time.txt'] );
-time = time - time(1);
-
-experiment1.error = load( [base_dir 'deformability_range_10_to_20/trans_14_rot_14/error.txt'] );
+experiment1.base_dir = [base_dir 'deformability_range_10_to_20/trans_14_rot_14/'];
+experiment1.error = load( [experiment1.base_dir 'error.txt'] );
 experiment1.name = ['Pure Jacobian' repmat(char(3), 1, 1)];
 
-experiment2.error = load( [base_dir 'shooting_method/error.txt'] );
-experiment2.name = 'Shooting';
+experiment2.base_dir = [base_dir 'shooting_method/'];
+experiment2.error = load( [experiment2.base_dir 'error.txt'] );
+experiment2.name = 'Shooting Method';
+
+time = load( [experiment1.base_dir 'time.txt'] );
+time = time - time(1);
 
 %%
 % https://dgleich.github.io/hq-matlab-figs/
@@ -44,5 +46,5 @@ set([gca, h_legend]            , ...
 set([h_Xlabel, h_Ylabel]       , ...
     'FontSize'   , fsz         );
 
-output_name = ['output_images/' experiment '/shooting-comparison.eps' ];
+output_name = ['output_images/' experiment '/reduced-velocity-set-comparison.eps' ];
 print( output_name, '-depsc2', '-r300');
