@@ -1,15 +1,15 @@
 clc; clear;
 %%
-experiment = 'cloth_table';
+experiment = 'colab_folding';
 base_dir = ['../logs/' experiment '/'];
 
 %%
-experiment1.base_dir = [base_dir '1_step_deformability_range_10_to_20/trans_14_rot_14/'];
+experiment1.base_dir = [base_dir '1_step_trans_14_rot_14/'];
 experiment1.error = load( [experiment1.base_dir 'error.txt'] );
 experiment1.name = ['1 Step Jacobian' repmat(char(3), 1, 1)];
 experiment1.time = load( [experiment1.base_dir 'time.txt'] );
 
-experiment2.base_dir = [base_dir '10_step_single_model/trans_14_rot_14/'];
+experiment2.base_dir = [base_dir '10_step_trans_14_rot_14/'];
 experiment2.error = load( [experiment2.base_dir 'error.txt'] );
 experiment2.name = ['10 Step Jacobian' repmat(char(3), 1, 1)];
 experiment2.time = load( [experiment2.base_dir 'time.txt'] );
