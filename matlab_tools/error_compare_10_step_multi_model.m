@@ -1,6 +1,6 @@
 clc; clear;
 %%
-experiment = 'cloth_table';
+experiment = 'rope_cylinder';
 base_dir = ['../logs/' experiment '/'];
 
 %%
@@ -10,7 +10,7 @@ experiment2.name = ['10 Step Multi-model' repmat(char(3), 1, 1)];
 experiment2.time = load( [experiment2.base_dir 'time.txt'] );
 
 %%
-deform_range = 10:0.5:20;
+deform_range = 5:0.5:15;
 experiment1.base_dir = [ base_dir '10_step_single_model/' ];
 experiment1.time = load( [experiment1.base_dir 'trans_14_rot_14/time.txt'] );
 experiment1.error = zeros( length(experiment1.time), length(deform_range), length( deform_range ) );

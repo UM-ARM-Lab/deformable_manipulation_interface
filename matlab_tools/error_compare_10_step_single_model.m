@@ -4,12 +4,12 @@ experiment = 'colab_folding';
 base_dir = ['../logs/' experiment '/'];
 
 %%
-experiment1.base_dir = [base_dir '1_step_trans_14_rot_14/'];
+experiment1.base_dir = [base_dir '1_step_single_model/trans_10_rot_10/'];
 experiment1.error = load( [experiment1.base_dir 'error.txt'] );
 experiment1.name = ['1 Step Jacobian' repmat(char(3), 1, 1)];
 experiment1.time = load( [experiment1.base_dir 'time.txt'] );
 
-experiment2.base_dir = [base_dir '10_step_trans_14_rot_14/'];
+experiment2.base_dir = [base_dir '10_step_single_model/trans_10_rot_10/'];
 experiment2.error = load( [experiment2.base_dir 'error.txt'] );
 experiment2.name = ['10 Step Jacobian' repmat(char(3), 1, 1)];
 experiment2.time = load( [experiment2.base_dir 'time.txt'] );
@@ -38,7 +38,7 @@ fig = figure( 'Units', 'inches', ...
               'Position', [0, 0, width, height] );
 set( fig, 'PaperPositionMode', 'auto' );
 
-plot( experiment1.time, experiment1.error, 'b', 'LineWidth', lw )
+plot( experiment1.time, experiment1.error, 'g', 'LineWidth', lw )
 hold on;
 plot( experiment2.time, experiment2.error, 'g', 'LineWidth', lw )
 h_legend = legend( experiment1.name, experiment2.name );
