@@ -1,12 +1,12 @@
 clc; clear;
 %%
-experiment = 'colab_folding';
+experiment = 'cloth_table';
 base_dir = ['../logs/' experiment '/'];
 
 %%
-experiment2.base_dir = [base_dir '1_step_multi_model/'];
+experiment2.base_dir = [base_dir 'shooting_max_1000_steps/'];
 experiment2.error = load( [experiment2.base_dir 'error.txt'] );
-experiment2.name = ['1 Step Multi-model' repmat(char(3), 1, 1)];
+experiment2.name = ['1 Step Shooting Method ' repmat(char(3), 1, 1)];
 experiment2.time = load( [experiment2.base_dir 'time.txt'] );
 
 %%
@@ -30,7 +30,7 @@ t_start = min([experiment2.time; experiment1.time]);
 experiment1.time = experiment1.time - t_start;
 experiment2.time = experiment2.time - t_start;
 
-output_name = ['output_images/' experiment '/1-step-multimodel-comparison.eps' ];
+output_name = ['output_images/' experiment '/1-step-shooting_vs_individual_models.eps' ];
 
 %%
 % https://dgleich.github.io/hq-matlab-figs/
