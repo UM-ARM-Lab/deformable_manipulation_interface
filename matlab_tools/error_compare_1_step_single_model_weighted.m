@@ -1,6 +1,6 @@
 clc; clear;
 %%
-experiment = 'cloth_table';
+experiment = 'rope_cylinder';
 base_dir = ['../logs/' experiment '/'];
 
 %%
@@ -10,9 +10,9 @@ experiment2.name = ['Non-weighted Pseudoinverse K = 14' repmat(char(3), 1, 1)];
 experiment2.time = load( [experiment2.base_dir 'time.txt'] );
 
 %%
-deform_range = 10:0.5:20;
+deform_range = 5:0.5:15;
 experiment1.base_dir = [ base_dir '1_step_single_model/' ];
-experiment1.time = load( [experiment1.base_dir 'trans_14_rot_14/time.txt'] );
+experiment1.time = load( [experiment1.base_dir 'trans_10_rot_10/time.txt'] );
 experiment1.error = zeros( length(experiment1.time), length(deform_range), length( deform_range ) );
 experiment1.name = ['Weighted Pseudoinverse' repmat(char(3), 1, 2)];
 
@@ -61,7 +61,7 @@ for trans_deform_ind = length( deform_range ):-1:1
             experiment1.plot_handle = h;
         end
         
-        if deform_range(rot_deform_ind) == 14 && deform_range(trans_deform_ind) == 14
+        if deform_range(rot_deform_ind) == 10 && deform_range(trans_deform_ind) == 10
             h_manual_best = h;
             set( h, 'Color', 'b', 'LineWidth', lw );
         end
