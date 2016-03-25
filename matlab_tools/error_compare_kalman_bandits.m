@@ -1,15 +1,15 @@
 clc; clear;
 %%
 % experiment = 'cloth_table';
-experiment = 'colab_folding';
-deform_range = (10:2:18)';
-% experiment = 'rope_cylinder';
-% deform_range = (6:2:14)';
+% experiment = 'colab_folding';
+% deform_range = (10:2:18)';
+experiment = 'rope_cylinder';
+deform_range = (6:2:14)';
 
-base_dir = ['../logs/' experiment '/'];
+base_dir = ['../logs/' experiment '/1_step_kalman_trials/'];
 
 %%
-experiment2.base_dir = [base_dir '1_step_kalman_trials_multi_model/'];
+experiment2.base_dir = [base_dir 'multi_model/'];
 experiment2.error = load( [experiment2.base_dir 'error.txt'] );
 experiment2.name = ['Multi-model' repmat(char(3), 1, 1)];
 experiment2.time = load( [experiment2.base_dir 'time.txt'] );
@@ -18,7 +18,7 @@ experiment2.trans_chosen = deform_range( floor( experiment2.model_chosen / 5 ) +
 experiment2.rot_chosen = deform_range( mod( experiment2.model_chosen, 5 ) + 1 );
 
 %%
-experiment1.base_dir = [ base_dir '1_step_kalman_trials_single_model/' ];
+experiment1.base_dir = [ base_dir 'single_model/' ];
 experiment1.time = load( [experiment1.base_dir 'trans_14_rot_14/time.txt'] );
 experiment1.error = zeros( length(experiment1.time), length(deform_range), length( deform_range ) );
 experiment1.name = ['Single-model' repmat(char(3), 1, 2)];
@@ -70,7 +70,8 @@ for trans_deform_ind = length( deform_range ):-1:1
             experiment1.plot_handle = h;
         end
         
-        if deform_range(rot_deform_ind) == 14 && deform_range(trans_deform_ind) == 14
+        if deform_range(rot_deform_ind) == mean( deform_range ) ...
+                && deform_range(trans_deform_ind) == mean( deform_range )
             h_manual_best = h;
             set( h, 'Color', 'b', 'LineWidth', lw );
         end
@@ -83,7 +84,7 @@ experiment2.plot_handle = plot( experiment2.time, experiment2.error, 'g', 'LineW
 hold off
 
 h_legend = legend( [experiment1.plot_handle, experiment2.plot_handle, h_manual_best], ...
-    experiment1.name, experiment2.name, ['Manual K = 14' repmat(char(3), 1, 2)] );
+    experiment1.name, experiment2.name, ['Manual K = ' sprintf('%d', mean( deform_range )) repmat(char(3), 1, 2)] );
 
 h_Xlabel = xlabel( 'Time (s)' );
 h_Ylabel = ylabel( 'Error' );
@@ -116,3 +117,19 @@ set([h_Xlabel, h_Ylabel]       , ...
 grid
 
 print( [output_name '_delta.eps'], '-depsc2', '-r300');
+%%
+figure(2)
+subplot(211)
+counts = hist( experiment2.model_chosen, 25 )
+hist( experiment2.model_chosen, 25 )
+axis tight
+subplot(212)
+imagesc( reshape(counts, 5, 5)' )
+set( gca, 'YDir', 'Normal', ...
+    'YTick', 1:length(deform_range), ...
+    'YTickLabel', deform_range, ...
+    'XTick', 1:length(deform_range), ...
+    'XTickLabel', deform_range )
+colorbar
+ylabel( 'rot' )
+xlabel( 'trans' )
