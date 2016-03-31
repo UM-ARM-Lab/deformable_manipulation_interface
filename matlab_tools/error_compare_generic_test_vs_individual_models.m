@@ -1,7 +1,7 @@
 clc; clear;
 %%
-% experiment = 'cloth_table';
-experiment = 'colab_folding';
+experiment = 'cloth_table';
+% experiment = 'colab_folding';
 % experiment = 'rope_cylinder';
 
 if experiment(1) == 'c'
