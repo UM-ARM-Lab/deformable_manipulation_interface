@@ -1,8 +1,8 @@
 clc; clear;
 %%
-% experiment = 'cloth_table';
+experiment = 'cloth_table';
 % experiment = 'colab_folding';
-experiment = 'rope_cylinder';
+% experiment = 'rope_cylinder';
 
 if experiment(1) == 'c'
     deform_range = (10:2:18)';
