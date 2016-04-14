@@ -10,6 +10,7 @@
 #include "smmap_msgs/GetGripperPose.h"
 #include "smmap_msgs/GetGripperCollisionReport.h"
 #include "smmap_msgs/SimulatorFeedback.h"
+#include "smmap_msgs/PointCloud.h"
 #include "smmap_msgs/CmdGrippersTrajectoryAction.h"
 // This pragma is here because the service call has an empty request
 // (or response) message thus the allocator that it is passed never gets used
