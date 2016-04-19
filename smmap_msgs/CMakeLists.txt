@@ -19,6 +19,7 @@ add_message_files(
     ConfidenceStamped.msg
     VectorPose.msg
     SimulatorFeedback.msg
+    PointCloud.msg
 )
 
 ## Generate services in the 'srv' folder
