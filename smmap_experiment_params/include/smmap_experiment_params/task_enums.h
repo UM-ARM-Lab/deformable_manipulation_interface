@@ -1,0 +1,19 @@
+#ifndef TASK_ENUMS_H
+#define TASK_ENUMS_H
+
+namespace smmap
+{
+    enum DeformableType
+    {
+        ROPE,
+        CLOTH
+    };
+
+    enum TaskType
+    {
+        COVERAGE,
+        COLAB_FOLDING
+    };
+}
+
+#endif // TASK_ENUMS_H
