@@ -248,7 +248,7 @@ namespace smmap
     // (Fake) Robot settings
     ////////////////////////////////////////////////////////////////////////////
 
-    inline double GetRobotControlRate( ros::NodeHandle& nh )
+    inline double GetRobotControlPeriod( ros::NodeHandle& nh ) // SECONDS
     {
         return ROSHelpers::GetParam( nh, "robot_control_rate", 0.01 );
     }
