@@ -9,6 +9,8 @@
 
 namespace smmap
 {
+    inline float GetClothXSize( ros::NodeHandle &nh );
+
     ////////////////////////////////////////////////////////////////////////////
     // Task and Deformable Type parameters
     ////////////////////////////////////////////////////////////////////////////
@@ -35,9 +37,13 @@ namespace smmap
     {
         std::string task_type = ROSHelpers::GetParam< std::string >(nh, "task_type", "coverage" );
 
-        if ( task_type.compare( "coverage" ) == 0 )
+        if ( task_type.compare( "cylinder_coverage" ) == 0 )
         {
-            return TaskType::COVERAGE;
+            return TaskType::CYLINDER_COVERAGE;
+        }
+        else if ( task_type.compare( "table_coverage" ) == 0 )
+        {
+            return TaskType::TABLE_COVERAGE;
         }
         else if ( task_type.compare( "colab_folding" ) == 0 )
         {
@@ -114,6 +120,89 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
+    // Cylinder Size Settings
+    ////////////////////////////////////////////////////////////////////////////
+
+    inline float GetCylinderRadius( ros::NodeHandle& nh )   // METERS
+    {
+        switch ( GetDeformableType( nh ) )
+        {
+            case DeformableType::ROPE:
+                return ROSHelpers::GetParam( nh, "rope_cylinder_radius", 0.15f );
+
+            case DeformableType::CLOTH:
+                return ROSHelpers::GetParam( nh, "cloth_cylinder_radius", 0.10f );
+
+            default:
+                throw new std::invalid_argument( "Unknown cylinder radius for deformable type " + GetDeformableType( nh ) );
+        }
+    }
+
+    inline float GetCylinderHeight( ros::NodeHandle& nh )   // METERS
+    {
+        switch ( GetDeformableType( nh ) )
+        {
+            case DeformableType::ROPE:
+                return ROSHelpers::GetParam( nh, "rope_cylinder_height", 0.3f );
+
+            case DeformableType::CLOTH:
+                return ROSHelpers::GetParam( nh, "cloth_cylinder_height", 0.3f );
+
+            default:
+                throw new std::invalid_argument( "Unknown cylinder height for deformable type " + GetDeformableType( nh ) );
+        }
+    }
+
+    inline float GetCylinderCenterOfMassX( ros::NodeHandle& nh )    // METERS
+    {
+        switch ( GetDeformableType( nh ) )
+        {
+            case DeformableType::ROPE:
+                return ROSHelpers::GetParam( nh, "rope_cylinder_com_x", GetTableSurfaceX( nh ) );
+
+            case DeformableType::CLOTH:
+                return ROSHelpers::GetParam( nh, "cloth_cylinder_com_x", GetTableSurfaceX( nh ) - GetClothXSize( nh ) );
+
+            default:
+                throw new std::invalid_argument( "Unknown cylinder com for deformable type " + GetDeformableType( nh ) );
+        }
+    }
+
+    inline float GetCylinderCenterOfMassY( ros::NodeHandle& nh )    // METERS
+    {
+        switch ( GetDeformableType( nh ) )
+        {
+            case DeformableType::ROPE:
+                return ROSHelpers::GetParam( nh, "rope_cylinder_com_y", GetTableSurfaceY( nh ) + GetCylinderRadius( nh ) * 5.0f / 3.0f );
+
+            case DeformableType::CLOTH:
+                return ROSHelpers::GetParam( nh, "cloth_cylinder_com_y", GetTableSurfaceY( nh ) );
+
+            default:
+                throw new std::invalid_argument( "Unknown cylinder com for deformable type " + GetDeformableType( nh ) );
+        }
+    }
+
+    // NOTE: this currently has part of the cylinder inside the table
+    inline float GetCylinderCenterOfMassZ( ros::NodeHandle& nh )    // METERS
+    {
+        switch ( GetDeformableType( nh ) )
+        {
+            case DeformableType::ROPE:
+                return ROSHelpers::GetParam( nh, "rope_cylinder_com_z",
+                                             GetTableSurfaceZ( nh )
+                                             - GetTableThickness( nh ) / 2.0f
+                                             + GetCylinderHeight( nh ) / 2.0f );
+
+            case DeformableType::CLOTH:
+                return ROSHelpers::GetParam( nh, "cloth_cylinder_com_z", GetTableSurfaceZ( nh ) );
+
+            default:
+                throw new std::invalid_argument( "Unknown cylinder com for deformable type " + GetDeformableType( nh ) );
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
     // Rope Settings
     ////////////////////////////////////////////////////////////////////////////
 
@@ -160,36 +249,6 @@ namespace smmap
     inline float GetRopeCenterOfMassZ( ros::NodeHandle& nh )    // METERS
     {
         return ROSHelpers::GetParam( nh, "rope_com_z", GetTableSurfaceZ( nh ) + 5.0f * GetRopeRadius( nh ) );
-    }
-
-    inline float GetRopeCylinderRadius( ros::NodeHandle& nh )   // METERS
-    {
-        return ROSHelpers::GetParam( nh, "rope_cylinder_radius", 0.15f );
-    }
-
-    inline float GetRopeCylinderHeight( ros::NodeHandle& nh )   // METERS
-    {
-        return ROSHelpers::GetParam( nh, "rope_cylinder_height", 0.3f );
-    }
-
-    inline float GetRopeCylinderCenterOfMassX( ros::NodeHandle& nh )    // METERS
-    {
-        return ROSHelpers::GetParam( nh, "rope_cylinder_com_x", GetTableSurfaceX( nh ) );
-    }
-
-    inline float GetRopeCylinderCenterOfMassY( ros::NodeHandle& nh )    // METERS
-    {
-        return ROSHelpers::GetParam( nh, "rope_cylinder_com_y", GetTableSurfaceY( nh ) + GetRopeCylinderRadius( nh ) * 5.0f / 3.0f );
-    }
-
-    // NOTE: this currently has part of the cylinder inside the table
-    inline float GetRopeCylinderCenterOfMassZ( ros::NodeHandle& nh )    // METERS
-    {
-
-        return ROSHelpers::GetParam( nh, "rope_cylinder_com_z",
-                                     GetTableSurfaceZ( nh )
-                                     - GetTableThickness( nh ) / 2.0f
-                                     + GetRopeCylinderHeight( nh ) / 2.0f );
     }
 
     ////////////////////////////////////////////////////////////////////

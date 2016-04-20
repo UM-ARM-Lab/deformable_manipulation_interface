@@ -11,7 +11,8 @@ namespace smmap
 
     enum TaskType
     {
-        COVERAGE,
+        TABLE_COVERAGE,
+        CYLINDER_COVERAGE,
         COLAB_FOLDING
     };
 }
