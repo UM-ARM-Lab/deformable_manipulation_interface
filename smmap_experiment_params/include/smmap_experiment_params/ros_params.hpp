@@ -106,7 +106,7 @@ namespace smmap
 
     inline float GetTableSizeZ( ros::NodeHandle& nh )       // METERS
     {
-        return ROSHelpers::GetParam( nh, "table_z_size", 0.7f );
+        return ROSHelpers::GetParam( nh, "table_z_size", GetTableSurfaceZ( nh ) );
     }
 
     inline float GetTableLegWidth( ros::NodeHandle& nh )    // METERS
@@ -412,6 +412,30 @@ namespace smmap
     inline std::string GetGripperCollisionCheckTopic( ros::NodeHandle& nh )
     {
         return ROSHelpers::GetParam< std::string >( nh, "get_gripper_collision_check_topic", "get_gripper_collision_check" );
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // ROS TF Frame name settings
+    ////////////////////////////////////////////////////////////////////////////
+
+    inline std::string GetWorldFrameName()
+    {
+        return "/mocap_world";
+    }
+
+    inline std::string GetTableFrameName()
+    {
+        return "/table_surface";
+    }
+
+    inline std::string GetKinectBaseFrameName()
+    {
+        return "/mocap_Kinect2Block_Kinect2Block";
+    }
+
+    inline std::string GetKinectCameraFrameName()
+    {
+        return "/Kinect2_ir_camera";
     }
 }
 
