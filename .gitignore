@@ -3,5 +3,7 @@
 *~
 tags
 logs
+*.pyc
 
 smmap_matlab_tools
+

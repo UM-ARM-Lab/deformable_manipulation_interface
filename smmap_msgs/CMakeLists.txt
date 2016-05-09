@@ -63,6 +63,8 @@ catkin_package(
 ## Build ##
 ###########
 
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -g -O2 -march=native -Wall -Wextra -Wpedantic -Wconversion" )
+
 ## Let QtCreator find these files...
 
 include_directories( include

@@ -239,6 +239,7 @@ namespace smmap
     inline float GetRopeCenterOfMassX( ros::NodeHandle& nh )    // METERS
     {
         return ROSHelpers::GetParam( nh, "rope_com_x", GetTableSurfaceX( nh ) + 15.0f * GetRopeSegmentLength( nh ) );
+//        return ROSHelpers::GetParam( nh, "rope_com_x", GetTableSurfaceX( nh ) + 5.0f * GetRopeSegmentLength( nh ) );
     }
 
     inline float GetRopeCenterOfMassY( ros::NodeHandle& nh )    // METERS
@@ -319,6 +320,16 @@ namespace smmap
     inline bool GetUseMultiModel( ros::NodeHandle& nh )
     {
         return ROSHelpers::GetParam( nh, "use_multi_model", false );
+    }
+
+    inline bool GetUseAdaptiveModel( ros::NodeHandle& nh )
+    {
+        return ROSHelpers::GetParam( nh, "use_adaptive_model", false );
+    }
+
+    inline double GetAdaptiveModelLearningRate( ros::NodeHandle& nh )
+    {
+        return ROSHelpers::GetParam( nh, "adaptive_model_learning_rate", 1e-6 );
     }
 
     inline int GetPlanningHorizon( ros::NodeHandle& nh )
