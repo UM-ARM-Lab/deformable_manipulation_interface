@@ -1,7 +1,6 @@
 #ifndef ROS_PARAMS_HPP
 #define ROS_PARAMS_HPP
 
-#include <exception>
 #include <string>
 #include <arc_utilities/ros_helpers.hpp>
 
@@ -29,6 +28,7 @@ namespace smmap
         }
         else
         {
+            ROS_FATAL_STREAM( "Unknown deformable type: " << deformable_type );
             throw new std::invalid_argument( "Unknown deformable type: " + deformable_type );
         }
     }
@@ -49,8 +49,13 @@ namespace smmap
         {
             return TaskType::COLAB_FOLDING;
         }
+        else if ( task_type.compare( "wafr" ) == 0 )
+        {
+            return TaskType::WAFR;
+        }
         else
         {
+            ROS_FATAL_STREAM( "Unknown task type: " << task_type );
             throw new std::invalid_argument( "Unknown task type: " + task_type );
         }
     }

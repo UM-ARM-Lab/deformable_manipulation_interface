@@ -13,7 +13,8 @@ namespace smmap
     {
         TABLE_COVERAGE,
         CYLINDER_COVERAGE,
-        COLAB_FOLDING
+        COLAB_FOLDING,
+        WAFR
     };
 }
 
