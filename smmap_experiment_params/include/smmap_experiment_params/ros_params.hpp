@@ -342,6 +342,16 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "planning_horizion", 1);
     }
 
+    inline double GetProcessNoiseFactor(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "process_noise_factor", 0.001);
+    }
+
+    inline double GetObservationNoiseFactor(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "observation_noise_factor", 0.001);
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // Logging functionality
     ////////////////////////////////////////////////////////////////////////////
