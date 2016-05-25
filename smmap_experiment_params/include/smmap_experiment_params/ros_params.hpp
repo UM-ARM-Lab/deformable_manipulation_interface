@@ -91,7 +91,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "table_x_size", 0.4f);
 
             default:
-                throw new arc_exceptions::invalid_argument("Unknown table size for deformable type " + GetDeformableType(nh), __FILE__, __LINE__);
+                throw new arc_exceptions::invalid_argument("Unknown table size for deformable type " + std::to_string(GetDeformableType(nh)), __FILE__, __LINE__);
         }
     }
 
@@ -106,7 +106,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "table_y_size", 0.4f);
 
             default:
-                throw new arc_exceptions::invalid_argument("Unknown table size for deformable type " + GetDeformableType(nh), __FILE__, __LINE__);
+                throw new arc_exceptions::invalid_argument("Unknown table size for deformable type " + std::to_string(GetDeformableType(nh)), __FILE__, __LINE__);
         }
     }
 
@@ -140,7 +140,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_radius", 0.10f);
 
             default:
-                throw new arc_exceptions::invalid_argument("Unknown cylinder radius for deformable type " + GetDeformableType(nh), __FILE__, __LINE__);
+                throw new arc_exceptions::invalid_argument("Unknown cylinder radius for deformable type " + std::to_string(GetDeformableType(nh)), __FILE__, __LINE__);
         }
     }
 
@@ -155,7 +155,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_height", 0.3f);
 
             default:
-                throw new arc_exceptions::invalid_argument("Unknown cylinder height for deformable type " + GetDeformableType(nh), __FILE__, __LINE__);
+                throw new arc_exceptions::invalid_argument("Unknown cylinder height for deformable type " + std::to_string(GetDeformableType(nh)), __FILE__, __LINE__);
         }
     }
 
@@ -170,7 +170,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_com_x", GetTableSurfaceX(nh) - GetClothXSize(nh));
 
             default:
-                throw new arc_exceptions::invalid_argument("Unknown cylinder com for deformable type " + GetDeformableType(nh), __FILE__, __LINE__);
+                throw new arc_exceptions::invalid_argument("Unknown cylinder com for deformable type " + std::to_string(GetDeformableType(nh)), __FILE__, __LINE__);
         }
     }
 
@@ -195,7 +195,7 @@ namespace smmap
                 }
 
             default:
-                throw new arc_exceptions::invalid_argument("Unknown cylinder com for deformable type " + GetDeformableType(nh), __FILE__, __LINE__);
+                throw new arc_exceptions::invalid_argument("Unknown cylinder com for deformable type " + std::to_string(GetDeformableType(nh)), __FILE__, __LINE__);
         }
     }
 
@@ -214,7 +214,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_com_z", GetTableSurfaceZ(nh));
 
             default:
-                throw new arc_exceptions::invalid_argument("Unknown cylinder com for deformable type " + GetDeformableType(nh), __FILE__, __LINE__);
+                throw new arc_exceptions::invalid_argument("Unknown cylinder com for deformable type " + std::to_string(GetDeformableType(nh)), __FILE__, __LINE__);
         }
     }
 
