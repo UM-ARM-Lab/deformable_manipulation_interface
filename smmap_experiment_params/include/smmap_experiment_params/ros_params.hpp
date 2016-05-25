@@ -80,7 +80,7 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "table_surface_z", 0.7f);
     }
 
-    inline float GetTableSizeX(ros::NodeHandle& nh)       // METERS
+    inline float GetTableHalfExtentsX(ros::NodeHandle& nh)       // METERS
     {
         switch (GetDeformableType(nh))
         {
@@ -95,7 +95,7 @@ namespace smmap
         }
     }
 
-    inline float GetTableSizeY(ros::NodeHandle& nh)       // METERS
+    inline float GetTableHalfExtentsY(ros::NodeHandle& nh)       // METERS
     {
         switch (GetDeformableType(nh))
         {
