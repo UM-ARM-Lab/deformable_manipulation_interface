@@ -188,7 +188,7 @@ namespace smmap
                         return ROSHelpers::GetParam(nh, "cloth_cylinder_com_y", GetTableSurfaceY(nh));
 
                     case TaskType::WAFR:
-                        return ROSHelpers::GetParam(nh, "cloth_cylinder_com_y", GetTableSurfaceY(nh)) - 0.15f;
+                        return ROSHelpers::GetParam(nh, "cloth_cylinder_com_y", GetTableSurfaceY(nh));
 
                     default:
                         throw new arc_exceptions::invalid_argument("Unknown cylinder com for deformable type " + std::to_string(GetDeformableType(nh)) + " and task type " + std::to_string(GetTaskType(nh)), __FILE__, __LINE__);
