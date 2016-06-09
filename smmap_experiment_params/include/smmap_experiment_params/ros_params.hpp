@@ -284,7 +284,18 @@ namespace smmap
 
     inline float GetClothCenterOfMassX(ros::NodeHandle& nh)   // METERS
     {
-        return ROSHelpers::GetParam(nh, "cloth_com_x", GetTableSurfaceX(nh) + GetClothXSize(nh) / 2.0f);
+        switch(GetTaskType(nh))
+        {
+            case TaskType::COLAB_FOLDING:
+            case TaskType::TABLE_COVERAGE:
+                return ROSHelpers::GetParam(nh, "cloth_com_x", GetTableSurfaceX(nh) + GetClothXSize(nh) / 2.0f);
+
+            case TaskType::WAFR:
+                return ROSHelpers::GetParam(nh, "cloth_com_x", GetCylinderCenterOfMassX(nh) + GetCylinderRadius(nh) * 1.5f + GetClothXSize(nh) / 2.0f);
+
+            default:
+                throw new arc_exceptions::invalid_argument("Unknown cloth com X for task type " + std::to_string(GetTaskType(nh)), __FILE__, __LINE__);
+        }
     }
 
     inline float GetClothCenterOfMassY(ros::NodeHandle& nh)   // METERS
