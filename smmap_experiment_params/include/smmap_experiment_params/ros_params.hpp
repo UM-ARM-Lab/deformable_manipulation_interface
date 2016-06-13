@@ -379,6 +379,11 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "optimization_enabled", false);
     }
 
+    inline double GetRobotMinGripperDistance()
+    {
+        return 0.005;
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // Logging functionality
     ////////////////////////////////////////////////////////////////////////////
