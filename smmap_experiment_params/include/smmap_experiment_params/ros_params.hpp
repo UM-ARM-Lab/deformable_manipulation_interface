@@ -1,6 +1,7 @@
 #ifndef ROS_PARAMS_HPP
 #define ROS_PARAMS_HPP
 
+#include <cmath>
 #include <string>
 #include <arc_utilities/ros_helpers.hpp>
 #include <arc_utilities/arc_exceptions.hpp>
@@ -85,10 +86,10 @@ namespace smmap
         switch (GetDeformableType(nh))
         {
             case DeformableType::ROPE:
-                return ROSHelpers::GetParam(nh, "table_x_size", 3.0f);
+                return ROSHelpers::GetParam(nh, "table_x_size", 1.5f);
 
             case DeformableType::CLOTH:
-                return ROSHelpers::GetParam(nh, "table_x_size", 0.4f);
+                return ROSHelpers::GetParam(nh, "table_x_size", 0.2f);
 
             default:
                 throw_arc_exception(std::invalid_argument, "Unknown table size for deformable type " + std::to_string(GetDeformableType(nh)));
@@ -100,10 +101,10 @@ namespace smmap
         switch (GetDeformableType(nh))
         {
             case DeformableType::ROPE:
-                return ROSHelpers::GetParam(nh, "table_y_size", 3.0f);
+                return ROSHelpers::GetParam(nh, "table_y_size", 1.5f);
 
             case DeformableType::CLOTH:
-                return ROSHelpers::GetParam(nh, "table_y_size", 0.4f);
+                return ROSHelpers::GetParam(nh, "table_y_size", 0.2f);
 
             default:
                 throw_arc_exception(std::invalid_argument, "Unknown table size for deformable type " + std::to_string(GetDeformableType(nh)));
@@ -199,16 +200,12 @@ namespace smmap
         }
     }
 
-    // NOTE: this currently has part of the cylinder inside the table
     inline float GetCylinderCenterOfMassZ(ros::NodeHandle& nh)    // METERS
     {
         switch (GetDeformableType(nh))
         {
             case DeformableType::ROPE:
-                return ROSHelpers::GetParam(nh, "rope_cylinder_com_z",
-                                             GetTableSurfaceZ(nh)
-                                             - GetTableThickness(nh) / 2.0f
-                                             + GetCylinderHeight(nh) / 2.0f);
+                return ROSHelpers::GetParam(nh, "rope_cylinder_com_z", GetTableSurfaceZ(nh) + GetCylinderHeight(nh) / 2.0f);
 
             case DeformableType::CLOTH:
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_com_z", GetTableSurfaceZ(nh));
@@ -354,6 +351,169 @@ namespace smmap
     inline double GetRobotControlPeriod(ros::NodeHandle& nh) // SECONDS
     {
         return ROSHelpers::GetParam(nh, "robot_control_rate", 0.01);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // World size settings for Graph/Dijkstras
+    ////////////////////////////////////////////////////////////////////////////
+
+    inline double GetWorldXStep(ros::NodeHandle& nh)    // METERS
+    {
+        switch(GetDeformableType(nh))
+        {
+            case DeformableType::ROPE:
+                return ROSHelpers::GetParam(nh, "world_x_step", 0.05);
+
+            case DeformableType::CLOTH:
+                return ROSHelpers::GetParam(nh, "world_x_step", 0.02);
+
+            default:
+                ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
+                throw_arc_exception(std::invalid_argument, std::string("Unknown deformable type for ") + __func__);
+        }
+    }
+
+    inline double GetWorldXMin(ros::NodeHandle& nh)     // METERS
+    {
+        switch(GetDeformableType(nh))
+        {
+            case DeformableType::ROPE:
+                return ROSHelpers::GetParam(nh, "world_x_min", GetTableSurfaceX(nh) - GetTableHalfExtentsX(nh));
+
+            case DeformableType::CLOTH:
+                return ROSHelpers::GetParam(nh, "world_x_min", GetClothCenterOfMassX(nh) - 1.5 * GetClothXSize(nh));
+
+            default:
+                ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
+                throw_arc_exception(std::invalid_argument, std::string("Unknown deformable type for ") + __func__);
+        }
+    }
+
+    inline double GetWorldXMax(ros::NodeHandle& nh)     // METERS
+    {
+        switch(GetDeformableType(nh))
+        {
+            case DeformableType::ROPE:
+                return ROSHelpers::GetParam(nh, "world_x_max", GetTableSurfaceX(nh) + GetTableHalfExtentsX(nh));
+
+            case DeformableType::CLOTH:
+                return ROSHelpers::GetParam(nh, "world_x_max", GetClothCenterOfMassX(nh) + 0.5 * GetClothXSize(nh));
+
+            default:
+                ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
+                throw_arc_exception(std::invalid_argument, std::string("Unknown deformable type for ") + __func__);
+        }
+    }
+
+    inline int64_t GetWorldXNumSteps(ros::NodeHandle& nh)
+    {
+        return std::lround((GetWorldXMax(nh) - GetWorldXMin(nh))/GetWorldXStep(nh)) + 1;
+    }
+
+    inline double GetWorldYStep(ros::NodeHandle& nh)    // METERS
+    {
+        switch(GetDeformableType(nh))
+        {
+            case DeformableType::ROPE:
+                return ROSHelpers::GetParam(nh, "world_y_step", 0.05);
+
+            case DeformableType::CLOTH:
+                return ROSHelpers::GetParam(nh, "world_y_step", 0.02);
+
+            default:
+                ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
+                throw_arc_exception(std::invalid_argument, std::string("Unknown deformable type for ") + __func__);
+        }
+    }
+
+    inline double GetWorldYMin(ros::NodeHandle& nh)     // METERS
+    {
+        switch(GetDeformableType(nh))
+        {
+            case DeformableType::ROPE:
+                return ROSHelpers::GetParam(nh, "world_y_min", GetTableSurfaceY(nh) - GetTableHalfExtentsY(nh));
+
+            case DeformableType::CLOTH:
+                return ROSHelpers::GetParam(nh, "world_y_min", GetClothCenterOfMassY(nh) - 1.0 * GetClothYSize(nh));
+
+            default:
+                ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
+                throw_arc_exception(std::invalid_argument, std::string("Unknown deformable type for ") + __func__);
+        }
+    }
+
+    inline double GetWorldYMax(ros::NodeHandle& nh)     // METERS
+    {
+        switch(GetDeformableType(nh))
+        {
+            case DeformableType::ROPE:
+                return ROSHelpers::GetParam(nh, "world_y_max", GetTableSurfaceY(nh) + GetTableHalfExtentsY(nh));
+
+            case DeformableType::CLOTH:
+                return ROSHelpers::GetParam(nh, "world_y_max", GetClothCenterOfMassY(nh) + 1.0 * GetClothYSize(nh));
+
+            default:
+                ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
+                throw_arc_exception(std::invalid_argument, std::string("Unknown deformable type for ") + __func__);
+        }
+    }
+
+    inline int64_t GetWorldYNumSteps(ros::NodeHandle& nh)
+    {
+        return std::lround((GetWorldYMax(nh) - GetWorldYMin(nh))/GetWorldYStep(nh)) + 1;
+    }
+
+    inline double GetWorldZStep(ros::NodeHandle& nh)  // METERS
+    {
+        switch(GetDeformableType(nh))
+        {
+            case DeformableType::ROPE:
+                return ROSHelpers::GetParam(nh, "world_z_step", 0.05);
+
+            case DeformableType::CLOTH:
+                return ROSHelpers::GetParam(nh, "world_z_step", 0.02);
+
+            default:
+                ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
+                throw_arc_exception(std::invalid_argument, std::string("Unknown deformable type for ") + __func__);
+        }
+    }
+
+    inline double GetWorldZMin(ros::NodeHandle& nh)     // METERS
+    {
+        switch(GetDeformableType(nh))
+        {
+            case DeformableType::ROPE:
+                return ROSHelpers::GetParam(nh, "world_z_min", GetTableSurfaceZ(nh));
+
+            case DeformableType::CLOTH:
+                return ROSHelpers::GetParam(nh, "world_z_min", GetClothCenterOfMassZ(nh) - 1.0 * GetClothXSize(nh));
+
+            default:
+                ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
+                throw_arc_exception(std::invalid_argument, std::string("Unknown deformable type for ") + __func__);
+        }
+    }
+
+    inline double GetWorldZMax(ros::NodeHandle& nh)     // METERS
+    {
+        switch(GetDeformableType(nh))
+        {
+            case DeformableType::ROPE:
+                return ROSHelpers::GetParam(nh, "world_z_max", GetTableSurfaceZ(nh) + GetCylinderHeight(nh) + GetRopeRadius(nh) * 5.0);
+
+            case DeformableType::CLOTH:
+                return ROSHelpers::GetParam(nh, "world_z_min", GetClothCenterOfMassZ(nh) + 0.5 * GetClothXSize(nh));
+
+            default:
+                ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
+                throw_arc_exception(std::invalid_argument, std::string("Unknown deformable type for ") + __func__);
+        }
+    }
+
+    inline int64_t GetWorldZNumSteps(ros::NodeHandle& nh)
+    {
+        return std::lround((GetWorldZMax(nh) - GetWorldZMin(nh))/GetWorldZStep(nh)) + 1;
     }
 
     ////////////////////////////////////////////////////////////////////////////
