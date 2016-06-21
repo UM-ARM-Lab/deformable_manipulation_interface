@@ -19,6 +19,7 @@
 #include "smmap_msgs/GetGripperNames.h"
 #include "smmap_msgs/GetPointSet.h"
 #include "smmap_msgs/GetMirrorLine.h"
+#include "smmap_msgs/GetFreeSpaceGraph.h"
 #pragma GCC diagnostic pop
 #pragma GCC diagnostic pop
 

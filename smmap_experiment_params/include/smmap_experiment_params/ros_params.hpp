@@ -598,6 +598,11 @@ namespace smmap
         return ROSHelpers::GetParam<std::string>(nh, "get_mirror_line_topic", "get_mirror_line");
     }
 
+    inline std::string GetFreeSpaceGraphTopic(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam<std::string>(nh, "get_free_space_graph_topic", "get_free_space_graph");
+    }
+
     inline std::string GetGripperNamesTopic(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam<std::string>(nh, "get_gripper_names_topic", "get_gripper_names");

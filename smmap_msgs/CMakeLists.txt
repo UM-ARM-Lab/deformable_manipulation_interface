@@ -31,6 +31,7 @@ add_service_files(
     GetGripperPose.srv
     GetPointSet.srv
     GetMirrorLine.srv
+    GetFreeSpaceGraph.srv
 )
 
 ## Generate actions in the 'action' folder
