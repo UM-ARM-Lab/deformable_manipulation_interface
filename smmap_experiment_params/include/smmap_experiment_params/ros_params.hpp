@@ -381,7 +381,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_x_min", GetTableSurfaceX(nh) - GetTableHalfExtentsX(nh));
 
             case DeformableType::CLOTH:
-                return ROSHelpers::GetParam(nh, "world_x_min", GetClothCenterOfMassX(nh) - 1.5 * GetClothXSize(nh));
+                return ROSHelpers::GetParam(nh, "world_x_min", GetClothCenterOfMassX(nh) - 1.4 * GetClothXSize(nh));
 
             default:
                 ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
@@ -397,7 +397,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_x_max", GetTableSurfaceX(nh) + GetTableHalfExtentsX(nh));
 
             case DeformableType::CLOTH:
-                return ROSHelpers::GetParam(nh, "world_x_max", GetClothCenterOfMassX(nh) + 0.5 * GetClothXSize(nh));
+                return ROSHelpers::GetParam(nh, "world_x_max", GetClothCenterOfMassX(nh) + 0.4 * GetClothXSize(nh));
 
             default:
                 ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
@@ -434,7 +434,22 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_y_min", GetTableSurfaceY(nh) - GetTableHalfExtentsY(nh));
 
             case DeformableType::CLOTH:
-                return ROSHelpers::GetParam(nh, "world_y_min", GetClothCenterOfMassY(nh) - 1.0 * GetClothYSize(nh));
+                switch (GetTaskType(nh))
+                {
+                    case TaskType::COLAB_FOLDING:
+                        return -0.05;
+
+                    case TaskType::TABLE_COVERAGE:
+                        return ROSHelpers::GetParam(nh, "world_y_min", GetClothCenterOfMassY(nh) - 0.65 * GetClothYSize(nh));
+
+                    case TaskType::CYLINDER_COVERAGE:
+                    case TaskType::WAFR:
+                        return ROSHelpers::GetParam(nh, "world_y_min", GetClothCenterOfMassY(nh) - 0.75 * GetClothYSize(nh));
+
+                    default:
+                        ROS_FATAL_STREAM("Unknown task type for " << __func__);
+                        throw_arc_exception(std::invalid_argument, std::string("Unknown task type for ") + __func__);
+                };
 
             default:
                 ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
@@ -450,7 +465,22 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_y_max", GetTableSurfaceY(nh) + GetTableHalfExtentsY(nh));
 
             case DeformableType::CLOTH:
-                return ROSHelpers::GetParam(nh, "world_y_max", GetClothCenterOfMassY(nh) + 1.0 * GetClothYSize(nh));
+                switch (GetTaskType(nh))
+                {
+                    case TaskType::COLAB_FOLDING:
+                        return 0.05;
+
+                    case TaskType::TABLE_COVERAGE:
+                        return ROSHelpers::GetParam(nh, "world_y_max", GetClothCenterOfMassY(nh) + 0.65 * GetClothYSize(nh));
+
+                    case TaskType::CYLINDER_COVERAGE:
+                    case TaskType::WAFR:
+                        return ROSHelpers::GetParam(nh, "world_y_max", GetClothCenterOfMassY(nh) + 0.75 * GetClothYSize(nh));
+
+                    default:
+                        ROS_FATAL_STREAM("Unknown task type for " << __func__);
+                        throw_arc_exception(std::invalid_argument, std::string("Unknown task type for ") + __func__);
+                };
 
             default:
                 ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
@@ -487,7 +517,22 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_z_min", GetTableSurfaceZ(nh));
 
             case DeformableType::CLOTH:
-                return ROSHelpers::GetParam(nh, "world_z_min", GetClothCenterOfMassZ(nh) - 1.0 * GetClothXSize(nh));
+                switch (GetTaskType(nh))
+                {
+                    case TaskType::COLAB_FOLDING:
+                        return -0.05;
+
+                    case TaskType::TABLE_COVERAGE:
+                        return ROSHelpers::GetParam(nh, "world_z_min", GetClothCenterOfMassY(nh) - 0.65 * GetClothXSize(nh));
+
+                    case TaskType::CYLINDER_COVERAGE:
+                    case TaskType::WAFR:
+                        return ROSHelpers::GetParam(nh, "world_z_min", GetClothCenterOfMassZ(nh) - 1.0 * GetClothXSize(nh));
+
+                    default:
+                        ROS_FATAL_STREAM("Unknown task type for " << __func__);
+                        throw_arc_exception(std::invalid_argument, std::string("Unknown task type for ") + __func__);
+                };
 
             default:
                 ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
@@ -503,7 +548,22 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_z_max", GetTableSurfaceZ(nh) + GetCylinderHeight(nh) + GetRopeRadius(nh) * 5.0);
 
             case DeformableType::CLOTH:
-                return ROSHelpers::GetParam(nh, "world_z_min", GetClothCenterOfMassZ(nh) + 0.5 * GetClothXSize(nh));
+                switch (GetTaskType(nh))
+                {
+                    case TaskType::COLAB_FOLDING:
+                        return 0.05;
+
+                    case TaskType::TABLE_COVERAGE:
+                        return ROSHelpers::GetParam(nh, "world_z_max", GetClothCenterOfMassY(nh) + 0.1 * GetClothXSize(nh));
+
+                    case TaskType::CYLINDER_COVERAGE:
+                    case TaskType::WAFR:
+                        return ROSHelpers::GetParam(nh, "world_z_max", GetClothCenterOfMassZ(nh) + 0.5 * GetClothXSize(nh));
+
+                    default:
+                        ROS_FATAL_STREAM("Unknown task type for " << __func__);
+                        throw_arc_exception(std::invalid_argument, std::string("Unknown task type for ") + __func__);
+                };
 
             default:
                 ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
