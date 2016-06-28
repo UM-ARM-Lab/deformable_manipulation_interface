@@ -310,7 +310,7 @@ namespace smmap
         switch(GetTaskType(nh))
         {
             case TaskType::TABLE_COVERAGE:
-                return ROSHelpers::GetParam(nh, "cloth_linear_stiffness", 1.0f);
+                return ROSHelpers::GetParam(nh, "cloth_linear_stiffness", 0.8f);
 
             case TaskType::COLAB_FOLDING:
             case TaskType::WAFR:
