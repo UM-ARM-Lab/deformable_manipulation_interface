@@ -493,7 +493,7 @@ namespace smmap
         return std::lround((GetWorldYMax(nh) - GetWorldYMin(nh))/GetWorldYStep(nh)) + 1;
     }
 
-    inline double GetWorldZStep(ros::NodeHandle& nh)  // METERS
+    inline double GetWorldZStep(ros::NodeHandle& nh)    // METERS
     {
         switch(GetDeformableType(nh))
         {
