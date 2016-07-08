@@ -640,11 +640,11 @@ namespace smmap
         switch (GetTaskType(nh))
         {
             case TaskType::WAFR:
-                dijkstras_file_path = "~/Dropbox/catkin_ws/src/smmap/logs/cloth_wafr.dijkstras_serialized";
+                dijkstras_file_path = "/home/dmcconachie/Dropbox/catkin_ws/src/smmap/logs/cloth_wafr.dijkstras_serialized";
                 break;
 
             default:
-                dijkstras_file_path = "~/Dropbox/catkin_ws/src/smmap/logs/unknown_trial.dijkstras_serialized";
+                dijkstras_file_path = "/home/dmcconachie/Dropbox/catkin_ws/src/smmap/logs/unknown_trial.dijkstras_serialized";
                 break;
         }
 
