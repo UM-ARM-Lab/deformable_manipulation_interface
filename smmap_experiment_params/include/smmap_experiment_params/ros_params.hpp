@@ -634,6 +634,23 @@ namespace smmap
         return ROSHelpers::GetParam<std::string>(nh, "log_folder", "/tmp/");
     }
 
+    inline std::string GetDijkstrasStorageLocation(ros::NodeHandle& nh)
+    {
+        std::string dijkstras_file_path;
+        switch (GetTaskType(nh))
+        {
+            case TaskType::WAFR:
+                dijkstras_file_path = "~/Dropbox/catkin_ws/src/smmap/logs/cloth_wafr.dijkstras_serialized";
+                break;
+
+            default:
+                dijkstras_file_path = "~/Dropbox/catkin_ws/src/smmap/logs/unknown_trial.dijkstras_serialized";
+                break;
+        }
+
+        return ROSHelpers::GetParam<std::string>(nh, "dijkstras_file_path", dijkstras_file_path);
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // ROS Topic settings
     ////////////////////////////////////////////////////////////////////////////
