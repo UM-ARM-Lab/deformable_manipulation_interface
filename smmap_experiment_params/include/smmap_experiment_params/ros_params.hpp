@@ -660,6 +660,11 @@ namespace smmap
         return ROSHelpers::GetParam<std::string>(nh, "command_gripper_traj_topic", "command_gripper_traj");
     }
 
+    inline std::string GetTestGrippersPosesTopic(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam<std::string>(nh, "test_grippers_poses_topic", "test_grippers_poses");
+    }
+
     inline std::string GetSimulatorFeedbackTopic(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam<std::string>(nh, "simulator_feedback_topic", "simulator_feedback");
