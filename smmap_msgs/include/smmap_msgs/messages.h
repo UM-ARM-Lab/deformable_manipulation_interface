@@ -13,6 +13,7 @@
 #include "smmap_msgs/PointCloud.h"
 #include "smmap_msgs/CmdGrippersTrajectoryAction.h"
 #include "smmap_msgs/TestGrippersPosesAction.h"
+#include "smmap_msgs/ExecuteGripperMovement.h"
 // This pragma is here because the service call has an empty request
 // (or response) message thus the allocator that it is passed never gets used
 #pragma GCC diagnostic push

@@ -25,6 +25,7 @@ add_message_files(
 ## Generate services in the 'srv' folder
 add_service_files(
     FILES
+    ExecuteGripperMovement.srv
     GetGripperNames.srv
     GetGripperAttachedNodeIndices.srv
     GetGripperCollisionReport.srv
