@@ -620,6 +620,11 @@ namespace smmap
         return 0.005;
     }
 
+    inline bool GetCalculateRegret(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "calculate_regret", false);
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // Logging functionality
     ////////////////////////////////////////////////////////////////////////////
@@ -649,6 +654,16 @@ namespace smmap
         }
 
         return ROSHelpers::GetParam<std::string>(nh, "dijkstras_file_path", dijkstras_file_path);
+    }
+
+    inline bool GetScreenshotsEnabled(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "screenshots_enabled", false);
+    }
+
+    inline std::string GetScreenshotFolder(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam<std::string>(nh, "screenshot_folder", GetLogFolder(nh) + "screenshots/");
     }
 
     ////////////////////////////////////////////////////////////////////////////
