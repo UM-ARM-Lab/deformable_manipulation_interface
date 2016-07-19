@@ -25,18 +25,21 @@ add_message_files(
 ## Generate services in the 'srv' folder
 add_service_files(
     FILES
+    ExecuteGripperMovement.srv
     GetGripperNames.srv
     GetGripperAttachedNodeIndices.srv
     GetGripperCollisionReport.srv
     GetGripperPose.srv
     GetPointSet.srv
     GetMirrorLine.srv
+    GetFreeSpaceGraph.srv
 )
 
 ## Generate actions in the 'action' folder
 add_action_files(
     FILES
     CmdGrippersTrajectory.action
+    TestGrippersPoses.action
 )
 
 ## Generate added messages and services with any dependencies listed here
@@ -62,6 +65,8 @@ catkin_package(
 ###########
 ## Build ##
 ###########
+
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -g -O2 -march=native -Wall -Wextra -Wpedantic -Wconversion" )
 
 ## Let QtCreator find these files...
 

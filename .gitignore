@@ -2,6 +2,7 @@
 *autosave
 *~
 tags
-logs
+*.pyc
 
 smmap_matlab_tools
+logs
