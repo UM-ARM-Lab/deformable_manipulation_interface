@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <string>
+#include <chrono>
 #include <arc_utilities/ros_helpers.hpp>
 #include <arc_utilities/arc_exceptions.hpp>
 
@@ -353,6 +354,11 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "robot_control_rate", 0.01);
     }
 
+    inline double GetMaxGripperVelocity(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "max_gripper_velocity", 0.2);
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // World size settings for Graph/Dijkstras
     ////////////////////////////////////////////////////////////////////////////
@@ -623,6 +629,29 @@ namespace smmap
     inline bool GetCalculateRegret(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "calculate_regret", false);
+    }
+
+    inline bool GetUseRandomSeed(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "use_random_seed", false);
+    }
+
+    inline size_t GetPlannerSeed(ros::NodeHandle& nh)
+    {
+        if (GetUseRandomSeed(nh))
+        {
+            assert(nh.hasParam("static_seed") == false);
+            return std::chrono::system_clock::now().time_since_epoch().count();
+        }
+        else
+        {
+            std::string seed_as_string = ROSHelpers::GetParam<std::string>(nh, "static_seed", "a8710913d2b5df6c"); // a30cd67f3860ddb3) // MD5 sum of "Dale McConachie"
+            std::stringstream ss;
+            ss << std::hex << seed_as_string;
+            size_t seed;
+            ss >> seed;
+            return seed;
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////
