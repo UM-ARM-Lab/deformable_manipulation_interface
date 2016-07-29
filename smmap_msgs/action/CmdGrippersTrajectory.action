@@ -1,9 +1,0 @@
-# define the goal
-string[] gripper_names
-smmap_msgs/VectorPose[] trajectory # Note that each entry in this vector should be N poses, where N is the number of grippers
----
-# define the result
-smmap_msgs/SimulatorFeedback[] sim_state_trajectory
----
-# define the feedback
-smmap_msgs/SimulatorFeedback sim_state

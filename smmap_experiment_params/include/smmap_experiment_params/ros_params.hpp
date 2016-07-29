@@ -699,23 +699,20 @@ namespace smmap
     // ROS Topic settings
     ////////////////////////////////////////////////////////////////////////////
 
-    inline std::string GetCommandGripperTrajTopic(ros::NodeHandle& nh)
-    {
-        return ROSHelpers::GetParam<std::string>(nh, "command_gripper_traj_topic", "command_gripper_traj");
-    }
+//    inline std::string GetCommandGripperTrajTopic(ros::NodeHandle& nh)
+//    {
+//        return ROSHelpers::GetParam<std::string>(nh, "command_gripper_traj_topic", "command_gripper_traj");
+//    }
 
     inline std::string GetTestGrippersPosesTopic(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam<std::string>(nh, "test_grippers_poses_topic", "test_grippers_poses");
     }
 
-
-    inline std::string GetExecuteGrippersMovementAndUpdateSimTopic(ros::NodeHandle& nh)
+    inline std::string GetExecuteGrippersMovementTopic(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam<std::string>(nh, "execute_grippers_movement_topic", "execute_grippers_movement");
     }
-
-
 
     inline std::string GetSimulatorFeedbackTopic(ros::NodeHandle& nh)
     {
