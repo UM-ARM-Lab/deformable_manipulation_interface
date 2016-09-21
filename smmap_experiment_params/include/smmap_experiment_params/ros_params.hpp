@@ -345,6 +345,12 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "feedback_covariance", 0.0);
     }
 
+    inline size_t GetNumSimstepsPerGripperCommand(ros::NodeHandle& nh)
+    {
+        const int default_num = GetDeformableType(nh) == DeformableType::ROPE ? 4 : 20;
+        return (size_t)ROSHelpers::GetParam(nh, "num_simsteps_per_gripper_command", default_num);
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // (Fake) Robot settings
     ////////////////////////////////////////////////////////////////////////////
@@ -638,6 +644,7 @@ namespace smmap
 
     inline size_t GetPlannerSeed(ros::NodeHandle& nh)
     {
+//        return 1473915484949746413UL;
         size_t seed;
         if (GetUseRandomSeed(nh))
         {
@@ -687,7 +694,10 @@ namespace smmap
 
     inline bool GetScreenshotsEnabled(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "screenshots_enabled", false);
+        const bool screenshots_enabled = ROSHelpers::GetParam(nh, "screenshots_enabled", false);
+        // The viewer must be enabled for screen shots to be enabled
+        assert(!screenshots_enabled || ROSHelpers::GetParam(nh, "start_bullet_viewer", true));
+        return screenshots_enabled;
     }
 
     inline std::string GetScreenshotFolder(ros::NodeHandle& nh)
@@ -698,11 +708,6 @@ namespace smmap
     ////////////////////////////////////////////////////////////////////////////
     // ROS Topic settings
     ////////////////////////////////////////////////////////////////////////////
-
-//    inline std::string GetCommandGripperTrajTopic(ros::NodeHandle& nh)
-//    {
-//        return ROSHelpers::GetParam<std::string>(nh, "command_gripper_traj_topic", "command_gripper_traj");
-//    }
 
     inline std::string GetTestGrippersPosesTopic(ros::NodeHandle& nh)
     {
