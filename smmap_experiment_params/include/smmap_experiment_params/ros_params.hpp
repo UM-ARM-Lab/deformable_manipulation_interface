@@ -326,9 +326,40 @@ namespace smmap
     // Cloth BulletPhysics settings
     ////////////////////////////////////////////////////////////////////////////
 
-    inline int GetClothNumDivs(ros::NodeHandle& nh)
+    inline int GetClothNumDivsX(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "cloth_num_divs", 45);
+        switch (GetTaskType(nh))
+        {
+            case TaskType::COLAB_FOLDING:
+            case TaskType::TABLE_COVERAGE:
+                return ROSHelpers::GetParam(nh, "cloth_num_divs_x", 45);
+
+            case TaskType::CYLINDER_COVERAGE:
+            case TaskType::WAFR:
+                return ROSHelpers::GetParam(nh, "cloth_num_divs_x", 45);
+
+            default:
+                ROS_FATAL_STREAM("Unknown task type for " << __func__);
+                throw_arc_exception(std::invalid_argument, std::string("Unknown task type for ") + __func__);
+        };
+    }
+
+    inline int GetClothNumDivsY(ros::NodeHandle& nh)
+    {
+        switch (GetTaskType(nh))
+        {
+            case TaskType::COLAB_FOLDING:
+            case TaskType::TABLE_COVERAGE:
+                return ROSHelpers::GetParam(nh, "cloth_num_divs_y", 45);
+
+            case TaskType::CYLINDER_COVERAGE:
+            case TaskType::WAFR:
+                return ROSHelpers::GetParam(nh, "cloth_num_divs_y", 45);
+
+            default:
+                ROS_FATAL_STREAM("Unknown task type for " << __func__);
+                throw_arc_exception(std::invalid_argument, std::string("Unknown task type for ") + __func__);
+        };
     }
 
     inline float GetClothGripperApperture(ros::NodeHandle& nh) // METERS
