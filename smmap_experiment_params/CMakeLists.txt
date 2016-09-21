@@ -43,7 +43,7 @@ find_package( catkin REQUIRED COMPONENTS ${CATKIN_PACKAGES} )
 ###################################
 catkin_package(
     INCLUDE_DIRS include
-#    LIBRARIES ${PROJECT_NAME}
+    LIBRARIES ${PROJECT_NAME}
     CATKIN_DEPENDS  ${CATKIN_PACKAGES}
     DEPENDS system_lib
 )

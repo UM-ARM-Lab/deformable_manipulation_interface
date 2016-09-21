@@ -184,17 +184,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "rope_cylinder_com_y", GetTableSurfaceY(nh) + GetCylinderRadius(nh) * 5.0f / 3.0f);
 
             case DeformableType::CLOTH:
-                switch (GetTaskType(nh))
-                {
-                    case TaskType::CYLINDER_COVERAGE:
-                        return ROSHelpers::GetParam(nh, "cloth_cylinder_com_y", GetTableSurfaceY(nh));
-
-                    case TaskType::WAFR:
-                        return ROSHelpers::GetParam(nh, "cloth_cylinder_com_y", GetTableSurfaceY(nh));
-
-                    default:
-                        throw_arc_exception(std::invalid_argument, "Unknown cylinder com for deformable type " + std::to_string(GetDeformableType(nh)) + " and task type " + std::to_string(GetTaskType(nh)));
-                }
+                return ROSHelpers::GetParam(nh, "cloth_cylinder_com_y", GetTableSurfaceY(nh));
 
             default:
                 throw_arc_exception(std::invalid_argument, "Unknown cylinder com for deformable type " + std::to_string(GetDeformableType(nh)));
@@ -328,38 +318,12 @@ namespace smmap
 
     inline int GetClothNumDivsX(ros::NodeHandle& nh)
     {
-        switch (GetTaskType(nh))
-        {
-            case TaskType::COLAB_FOLDING:
-            case TaskType::TABLE_COVERAGE:
-                return ROSHelpers::GetParam(nh, "cloth_num_divs_x", 45);
-
-            case TaskType::CYLINDER_COVERAGE:
-            case TaskType::WAFR:
-                return ROSHelpers::GetParam(nh, "cloth_num_divs_x", 45);
-
-            default:
-                ROS_FATAL_STREAM("Unknown task type for " << __func__);
-                throw_arc_exception(std::invalid_argument, std::string("Unknown task type for ") + __func__);
-        };
+        return ROSHelpers::GetParam(nh, "cloth_num_divs_x", 45);
     }
 
     inline int GetClothNumDivsY(ros::NodeHandle& nh)
     {
-        switch (GetTaskType(nh))
-        {
-            case TaskType::COLAB_FOLDING:
-            case TaskType::TABLE_COVERAGE:
-                return ROSHelpers::GetParam(nh, "cloth_num_divs_y", 45);
-
-            case TaskType::CYLINDER_COVERAGE:
-            case TaskType::WAFR:
-                return ROSHelpers::GetParam(nh, "cloth_num_divs_y", 45);
-
-            default:
-                ROS_FATAL_STREAM("Unknown task type for " << __func__);
-                throw_arc_exception(std::invalid_argument, std::string("Unknown task type for ") + __func__);
-        };
+        return ROSHelpers::GetParam(nh, "cloth_num_divs_y", 45);
     }
 
     inline float GetClothGripperApperture(ros::NodeHandle& nh) // METERS
@@ -378,8 +342,7 @@ namespace smmap
 
     inline size_t GetNumSimstepsPerGripperCommand(ros::NodeHandle& nh)
     {
-        const int default_num = GetDeformableType(nh) == DeformableType::ROPE ? 4 : 20;
-        return (size_t)ROSHelpers::GetParam(nh, "num_simsteps_per_gripper_command", default_num);
+        return ROSHelpers::GetParam(nh, "num_simsteps_per_gripper_command", 4);
     }
 
     ////////////////////////////////////////////////////////////////////////////
