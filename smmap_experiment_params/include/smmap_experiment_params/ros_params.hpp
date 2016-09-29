@@ -783,6 +783,11 @@ namespace smmap
         return ROSHelpers::GetParam<std::string>(nh, "get_gripper_collision_check_topic", "get_gripper_collision_check");
     }
 
+    inline std::string GetTerminateSimulationTopic(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam<std::string>(nh, "terminate_simulation_topic", "terminate_simulation");
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // ROS TF Frame name settings
     ////////////////////////////////////////////////////////////////////////////
