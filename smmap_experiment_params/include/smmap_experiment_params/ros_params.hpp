@@ -616,6 +616,16 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "observation_noise_factor", 0.001);
     }
 
+    inline double GetCorrelationStrengthFactor(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "correlation_strength_factor", 0.5);
+    }
+
+    inline double GetMaxCorrelationStrengthFactor(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "max_correlation_strength_factor", GetCorrelationStrengthFactor(nh));
+    }
+
     inline bool GetOptimizationEnabled(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "optimization_enabled", false);
