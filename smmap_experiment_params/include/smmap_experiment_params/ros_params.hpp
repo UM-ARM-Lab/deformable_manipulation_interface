@@ -608,12 +608,12 @@ namespace smmap
 
     inline double GetProcessNoiseFactor(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "process_noise_factor", 0.001);
+        return ROSHelpers::GetParam(nh, "process_noise_factor", 0.1);
     }
 
     inline double GetObservationNoiseFactor(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "observation_noise_factor", 0.001);
+        return ROSHelpers::GetParam(nh, "observation_noise_factor", 0.01);
     }
 
     inline double GetCorrelationStrengthFactor(ros::NodeHandle& nh)
