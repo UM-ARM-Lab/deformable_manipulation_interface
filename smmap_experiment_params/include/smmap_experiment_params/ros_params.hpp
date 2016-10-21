@@ -618,7 +618,7 @@ namespace smmap
 
     inline double GetCorrelationStrengthFactor(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "correlation_strength_factor", 0.5);
+        return ROSHelpers::GetParam(nh, "correlation_strength_factor", 0.9);
     }
 
     inline double GetMaxCorrelationStrengthFactor(ros::NodeHandle& nh)
