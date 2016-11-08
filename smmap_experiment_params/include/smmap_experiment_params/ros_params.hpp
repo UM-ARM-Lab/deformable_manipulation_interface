@@ -608,12 +608,22 @@ namespace smmap
 
     inline double GetProcessNoiseFactor(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "process_noise_factor", 0.001);
+        return ROSHelpers::GetParam(nh, "process_noise_factor", 0.1);
     }
 
     inline double GetObservationNoiseFactor(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "observation_noise_factor", 0.001);
+        return ROSHelpers::GetParam(nh, "observation_noise_factor", 0.01);
+    }
+
+    inline double GetCorrelationStrengthFactor(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "correlation_strength_factor", 0.9);
+    }
+
+    inline double GetMaxCorrelationStrengthFactor(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "max_correlation_strength_factor", GetCorrelationStrengthFactor(nh));
     }
 
     inline bool GetOptimizationEnabled(ros::NodeHandle& nh)
@@ -781,6 +791,11 @@ namespace smmap
     inline std::string GetGripperCollisionCheckTopic(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam<std::string>(nh, "get_gripper_collision_check_topic", "get_gripper_collision_check");
+    }
+
+    inline std::string GetTerminateSimulationTopic(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam<std::string>(nh, "terminate_simulation_topic", "terminate_simulation");
     }
 
     ////////////////////////////////////////////////////////////////////////////
