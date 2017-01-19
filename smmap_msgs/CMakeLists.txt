@@ -5,6 +5,7 @@ set( CATKIN_PACKAGES
   actionlib_msgs
   geometry_msgs
   std_msgs
+  sdf_tools
 )
 ## Find catkin macros and libraries
 find_package( catkin REQUIRED COMPONENTS ${CATKIN_PACKAGES} message_generation )
@@ -33,6 +34,7 @@ add_service_files(
     GetPointSet.srv
     GetMirrorLine.srv
     GetFreeSpaceGraph.srv
+    GetSignedDistanceField.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -44,9 +46,7 @@ add_action_files(
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
     DEPENDENCIES
-    actionlib_msgs
-    geometry_msgs
-    std_msgs
+    ${CATKIN_PACKAGES}
 )
 
 ###################################
@@ -65,7 +65,7 @@ catkin_package(
 ## Build ##
 ###########
 
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -g -O2 -march=native -Wall -Wextra -Wpedantic -Wconversion" )
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -g -O2 -Wall -Wextra -Wpedantic -Wconversion" )
 
 ## Let QtCreator find these files...
 

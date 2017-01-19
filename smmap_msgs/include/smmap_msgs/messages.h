@@ -21,6 +21,7 @@
 #include "smmap_msgs/GetPointSet.h"
 #include "smmap_msgs/GetMirrorLine.h"
 #include "smmap_msgs/GetFreeSpaceGraph.h"
+#include "smmap_msgs/GetSignedDistanceField.h"
 #pragma GCC diagnostic pop
 #pragma GCC diagnostic pop
 

@@ -743,6 +743,11 @@ namespace smmap
         return ROSHelpers::GetParam<std::string>(nh, "get_free_space_graph_topic", "get_free_space_graph");
     }
 
+    inline std::string GetSignedDistanceFieldTopic(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam<std::string>(nh, "get_signed_distance_field_topic", "get_signed_distance_field");
+    }
+
     inline std::string GetGripperNamesTopic(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam<std::string>(nh, "get_gripper_names_topic", "get_gripper_names");
