@@ -56,6 +56,10 @@ namespace smmap
         {
             return TaskType::WAFR;
         }
+        else if (task_type.compare("single_pole") == 0)
+        {
+            return TaskType::SINGLE_POLE;
+        }
         else
         {
             ROS_FATAL_STREAM("Unknown task type: " << task_type);
@@ -331,6 +335,65 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "cloth_gripper_apperture", 0.1f);
     }
 
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Generic target patch settings
+    ////////////////////////////////////////////////////////////////////////////
+
+    inline float GetCoverRegionXMin(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "cover_region_x_min", 0.0f);
+    }
+
+    inline size_t GetCoverRegionXSteps(ros::NodeHandle& nh)
+    {
+        const int steps = ROSHelpers::GetParam(nh, "cover_region_x_steps", 1);
+        assert(steps > 0);
+        return (size_t)steps;
+    }
+
+    inline float GetCoverRegionXRes(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "cover_region_x_res", 0.01f);
+    }
+
+    inline float GetCoverRegionYMin(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "cover_region_y_min", 0.0f);
+    }
+
+    inline size_t GetCoverRegionYSteps(ros::NodeHandle& nh)
+    {
+        const int steps = ROSHelpers::GetParam(nh, "cover_region_y_steps", 1);
+        assert(steps > 0);
+        return (size_t)steps;
+    }
+
+    inline float GetCoverRegionYRes(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "cover_region_y_res", 0.01f);
+    }
+
+    inline float GetCoverRegionZMin(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "cover_region_z_min", 0.0f);
+    }
+
+    inline size_t GetCoverRegionZSteps(ros::NodeHandle& nh)
+    {
+        const int steps = ROSHelpers::GetParam(nh, "cover_region_z_steps", 1);
+        assert(steps > 0);
+        return (size_t)steps;
+    }
+
+    inline float GetCoverRegionZRes(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "cover_region_z_res", 0.01f);
+    }
+
+
+
     ////////////////////////////////////////////////////////////////////////////
     // Simulator settings
     ////////////////////////////////////////////////////////////////////////////
@@ -536,8 +599,18 @@ namespace smmap
                         return ROSHelpers::GetParam(nh, "world_z_min", GetClothCenterOfMassZ(nh) - 1.0 * GetClothXSize(nh));
 
                     default:
-                        ROS_FATAL_STREAM("Unknown task type for " << __func__);
-                        throw_arc_exception(std::invalid_argument, std::string("Unknown task type for ") + __func__);
+                        ROS_ERROR_STREAM("Unknown task type for " << __func__ << ": Value must be on paramter sever");
+                        double param_val;
+                        if (nh.getParam("world_z_min", param_val))
+                        {
+                            ROS_INFO_STREAM("Setting world_z_min to " << param_val);
+                            return param_val;
+                        }
+                        else
+                        {
+                            ROS_FATAL_STREAM("Unknown task type for " << __func__ << ": Value must be on paramter sever");
+                            throw_arc_exception(std::invalid_argument, std::string("Unknown task type for ") + __func__);
+                        }
                 };
 
             default:
@@ -567,8 +640,18 @@ namespace smmap
                         return ROSHelpers::GetParam(nh, "world_z_max", GetClothCenterOfMassZ(nh) + 0.5 * GetClothXSize(nh));
 
                     default:
-                        ROS_FATAL_STREAM("Unknown task type for " << __func__);
-                        throw_arc_exception(std::invalid_argument, std::string("Unknown task type for ") + __func__);
+                        ROS_ERROR_STREAM("Unknown task type for " << __func__ << ": Value must be on paramter sever");
+                        double param_val;
+                        if (nh.getParam("world_z_max", param_val))
+                        {
+                            ROS_INFO_STREAM("Setting world_z_max to " << param_val);
+                            return param_val;
+                        }
+                        else
+                        {
+                            ROS_FATAL_STREAM("Unknown task type for " << __func__ << ": Value must be on paramter sever");
+                            throw_arc_exception(std::invalid_argument, std::string("Unknown task type for ") + __func__);
+                        }
                 };
 
             default:
@@ -619,11 +702,6 @@ namespace smmap
     inline double GetCorrelationStrengthFactor(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "correlation_strength_factor", 0.9);
-    }
-
-    inline double GetMaxCorrelationStrengthFactor(ros::NodeHandle& nh)
-    {
-        return ROSHelpers::GetParam(nh, "max_correlation_strength_factor", GetCorrelationStrengthFactor(nh));
     }
 
     inline bool GetOptimizationEnabled(ros::NodeHandle& nh)

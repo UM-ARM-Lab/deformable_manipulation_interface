@@ -14,7 +14,8 @@ namespace smmap
         TABLE_COVERAGE,
         CYLINDER_COVERAGE,
         COLAB_FOLDING,
-        WAFR
+        WAFR,
+        SINGLE_POLE
     };
 }
 
