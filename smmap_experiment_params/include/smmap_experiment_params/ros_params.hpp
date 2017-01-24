@@ -141,16 +141,17 @@ namespace smmap
 
     inline float GetCylinderRadius(ros::NodeHandle& nh)   // METERS
     {
-        switch (GetDeformableType(nh))
+        switch (GetTaskType(nh))
         {
-            case DeformableType::ROPE:
+            case TaskType::ROPE_CYLINDER_COVERAGE:
                 return ROSHelpers::GetParam(nh, "rope_cylinder_radius", 0.15f);
 
-            case DeformableType::CLOTH:
+            case TaskType::CLOTH_CYLINDER_COVERAGE:
+            case TaskType::CLOTH_WAFR:
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_radius", 0.10f);
 
             default:
-                throw_arc_exception(std::invalid_argument, "Unknown cylinder radius for deformable type " + std::to_string(GetDeformableType(nh)));
+                throw_arc_exception(std::invalid_argument, "Unknown cylinder radius for task type " + std::to_string(GetTaskType(nh)));
         }
     }
 
@@ -584,42 +585,24 @@ namespace smmap
 
     inline double GetWorldZMin(ros::NodeHandle& nh)     // METERS
     {
-        switch(GetDeformableType(nh))
+        switch(GetTaskType(nh))
         {
-            case DeformableType::ROPE:
+            case TaskType::ROPE_CYLINDER_COVERAGE:
                 return ROSHelpers::GetParam(nh, "world_z_min", GetTableSurfaceZ(nh));
 
-            case DeformableType::CLOTH:
-                switch (GetTaskType(nh))
-                {
-                    case TaskType::CLOTH_COLAB_FOLDING:
-                        return -0.05;
+            case TaskType::CLOTH_COLAB_FOLDING:
+                    return -0.05;
 
-                    case TaskType::CLOTH_TABLE_COVERAGE:
-                        return ROSHelpers::GetParam(nh, "world_z_min", GetClothCenterOfMassY(nh) - 0.65 * GetClothXSize(nh));
+                case TaskType::CLOTH_TABLE_COVERAGE:
+                    return ROSHelpers::GetParam(nh, "world_z_min", GetClothCenterOfMassY(nh) - 0.65 * GetClothXSize(nh));
 
-                    case TaskType::CLOTH_CYLINDER_COVERAGE:
-                    case TaskType::CLOTH_WAFR:
-                        return ROSHelpers::GetParam(nh, "world_z_min", GetClothCenterOfMassZ(nh) - 1.0 * GetClothXSize(nh));
-
-                    default:
-                        ROS_ERROR_STREAM("Unknown task type for " << __func__ << ": Value must be on paramter sever");
-                        double param_val;
-                        if (nh.getParam("world_z_min", param_val))
-                        {
-                            ROS_INFO_STREAM("Setting world_z_min to " << param_val);
-                            return param_val;
-                        }
-                        else
-                        {
-                            ROS_FATAL_STREAM("Unknown task type for " << __func__ << ": Value must be on paramter sever");
-                            throw_arc_exception(std::invalid_argument, std::string("Unknown task type for ") + __func__);
-                        }
-                };
+            case TaskType::CLOTH_CYLINDER_COVERAGE:
+            case TaskType::CLOTH_WAFR:
+                return ROSHelpers::GetParam(nh, "world_z_min", GetClothCenterOfMassZ(nh) - 1.0 * GetClothXSize(nh));
 
             default:
-                ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
-                throw_arc_exception(std::invalid_argument, std::string("Unknown deformable type for ") + __func__);
+                Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "world_z_min", __func__);
+                return val.Get();
         }
     }
 
@@ -644,18 +627,8 @@ namespace smmap
                         return ROSHelpers::GetParam(nh, "world_z_max", GetClothCenterOfMassZ(nh) + 0.5 * GetClothXSize(nh));
 
                     default:
-                        ROS_ERROR_STREAM("Unknown task type for " << __func__ << ": Value must be on paramter sever");
-                        double param_val;
-                        if (nh.getParam("world_z_max", param_val))
-                        {
-                            ROS_INFO_STREAM("Setting world_z_max to " << param_val);
-                            return param_val;
-                        }
-                        else
-                        {
-                            ROS_FATAL_STREAM("Unknown task type for " << __func__ << ": Value must be on paramter sever");
-                            throw_arc_exception(std::invalid_argument, std::string("Unknown task type for ") + __func__);
-                        }
+                        Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "world_z_max", __func__);
+                        return val.Get();
                 };
 
             default:
