@@ -64,6 +64,18 @@ namespace smmap
         {
             return TaskType::CLOTH_SINGLE_POLE;
         }
+        else if (task_type.compare("cloth_wall") == 0)
+        {
+            return TaskType::CLOTH_WALL;
+        }
+        else if (task_type.compare("cloth_double_slit") == 0)
+        {
+            return TaskType::CLOTH_DOUBLE_SLIT;
+        }
+        else if (task_type.compare("rope_maze") == 0)
+        {
+            return TaskType::ROPE_MAZE;
+        }
         else
         {
             ROS_FATAL_STREAM("Unknown task type: " << task_type);
@@ -75,22 +87,22 @@ namespace smmap
     // Table Size Settings
     ////////////////////////////////////////////////////////////////////////////
 
-    inline float GetTableSurfaceX(ros::NodeHandle& nh)    // METERS
+    inline float GetTableSurfaceX(ros::NodeHandle& nh)      // METERS
     {
         return ROSHelpers::GetParam(nh, "table_surface_x", 0.0f);
     }
 
-    inline float GetTableSurfaceY(ros::NodeHandle& nh)    // METERS
+    inline float GetTableSurfaceY(ros::NodeHandle& nh)      // METERS
     {
         return ROSHelpers::GetParam(nh, "table_surface_y", 0.0f);
     }
 
-    inline float GetTableSurfaceZ(ros::NodeHandle& nh)    // METERS
+    inline float GetTableSurfaceZ(ros::NodeHandle& nh)      // METERS
     {
         return ROSHelpers::GetParam(nh, "table_surface_z", 0.7f);
     }
 
-    inline float GetTableHalfExtentsX(ros::NodeHandle& nh)       // METERS
+    inline float GetTableHalfExtentsX(ros::NodeHandle& nh)  // METERS
     {
         switch (GetDeformableType(nh))
         {
@@ -105,7 +117,7 @@ namespace smmap
         }
     }
 
-    inline float GetTableHalfExtentsY(ros::NodeHandle& nh)       // METERS
+    inline float GetTableHalfExtentsY(ros::NodeHandle& nh)  // METERS
     {
         switch (GetDeformableType(nh))
         {
@@ -120,17 +132,17 @@ namespace smmap
         }
     }
 
-    inline float GetTableSizeZ(ros::NodeHandle& nh)       // METERS
+    inline float GetTableSizeZ(ros::NodeHandle& nh)         // METERS
     {
         return ROSHelpers::GetParam(nh, "table_z_size", GetTableSurfaceZ(nh));
     }
 
-    inline float GetTableLegWidth(ros::NodeHandle& nh)    // METERS
+    inline float GetTableLegWidth(ros::NodeHandle& nh)      // METERS
     {
         return ROSHelpers::GetParam(nh, "table_leg_width", 0.05f);
     }
 
-    inline float GetTableThickness(ros::NodeHandle& nh)   // METERS
+    inline float GetTableThickness(ros::NodeHandle& nh)     // METERS
     {
         return ROSHelpers::GetParam(nh, "table_thickness", 0.05f);
     }
@@ -151,6 +163,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_radius", 0.10f);
 
             case TaskType::CLOTH_SINGLE_POLE:
+            case TaskType::CLOTH_WALL:
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_radius", 0.04f);
 
             default:
@@ -170,6 +183,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_height", 0.3f);
 
             case TaskType::CLOTH_SINGLE_POLE:
+            case TaskType::CLOTH_WALL:
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_height", 1.0f);
 
             default:
@@ -189,6 +203,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_com_x", GetTableSurfaceX(nh) - GetClothXSize(nh));
 
             case TaskType::CLOTH_SINGLE_POLE:
+            case TaskType::CLOTH_WALL:
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_com_x", -0.3f);
 
             default:
@@ -208,6 +223,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_com_y", GetTableSurfaceY(nh));
 
             case TaskType::CLOTH_SINGLE_POLE:
+            case TaskType::CLOTH_WALL:
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_com_y", 0.0f);
 
             default:
@@ -227,6 +243,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_com_z", GetTableSurfaceZ(nh));
 
             case TaskType::CLOTH_SINGLE_POLE:
+            case TaskType::CLOTH_WALL:
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_com_z", 1.0f);
 
             default:
@@ -308,10 +325,12 @@ namespace smmap
 
             case TaskType::CLOTH_WAFR:
             case TaskType::CLOTH_SINGLE_POLE:
+            case TaskType::CLOTH_WALL:
                 return ROSHelpers::GetParam(nh, "cloth_com_x", GetCylinderCenterOfMassX(nh) + GetCylinderRadius(nh) * 1.5f + GetClothXSize(nh) / 2.0f);
 
             default:
-                throw_arc_exception(std::invalid_argument, "Unknown cloth com X for task type " + std::to_string(GetTaskType(nh)));
+                Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "cloth_com_x", __func__);
+                return val.Get();
         }
     }
 
@@ -325,10 +344,12 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_com_y", GetTableSurfaceY(nh));
 
             case TaskType::CLOTH_SINGLE_POLE:
+            case TaskType::CLOTH_WALL:
                 return ROSHelpers::GetParam(nh, "cloth_com_y", GetCylinderCenterOfMassY(nh));
 
             default:
-                throw_arc_exception(std::invalid_argument, "Unknown cloth com Y for task type " + std::to_string(GetTaskType(nh)));
+                Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "cloth_com_y", __func__);
+                return val.Get();
         }
     }
 
@@ -342,10 +363,12 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_com_z", GetTableSurfaceZ(nh) + 0.01f);
 
             case TaskType::CLOTH_SINGLE_POLE:
+            case TaskType::CLOTH_WALL:
                 return ROSHelpers::GetParam(nh, "cloth_com_z", GetCylinderCenterOfMassZ(nh));
 
             default:
-                throw_arc_exception(std::invalid_argument, "Unknown cloth com Z for task type " + std::to_string(GetTaskType(nh)));
+                Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "cloth_com_z", __func__);
+                return val.Get();
         }
     }
 
@@ -359,6 +382,8 @@ namespace smmap
             case TaskType::CLOTH_COLAB_FOLDING:
             case TaskType::CLOTH_WAFR:
             case TaskType::CLOTH_SINGLE_POLE:
+            case TaskType::CLOTH_WALL:
+            case TaskType::CLOTH_DOUBLE_SLIT:
                 return ROSHelpers::GetParam(nh, "cloth_linear_stiffness", 0.5f);
 
             default:
@@ -562,8 +587,8 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_y_min", GetClothCenterOfMassY(nh) - 0.75 * GetClothYSize(nh));
 
             default:
-                ROS_FATAL_STREAM("Unknown task type for " << __func__);
-                throw_arc_exception(std::invalid_argument, std::string("Unknown task type for ") + __func__);
+                Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "world_y_min", __func__);
+                return val.Get();
         }
     }
 
@@ -584,8 +609,8 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_y_max", GetClothCenterOfMassY(nh) + 0.75 * GetClothYSize(nh));
 
             default:
-                ROS_FATAL_STREAM("Unknown task type for " << __func__);
-                throw_arc_exception(std::invalid_argument, std::string("Unknown task type for ") + __func__);
+                Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "world_y_max", __func__);
+                return val.Get();
         }
     }
 
@@ -762,6 +787,18 @@ namespace smmap
 
             case TaskType::CLOTH_SINGLE_POLE:
                 dijkstras_file_path = "/home/dmcconachie/Dropbox/catkin_ws/src/smmap/logs/cloth_single_pole.dijkstras_serialized";
+                break;
+
+            case TaskType::CLOTH_WALL:
+                dijkstras_file_path = "/home/dmcconachie/Dropbox/catkin_ws/src/smmap/logs/cloth_wall.dijkstras_serialized";
+                break;
+
+            case TaskType::CLOTH_DOUBLE_SLIT:
+                dijkstras_file_path = "/home/dmcconachie/Dropbox/catkin_ws/src/smmap/logs/cloth_double_slit.dijkstras_serialized";
+                break;
+
+            case TaskType::ROPE_MAZE:
+                dijkstras_file_path = "/home/dmcconachie/Dropbox/catkin_ws/src/smmap/logs/rope_maze.dijkstras_serialized";
                 break;
 
             default:
