@@ -40,25 +40,29 @@ namespace smmap
     {
         std::string task_type = ROSHelpers::GetParam<std::string>(nh, "task_type", "coverage");
 
-        if (task_type.compare("cylinder_coverage") == 0)
+        if (task_type.compare("rope_cylinder_coverage") == 0)
         {
-            return TaskType::CYLINDER_COVERAGE;
+            return TaskType::ROPE_CYLINDER_COVERAGE;
         }
-        else if (task_type.compare("table_coverage") == 0)
+        else if (task_type.compare("cloth_cylinder_coverage") == 0)
         {
-            return TaskType::TABLE_COVERAGE;
+            return TaskType::CLOTH_CYLINDER_COVERAGE;
         }
-        else if (task_type.compare("colab_folding") == 0)
+        else if (task_type.compare("cloth_table_coverage") == 0)
         {
-            return TaskType::COLAB_FOLDING;
+            return TaskType::CLOTH_TABLE_COVERAGE;
         }
-        else if (task_type.compare("wafr") == 0)
+        else if (task_type.compare("cloth_colab_folding") == 0)
         {
-            return TaskType::WAFR;
+            return TaskType::CLOTH_COLAB_FOLDING;
         }
-        else if (task_type.compare("single_pole") == 0)
+        else if (task_type.compare("cloth_wafr") == 0)
         {
-            return TaskType::SINGLE_POLE;
+            return TaskType::CLOTH_WAFR;
+        }
+        else if (task_type.compare("cloth_single_pole") == 0)
+        {
+            return TaskType::CLOTH_SINGLE_POLE;
         }
         else
         {
@@ -278,11 +282,11 @@ namespace smmap
     {
         switch(GetTaskType(nh))
         {
-            case TaskType::COLAB_FOLDING:
-            case TaskType::TABLE_COVERAGE:
+            case TaskType::CLOTH_COLAB_FOLDING:
+            case TaskType::CLOTH_TABLE_COVERAGE:
                 return ROSHelpers::GetParam(nh, "cloth_com_x", GetTableSurfaceX(nh) + GetClothXSize(nh) / 2.0f);
 
-            case TaskType::WAFR:
+            case TaskType::CLOTH_WAFR:
                 return ROSHelpers::GetParam(nh, "cloth_com_x", GetCylinderCenterOfMassX(nh) + GetCylinderRadius(nh) * 1.5f + GetClothXSize(nh) / 2.0f);
 
             default:
@@ -304,11 +308,11 @@ namespace smmap
     {
         switch(GetTaskType(nh))
         {
-            case TaskType::TABLE_COVERAGE:
+            case TaskType::CLOTH_TABLE_COVERAGE:
                 return ROSHelpers::GetParam(nh, "cloth_linear_stiffness", 0.8f);
 
-            case TaskType::COLAB_FOLDING:
-            case TaskType::WAFR:
+            case TaskType::CLOTH_COLAB_FOLDING:
+            case TaskType::CLOTH_WAFR:
                 return ROSHelpers::GetParam(nh, "cloth_linear_stiffness", 0.5f);
 
             default:
@@ -505,14 +509,14 @@ namespace smmap
             case DeformableType::CLOTH:
                 switch (GetTaskType(nh))
                 {
-                    case TaskType::COLAB_FOLDING:
+                    case TaskType::CLOTH_COLAB_FOLDING:
                         return -0.05;
 
-                    case TaskType::TABLE_COVERAGE:
+                    case TaskType::CLOTH_TABLE_COVERAGE:
                         return ROSHelpers::GetParam(nh, "world_y_min", GetClothCenterOfMassY(nh) - 0.65 * GetClothYSize(nh));
 
-                    case TaskType::CYLINDER_COVERAGE:
-                    case TaskType::WAFR:
+                    case TaskType::CLOTH_CYLINDER_COVERAGE:
+                    case TaskType::CLOTH_WAFR:
                         return ROSHelpers::GetParam(nh, "world_y_min", GetClothCenterOfMassY(nh) - 0.75 * GetClothYSize(nh));
 
                     default:
@@ -536,14 +540,14 @@ namespace smmap
             case DeformableType::CLOTH:
                 switch (GetTaskType(nh))
                 {
-                    case TaskType::COLAB_FOLDING:
+                    case TaskType::CLOTH_COLAB_FOLDING:
                         return 0.05;
 
-                    case TaskType::TABLE_COVERAGE:
+                    case TaskType::CLOTH_TABLE_COVERAGE:
                         return ROSHelpers::GetParam(nh, "world_y_max", GetClothCenterOfMassY(nh) + 0.65 * GetClothYSize(nh));
 
-                    case TaskType::CYLINDER_COVERAGE:
-                    case TaskType::WAFR:
+                    case TaskType::CLOTH_CYLINDER_COVERAGE:
+                    case TaskType::CLOTH_WAFR:
                         return ROSHelpers::GetParam(nh, "world_y_max", GetClothCenterOfMassY(nh) + 0.75 * GetClothYSize(nh));
 
                     default:
@@ -588,14 +592,14 @@ namespace smmap
             case DeformableType::CLOTH:
                 switch (GetTaskType(nh))
                 {
-                    case TaskType::COLAB_FOLDING:
+                    case TaskType::CLOTH_COLAB_FOLDING:
                         return -0.05;
 
-                    case TaskType::TABLE_COVERAGE:
+                    case TaskType::CLOTH_TABLE_COVERAGE:
                         return ROSHelpers::GetParam(nh, "world_z_min", GetClothCenterOfMassY(nh) - 0.65 * GetClothXSize(nh));
 
-                    case TaskType::CYLINDER_COVERAGE:
-                    case TaskType::WAFR:
+                    case TaskType::CLOTH_CYLINDER_COVERAGE:
+                    case TaskType::CLOTH_WAFR:
                         return ROSHelpers::GetParam(nh, "world_z_min", GetClothCenterOfMassZ(nh) - 1.0 * GetClothXSize(nh));
 
                     default:
@@ -629,14 +633,14 @@ namespace smmap
             case DeformableType::CLOTH:
                 switch (GetTaskType(nh))
                 {
-                    case TaskType::COLAB_FOLDING:
+                    case TaskType::CLOTH_COLAB_FOLDING:
                         return 0.05;
 
-                    case TaskType::TABLE_COVERAGE:
+                    case TaskType::CLOTH_TABLE_COVERAGE:
                         return ROSHelpers::GetParam(nh, "world_z_max", GetClothCenterOfMassY(nh) + 0.1 * GetClothXSize(nh));
 
-                    case TaskType::CYLINDER_COVERAGE:
-                    case TaskType::WAFR:
+                    case TaskType::CLOTH_CYLINDER_COVERAGE:
+                    case TaskType::CLOTH_WAFR:
                         return ROSHelpers::GetParam(nh, "world_z_max", GetClothCenterOfMassZ(nh) + 0.5 * GetClothXSize(nh));
 
                     default:
@@ -762,7 +766,7 @@ namespace smmap
         std::string dijkstras_file_path;
         switch (GetTaskType(nh))
         {
-            case TaskType::WAFR:
+            case TaskType::CLOTH_WAFR:
                 dijkstras_file_path = "/home/dmcconachie/Dropbox/catkin_ws/src/smmap/logs/cloth_wafr.dijkstras_serialized";
                 break;
 
