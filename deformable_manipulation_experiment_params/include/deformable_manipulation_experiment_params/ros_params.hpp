@@ -7,7 +7,7 @@
 #include <arc_utilities/ros_helpers.hpp>
 #include <arc_utilities/arc_exceptions.hpp>
 
-#include "smmap_experiment_params/task_enums.h"
+#include "deformable_manipulation_experiment_params/task_enums.h"
 
 namespace smmap
 {
@@ -81,6 +81,26 @@ namespace smmap
             ROS_FATAL_STREAM("Unknown task type: " << task_type);
             throw_arc_exception(std::invalid_argument, "Unknown task type: " + task_type);
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Gripper Size Settings
+    ////////////////////////////////////////////////////////////////////////////
+
+    inline float GetGripperApperture(ros::NodeHandle& nh) // METERS
+    {
+        switch(GetDeformableType(nh))
+        {
+            case DeformableType::ROPE:
+                // TODO: why did Dmitry's code use 0.5f here?
+                return ROSHelpers::GetParam(nh, "gripper_apperture", 0.03f);
+
+            case DeformableType::CLOTH:
+                // TODO: This number is actually the "closed gap"
+                //       The original number was 0.1f
+                return ROSHelpers::GetParam(nh, "cloth_gripper_apperture", 0.006f);
+        }
+
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -271,24 +291,12 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    // Rope BulletPhysics settings
-    ////////////////////////////////////////////////////////////////////////////
-
-    // TODO: merge this and the cloth version into a single param?
-    inline float GetRopeGripperApperture(ros::NodeHandle& nh) // METERS
-    {
-        // TODO: why did Dmitry's code use 0.5f here?
-        return ROSHelpers::GetParam(nh, "rope_gripper_apperture", 0.03f);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
     // Rope-Cylinder experiment settings
     ////////////////////////////////////////////////////////////////////////////
 
     inline float GetRopeCenterOfMassX(ros::NodeHandle& nh)    // METERS
     {
         return ROSHelpers::GetParam(nh, "rope_com_x", GetTableSurfaceX(nh) + 15.0f * GetRopeSegmentLength(nh));
-//        return ROSHelpers::GetParam(nh, "rope_com_x", GetTableSurfaceX(nh) + 5.0f * GetRopeSegmentLength(nh));
     }
 
     inline float GetRopeCenterOfMassY(ros::NodeHandle& nh)    // METERS
@@ -330,7 +338,7 @@ namespace smmap
 
             default:
                 Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "cloth_com_x", __func__);
-                return val.Get();
+                return (float)val.Get();
         }
     }
 
@@ -349,7 +357,7 @@ namespace smmap
 
             default:
                 Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "cloth_com_y", __func__);
-                return val.Get();
+                return (float)val.Get();
         }
     }
 
@@ -368,7 +376,7 @@ namespace smmap
 
             default:
                 Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "cloth_com_z", __func__);
-                return val.Get();
+                return (float)val.Get();
         }
     }
 
@@ -404,13 +412,6 @@ namespace smmap
     {
         return ROSHelpers::GetParam(nh, "cloth_num_divs_y", 45);
     }
-
-    inline float GetClothGripperApperture(ros::NodeHandle& nh) // METERS
-    {
-        return ROSHelpers::GetParam(nh, "cloth_gripper_apperture", 0.1f);
-    }
-
-
 
     ////////////////////////////////////////////////////////////////////////////
     // Generic target patch settings
@@ -577,9 +578,11 @@ namespace smmap
             case TaskType::ROPE_CYLINDER_COVERAGE:
                 return ROSHelpers::GetParam(nh, "world_y_min", GetTableSurfaceY(nh) - GetTableHalfExtentsY(nh));
 
-            case TaskType::CLOTH_TABLE_COVERAGE:
             case TaskType::CLOTH_COLAB_FOLDING:
                 return -0.05;
+
+            case TaskType::CLOTH_TABLE_COVERAGE:
+                return ROSHelpers::GetParam(nh, "world_y_min", GetClothCenterOfMassY(nh) - 0.65 * GetClothYSize(nh));
 
             case TaskType::CLOTH_CYLINDER_COVERAGE:
             case TaskType::CLOTH_WAFR:
@@ -600,8 +603,10 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_y_max", GetTableSurfaceY(nh) + GetTableHalfExtentsY(nh));
 
             case TaskType::CLOTH_COLAB_FOLDING:
-            case TaskType::CLOTH_TABLE_COVERAGE:
                 return 0.05;
+
+            case TaskType::CLOTH_TABLE_COVERAGE:
+                return ROSHelpers::GetParam(nh, "world_y_max", GetClothCenterOfMassY(nh) + 0.65 * GetClothYSize(nh));
 
             case TaskType::CLOTH_CYLINDER_COVERAGE:
             case TaskType::CLOTH_WAFR:
@@ -643,8 +648,10 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_z_min", GetTableSurfaceZ(nh));
 
             case TaskType::CLOTH_COLAB_FOLDING:
+                return -0.05;
+
             case TaskType::CLOTH_TABLE_COVERAGE:
-                    return -0.05;
+                return ROSHelpers::GetParam(nh, "world_z_min", GetClothCenterOfMassY(nh) - 0.65 * GetClothXSize(nh));
 
             case TaskType::CLOTH_CYLINDER_COVERAGE:
             case TaskType::CLOTH_WAFR:
@@ -782,27 +789,27 @@ namespace smmap
         switch (GetTaskType(nh))
         {
             case TaskType::CLOTH_WAFR:
-                dijkstras_file_path = "/home/dmcconachie/Dropbox/catkin_ws/src/smmap/logs/cloth_wafr.dijkstras_serialized";
+                dijkstras_file_path = "/home/dmcconac/Dropbox/catkin_ws/src/smmap/logs/cloth_wafr.dijkstras_serialized";
                 break;
 
             case TaskType::CLOTH_SINGLE_POLE:
-                dijkstras_file_path = "/home/dmcconachie/Dropbox/catkin_ws/src/smmap/logs/cloth_single_pole.dijkstras_serialized";
+                dijkstras_file_path = "/home/dmcconac/Dropbox/catkin_ws/src/smmap/logs/cloth_single_pole.dijkstras_serialized";
                 break;
 
             case TaskType::CLOTH_WALL:
-                dijkstras_file_path = "/home/dmcconachie/Dropbox/catkin_ws/src/smmap/logs/cloth_wall.dijkstras_serialized";
+                dijkstras_file_path = "/home/dmcconac/Dropbox/catkin_ws/src/smmap/logs/cloth_wall.dijkstras_serialized";
                 break;
 
             case TaskType::CLOTH_DOUBLE_SLIT:
-                dijkstras_file_path = "/home/dmcconachie/Dropbox/catkin_ws/src/smmap/logs/cloth_double_slit.dijkstras_serialized";
+                dijkstras_file_path = "/home/dmcconac/Dropbox/catkin_ws/src/smmap/logs/cloth_double_slit.dijkstras_serialized";
                 break;
 
             case TaskType::ROPE_MAZE:
-                dijkstras_file_path = "/home/dmcconachie/Dropbox/catkin_ws/src/smmap/logs/rope_maze.dijkstras_serialized";
+                dijkstras_file_path = "/home/dmcconac/Dropbox/catkin_ws/src/smmap/logs/rope_maze.dijkstras_serialized";
                 break;
 
             default:
-                dijkstras_file_path = "/home/dmcconachie/Dropbox/catkin_ws/src/smmap/logs/unknown_trial.dijkstras_serialized";
+                dijkstras_file_path = "/home/dmcconac/Dropbox/catkin_ws/src/smmap/logs/unknown_trial.dijkstras_serialized";
                 break;
         }
 

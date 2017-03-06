@@ -1,5 +1,5 @@
 #include <arc_utilities/arc_helpers.hpp>
-#include "smmap_experiment_params/xyzgrid.h"
+#include "deformable_manipulation_experiment_params/xyzgrid.h"
 
 using namespace smmap;
 
