@@ -1,14 +1,14 @@
-cmake_minimum_required( VERSION 2.8.3 )
-project( smmap_msgs )
+cmake_minimum_required(VERSION 2.8.3)
+project(deformable_manipulation_msgs)
 
-set( CATKIN_PACKAGES
+set(CATKIN_PACKAGES
   actionlib_msgs
   geometry_msgs
   std_msgs
   sdf_tools
 )
 ## Find catkin macros and libraries
-find_package( catkin REQUIRED COMPONENTS ${CATKIN_PACKAGES} message_generation )
+find_package(catkin REQUIRED COMPONENTS ${CATKIN_PACKAGES} message_generation)
 
 ################################################
 ## Declare ROS messages, services and actions ##
@@ -65,20 +65,20 @@ catkin_package(
 ## Build ##
 ###########
 
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -g -O2 -Wall -Wextra -Wpedantic -Wconversion" )
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -g -O2 -Wall -Wextra -Wpedantic -Wconversion -Werror")
 
 ## Let QtCreator find these files...
 
-include_directories( include
+include_directories(include
     SYSTEM
     ${catkin_INCLUDE_DIRS}
 )
 
-add_library( ${PROJECT_NAME}
+add_library(${PROJECT_NAME}
     include/${PROJECT_NAME}/messages.h
     src/messages.cpp
 )
-add_dependencies( ${PROJECT_NAME}
+add_dependencies(${PROJECT_NAME}
     ${catkin_EXPORTED_TARGETS}
     ${PROJECT_NAME}_gencpp
 )

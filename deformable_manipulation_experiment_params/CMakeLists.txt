@@ -1,13 +1,13 @@
-cmake_minimum_required( VERSION 2.8.3 )
-project( smmap_experiment_params )
+cmake_minimum_required(VERSION 2.8.3)
+project(deformable_manipulation_experiment_params)
 
-set( CATKIN_PACKAGES
+set(CATKIN_PACKAGES
     arc_utilities
     roscpp
 )
 
 ## Find catkin macros and libraries
-find_package( catkin REQUIRED COMPONENTS ${CATKIN_PACKAGES} )
+find_package(catkin REQUIRED COMPONENTS ${CATKIN_PACKAGES})
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -16,7 +16,7 @@ find_package( catkin REQUIRED COMPONENTS ${CATKIN_PACKAGES} )
 ## Declare ROS messages, services and actions ##
 ################################################
 
-## Messages defined in smmap_msgs package
+## Messages defined in deformable_manipulation_msgs package
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -36,7 +36,7 @@ find_package( catkin REQUIRED COMPONENTS ${CATKIN_PACKAGES} )
 # generate_dynamic_reconfigure_options(
 #   cfg/DynReconf1.cfg
 #   cfg/DynReconf2.cfg
-# )
+#)
 
 ###################################
 ## catkin specific configuration ##
@@ -52,26 +52,26 @@ catkin_package(
 ## Build ##
 ###########
 
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -g -O2 -Wall -Wextra -Wpedantic -Wconversion" )
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -g -O2 -Wall -Wextra -Wpedantic -Wconversion -Werror")
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories( include
+include_directories(include
     SYSTEM
     ${catkin_INCLUDE_DIRS}
 )
 
 ## Library file for the whole project
-FILE( GLOB hpp_SRC "include/${PROJECT_NAME}/*.hpp" )
-FILE( GLOB h_SRC "include/${PROJECT_NAME}/*.h" )
-FILE( GLOB cpp_SRC "src/*.cpp" )
+FILE(GLOB hpp_SRC "include/${PROJECT_NAME}/*.hpp")
+FILE(GLOB h_SRC "include/${PROJECT_NAME}/*.h")
+FILE(GLOB cpp_SRC "src/*.cpp")
 
-add_library( ${PROJECT_NAME}
+add_library(${PROJECT_NAME}
     ${hpp_SRC}
     ${h_SRC}
     ${cpp_SRC}
 )
-add_dependencies( ${PROJECT_NAME}
+add_dependencies(${PROJECT_NAME}
     ${catkin_EXPORTED_TARGETS}
 )
 
@@ -87,35 +87,35 @@ add_dependencies( ${PROJECT_NAME}
 # install(PROGRAMS
 #   scripts/my_python_script
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+#)
 
 ## Mark executables and/or libraries for installation
-# install(TARGETS smmap_experiment_params smmap_experiment_params_node
+# install(TARGETS deformable_manipulation_experiment_params deformable_manipulation_experiment_params_node
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+#)
 
 ## Mark cpp header files for installation
 # install(DIRECTORY include/${PROJECT_NAME}/
 #   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 #   FILES_MATCHING PATTERN "*.h"
 #   PATTERN ".svn" EXCLUDE
-# )
+#)
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
 # install(FILES
 #   # myfile1
 #   # myfile2
 #   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-# )
+#)
 
 #############
 ## Testing ##
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_smmap_experiment_params.cpp)
+# catkin_add_gtest(${PROJECT_NAME}-test test/test_deformable_manipulation_experiment_params.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
 #   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
 # endif()
