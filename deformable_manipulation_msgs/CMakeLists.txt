@@ -58,7 +58,6 @@ catkin_package(
     LIBRARIES       ${PROJECT_NAME}
     CATKIN_DEPENDS  ${CATKIN_PACKAGES}
                     message_runtime
-    DEPENDS         system_lib
 )
 
 ###########
