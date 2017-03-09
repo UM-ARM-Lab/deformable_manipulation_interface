@@ -36,7 +36,7 @@
     <!-- Setup task parameters -->
     <include file="$(find deformable_manipulation_experiment_params)/launch/$(arg task_type)_params.launch"/>
     <param name="logging_enabled"                       value="$(arg logging_enabled)"                                      type="bool"/>
-    <param name="log_folder"                            value="$(find smmap)/../logs/$(arg task_type)/$(arg test_id)/"      type="string"/>
+    <param name="log_folder"                            value="$(find smmap)/logs/$(arg task_type)/$(arg test_id)/"         type="string"/>
 
     <!-- Launch the simulator -->
     <group ns="deform_simulator_node">
