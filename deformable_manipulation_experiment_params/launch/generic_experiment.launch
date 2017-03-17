@@ -16,6 +16,7 @@
     <arg name="translational_deformability"     if="$(arg deformability_override)"/>
     <arg name="rotational_deformability"        if="$(arg deformability_override)"/>
     <arg name="use_adaptive_model"              default="false"/>
+    <arg name="use_constraint_model"            default="false"/>
     <arg name="adaptive_model_learning_rate"    default="0.000001"/>
     <arg name="calculate_regret"                default="false"/>
 
@@ -56,6 +57,7 @@
         <param name="translational_deformability"       value="$(arg translational_deformability)"      type="double"   if="$(arg deformability_override)"/>
         <param name="rotational_deformability"          value="$(arg rotational_deformability)"         type="double"   if="$(arg deformability_override)"/>
         <param name="use_adaptive_model"                value="$(arg use_adaptive_model)"               type="bool"/>
+        <param name="use_constraint_model"              value="$(arg use_constraint_model)"             type="bool"/>
         <param name="adaptive_model_learning_rate"      value="$(arg adaptive_model_learning_rate)"     type="double"/>
         <param name="process_noise_factor"              value="$(arg process_noise_factor)"             type="double"   if="$(arg kalman_parameters_override)"/>
         <param name="observation_noise_factor"          value="$(arg observation_noise_factor)"         type="double"   if="$(arg kalman_parameters_override)"/>

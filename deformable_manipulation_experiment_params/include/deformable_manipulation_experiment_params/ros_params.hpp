@@ -705,6 +705,11 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "use_adaptive_model", false);
     }
 
+    inline bool GetUseConstraintModel(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "use_constraint_model", false);
+    }
+
     inline double GetAdaptiveModelLearningRate(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "adaptive_model_learning_rate", 1e-6);

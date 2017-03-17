@@ -15,7 +15,7 @@
     <param name="cloth_cylinder_com_y"  value="0.0"/>
     <param name="cloth_cylinder_com_z"  value="0.8"/>
 
-    <param name="cloth_cylinder_height" value="1.0"/>
+    <param name="cloth_cylinder_height" value="2.0"/>
     <param name="cloth_cylinder_radius" value="0.04"/>
 
 
