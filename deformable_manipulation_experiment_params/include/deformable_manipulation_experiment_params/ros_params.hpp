@@ -905,7 +905,7 @@ namespace smmap
 
     inline std::string GetVisualizationMarkerArrayTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "visualization_marker_array_topic", "visualization_marker_array");
+        return ROSHelpers::GetParam<std::string>(nh, "visualization_marker_array_topic", "visualization_marker_vector");
     }
 
     inline std::string GetConfidenceTopic(ros::NodeHandle& nh)
