@@ -19,7 +19,13 @@ namespace smmap
         CLOTH_SINGLE_POLE,
         CLOTH_WALL,
         CLOTH_DOUBLE_SLIT,
-        ROPE_MAZE
+        ROPE_MAZE,
+
+        // NEWLY ADD FOR TEST, Mengyao
+        ROPE_DRAG_OPPOSITE_TABLE,      // directional rigidity
+        ROPE_DRAG_ALONG_TABLE,         // directional rigidity
+        ROPE_TOWARD_TABLE,            // mask, constraint violation
+        ROPE_CROSS                    // directional rigidity use Dale's directly
     };
 }
 

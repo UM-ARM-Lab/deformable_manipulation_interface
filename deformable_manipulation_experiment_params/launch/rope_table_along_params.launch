@@ -1,0 +1,4 @@
+<launch>
+    <param name="deformable_type" value="rope"/>
+    <param name="task_type" value="rope_table_along"/>
+</launch>

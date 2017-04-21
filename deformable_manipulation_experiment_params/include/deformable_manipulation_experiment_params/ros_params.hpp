@@ -40,7 +40,19 @@ namespace smmap
     {
         std::string task_type = ROSHelpers::GetParam<std::string>(nh, "task_type", "coverage");
 
-        if (task_type.compare("rope_cylinder_coverage") == 0)
+        if (task_type.compare("rope_table_opposite") == 0)
+        {
+            return TaskType::ROPE_DRAG_OPPOSITE_TABLE;
+        }
+        else if (task_type.compare("rope_table_along") == 0)
+        {
+            return TaskType::ROPE_DRAG_ALONG_TABLE;
+        }
+        else if (task_type.compare("rope_table_toward") == 0)
+        {
+            return TaskType::ROPE_TOWARD_TABLE;
+        }
+        else if (task_type.compare("rope_cylinder_coverage") == 0)
         {
             return TaskType::ROPE_CYLINDER_COVERAGE;
         }
@@ -75,6 +87,22 @@ namespace smmap
         else if (task_type.compare("rope_maze") == 0)
         {
             return TaskType::ROPE_MAZE;
+        }
+        else if (task_type.compare("rope_drag_along_table") == 0)
+        {
+            return TaskType::ROPE_DRAG_ALONG_TABLE;
+        }
+        else if (task_type.compare("rope_drag_opposite_table") == 0)
+        {
+            return TaskType::ROPE_DRAG_OPPOSITE_TABLE;
+        }
+        else if (task_type.compare("rope_toward_table") == 0)
+        {
+            return TaskType::ROPE_TOWARD_TABLE;
+        }
+        else if (task_type.compare("rope_cross") == 0)
+        {
+            return TaskType::ROPE_CROSS;
         }
         else
         {
@@ -196,7 +224,11 @@ namespace smmap
         switch (GetTaskType(nh))
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
-                return ROSHelpers::GetParam(nh, "rope_cylinder_height", 0.3f);
+                return ROSHelpers::GetParam(nh, "rope_cylinder_height", 0.7f);
+
+
+//            case TaskType::ROPE_CYLINDER_COVERAGE:
+//                return ROSHelpers::GetParam(nh, "rope_cylinder_height", 0.3f);
 
             case TaskType::CLOTH_CYLINDER_COVERAGE:
             case TaskType::CLOTH_WAFR:
@@ -258,6 +290,9 @@ namespace smmap
             case TaskType::ROPE_CYLINDER_COVERAGE:
                 return ROSHelpers::GetParam(nh, "rope_cylinder_com_z", GetTableSurfaceZ(nh) + GetCylinderHeight(nh) / 2.0f);
 
+//            case TaskType::ROPE_CYLINDER_COVERAGE:
+//                return ROSHelpers::GetParam(nh, "rope_cylinder_com_z", GetTableSurfaceZ(nh) + 0.4f);
+
             case TaskType::CLOTH_CYLINDER_COVERAGE:
             case TaskType::CLOTH_WAFR:
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_com_z", GetTableSurfaceZ(nh));
@@ -287,7 +322,8 @@ namespace smmap
 
     inline int GetRopeNumLinks(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "rope_num_links", 50);
+//        return ROSHelpers::GetParam(nh, "rope_num_links", 50);
+        return ROSHelpers::GetParam(nh, "rope_num_links", 30);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -296,7 +332,15 @@ namespace smmap
 
     inline float GetRopeCenterOfMassX(ros::NodeHandle& nh)    // METERS
     {
-        return ROSHelpers::GetParam(nh, "rope_com_x", GetTableSurfaceX(nh) + 15.0f * GetRopeSegmentLength(nh));
+        switch (GetTaskType(nh)) {
+        // If to test constraint violation, set half of the rope outside the table
+        case TaskType::ROPE_TOWARD_TABLE:
+            return ROSHelpers::GetParam(nh, "rope_com_x", GetTableSurfaceX(nh) - GetTableHalfExtentsX(nh) + 5.0f * GetRopeSegmentLength(nh));
+
+        default:
+            return ROSHelpers::GetParam(nh, "rope_com_x", GetTableSurfaceX(nh) + 15.0f * GetRopeSegmentLength(nh));
+        }
+//        return ROSHelpers::GetParam(nh, "rope_com_x", GetTableSurfaceX(nh) + 15.0f * GetRopeSegmentLength(nh));
     }
 
     inline float GetRopeCenterOfMassY(ros::NodeHandle& nh)    // METERS
@@ -306,7 +350,21 @@ namespace smmap
 
     inline float GetRopeCenterOfMassZ(ros::NodeHandle& nh)    // METERS
     {
-        return ROSHelpers::GetParam(nh, "rope_com_z", GetTableSurfaceZ(nh) + 5.0f * GetRopeRadius(nh));
+        switch (GetTaskType(nh)) {
+        // If to test constraint violation, set half of the rope close to the table
+        case TaskType::ROPE_TOWARD_TABLE:
+            return ROSHelpers::GetParam(nh, "rope_com_z", GetTableSurfaceZ(nh) + 0.01f);
+        case TaskType::ROPE_DRAG_OPPOSITE_TABLE:
+            return ROSHelpers::GetParam(nh, "rope_com_z", GetTableSurfaceZ(nh) + 0.15f);
+        case TaskType::ROPE_DRAG_ALONG_TABLE:
+            return ROSHelpers::GetParam(nh, "rope_com_z", GetTableSurfaceZ(nh) + 0.15f);
+
+        default:
+            return ROSHelpers::GetParam(nh, "rope_com_z", GetTableSurfaceZ(nh) + 0.15f);
+        }
+
+//        return ROSHelpers::GetParam(nh, "rope_com_z", GetTableSurfaceZ(nh) + 0.15f);
+//        return ROSHelpers::GetParam(nh, "rope_com_z", GetTableSurfaceZ(nh) + 5.0f * GetRopeRadius(nh));
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -523,7 +581,8 @@ namespace smmap
         switch(GetDeformableType(nh))
         {
             case DeformableType::ROPE:
-                return ROSHelpers::GetParam(nh, "world_x_min", GetTableSurfaceX(nh) - GetTableHalfExtentsX(nh));
+                return ROSHelpers::GetParam(nh, "world_x_min", GetTableSurfaceX(nh) - 1.5*GetTableHalfExtentsX(nh));
+//                return ROSHelpers::GetParam(nh, "world_x_min", GetTableSurfaceX(nh) - GetTableHalfExtentsX(nh));
 
             case DeformableType::CLOTH:
                 return ROSHelpers::GetParam(nh, "world_x_min", GetClothCenterOfMassX(nh) - 1.4 * GetClothXSize(nh));
@@ -539,7 +598,8 @@ namespace smmap
         switch(GetDeformableType(nh))
         {
             case DeformableType::ROPE:
-                return ROSHelpers::GetParam(nh, "world_x_max", GetTableSurfaceX(nh) + GetTableHalfExtentsX(nh));
+                return ROSHelpers::GetParam(nh, "world_x_max", GetTableSurfaceX(nh) + 1.5*GetTableHalfExtentsX(nh));
+//                return ROSHelpers::GetParam(nh, "world_x_max", GetTableSurfaceX(nh) + GetTableHalfExtentsX(nh));
 
             case DeformableType::CLOTH:
                 return ROSHelpers::GetParam(nh, "world_x_max", GetClothCenterOfMassX(nh) + 0.4 * GetClothXSize(nh));
@@ -578,6 +638,17 @@ namespace smmap
             case TaskType::ROPE_CYLINDER_COVERAGE:
                 return ROSHelpers::GetParam(nh, "world_y_min", GetTableSurfaceY(nh) - GetTableHalfExtentsY(nh));
 
+            case TaskType::ROPE_DRAG_ALONG_TABLE:
+                return ROSHelpers::GetParam(nh, "world_y_min", GetTableSurfaceY(nh) - GetTableHalfExtentsY(nh));
+
+            case TaskType::ROPE_DRAG_OPPOSITE_TABLE:
+                return ROSHelpers::GetParam(nh, "world_y_min", GetTableSurfaceY(nh) - GetTableHalfExtentsY(nh));
+
+            case TaskType::ROPE_TOWARD_TABLE:
+                return ROSHelpers::GetParam(nh, "world_y_min", GetTableSurfaceY(nh) - GetTableHalfExtentsY(nh));
+
+
+
             case TaskType::CLOTH_COLAB_FOLDING:
                 return -0.05;
 
@@ -600,6 +671,15 @@ namespace smmap
         switch(GetTaskType(nh))
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
+                return ROSHelpers::GetParam(nh, "world_y_max", GetTableSurfaceY(nh) + GetTableHalfExtentsY(nh));
+
+            case TaskType::ROPE_DRAG_ALONG_TABLE:
+                return ROSHelpers::GetParam(nh, "world_y_max", GetTableSurfaceY(nh) + GetTableHalfExtentsY(nh));
+
+            case TaskType::ROPE_DRAG_OPPOSITE_TABLE:
+                return ROSHelpers::GetParam(nh, "world_y_max", GetTableSurfaceY(nh) + GetTableHalfExtentsY(nh));
+
+            case TaskType::ROPE_TOWARD_TABLE:
                 return ROSHelpers::GetParam(nh, "world_y_max", GetTableSurfaceY(nh) + GetTableHalfExtentsY(nh));
 
             case TaskType::CLOTH_COLAB_FOLDING:
@@ -647,6 +727,16 @@ namespace smmap
             case TaskType::ROPE_CYLINDER_COVERAGE:
                 return ROSHelpers::GetParam(nh, "world_z_min", GetTableSurfaceZ(nh));
 
+            case TaskType::ROPE_DRAG_ALONG_TABLE:
+                return ROSHelpers::GetParam(nh, "world_z_min", GetTableSurfaceZ(nh));
+
+            case TaskType::ROPE_DRAG_OPPOSITE_TABLE:
+                return ROSHelpers::GetParam(nh, "world_z_min", GetTableSurfaceZ(nh));
+
+            case TaskType::ROPE_TOWARD_TABLE:
+                return ROSHelpers::GetParam(nh, "world_z_min", GetTableSurfaceZ(nh)- 0.6f);
+
+
             case TaskType::CLOTH_COLAB_FOLDING:
                 return -0.05;
 
@@ -669,6 +759,13 @@ namespace smmap
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
                 return ROSHelpers::GetParam(nh, "world_z_max", GetTableSurfaceZ(nh) + GetCylinderHeight(nh) + GetRopeRadius(nh) * 5.0);
+
+            case TaskType::ROPE_DRAG_ALONG_TABLE:
+                return ROSHelpers::GetParam(nh, "world_z_max", GetTableSurfaceZ(nh) + 1.0f );
+            case TaskType::ROPE_DRAG_OPPOSITE_TABLE:
+                return ROSHelpers::GetParam(nh, "world_z_max", GetTableSurfaceZ(nh) + 1.0f );
+            case TaskType::ROPE_TOWARD_TABLE:
+                return ROSHelpers::GetParam(nh, "world_z_max", GetTableSurfaceZ(nh) + 1.0f );
 
             case TaskType::CLOTH_COLAB_FOLDING:
                 return 0.05;
