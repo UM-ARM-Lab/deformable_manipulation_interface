@@ -1,4 +1,13 @@
 <launch>
     <param name="deformable_type" value="rope"/>
     <param name="task_type" value="rope_table_along"/>
+
+    <param name="rope_com_x" value="0.5"/>
+    <param name="rope_com_y" value="0.2"/>
+    <param name="rope_com_z" value="0.8"/>
+    <param name="rope_num_links" value="29"/>
+
+    <group ns="deform_simulator_node">
+        <param name="num_simsteps_per_gripper_command"  value="20"/>
+    </group>
 </launch>

@@ -322,8 +322,7 @@ namespace smmap
 
     inline int GetRopeNumLinks(ros::NodeHandle& nh)
     {
-//        return ROSHelpers::GetParam(nh, "rope_num_links", 50);
-        return ROSHelpers::GetParam(nh, "rope_num_links", 30);
+        return ROSHelpers::GetParam(nh, "rope_num_links", 49);
     }
 
     ////////////////////////////////////////////////////////////////////////////
