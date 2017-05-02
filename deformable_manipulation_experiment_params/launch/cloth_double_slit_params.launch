@@ -31,15 +31,15 @@
 
     <param name="cover_region_x_min"    value="-0.3"/>
     <param name="cover_region_x_steps"  value="1"/>
-    <param name="cover_region_x_res"    value="0.01"/>
+    <param name="cover_region_x_res"    value="0.02"/>
 
     <param name="cover_region_y_min"    value="-0.25"/>
-    <param name="cover_region_y_steps"  value="51"/>
-    <param name="cover_region_y_res"    value="0.01"/>
+    <param name="cover_region_y_steps"  value="26"/>
+    <param name="cover_region_y_res"    value="0.02"/>
 
     <param name="cover_region_z_min"    value="0.6"/>
-    <param name="cover_region_z_steps"  value="40"/>
-    <param name="cover_region_z_res"    value="0.01"/>
+    <param name="cover_region_z_steps"  value="20"/>
+    <param name="cover_region_z_res"    value="0.02"/>
 
 
 
