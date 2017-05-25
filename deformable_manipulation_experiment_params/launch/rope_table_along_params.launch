@@ -4,7 +4,7 @@
 
     <param name="rope_com_x" value="0.5"/>
     <param name="rope_com_y" value="0.2"/>
-    <param name="rope_com_z" value="0.8"/>
+    <param name="rope_com_z" value="0.9"/>
     <param name="rope_num_links" value="29"/>
 
     <group ns="deform_simulator_node">
