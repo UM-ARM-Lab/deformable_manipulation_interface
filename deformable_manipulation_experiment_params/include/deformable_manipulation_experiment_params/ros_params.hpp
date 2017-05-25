@@ -757,7 +757,6 @@ namespace smmap
 
     inline size_t GetPlannerSeed(ros::NodeHandle& nh)
     {
-//        return 1473915484949746413UL;
         size_t seed;
         if (GetUseRandomSeed(nh))
         {
@@ -772,6 +771,11 @@ namespace smmap
             ss >> seed;
         }
         return seed;
+    }
+
+    inline size_t GetNumLookaheadSteps(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "num_lookahead_steps", 20);
     }
 
     ////////////////////////////////////////////////////////////////////////////
