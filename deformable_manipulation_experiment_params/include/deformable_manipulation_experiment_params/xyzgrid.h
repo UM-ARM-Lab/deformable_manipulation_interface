@@ -26,6 +26,8 @@ namespace smmap
             ssize_t worldPosToGridIndexClamped(const double x, const double y, const double z) const;
             ssize_t worldPosToGridIndexClamped(const Eigen::Vector3d& vec) const;
 
+            Eigen::Vector3d roundToGrid(const Eigen::Vector3d& vec) const;
+
             double xIndToWorldX(ssize_t x_ind) const;
             double yIndToWorldY(ssize_t y_ind) const;
             double zIndToWorldZ(ssize_t z_ind) const;

@@ -73,6 +73,15 @@ ssize_t XYZGrid::worldPosToGridIndexClamped(const Eigen::Vector3d& vec) const
     return worldPosToGridIndexClamped(vec(0), vec(1), vec(2));
 }
 
+Eigen::Vector3d XYZGrid::roundToGrid(const Eigen::Vector3d& vec) const
+{
+    const int64_t x_ind = std::lround((vec.x() - world_x_min_) / world_x_step_);
+    const int64_t y_ind = std::lround((vec.y() - world_y_min_) / world_y_step_);
+    const int64_t z_ind = std::lround((vec.z() - world_z_min_) / world_z_step_);
+
+    return Eigen::Vector3d(xIndToWorldX(x_ind), yIndToWorldY(y_ind), zIndToWorldZ(z_ind));
+}
+
 double XYZGrid::xIndToWorldX(ssize_t x_ind) const
 {
     return world_x_min_ + world_x_step_ * (double)x_ind;
