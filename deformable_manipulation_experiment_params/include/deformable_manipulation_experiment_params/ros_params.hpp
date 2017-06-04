@@ -870,6 +870,25 @@ namespace smmap
         return seed;
     }
 
+    // For Constraint Model
+
+    inline double GetConstaintTranslationalDir(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "constraint_translational_dir_deformability", 20.0f);
+    }
+
+    inline double GetConstaintTranslationalDis(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "constraint_translational_dis_deformability", 3.0f);
+    }
+
+    inline double GetConstaintRotational(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "constraint_rotational_deformability", 20.0f);
+    }
+
+
+
     ////////////////////////////////////////////////////////////////////////////
     // Logging functionality
     ////////////////////////////////////////////////////////////////////////////
