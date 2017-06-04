@@ -879,7 +879,7 @@ namespace smmap
 
     inline double GetConstaintTranslationalDis(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "constraint_translational_dis_deformability", 3.0f);
+        return ROSHelpers::GetParam(nh, "constraint_translational_dis_deformability", 6.0f);
     }
 
     inline double GetConstaintRotational(ros::NodeHandle& nh)

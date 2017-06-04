@@ -8,8 +8,8 @@
     <param name="rope_num_links" value="29"/>
     <param name="rope_radius" value="0.01"/>
     
-    <param name="constraint_translational_dir_deformability" value="30.0"/>
-    <param name="constraint_translational_dis_deformability" value="2.0"/>
+    <param name="constraint_translational_dir_deformability" value="10.0"/>
+    <param name="constraint_translational_dis_deformability" value="0.1"/>
     <param name="constraint_rotational_deformability" value="20.0"/>
 
     <group ns="deform_simulator_node">
