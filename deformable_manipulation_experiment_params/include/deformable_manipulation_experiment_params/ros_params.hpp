@@ -778,6 +778,11 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "num_lookahead_steps", 20);
     }
 
+    inline double GetRRTTimeout(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "rrt_timeout", 600.0);
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // Logging functionality
     ////////////////////////////////////////////////////////////////////////////
