@@ -8,9 +8,9 @@
     <param name="rope_num_links" value="29"/>
     <param name="rope_radius" value="0.01"/>
     
-    <param name="constraint_translational_dir_deformability" value="10.0"/>
-    <param name="constraint_translational_dis_deformability" value="0.1"/>
-    <param name="constraint_rotational_deformability" value="20.0"/>
+    <param name="constraint_translational_dir_deformability" value="20000.0"/>
+    <param name="constraint_translational_dis_deformability" value="4"/>
+    <param name="constraint_rotational_deformability" value="6.5"/>
 
     <group ns="deform_simulator_node">
         <param name="num_simsteps_per_gripper_command"  value="20"/>
