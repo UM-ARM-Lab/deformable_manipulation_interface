@@ -780,7 +780,7 @@ namespace smmap
 
     inline double GetRRTTimeout(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "rrt_timeout", 600.0);
+        return ROSHelpers::GetParam(nh, "rrt_timeout", 3600.0);
     }
 
     ////////////////////////////////////////////////////////////////////////////
