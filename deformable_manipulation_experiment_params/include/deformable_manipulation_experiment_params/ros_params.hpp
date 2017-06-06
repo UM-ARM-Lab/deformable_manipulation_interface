@@ -872,21 +872,25 @@ namespace smmap
 
     // For Constraint Model
 
-    inline double GetConstaintTranslationalDir(ros::NodeHandle& nh)
+    inline double GetConstraintTranslationalDir(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "constraint_translational_dir_deformability", 20.0f);
     }
 
-    inline double GetConstaintTranslationalDis(ros::NodeHandle& nh)
+    inline double GetConstraintTranslationalDis(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "constraint_translational_dis_deformability", 6.0f);
     }
 
-    inline double GetConstaintRotational(ros::NodeHandle& nh)
+    inline double GetConstraintRotational(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "constraint_rotational_deformability", 20.0f);
     }
 
+    inline double GetConstraintObstacleThreshold(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "constraint_obstacle_threshold", 0);
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////
