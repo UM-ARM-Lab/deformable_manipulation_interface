@@ -93,12 +93,12 @@ namespace smmap
         {
             case DeformableType::ROPE:
                 // TODO: why did Dmitry's code use 0.5f here?
-                return ROSHelpers::GetParam(nh, "gripper_apperture", 0.03f);
+                return ROSHelpers::GetParamNoWarn(nh, "rope_gripper_apperture", 0.03f);
 
             case DeformableType::CLOTH:
                 // TODO: This number is actually the "closed gap"
                 //       The original number was 0.1f
-                return ROSHelpers::GetParam(nh, "cloth_gripper_apperture", 0.006f);
+                return ROSHelpers::GetParamNoWarn(nh, "cloth_gripper_apperture", 0.006f);
         }
 
     }
@@ -127,10 +127,10 @@ namespace smmap
         switch (GetDeformableType(nh))
         {
             case DeformableType::ROPE:
-                return ROSHelpers::GetParam(nh, "table_x_size", 1.5f);
+                return ROSHelpers::GetParam(nh, "table_x_half_extents", 1.5f);
 
             case DeformableType::CLOTH:
-                return ROSHelpers::GetParam(nh, "table_x_size", 0.2f);
+                return ROSHelpers::GetParam(nh, "table_x_half_extents", 0.2f);
 
             default:
                 throw_arc_exception(std::invalid_argument, "Unknown table size for deformable type " + std::to_string(GetDeformableType(nh)));
@@ -142,19 +142,19 @@ namespace smmap
         switch (GetDeformableType(nh))
         {
             case DeformableType::ROPE:
-                return ROSHelpers::GetParam(nh, "table_y_size", 1.5f);
+                return ROSHelpers::GetParam(nh, "table_y_half_extents", 1.5f);
 
             case DeformableType::CLOTH:
-                return ROSHelpers::GetParam(nh, "table_y_size", 0.2f);
+                return ROSHelpers::GetParam(nh, "table_y_half_extents", 0.2f);
 
             default:
                 throw_arc_exception(std::invalid_argument, "Unknown table size for deformable type " + std::to_string(GetDeformableType(nh)));
         }
     }
 
-    inline float GetTableSizeZ(ros::NodeHandle& nh)         // METERS
+    inline float GetTableHeight(ros::NodeHandle& nh)         // METERS
     {
-        return ROSHelpers::GetParam(nh, "table_z_size", GetTableSurfaceZ(nh));
+        return ROSHelpers::GetParam(nh, "table_height", GetTableSurfaceZ(nh));
     }
 
     inline float GetTableLegWidth(ros::NodeHandle& nh)      // METERS
@@ -332,10 +332,10 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_com_x", GetTableSurfaceX(nh) + GetClothXSize(nh) / 2.0f);
 
             case TaskType::CLOTH_WAFR:
-            case TaskType::CLOTH_SINGLE_POLE:
-            case TaskType::CLOTH_WALL:
                 return ROSHelpers::GetParam(nh, "cloth_com_x", GetCylinderCenterOfMassX(nh) + GetCylinderRadius(nh) * 1.5f + GetClothXSize(nh) / 2.0f);
 
+            case TaskType::CLOTH_SINGLE_POLE:
+            case TaskType::CLOTH_WALL:
             default:
                 Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "cloth_com_x", __func__);
                 return (float)val.Get();
@@ -403,14 +403,14 @@ namespace smmap
     // Cloth BulletPhysics settings
     ////////////////////////////////////////////////////////////////////////////
 
-    inline int GetClothNumDivsX(ros::NodeHandle& nh)
+    inline int GetClothNumControlPointsX(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "cloth_num_divs_x", 45);
+        return ROSHelpers::GetParam(nh, "cloth_num_control_points_x", 45);
     }
 
-    inline int GetClothNumDivsY(ros::NodeHandle& nh)
+    inline int GetClothNumControlPointsY(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "cloth_num_divs_y", 45);
+        return ROSHelpers::GetParam(nh, "cloth_num_control_points_y", 45);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -476,7 +476,7 @@ namespace smmap
 
     inline double GetFeedbackCovariance(ros::NodeHandle& nh)  // METERS^2
     {
-        return ROSHelpers::GetParam(nh, "feedback_covariance", 0.0);
+        return ROSHelpers::GetParamNoWarn(nh, "feedback_covariance", 0.0);
     }
 
     inline size_t GetNumSimstepsPerGripperCommand(ros::NodeHandle& nh)
@@ -490,12 +490,12 @@ namespace smmap
 
     inline double GetRobotControlPeriod(ros::NodeHandle& nh) // SECONDS
     {
-        return ROSHelpers::GetParam(nh, "robot_control_rate", 0.01);
+        return ROSHelpers::GetParamNoWarn(nh, "robot_control_rate", 0.01);
     }
 
     inline double GetMaxGripperVelocity(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "max_gripper_velocity", 0.2);
+        return ROSHelpers::GetParamNoWarn(nh, "max_gripper_velocity", 0.2);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -715,24 +715,19 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "adaptive_model_learning_rate", 1e-6);
     }
 
-    inline int GetPlanningHorizon(ros::NodeHandle& nh)
-    {
-        return ROSHelpers::GetParam(nh, "planning_horizion", 1);
-    }
-
     inline double GetProcessNoiseFactor(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "process_noise_factor", 0.1);
+        return ROSHelpers::GetParamNoWarn(nh, "process_noise_factor", 0.1);
     }
 
     inline double GetObservationNoiseFactor(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "observation_noise_factor", 0.01);
+        return ROSHelpers::GetParamNoWarn(nh, "observation_noise_factor", 0.01);
     }
 
     inline double GetCorrelationStrengthFactor(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "correlation_strength_factor", 0.9);
+        return ROSHelpers::GetParamNoWarn(nh, "correlation_strength_factor", 0.9);
     }
 
     inline bool GetOptimizationEnabled(ros::NodeHandle& nh)
@@ -775,12 +770,12 @@ namespace smmap
 
     inline size_t GetNumLookaheadSteps(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "num_lookahead_steps", 20);
+        return ROSHelpers::GetParamNoWarn(nh, "num_lookahead_steps", 20);
     }
 
     inline double GetRRTTimeout(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "rrt_timeout", 3600.0);
+        return ROSHelpers::GetParamNoWarn(nh, "rrt_timeout", 3600.0);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -794,7 +789,7 @@ namespace smmap
 
     inline std::string GetLogFolder(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "log_folder", "/tmp/");
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "log_folder", "/tmp/");
     }
 
     inline std::string GetDijkstrasStorageLocation(ros::NodeHandle& nh)
@@ -827,7 +822,7 @@ namespace smmap
                 break;
         }
 
-        return ROSHelpers::GetParam<std::string>(nh, "dijkstras_file_path", dijkstras_file_path);
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "dijkstras_file_path", dijkstras_file_path);
     }
 
     inline bool GetScreenshotsEnabled(ros::NodeHandle& nh)
@@ -840,7 +835,7 @@ namespace smmap
 
     inline std::string GetScreenshotFolder(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "screenshot_folder", GetLogFolder(nh) + "screenshots/");
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "screenshot_folder", GetLogFolder(nh) + "screenshots/");
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -849,92 +844,92 @@ namespace smmap
 
     inline std::string GetTestGrippersPosesTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "test_grippers_poses_topic", "test_grippers_poses");
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "test_grippers_poses_topic", "test_grippers_poses");
     }
 
     inline std::string GetExecuteGrippersMovementTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "execute_grippers_movement_topic", "execute_grippers_movement");
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "execute_grippers_movement_topic", "execute_grippers_movement");
     }
 
     inline std::string GetSimulatorFeedbackTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "simulator_feedback_topic", "simulator_feedback");
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "simulator_feedback_topic", "simulator_feedback");
     }
 
     inline std::string GetCoverPointsTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "get_cover_points_topic", "get_cover_points");
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_cover_points_topic", "get_cover_points");
     }
 
     inline std::string GetMirrorLineTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "get_mirror_line_topic", "get_mirror_line");
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_mirror_line_topic", "get_mirror_line");
     }
 
     inline std::string GetFreeSpaceGraphTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "get_free_space_graph_topic", "get_free_space_graph");
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_free_space_graph_topic", "get_free_space_graph");
     }
 
     inline std::string GetSignedDistanceFieldTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "get_signed_distance_field_topic", "get_signed_distance_field");
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_signed_distance_field_topic", "get_signed_distance_field");
     }
 
     inline std::string GetGripperNamesTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "get_gripper_names_topic", "get_gripper_names");
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_gripper_names_topic", "get_gripper_names");
     }
 
     inline std::string GetGripperAttachedNodeIndicesTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "get_gripper_attached_node_indices", "get_gripper_attached_node_indices");
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_gripper_attached_node_indices_topic", "get_gripper_attached_node_indices");
     }
 
     inline std::string GetGripperPoseTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "get_gripper_pose_topic", "get_gripper_pose");
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_gripper_pose_topic", "get_gripper_pose");
     }
 
     inline std::string GetObjectInitialConfigurationTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "get_object_initial_configuration_topic", "get_object_initial_configuration");
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_object_initial_configuration_topic", "get_object_initial_configuration");
     }
 
     inline std::string GetObjectCurrentConfigurationTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "get_object_current_configuration_topic", "get_object_current_configuration");
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_object_current_configuration_topic", "get_object_current_configuration");
     }
 
     inline std::string GetVisualizationMarkerTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "visualization_marker_topic", "visualization_marker");
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "visualization_marker_topic", "visualization_marker");
     }
 
     inline std::string GetVisualizationMarkerArrayTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "visualization_marker_array_topic", "visualization_marker_vector");
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "visualization_marker_array_topic", "visualization_marker_vector");
     }
 
     inline std::string GetConfidenceTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "confidence_topic", "confidence");
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "confidence_topic", "confidence");
     }
 
     inline std::string GetConfidenceImageTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "confidence_image_topic", "confidence_image");
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "confidence_image_topic", "confidence_image");
     }
 
     inline std::string GetGripperCollisionCheckTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "get_gripper_collision_check_topic", "get_gripper_collision_check");
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_gripper_collision_check_topic", "get_gripper_collision_check");
     }
 
     inline std::string GetTerminateSimulationTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "terminate_simulation_topic", "terminate_simulation");
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "terminate_simulation_topic", "terminate_simulation");
     }
 
     ////////////////////////////////////////////////////////////////////////////

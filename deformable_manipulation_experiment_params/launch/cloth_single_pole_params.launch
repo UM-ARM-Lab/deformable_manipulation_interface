@@ -2,14 +2,51 @@
     <param name="deformable_type"       value="cloth"/>
     <param name="task_type"             value="cloth_single_pole"/>
 
-    <!--<param name="cloth_com_x"           value="-0.2"/>-->
-    <!--<param name="cloth_com_z"           value="0.0"/>-->
+    <!-- Table size params -->
+    <arg name="table_x_half_extents"    value="0.095"/>
+    <arg name="table_y_half_extents"    value="0.2"/>
+    <arg name="table_height"            value="0.699"/>
+    <arg name="table_thickness"         value="0.05"/>
 
-    <param name="cloth_x_size"          value="0.625"/>
-    <param name="cloth_num_divs_x"      value="50"/>
+    <param name="table_x_half_extents"  value="$(arg table_x_half_extents)"/>
+    <param name="table_y_half_extents"  value="$(arg table_y_half_extents)"/>
+    <param name="table_height"          value="$(arg table_height)"/>
+    <param name="table_thickness"       value="$(arg table_thickness)"/>
 
-    <param name="cloth_y_size"          value="0.5"/>
-    <param name="cloth_num_divs_y"      value="40"/>
+    <!-- Table position params -->
+    <arg name="table_leading_edge_x"    value ="-0.185"/>
+
+    <arg name="table_surface_x"         value="$(eval table_leading_edge_x - table_x_half_extents)"/>
+    <arg name="table_surface_y"         value="0.0"/>
+    <arg name="table_surface_z"         value="$(arg table_height)"/>
+
+    <param name="table_surface_x"       value="$(arg table_surface_x)"/>
+    <param name="table_surface_y"       value="$(arg table_surface_y)"/>
+    <param name="table_surface_z"       value="$(arg table_surface_z)"/>
+
+
+    <!-- Cloth properties params -->
+    <param name="cloth_linear_stiffness"        value="0.8"/>
+
+    <!-- Cloth size params -->
+    <arg name="cloth_x_size"                    value="0.4"/>
+    <arg name="cloth_y_size"                    value="0.5"/>
+    <arg name="cloth_num_control_points_x"      value="40"/>
+    <arg name="cloth_num_control_points_y"      value="50"/>
+
+    <param name="cloth_x_size"                  value="$(arg cloth_x_size)"/>
+    <param name="cloth_y_size"                  value="$(arg cloth_y_size)"/>
+    <param name="cloth_num_control_points_x"    value="$(arg cloth_num_control_points_x)"/>
+    <param name="cloth_num_control_points_y"    value="$(arg cloth_num_control_points_y)"/>
+
+    <!-- Cloth position params -->
+    <arg name="cloth_leading_edge_x"    value="0.06"/>
+
+    <param name="cloth_com_x"           value="$(eval cloth_leading_edge_x + (cloth_x_size / 2.0))"/>
+    <param name="cloth_com_y"           value="0.0"/>
+    <param name="cloth_com_z"           value="$(eval table_surface_z + 0.1)"/>
+
+
 
     <param name="cloth_cylinder_com_x"  value="0.0"/>
     <param name="cloth_cylinder_com_y"  value="0.0"/>
@@ -20,34 +57,20 @@
 
 
 
+    <!-- World parameters for planning -->
+    <arg name="grid_resolution"         value="0.02"/>
 
-    <param name="world_x_step"          value="0.02"/>
+    <param name="world_x_step"          value="$(arg grid_resolution)"/>
     <param name="world_x_min"           value="-0.4"/>
     <param name="world_x_max"           value="0.4"/>
 
-    <param name="world_y_step"          value="0.02"/>
+    <param name="world_y_step"          value="$(arg grid_resolution)"/>
     <param name="world_y_min"           value="-0.3"/>
     <param name="world_y_max"           value="0.3"/>
 
-    <param name="world_z_step"          value="0.02"/>
+    <param name="world_z_step"          value="$(arg grid_resolution)"/>
     <param name="world_z_min"           value="0.5"/>
     <param name="world_z_max"           value="1.1"/>
-
-
-
-
-    <param name="cover_region_x_min"    value="-0.3"/>
-    <param name="cover_region_x_steps"  value="1"/>
-    <param name="cover_region_x_res"    value="0.02"/>
-
-    <param name="cover_region_y_min"    value="-0.25"/>
-    <param name="cover_region_y_steps"  value="26"/>
-    <param name="cover_region_y_res"    value="0.02"/>
-
-    <param name="cover_region_z_min"    value="0.6"/>
-    <param name="cover_region_z_steps"  value="20"/>
-    <param name="cover_region_z_res"    value="0.02"/>
-
 
 
     <group ns="deform_simulator_node">
