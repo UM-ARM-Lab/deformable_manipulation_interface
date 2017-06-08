@@ -2,6 +2,11 @@
     <param name="deformable_type"       value="cloth"/>
     <param name="task_type"             value="cloth_single_pole"/>
 
+    <param name="default_deformability"     value="14.0"/>
+    <param name="collision_scaling_factor"  value="1000.0"/>
+    <param name="stretching_threshold"      value="$(eval (0.012 + 0.002) / 0.012)"/>
+    <param name="max_time"                  value="20.0"/>
+
     <!-- Table size params -->
     <arg name="table_x_half_extents"    value="0.095"/>
     <arg name="table_y_half_extents"    value="0.2"/>

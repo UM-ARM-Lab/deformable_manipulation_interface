@@ -1,4 +1,9 @@
 <launch>
     <param name="deformable_type" value="rope"/>
     <param name="task_type" value="rope_cylinder_coverage"/>
+
+    <param name="default_deformability"     value="10.0"/>
+    <param name="collision_scaling_factor"  value="200.0"/>
+    <param name="stretching_threshold"      value="$(eval 0.025 + 0.005) / 0.025)"/>
+    <param name="max_time"                  value="15.0"/>
 </launch>

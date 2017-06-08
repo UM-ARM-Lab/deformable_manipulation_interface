@@ -83,6 +83,12 @@ namespace smmap
         }
     }
 
+    inline double GetMaxTime(ros::NodeHandle& nh)
+    {
+        const Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "max_time", __func__);
+        return val.GetImmutable();
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // Gripper Size Settings
     ////////////////////////////////////////////////////////////////////////////
@@ -101,6 +107,11 @@ namespace smmap
                 return ROSHelpers::GetParamNoWarn(nh, "cloth_gripper_apperture", 0.006f);
         }
 
+    }
+
+    inline double GetGripperRadius()
+    {
+        return 0.023;
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -171,7 +182,7 @@ namespace smmap
     // Cylinder Size Settings
     ////////////////////////////////////////////////////////////////////////////
 
-    inline float GetCylinderRadius(ros::NodeHandle& nh)   // METERS
+    inline float GetCylinderRadius(ros::NodeHandle& nh)           // METERS
     {
         switch (GetTaskType(nh))
         {
@@ -191,7 +202,7 @@ namespace smmap
         }
     }
 
-    inline float GetCylinderHeight(ros::NodeHandle& nh)   // METERS
+    inline float GetCylinderHeight(ros::NodeHandle& nh)           // METERS
     {
         switch (GetTaskType(nh))
         {
@@ -337,8 +348,8 @@ namespace smmap
             case TaskType::CLOTH_SINGLE_POLE:
             case TaskType::CLOTH_WALL:
             default:
-                Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "cloth_com_x", __func__);
-                return (float)val.Get();
+                const Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "cloth_com_x", __func__);
+                return (float)val.GetImmutable();
         }
     }
 
@@ -356,8 +367,8 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_com_y", GetCylinderCenterOfMassY(nh));
 
             default:
-                Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "cloth_com_y", __func__);
-                return (float)val.Get();
+                const Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "cloth_com_y", __func__);
+                return (float)val.GetImmutable();
         }
     }
 
@@ -375,8 +386,8 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_com_z", GetCylinderCenterOfMassZ(nh));
 
             default:
-                Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "cloth_com_z", __func__);
-                return (float)val.Get();
+                const Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "cloth_com_z", __func__);
+                return (float)val.GetImmutable();
         }
     }
 
@@ -467,8 +478,6 @@ namespace smmap
     {
         return ROSHelpers::GetParam(nh, "cover_region_z_res", 0.01f);
     }
-
-
 
     ////////////////////////////////////////////////////////////////////////////
     // Simulator settings
@@ -590,8 +599,8 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_y_min", GetClothCenterOfMassY(nh) - 0.75 * GetClothYSize(nh));
 
             default:
-                Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "world_y_min", __func__);
-                return val.Get();
+                const Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "world_y_min", __func__);
+                return val.GetImmutable();
         }
     }
 
@@ -614,8 +623,8 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_y_max", GetClothCenterOfMassY(nh) + 0.75 * GetClothYSize(nh));
 
             default:
-                Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "world_y_max", __func__);
-                return val.Get();
+                const Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "world_y_max", __func__);
+                return val.GetImmutable();
         }
     }
 
@@ -658,8 +667,8 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_z_min", GetClothCenterOfMassZ(nh) - 1.0 * GetClothXSize(nh));
 
             default:
-                Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "world_z_min", __func__);
-                return val.Get();
+                const Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "world_z_min", __func__);
+                return val.GetImmutable();
         }
     }
 
@@ -681,8 +690,8 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_z_max", GetClothCenterOfMassZ(nh) + 0.5 * GetClothXSize(nh));
 
             default:
-                Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "world_z_max", __func__);
-                return val.Get();
+                const Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "world_z_max", __func__);
+                return val.GetImmutable();
         }
     }
 
@@ -773,9 +782,51 @@ namespace smmap
         return ROSHelpers::GetParamNoWarn(nh, "num_lookahead_steps", 20);
     }
 
+    inline double GetRRTHomotopyDistancePenalty()
+    {
+        return 1e3;
+    }
+
+    inline int64_t GetRRTMaxShortcutIndexDistance()
+    {
+        return 100;
+    }
+
+    inline uint32_t GetRRTMaxSmoothingIterations()
+    {
+        return 200;
+    }
+
+    inline uint32_t GetRRTMaxFailedSmoothingIterations()
+    {
+        return 100;
+    }
+
     inline double GetRRTTimeout(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParamNoWarn(nh, "rrt_timeout", 3600.0);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Diminishing Rigidity Parameters
+    ////////////////////////////////////////////////////////////////////////////
+
+    inline double GetDefaultDeformability(ros::NodeHandle& nh)
+    {
+        const Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "default_deformability", __func__);
+        return val.GetImmutable();
+    }
+
+    inline double GetCollisionScalingFactor(ros::NodeHandle& nh)
+    {
+        const Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "collision_scaling_factor", __func__);
+        return val.GetImmutable();
+    }
+
+    inline double GetStretchingThreshold(ros::NodeHandle& nh)
+    {
+        const Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "stretching_threshold", __func__);
+        return val.GetImmutable();
     }
 
     ////////////////////////////////////////////////////////////////////////////
