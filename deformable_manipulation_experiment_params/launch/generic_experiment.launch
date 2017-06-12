@@ -22,7 +22,6 @@
 
     <!-- Planner internal arguments -->
     <arg name="launch_planner"                          default="true"/>
-    <arg name="planning_horizon"                        default="1"/>
     <arg name="optimization_enabled"                    default="true"/>
     <arg name="kalman_parameters_override"              default="false"/>
     <arg name="process_noise_factor"                    if="$(arg kalman_parameters_override)"/>
@@ -51,7 +50,6 @@
 
     <!-- Start the planner -->
     <group ns="smmap_planner_node">
-        <param name="planning_horizon"                  value="$(arg planning_horizon)"                 type="int"/>
         <param name="optimization_enabled"              value="$(arg optimization_enabled)"             type="bool"/>
         <param name="use_multi_model"                   value="$(arg multi_model)"                      type="bool"/>
         <param name="translational_deformability"       value="$(arg translational_deformability)"      type="double"   if="$(arg deformability_override)"/>

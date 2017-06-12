@@ -135,31 +135,33 @@ namespace smmap
 
     inline float GetTableHalfExtentsX(ros::NodeHandle& nh)  // METERS
     {
-        switch (GetDeformableType(nh))
+        switch (GetTaskType(nh))
         {
-            case DeformableType::ROPE:
+            case TaskType::ROPE_CYLINDER_COVERAGE:
                 return ROSHelpers::GetParam(nh, "table_x_half_extents", 1.5f);
 
-            case DeformableType::CLOTH:
+            case TaskType::CLOTH_TABLE_COVERAGE:
                 return ROSHelpers::GetParam(nh, "table_x_half_extents", 0.2f);
 
             default:
-                throw_arc_exception(std::invalid_argument, "Unknown table size for deformable type " + std::to_string(GetDeformableType(nh)));
+                const Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "table_x_half_extents", __func__);
+                return (float)val.GetImmutable();
         }
     }
 
     inline float GetTableHalfExtentsY(ros::NodeHandle& nh)  // METERS
     {
-        switch (GetDeformableType(nh))
+        switch (GetTaskType(nh))
         {
-            case DeformableType::ROPE:
+            case TaskType::ROPE_CYLINDER_COVERAGE:
                 return ROSHelpers::GetParam(nh, "table_y_half_extents", 1.5f);
 
-            case DeformableType::CLOTH:
+            case TaskType::CLOTH_TABLE_COVERAGE:
                 return ROSHelpers::GetParam(nh, "table_y_half_extents", 0.2f);
 
             default:
-                throw_arc_exception(std::invalid_argument, "Unknown table size for deformable type " + std::to_string(GetDeformableType(nh)));
+                const Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "table_y_half_extents", __func__);
+                return (float)val.GetImmutable();
         }
     }
 
@@ -529,33 +531,33 @@ namespace smmap
 
     inline double GetWorldXMin(ros::NodeHandle& nh)     // METERS
     {
-        switch(GetDeformableType(nh))
+        switch(GetTaskType(nh))
         {
-            case DeformableType::ROPE:
+            case TaskType::ROPE_CYLINDER_COVERAGE:
                 return ROSHelpers::GetParam(nh, "world_x_min", GetTableSurfaceX(nh) - GetTableHalfExtentsX(nh));
 
-            case DeformableType::CLOTH:
+            case TaskType::CLOTH_WAFR:
                 return ROSHelpers::GetParam(nh, "world_x_min", GetClothCenterOfMassX(nh) - 1.4 * GetClothXSize(nh));
 
             default:
-                ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
-                throw_arc_exception(std::invalid_argument, std::string("Unknown deformable type for ") + __func__);
+                const Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "world_x_min", __func__);
+                return val.GetImmutable();
         }
     }
 
     inline double GetWorldXMax(ros::NodeHandle& nh)     // METERS
     {
-        switch(GetDeformableType(nh))
+        switch(GetTaskType(nh))
         {
-            case DeformableType::ROPE:
+            case TaskType::ROPE_CYLINDER_COVERAGE:
                 return ROSHelpers::GetParam(nh, "world_x_max", GetTableSurfaceX(nh) + GetTableHalfExtentsX(nh));
 
-            case DeformableType::CLOTH:
+            case TaskType::CLOTH_WAFR:
                 return ROSHelpers::GetParam(nh, "world_x_max", GetClothCenterOfMassX(nh) + 0.4 * GetClothXSize(nh));
 
             default:
-                ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
-                throw_arc_exception(std::invalid_argument, std::string("Unknown deformable type for ") + __func__);
+                const Maybe::Maybe<double> val = ROSHelpers::GetParamRequired<double>(nh, "world_x_max", __func__);
+                return val.GetImmutable();
         }
     }
 

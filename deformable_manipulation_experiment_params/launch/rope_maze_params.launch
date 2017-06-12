@@ -1,0 +1,33 @@
+<launch>
+    <param name="deformable_type" value="rope"/>
+    <param name="task_type" value="rope_maze"/>
+
+    <param name="default_deformability"     value="20.0"/>
+    <param name="collision_scaling_factor"  value="200.0"/>
+    <param name="stretching_threshold"      value="$(eval (0.025 + 0.005) / 0.025)"/>
+    <param name="max_time"                  value="3600.0"/>
+
+    <!-- Rope phyiscal parameters -->
+    <param name="rope_segment_length"       value="0.02"/>
+    <param name="rope_num_links"            value="55"/>
+    <param name="rope_radius"               value="0.01"/>
+
+    <!-- World parameters for planning -->
+    <arg name="grid_resolution"         value="0.1"/>
+
+    <param name="world_x_step"          value="$(arg grid_resolution)"/>
+    <param name="world_x_min"           value="-1.3"/>
+    <param name="world_x_max"           value="1.3"/>
+
+    <param name="world_y_step"          value="$(arg grid_resolution)"/>
+    <param name="world_y_min"           value="-1.0"/>
+    <param name="world_y_max"           value="1.0"/>
+
+    <param name="world_z_step"          value="$(arg grid_resolution)"/>
+    <param name="world_z_min"           value="0.0"/>
+    <param name="world_z_max"           value="1.0"/>
+
+    <group ns="deform_simulator_node">
+        <param name="num_simsteps_per_gripper_command"  value="4"/>
+    </group>
+</launch>
