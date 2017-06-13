@@ -781,7 +781,16 @@ namespace smmap
 
     inline size_t GetNumLookaheadSteps(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn(nh, "num_lookahead_steps", 20);
+        const size_t steps = ROSHelpers::GetParamNoWarn(nh, "num_lookahead_steps", 20);
+        assert(steps >= 1);
+        return steps;
+    }
+
+    inline size_t GetMaxGrippersPoseHistoryLength(ros::NodeHandle& nh)
+    {
+        size_t length = ROSHelpers::GetParam(nh, "max_pose_history_steps", 20);
+        assert(length >= 1);
+        return length;
     }
 
     inline double GetRRTHomotopyDistancePenalty()

@@ -2,7 +2,7 @@
     <param name="deformable_type" value="rope"/>
     <param name="task_type" value="rope_maze"/>
 
-    <param name="default_deformability"     value="20.0"/>
+    <param name="default_deformability"     value="10.0"/>
     <param name="collision_scaling_factor"  value="200.0"/>
     <param name="stretching_threshold"      value="$(eval (0.025 + 0.005) / 0.025)"/>
     <param name="max_time"                  value="3600.0"/>
@@ -13,7 +13,7 @@
     <param name="rope_radius"               value="0.01"/>
 
     <!-- World parameters for planning -->
-    <arg name="grid_resolution"         value="0.1"/>
+    <arg name="grid_resolution"         value="0.05"/>
 
     <param name="world_x_step"          value="$(arg grid_resolution)"/>
     <param name="world_x_min"           value="-1.3"/>
