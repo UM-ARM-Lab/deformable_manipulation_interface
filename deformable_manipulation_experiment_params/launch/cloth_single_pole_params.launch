@@ -10,7 +10,7 @@
     <!-- Table size params -->
     <arg name="table_x_half_extents"    value="0.095"/>
     <arg name="table_y_half_extents"    value="0.2"/>
-    <arg name="table_height"            value="0.699"/>
+    <arg name="table_height"            value="0.2005"/>
     <arg name="table_thickness"         value="0.05"/>
 
     <param name="table_x_half_extents"  value="$(arg table_x_half_extents)"/>
@@ -74,8 +74,8 @@
     <param name="world_y_max"           value="0.3"/>
 
     <param name="world_z_step"          value="$(arg grid_resolution)"/>
-    <param name="world_z_min"           value="0.5"/>
-    <param name="world_z_max"           value="1.1"/>
+    <param name="world_z_min"           value="$(eval table_height - 0.3)"/>
+    <param name="world_z_max"           value="$(eval table_height + 0.4)"/>
 
 
     <group ns="deform_simulator_node">
