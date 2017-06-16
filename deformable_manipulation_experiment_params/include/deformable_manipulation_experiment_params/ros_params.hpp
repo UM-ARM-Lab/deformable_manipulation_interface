@@ -924,6 +924,11 @@ namespace smmap
         return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_cover_points_topic", "get_cover_points");
     }
 
+    inline std::string GetCoverPointNormalsTopic(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_cover_point_normals_topic", "get_cover_point_normals");
+    }
+
     inline std::string GetMirrorLineTopic(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_mirror_line_topic", "get_mirror_line");
