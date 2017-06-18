@@ -7,6 +7,9 @@
     <param name="stretching_threshold"      value="$(eval (0.025 + 0.005) / 0.025)"/>
     <param name="max_time"                  value="3600.0"/>
 
+    <param name="error_threshold_along_normal"          value="0.01"/>
+    <param name="error_threshold_distance_to_normal"    value="0.01"/>
+
     <!-- Rope phyiscal parameters -->
     <param name="rope_segment_length"       value="0.02"/>
     <param name="rope_num_links"            value="55"/>

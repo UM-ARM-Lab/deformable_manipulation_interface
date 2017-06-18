@@ -90,6 +90,34 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
+    // Error calculation settings
+    ////////////////////////////////////////////////////////////////////////////
+
+    inline double GetErrorThresholdAlongNormal(ros::NodeHandle& nh)
+    {
+        switch(GetDeformableType(nh))
+        {
+            case DeformableType::ROPE:
+                return ROSHelpers::GetParam(nh, "error_threshold_along_normal", 0.01);
+
+            case DeformableType::CLOTH:
+                return ROSHelpers::GetParam(nh, "error_threshold_along_normal", 0.002);
+        }
+    }
+
+    inline double GetErrorThresholdDistanceToNormal(ros::NodeHandle& nh)
+    {
+        switch(GetDeformableType(nh))
+        {
+            case DeformableType::ROPE:
+                return ROSHelpers::GetParam(nh, "error_threshold_distance_to_normal", 0.01);
+
+            case DeformableType::CLOTH:
+                return ROSHelpers::GetParam(nh, "error_threshold_distance_to_normal", 0.002);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
     // Gripper Size Settings
     ////////////////////////////////////////////////////////////////////////////
 
@@ -106,7 +134,6 @@ namespace smmap
                 //       The original number was 0.1f
                 return ROSHelpers::GetParamNoWarn(nh, "cloth_gripper_apperture", 0.006f);
         }
-
     }
 
     inline double GetGripperRadius()

@@ -7,9 +7,12 @@
     <param name="stretching_threshold"      value="$(eval (0.012 + 0.002) / 0.012)"/>
     <param name="max_time"                  value="20.0"/>
 
+    <param name="error_threshold_along_normal"          value="0.01"/>
+    <param name="error_threshold_distance_to_normal"    value="0.002"/>
+
     <!-- Table size params -->
     <arg name="table_x_half_extents"    value="0.095"/>
-    <arg name="table_y_half_extents"    value="0.2"/>
+    <arg name="table_y_half_extents"    value="0.24"/>
     <arg name="table_height"            value="0.2005"/>
     <arg name="table_thickness"         value="0.05"/>
 
@@ -34,9 +37,9 @@
     <param name="cloth_linear_stiffness"        value="0.8"/>
 
     <!-- Cloth size params -->
-    <arg name="cloth_x_size"                    value="0.4"/>
+    <arg name="cloth_x_size"                    value="0.3"/>
     <arg name="cloth_y_size"                    value="0.5"/>
-    <arg name="cloth_num_control_points_x"      value="40"/>
+    <arg name="cloth_num_control_points_x"      value="30"/>
     <arg name="cloth_num_control_points_y"      value="50"/>
 
     <param name="cloth_x_size"                  value="$(arg cloth_x_size)"/>

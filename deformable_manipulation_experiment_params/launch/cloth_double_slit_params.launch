@@ -7,6 +7,9 @@
     <param name="stretching_threshold"      value="$(eval (0.012 + 0.002) / 0.012)"/>
     <param name="max_time"                  value="20.0"/>
 
+    <param name="error_threshold_along_normal"          value="0.01"/>
+    <param name="error_threshold_distance_to_normal"    value="0.002"/>
+
     <!-- Table size params -->
     <arg name="table_x_half_extents"    value="0.095"/>
     <arg name="table_y_half_extents"    value="0.2"/>
