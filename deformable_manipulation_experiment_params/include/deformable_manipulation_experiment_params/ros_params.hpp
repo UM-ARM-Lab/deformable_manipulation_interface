@@ -870,6 +870,23 @@ namespace smmap
         return seed;
     }
 
+    /*
+    inline GripperControllerType GetGripperControllerType(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "gripper_controller_type", RANDOM_SAMPLE);
+    }
+
+    inline int64_t GetMaxSamplingCounts(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "max_sampling_counts", 1000);
+    }
+
+    inline double GetDistanceToObstacleThreshold(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "distance_to_obstacle_threshold", 0.1);
+    }
+    */
+
     // For Constraint Model
 
     inline double GetConstraintTranslationalDir(ros::NodeHandle& nh)

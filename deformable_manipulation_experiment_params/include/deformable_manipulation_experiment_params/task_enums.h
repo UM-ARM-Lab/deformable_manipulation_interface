@@ -27,6 +27,13 @@ namespace smmap
         ROPE_TOWARD_TABLE,            // mask, constraint violation
         ROPE_CROSS                    // directional rigidity use Dale's directly
     };
+
+    enum GripperControllerType
+    {
+        RANDOM_SAMPLE,
+        UNIFORM_SAMPLE
+    };
+
 }
 
 #endif // TASK_ENUMS_H
