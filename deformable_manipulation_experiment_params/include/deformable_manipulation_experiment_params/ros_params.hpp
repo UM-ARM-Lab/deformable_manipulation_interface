@@ -89,6 +89,12 @@ namespace smmap
         return val.GetImmutable();
     }
 
+    inline bool GetDisableAllVisualizations(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "disable_all_visualizations", __func__);
+        return val.GetImmutable();
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // Error calculation settings
     ////////////////////////////////////////////////////////////////////////////
@@ -855,6 +861,11 @@ namespace smmap
         return val.GetImmutable();
     }
 
+    inline bool GetReuseOldRRTResults(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "reuse_old_rrt_results", __func__);
+        return val.GetImmutable();
+    }
 
     inline double GetRRTHomotopyDistancePenalty()
     {
