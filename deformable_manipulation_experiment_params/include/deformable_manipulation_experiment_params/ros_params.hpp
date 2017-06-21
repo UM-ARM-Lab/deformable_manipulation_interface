@@ -870,10 +870,24 @@ namespace smmap
         return seed;
     }
 
-    /*
+
     inline GripperControllerType GetGripperControllerType(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "gripper_controller_type", RANDOM_SAMPLE);
+        std::string gripper_controller_type =  ROSHelpers::GetParam<std::string>(nh, "gripper_controller_type", "random_sampling");
+
+        if (gripper_controller_type.compare("random_sampling") == 0)
+        {
+            return GripperControllerType::RANDOM_SAMPLING;
+        }
+        else if (gripper_controller_type.compare("uniform_sampling") == 0)
+        {
+            return GripperControllerType::UNIFORM_SAMPLING;
+        }
+        else
+        {
+            ROS_FATAL_STREAM("Unknown gripper controller type: " << gripper_controller_type);
+            throw_arc_exception(std::invalid_argument, "Unknown gripper controller type: " + gripper_controller_type);
+        }
     }
 
     inline int64_t GetMaxSamplingCounts(ros::NodeHandle& nh)
@@ -885,7 +899,7 @@ namespace smmap
     {
         return ROSHelpers::GetParam(nh, "distance_to_obstacle_threshold", 0.1);
     }
-    */
+
 
     // For Constraint Model
 

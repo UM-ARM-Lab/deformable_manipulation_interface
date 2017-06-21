@@ -30,8 +30,8 @@ namespace smmap
 
     enum GripperControllerType
     {
-        RANDOM_SAMPLE,
-        UNIFORM_SAMPLE
+        RANDOM_SAMPLING,
+        UNIFORM_SAMPLING
     };
 
 }
