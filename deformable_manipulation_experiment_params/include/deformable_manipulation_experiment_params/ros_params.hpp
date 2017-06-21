@@ -870,6 +870,7 @@ namespace smmap
         return seed;
     }
 
+    // For Gripper motion controller
 
     inline GripperControllerType GetGripperControllerType(ros::NodeHandle& nh)
     {
@@ -910,7 +911,7 @@ namespace smmap
 
     inline double GetConstraintTranslationalDis(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "constraint_translational_dis_deformability", 6.0f);
+        return ROSHelpers::GetParam(nh, "constraint_translational_dis_deformability", 3.0f);
     }
 
     inline double GetConstraintRotational(ros::NodeHandle& nh)

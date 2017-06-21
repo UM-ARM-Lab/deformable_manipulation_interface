@@ -1,4 +1,8 @@
 <launch>
     <param name="deformable_type" value="rope"/>
     <param name="task_type" value="rope_cylinder_coverage"/>
+
+    <param name="gripper_controller_type" value="random_sampling"/>
+    <param name="max_sampling_counts" value="2000"/>
+
 </launch>
