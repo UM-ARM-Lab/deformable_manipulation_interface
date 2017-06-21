@@ -5,9 +5,9 @@
     <param name="default_deformability"     value="10.0"/>
     <param name="collision_scaling_factor"  value="200.0"/>
     <param name="stretching_threshold"      value="$(eval (0.025 + 0.005) / 0.025)"/>
-    <param name="max_time"                  value="3600.0"/>
+    <param name="max_time"                  value="60.0"/>
 
-    <param name="error_threshold_along_normal"          value="0.01"/>
+    <param name="error_threshold_along_normal"          value="0.02"/>
     <param name="error_threshold_distance_to_normal"    value="0.01"/>
 
     <!-- Rope phyiscal parameters -->
@@ -29,6 +29,23 @@
     <param name="world_z_step"          value="$(arg grid_resolution)"/>
     <param name="world_z_min"           value="0.0"/>
     <param name="world_z_max"           value="1.0"/>
+
+    <!-- Visual settings for the simulator -->
+    <param name="outer_walls_alpha"     value="0.0"/>
+
+
+
+    <group ns="smmap_planner_node">
+        <param name="max_pose_history_steps"                            value="80"/>
+        <param name="error_delta_threshold_for_progress"                value="1.0"/>
+        <param name="grippers_distance_delta_threshold_for_progress"    value="0.03"/>
+
+        <param name="rrt_max_shortcut_index_distance"       value="100"/>
+        <param name="rrt_max_smoothing_iterations"          value="500"/>
+        <param name="rrt_max_failed_smoothing_iterations"   value="500"/>
+    </group>
+
+
 
     <group ns="deform_simulator_node">
         <param name="num_simsteps_per_gripper_command"  value="4"/>
