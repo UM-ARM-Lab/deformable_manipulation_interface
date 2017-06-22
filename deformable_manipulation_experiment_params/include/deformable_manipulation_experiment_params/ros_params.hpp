@@ -6,6 +6,7 @@
 #include <chrono>
 #include <arc_utilities/ros_helpers.hpp>
 #include <arc_utilities/arc_exceptions.hpp>
+#include <ros/package.h>
 
 #include "deformable_manipulation_experiment_params/task_enums.h"
 
@@ -123,6 +124,12 @@ namespace smmap
         }
     }
 
+    inline double GetErrorThresholdTaskDone(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "error_threshold_task_done", __func__);
+        return val.GetImmutable();
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // Gripper Size Settings
     ////////////////////////////////////////////////////////////////////////////
@@ -142,9 +149,10 @@ namespace smmap
         }
     }
 
-    inline double GetGripperRadius()
+    inline double GetRRTMinGripperDistanceToObstacles(ros::NodeHandle& nh)
     {
-        return 0.023;
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt_min_gripper_distance_to_obstacles", __func__);
+        return val.GetImmutable();
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -364,17 +372,20 @@ namespace smmap
 
     inline float GetRopeCenterOfMassX(ros::NodeHandle& nh)    // METERS
     {
-        return ROSHelpers::GetParam(nh, "rope_com_x", GetTableSurfaceX(nh) + 15.0f * GetRopeSegmentLength(nh));
+        const auto val = ROSHelpers::GetParamRequired<float>(nh, "rope_com_x", __func__);
+        return val.GetImmutable();
     }
 
     inline float GetRopeCenterOfMassY(ros::NodeHandle& nh)    // METERS
     {
-        return ROSHelpers::GetParam(nh, "rope_com_y", GetTableSurfaceY(nh));
+        const auto val = ROSHelpers::GetParamRequired<float>(nh, "rope_com_y", __func__);
+        return val.GetImmutable();
     }
 
     inline float GetRopeCenterOfMassZ(ros::NodeHandle& nh)    // METERS
     {
-        return ROSHelpers::GetParam(nh, "rope_com_z", GetTableSurfaceZ(nh) + 5.0f * GetRopeRadius(nh));
+        const auto val = ROSHelpers::GetParamRequired<float>(nh, "rope_com_z", __func__);
+        return val.GetImmutable();
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -834,7 +845,6 @@ namespace smmap
         return seed;
     }
 
-
     inline size_t GetNumLookaheadSteps(ros::NodeHandle& nh)
     {
         const size_t steps = ROSHelpers::GetParamNoWarn(nh, "num_lookahead_steps", 20);
@@ -861,9 +871,15 @@ namespace smmap
         return val.GetImmutable();
     }
 
-    inline bool GetReuseOldRRTResults(ros::NodeHandle& nh)
+    inline bool GetRRTReuseOldResults(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "reuse_old_rrt_results", __func__);
+        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "rrt_reuse_old_results", __func__);
+        return val.GetImmutable();
+    }
+
+    inline bool GetRRTStoreNewResults(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "rrt_store_new_results", __func__);
         return val.GetImmutable();
     }
 
@@ -933,35 +949,13 @@ namespace smmap
 
     inline std::string GetDijkstrasStorageLocation(ros::NodeHandle& nh)
     {
-        std::string dijkstras_file_path;
-        switch (GetTaskType(nh))
-        {
-            case TaskType::CLOTH_WAFR:
-                dijkstras_file_path = "/home/dmcconac/Dropbox/catkin_ws/src/smmap/logs/cloth_wafr.dijkstras_serialized";
-                break;
-
-            case TaskType::CLOTH_SINGLE_POLE:
-                dijkstras_file_path = "/home/dmcconac/Dropbox/catkin_ws/src/smmap/logs/cloth_single_pole.dijkstras_serialized";
-                break;
-
-            case TaskType::CLOTH_WALL:
-                dijkstras_file_path = "/home/dmcconac/Dropbox/catkin_ws/src/smmap/logs/cloth_wall.dijkstras_serialized";
-                break;
-
-            case TaskType::CLOTH_DOUBLE_SLIT:
-                dijkstras_file_path = "/home/dmcconac/Dropbox/catkin_ws/src/smmap/logs/cloth_double_slit.dijkstras_serialized";
-                break;
-
-            case TaskType::ROPE_MAZE:
-                dijkstras_file_path = "/home/dmcconac/Dropbox/catkin_ws/src/smmap/logs/rope_maze.dijkstras_serialized";
-                break;
-
-            default:
-                dijkstras_file_path = "/home/dmcconac/Dropbox/catkin_ws/src/smmap/logs/unknown_trial.dijkstras_serialized";
-                break;
-        }
-
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "dijkstras_file_path", dijkstras_file_path);
+        const std::string base_path = ros::package::getPath("smmap");
+        const std::string task_name = ROSHelpers::GetParamRequired<std::string>(nh, "task_type", __func__).GetImmutable();
+        const std::string default_dijkstras_file_path =
+                base_path + "/logs/"
+                + task_name + "/"
+                + task_name + ".dijkstras_serialized";
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "dijkstras_file_path", default_dijkstras_file_path);
     }
 
     inline bool GetScreenshotsEnabled(ros::NodeHandle& nh)

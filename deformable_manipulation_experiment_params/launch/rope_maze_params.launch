@@ -1,7 +1,7 @@
 <launch>
     <param name="deformable_type"               value="rope"/>
     <param name="task_type"                     value="rope_maze"/>
-    <param name="disable_all_visualizations"    value="false"/>
+    <param name="disable_all_visualizations"    value="true"/>
 
     <param name="default_deformability"         value="10.0"/>
     <param name="collision_scaling_factor"      value="200.0"/>
@@ -43,12 +43,15 @@
     <group ns="smmap_planner_node">
         <param name="error_threshold_along_normal"          value="0.05"/>
         <param name="error_threshold_distance_to_normal"    value="0.025"/>
+        <param name="error_threshold_task_done"             value="0.3"/>
 
         <param name="max_pose_history_steps"                            value="80"/>
         <param name="error_delta_threshold_for_progress"                value="1.0"/>
         <param name="grippers_distance_delta_threshold_for_progress"    value="0.03"/>
 
-        <param name="reuse_old_rrt_results"                 value="false"/>
+        <param name="rrt_reuse_old_results"                 value="false"/>
+        <param name="rrt_store_new_results"                 value="true"/>
+        <param name="rrt_min_gripper_distance_to_obstacles" value="0.06"/> <!--Needs to be larger than grid resolution-->
         <param name="rrt_max_shortcut_index_distance"       value="100"/>
         <param name="rrt_max_smoothing_iterations"          value="500"/>
         <param name="rrt_max_failed_smoothing_iterations"   value="500"/>
