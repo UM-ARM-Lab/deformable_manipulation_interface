@@ -86,9 +86,10 @@
         <param name="error_delta_threshold_for_progress"                value="1.0"/>
         <param name="grippers_distance_delta_threshold_for_progress"    value="0.03"/>
 
-        <param name="rrt_reuse_old_results"                 value="true"/>
+        <param name="rrt_reuse_old_results"                 value="false"/>
         <param name="rrt_store_new_results"                 value="true"/>
-        <param name="rrt_min_gripper_distance_to_obstacles" value="0.023"/> <!--Needs to be larger than grid resolution-->
+        <param name="rrt_goal_bias"                         value="0.1"/>
+        <param name="rrt_min_gripper_distance_to_obstacles" value="0.025"/>
         <param name="rrt_max_shortcut_index_distance"       value="100"/>
         <param name="rrt_max_smoothing_iterations"          value="500"/>
         <param name="rrt_max_failed_smoothing_iterations"   value="250"/>

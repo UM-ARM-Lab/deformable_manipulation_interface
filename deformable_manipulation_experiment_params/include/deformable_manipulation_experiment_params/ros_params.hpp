@@ -888,6 +888,12 @@ namespace smmap
         return 1e3;
     }
 
+    inline double GetRRTGoalBias(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt_goal_bias", __func__);
+        return val.GetImmutable();
+    }
+
     inline int64_t GetRRTMaxShortcutIndexDistance(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt_max_shortcut_index_distance", __func__);
