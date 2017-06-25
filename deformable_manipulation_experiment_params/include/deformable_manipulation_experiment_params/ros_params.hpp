@@ -102,26 +102,14 @@ namespace smmap
 
     inline double GetErrorThresholdAlongNormal(ros::NodeHandle& nh)
     {
-        switch(GetDeformableType(nh))
-        {
-            case DeformableType::ROPE:
-                return ROSHelpers::GetParam(nh, "error_threshold_along_normal", 0.01);
-
-            case DeformableType::CLOTH:
-                return ROSHelpers::GetParam(nh, "error_threshold_along_normal", 0.002);
-        }
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "error_threshold_along_normal", __func__);
+        return val.GetImmutable();
     }
 
     inline double GetErrorThresholdDistanceToNormal(ros::NodeHandle& nh)
     {
-        switch(GetDeformableType(nh))
-        {
-            case DeformableType::ROPE:
-                return ROSHelpers::GetParam(nh, "error_threshold_distance_to_normal", 0.01);
-
-            case DeformableType::CLOTH:
-                return ROSHelpers::GetParam(nh, "error_threshold_distance_to_normal", 0.002);
-        }
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "error_threshold_distance_to_normal", __func__);
+        return val.GetImmutable();
     }
 
     inline double GetErrorThresholdTaskDone(ros::NodeHandle& nh)
@@ -822,6 +810,14 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "calculate_regret", false);
     }
 
+    inline double GetRewardScaleAnnealingFactor(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "reward_scale_annealing_factor", __func__);
+        const double factor = val.GetImmutable();
+        assert(0.0 <= factor && factor < 1.0);
+        return factor;
+    }
+
     inline bool GetUseRandomSeed(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "use_random_seed", false);
@@ -847,9 +843,18 @@ namespace smmap
 
     inline size_t GetNumLookaheadSteps(ros::NodeHandle& nh)
     {
-        const size_t steps = ROSHelpers::GetParamNoWarn(nh, "num_lookahead_steps", 20);
+        const auto val = ROSHelpers::GetParamRequired<int>(nh, "num_lookahead_steps", __func__);
+        const int steps = val.GetImmutable();
         assert(steps >= 1);
-        return steps;
+        return (size_t)steps;
+    }
+
+    inline double GetRubberBandOverstretchPredictionAnnealingFactor(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "band_overstretch_prediction_annealing_factor", __func__);
+        const double factor = val.GetImmutable();
+        assert(0.0 <= factor && factor < 1.0);
+        return factor;
     }
 
     inline size_t GetMaxGrippersPoseHistoryLength(ros::NodeHandle& nh)

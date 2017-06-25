@@ -1,7 +1,7 @@
 <launch>
     <param name="deformable_type"               value="cloth"/>
     <param name="task_type"                     value="cloth_double_slit"/>
-    <param name="disable_all_visualizations"    value="false"/>
+    <param name="disable_all_visualizations"    value="true"/>
 
     <param name="default_deformability"         value="14.0"/>
     <param name="collision_scaling_factor"      value="1000.0"/>
@@ -82,15 +82,17 @@
         <param name="error_threshold_distance_to_normal"    value="0.006"/>
         <param name="error_threshold_task_done"             value="0.1"/>
 
+        <param name="num_lookahead_steps"                               value="10"/>
+        <param name="band_overstretch_prediction_annealing_factor"      value="0.5"/>
         <param name="max_pose_history_steps"                            value="80"/>
         <param name="error_delta_threshold_for_progress"                value="1.0"/>
         <param name="grippers_distance_delta_threshold_for_progress"    value="0.03"/>
 
         <param name="rrt_reuse_old_results"                 value="false"/>
         <param name="rrt_store_new_results"                 value="true"/>
-        <param name="rrt_goal_bias"                         value="0.1"/>
-        <param name="rrt_min_gripper_distance_to_obstacles" value="0.025"/>
-        <param name="rrt_max_shortcut_index_distance"       value="100"/>
+        <param name="rrt_goal_bias"                         value="0.01"/>
+        <param name="rrt_min_gripper_distance_to_obstacles" value="0.023"/>
+        <param name="rrt_max_shortcut_index_distance"       value="50"/>
         <param name="rrt_max_smoothing_iterations"          value="500"/>
         <param name="rrt_max_failed_smoothing_iterations"   value="250"/>
     </group>

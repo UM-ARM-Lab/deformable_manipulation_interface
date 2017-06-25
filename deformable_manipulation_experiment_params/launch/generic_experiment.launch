@@ -63,6 +63,7 @@
         <param name="use_random_seed"                   value="$(arg use_random_seed)"                  type="bool"/>
         <param name="static_seed"                       value="$(arg static_seed)"                      type="string"   if="$(arg static_seed_override)"/>
         <param name="correlation_strength_factor"       value="$(arg correlation_strength_factor)"      type="double"   if="$(arg correlation_strength_factor_override)"/>
+        <param name="reward_scale_annealing_factor"     value="0.9"                                     type="double"/>
     </group>
 
     <node name="smmap_planner_node" pkg="smmap" type="smmap_test_node_$(arg bandit_algorithm)" required="true" if="$(arg launch_planner)"/>
