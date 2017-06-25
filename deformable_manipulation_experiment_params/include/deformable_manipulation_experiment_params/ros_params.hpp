@@ -898,7 +898,7 @@ namespace smmap
 
     inline double GetDistanceToObstacleThreshold(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "distance_to_obstacle_threshold", 0.1);
+        return ROSHelpers::GetParam(nh, "distance_to_obstacle_threshold", 0.05);
     }
 
 
