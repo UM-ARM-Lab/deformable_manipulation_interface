@@ -896,9 +896,10 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "max_sampling_counts", 1000);
     }
 
+    // This function is the same to GetRobotMinGripperDistance()
     inline double GetDistanceToObstacleThreshold(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "distance_to_obstacle_threshold", 0.05);
+        return ROSHelpers::GetParam(nh, "distance_to_obstacle_threshold", 0.007);
     }
 
 

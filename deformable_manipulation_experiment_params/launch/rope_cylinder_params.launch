@@ -3,6 +3,7 @@
     <param name="task_type" value="rope_cylinder_coverage"/>
 
     <param name="gripper_controller_type" value="random_sampling"/>
-    <param name="max_sampling_counts" value="2000"/>
+    <param name="max_sampling_counts" value="3000"/>
+    <param name="distance_to_obstacle_threshold" value = "0.005"/>
 
 </launch>
