@@ -902,6 +902,10 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "distance_to_obstacle_threshold", 0.007);
     }
 
+    inline bool GetUseTwoGrippers(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "use_two_grippers", false);
+    }
 
     // For Constraint Model
 
@@ -946,6 +950,42 @@ namespace smmap
         switch (GetTaskType(nh))
         {
             case TaskType::CLOTH_WAFR:
+                dijkstras_file_path = "/home/ruanmiao/catkin_ws/src/smmap/logs/cloth_wafr.dijkstras_serialized";
+                break;
+
+            case TaskType::CLOTH_SINGLE_POLE:
+                dijkstras_file_path = "/home/ruanmiao/catkin_ws/src/smmap/logs/cloth_single_pole.dijkstras_serialized";
+                break;
+
+            case TaskType::CLOTH_WALL:
+                dijkstras_file_path = "/home/ruanmiao/catkin_ws/src/smmap/logs/cloth_wall.dijkstras_serialized";
+                break;
+
+            case TaskType::CLOTH_DOUBLE_SLIT:
+                dijkstras_file_path = "/home/ruanmiao/catkin_ws/src/smmap/logs/cloth_double_slit.dijkstras_serialized";
+                break;
+
+            case TaskType::ROPE_MAZE:
+                dijkstras_file_path = "/home/ruanmiao/catkin_ws/src/smmap/logs/rope_maze.dijkstras_serialized";
+                break;
+
+            default:
+                dijkstras_file_path = "/home/ruanmiao/catkin_ws/src/smmap/logs/unknown_trial.dijkstras_serialized";
+                break;
+        }
+
+        return ROSHelpers::GetParam<std::string>(nh, "dijkstras_file_path", dijkstras_file_path);
+    }
+
+
+    /* // The version run on Dale's computer,
+    //I changed the path in the above function to run the cloth test
+    inline std::string GetDijkstrasStorageLocation(ros::NodeHandle& nh)
+    {
+        std::string dijkstras_file_path;
+        switch (GetTaskType(nh))
+        {
+            case TaskType::CLOTH_WAFR:
                 dijkstras_file_path = "/home/dmcconac/Dropbox/catkin_ws/src/smmap/logs/cloth_wafr.dijkstras_serialized";
                 break;
 
@@ -972,6 +1012,9 @@ namespace smmap
 
         return ROSHelpers::GetParam<std::string>(nh, "dijkstras_file_path", dijkstras_file_path);
     }
+*/
+
+
 
     inline bool GetScreenshotsEnabled(ros::NodeHandle& nh)
     {
