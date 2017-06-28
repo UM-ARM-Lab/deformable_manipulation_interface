@@ -336,6 +336,9 @@ namespace smmap
         case TaskType::ROPE_TOWARD_TABLE:
             return ROSHelpers::GetParam(nh, "rope_com_x", GetTableSurfaceX(nh) - GetTableHalfExtentsX(nh) + 5.0f * GetRopeSegmentLength(nh));
 
+        case TaskType::ROPE_CYLINDER_COVERAGE:
+            return ROSHelpers::GetParam(nh, "rope_com_x", GetCylinderCenterOfMassX(nh) + 5.0f * GetRopeSegmentLength(nh));
+
         default:
             return ROSHelpers::GetParam(nh, "rope_com_x", GetTableSurfaceX(nh) + 15.0f * GetRopeSegmentLength(nh));
         }
