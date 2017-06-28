@@ -1,13 +1,11 @@
 <launch>
     <param name="deformable_type"               value="cloth"/>
     <param name="task_type"                     value="cloth_double_slit"/>
-    <param name="disable_all_visualizations"    value="true"/>
 
     <param name="default_deformability"         value="14.0"/>
     <param name="collision_scaling_factor"      value="1000.0"/>
     <param name="stretching_threshold"          value="$(eval (0.012 + 0.002) / 0.012)"/>
     <param name="max_time"                      value="20.0"/>
-
 
     <!-- Table size params -->
     <arg name="table_x_half_extents"    value="0.095"/>
@@ -30,7 +28,6 @@
     <param name="table_surface_x"       value="$(arg table_surface_x)"/>
     <param name="table_surface_y"       value="$(arg table_surface_y)"/>
     <param name="table_surface_z"       value="$(arg table_surface_z)"/>
-
 
     <!-- Cloth properties params -->
     <param name="cloth_linear_stiffness"        value="0.8"/>
@@ -78,6 +75,8 @@
     <param name="world_z_max"           value="$(eval table_height + 0.2)"/>
 
     <group ns="smmap_planner_node">
+        <param name="disable_all_visualizations"    value="true"/>
+
         <param name="error_threshold_along_normal"          value="0.02"/>
         <param name="error_threshold_distance_to_normal"    value="0.006"/>
         <param name="error_threshold_task_done"             value="0.1"/>
@@ -88,6 +87,7 @@
         <param name="error_delta_threshold_for_progress"                value="1.0"/>
         <param name="grippers_distance_delta_threshold_for_progress"    value="0.03"/>
 
+        <param name="rrt_timeout"                           value="600.0"/>
         <param name="rrt_reuse_old_results"                 value="false"/>
         <param name="rrt_store_new_results"                 value="true"/>
         <param name="rrt_goal_bias"                         value="0.01"/>

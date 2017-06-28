@@ -15,6 +15,30 @@ namespace smmap
     inline float GetClothXSize(ros::NodeHandle &nh);
 
     ////////////////////////////////////////////////////////////////////////////
+    // Visualization Settings
+    ////////////////////////////////////////////////////////////////////////////
+
+    inline bool GetDisableAllVisualizations(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "disable_all_visualizations", __func__);
+        return val.GetImmutable();
+    }
+
+    inline int GetViewerWidth(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamNoWarn<int>(nh, "viewer_width", 800);
+        assert(val > 0);
+        return val;
+    }
+
+    inline int GetViewerHeight(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamNoWarn<int>(nh, "viewer_height", 800);
+        assert(val > 0);
+        return val;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
     // Task and Deformable Type parameters
     ////////////////////////////////////////////////////////////////////////////
 
@@ -90,12 +114,6 @@ namespace smmap
         return val.GetImmutable();
     }
 
-    inline bool GetDisableAllVisualizations(ros::NodeHandle& nh)
-    {
-        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "disable_all_visualizations", __func__);
-        return val.GetImmutable();
-    }
-
     ////////////////////////////////////////////////////////////////////////////
     // Error calculation settings
     ////////////////////////////////////////////////////////////////////////////
@@ -140,6 +158,14 @@ namespace smmap
     inline double GetRRTMinGripperDistanceToObstacles(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt_min_gripper_distance_to_obstacles", __func__);
+        assert(val.GetImmutable() >= 0.0);
+        return val.GetImmutable();
+    }
+
+    inline double GetRRTTargetMinDistanceScaleFactor(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt_target_min_distance_scale_factor", __func__);
+        assert(val.GetImmutable() >= 1.0);
         return val.GetImmutable();
     }
 
@@ -919,7 +945,9 @@ namespace smmap
 
     inline double GetRRTTimeout(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn(nh, "rrt_timeout", 3600.0);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt_timeout", __func__);
+        assert(val.GetImmutable() > 0.0);
+        return val.GetImmutable();
     }
 
     ////////////////////////////////////////////////////////////////////////////
