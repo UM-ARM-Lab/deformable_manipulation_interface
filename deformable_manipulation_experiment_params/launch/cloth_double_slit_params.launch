@@ -83,7 +83,7 @@
 
         <param name="num_lookahead_steps"                               value="10"/>
         <param name="band_overstretch_prediction_annealing_factor"      value="0.5"/>
-        <param name="max_pose_history_steps"                            value="80"/>
+        <param name="max_pose_history_steps"                            value="100"/>
         <param name="error_delta_threshold_for_progress"                value="1.0"/>
         <param name="grippers_distance_delta_threshold_for_progress"    value="0.03"/>
 
@@ -92,6 +92,7 @@
         <param name="rrt_store_new_results"                 value="true"/>
         <param name="rrt_goal_bias"                         value="0.01"/>
         <param name="rrt_min_gripper_distance_to_obstacles" value="0.023"/>
+        <param name="rrt_target_min_distance_scale_factor"  value="1.1"/>
         <param name="rrt_max_shortcut_index_distance"       value="50"/>
         <param name="rrt_max_smoothing_iterations"          value="500"/>
         <param name="rrt_max_failed_smoothing_iterations"   value="250"/>
