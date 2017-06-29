@@ -4,6 +4,7 @@
 
     <param name="rope_num_links" value="29"/>
 
+    <param name="stretching_scaling_threshold" value="0.005"/>
 
     <param name="gripper_controller_type" value="random_sampling"/>
     <param name="max_sampling_counts" value="3000"/>
