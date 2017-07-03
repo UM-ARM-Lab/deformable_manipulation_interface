@@ -75,7 +75,7 @@
     <param name="world_z_max"           value="$(eval table_height + 0.2)"/>
 
     <group ns="smmap_planner_node">
-        <param name="disable_all_visualizations"    value="true"/>
+        <param name="disable_all_visualizations"    value="false"/>
 
         <param name="error_threshold_along_normal"          value="0.02"/>
         <param name="error_threshold_distance_to_normal"    value="0.006"/>
@@ -87,7 +87,7 @@
         <param name="error_delta_threshold_for_progress"                value="1.0"/>
         <param name="grippers_distance_delta_threshold_for_progress"    value="0.03"/>
 
-        <param name="rrt_timeout"                           value="600.0"/>
+        <param name="rrt_timeout"                           value="3600.0"/>
         <param name="rrt_reuse_old_results"                 value="false"/>
         <param name="rrt_store_new_results"                 value="true"/>
         <param name="rrt_goal_bias"                         value="0.01"/>

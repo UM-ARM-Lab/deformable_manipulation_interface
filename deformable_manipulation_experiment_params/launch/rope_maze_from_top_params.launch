@@ -10,13 +10,13 @@
 
     <!-- Rope phyiscal parameters -->
     <param name="rope_segment_length"       value="0.02"/>
-    <param name="rope_num_links"            value="39"/>
+    <param name="rope_num_links"            value="45"/>
     <param name="rope_radius"               value="0.01"/>
 
     <!-- Rope position params-->
-    <param name="rope_com_x"            value="-0.6"/>
-    <param name="rope_com_y"            value="0.8"/>
-    <param name="rope_com_z"            value="0.2"/>
+    <param name="rope_com_x"            value="0.6"/>
+    <param name="rope_com_y"            value="-0.2"/>
+    <param name="rope_com_z"            value="0.8"/>
 
     <!-- World parameters for planning -->
     <arg name="grid_resolution"         value="0.05"/>
@@ -56,13 +56,13 @@
         <param name="rrt_min_gripper_distance_to_obstacles" value="0.03"/>
         <param name="rrt_target_min_distance_scale_factor"  value="1.1"/>
         <param name="rrt_max_shortcut_index_distance"       value="20"/>
-        <param name="rrt_max_smoothing_iterations"          value="1500"/>
-        <param name="rrt_max_failed_smoothing_iterations"   value="1000"/>
+        <param name="rrt_max_smoothing_iterations"          value="500"/>
+        <param name="rrt_max_failed_smoothing_iterations"   value="250"/>
     </group>
 
     <group ns="deform_simulator_node">
         <param name="num_simsteps_per_gripper_command"  value="4"/>
-        <!--<param name="viewer_width"                      value="880"/>-->
-        <!--<param name="viewer_height"                     value="662"/>-->
+        <param name="viewer_width"                      value="800"/>
+        <param name="viewer_height"                     value="800"/>
     </group>
 </launch>

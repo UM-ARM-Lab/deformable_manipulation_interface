@@ -1089,6 +1089,11 @@ namespace smmap
         return ROSHelpers::GetParamNoWarn<std::string>(nh, "visualization_marker_array_topic", "visualization_marker_vector");
     }
 
+    inline std::string GetClearVisualizationsTopic(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParamNoWarn<std::string>(nh, "clear_visualizations_topic", "clear_visualizations");
+    }
+
     inline std::string GetConfidenceTopic(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParamNoWarn<std::string>(nh, "confidence_topic", "confidence");
