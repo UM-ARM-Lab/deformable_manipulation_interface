@@ -7,7 +7,7 @@
     <param name="stretching_scaling_threshold" value="0.005"/>
 
     <param name="gripper_controller_type" value="random_sampling"/>
-    <param name="max_sampling_counts" value="4000"/>
+    <param name="max_sampling_counts" value="10000"/>
     <param name="distance_to_obstacle_threshold" value = "0.007"/>
     <param name="use_two_grippers" value = "true"/>
 
