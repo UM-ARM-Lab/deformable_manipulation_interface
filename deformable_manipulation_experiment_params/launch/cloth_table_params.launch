@@ -14,6 +14,16 @@
     <param name="world_z_min" value="0.5775"/>
     <param name="world_z_max" value="0.7775"/>
 
+
+    <param name="gripper_controller_type" value="random_sampling"/>
+    <param name="max_sampling_counts" value="5000"/>
+    <param name="distance_to_obstacle_threshold" value = "0.007"/>
+   
+    <param name ="stretching_factor_threshold" value = "1.06"/>
+    <param name ="stretching_cosine_threshold" value = "0.75"/>
+    
+    <param name = "visualize_object_desired_motion" value = "false"/>
+
     <group ns="deform_simulator_node">
         <param name="num_simsteps_per_gripper_command" value="4"/>
     </group>

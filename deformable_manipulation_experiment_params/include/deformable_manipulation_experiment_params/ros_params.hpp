@@ -932,6 +932,10 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "stretching_cosine_threshold", 0.75);
     }
 
+    inline bool GetVisualizeObectDesiredMotion(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "visualize_object_desired_motion", true);
+    }
 
     ///////////////////////////////////////////////////////////////////////////
     // For Constraint Model
@@ -956,6 +960,7 @@ namespace smmap
     {
         return ROSHelpers::GetParam(nh, "constraint_obstacle_threshold", 0);
     }
+
 
 
     ////////////////////////////////////////////////////////////////////////////
