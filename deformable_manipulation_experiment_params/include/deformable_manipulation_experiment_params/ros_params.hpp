@@ -882,7 +882,9 @@ namespace smmap
         return seed;
     }
 
+    //////////////////////////////////////////////////////////////////////////
     // For Gripper motion controller
+    //////////////////////////////////////////////////////////////////////////
 
     inline GripperControllerType GetGripperControllerType(ros::NodeHandle& nh)
     {
@@ -919,7 +921,21 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "use_two_grippers", false);
     }
 
+    // This function might be conbimed with that for task above
+    inline double GetStretchingFactorThreshold(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "stretching_factor_threshold", 1.1);
+    }
+
+    inline double GetStretchingCosineThreshold(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "stretching_cosine_threshold", 0.75);
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
     // For Constraint Model
+    ///////////////////////////////////////////////////////////////////////////
 
     inline double GetConstraintTranslationalDir(ros::NodeHandle& nh)
     {

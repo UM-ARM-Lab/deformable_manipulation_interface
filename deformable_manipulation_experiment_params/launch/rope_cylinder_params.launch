@@ -10,5 +10,8 @@
     <param name="max_sampling_counts" value="12000"/>
     <param name="distance_to_obstacle_threshold" value = "0.007"/>
     <param name="use_two_grippers" value = "true"/>
+   
+    <param name ="stretching_factor_threshold" value = "1.1"/>
+    <param name ="stretching_cosine_threshold" value = "0.75"/>
 
 </launch>
