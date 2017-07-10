@@ -71,7 +71,16 @@
 
 
     <group ns="smmap_planner_node">
+        <param name="disable_all_visualizations"        value="false"/>
         <param name="visualize_object_desired_motion"   value="false"/>
+
+        <param name="error_threshold_along_normal"          value="0.05"/>
+        <param name="error_threshold_distance_to_normal"    value="0.025"/>
+        <param name="error_threshold_task_done"             value="0.4"/>
+
+        <param name="num_lookahead_steps"                               value="10"/>
+        <param name="max_pose_history_steps"                            value="100"/>
+
         <param name="gripper_controller_type"           value="random_sampling"/>
         <param name="max_sampling_counts"               value="4000"/>
         <param name="stretching_cosine_threshold"       value="0.75"/>
