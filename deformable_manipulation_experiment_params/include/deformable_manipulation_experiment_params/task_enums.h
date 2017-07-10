@@ -12,6 +12,7 @@ namespace smmap
     enum TaskType
     {
         ROPE_CYLINDER_COVERAGE,
+        ROPE_CYLINDER_COVERAGE_DOUBLE_GRIPPER,
         CLOTH_CYLINDER_COVERAGE,
         CLOTH_TABLE_COVERAGE,
         CLOTH_COLAB_FOLDING,

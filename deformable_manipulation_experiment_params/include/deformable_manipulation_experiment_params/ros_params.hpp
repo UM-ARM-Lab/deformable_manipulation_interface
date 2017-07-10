@@ -69,6 +69,10 @@ namespace smmap
         {
             return TaskType::ROPE_CYLINDER_COVERAGE;
         }
+        else if (task_type.compare("rope_cylinder_coverage_double_gripper") == 0)
+        {
+            return TaskType::ROPE_CYLINDER_COVERAGE_DOUBLE_GRIPPER;
+        }
         else if (task_type.compare("cloth_cylinder_coverage") == 0)
         {
             return TaskType::CLOTH_CYLINDER_COVERAGE;
