@@ -7,6 +7,18 @@
     <param name="stretching_threshold"      value="$(eval (0.012 + 0.002) / 0.012)"/>
     <param name="max_time"                  value="2.0"/>
 
+    <!-- Table size params -->
+    <arg name="table_x_half_extents"    value="0.2"/>
+    <arg name="table_y_half_extents"    value="0.2"/>
+    <arg name="table_height"            value="0.7"/>
+    <arg name="table_thickness"         value="0.05"/>
+
+    <param name="table_x_half_extents"  value="$(arg table_x_half_extents)"/>
+    <param name="table_y_half_extents"  value="$(arg table_y_half_extents)"/>
+    <param name="table_height"          value="$(arg table_height)"/>
+    <param name="table_thickness"       value="$(arg table_thickness)"/>
+
+
     <param name="world_x_step" value="0.0125"/>
     <param name="world_x_min" value="-0.3"/>
     <param name="world_x_max" value="0.3"/>
