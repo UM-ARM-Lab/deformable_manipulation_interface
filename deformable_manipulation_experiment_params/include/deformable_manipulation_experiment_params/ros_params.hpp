@@ -24,6 +24,11 @@ namespace smmap
         return val.GetImmutable();
     }
 
+    inline bool GetVisualizeObectDesiredMotion(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "visualize_object_desired_motion", true);
+    }
+
     inline int GetViewerWidth(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamNoWarn<int>(nh, "viewer_width", 800);
@@ -877,6 +882,11 @@ namespace smmap
         return 0.005;
     }
 
+    inline double GetRobotGripperRadius()
+    {
+        return 0.023;
+    }
+
     inline bool GetCalculateRegret(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "calculate_regret", false);
@@ -1043,7 +1053,6 @@ namespace smmap
     }
 
     // For Gripper motion controller
-
     inline GripperControllerType GetGripperControllerType(ros::NodeHandle& nh)
     {
         std::string gripper_controller_type =  ROSHelpers::GetParam<std::string>(nh, "gripper_controller_type", "random_sampling");
@@ -1066,6 +1075,12 @@ namespace smmap
     inline int64_t GetMaxSamplingCounts(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "max_sampling_counts", 1000);
+    }
+
+    // This function might be conbimed with that for task above
+    inline double GetStretchingCosineThreshold(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "stretching_cosine_threshold", 0.75);
     }
 
     ////////////////////////////////////////////////////////////////////////////

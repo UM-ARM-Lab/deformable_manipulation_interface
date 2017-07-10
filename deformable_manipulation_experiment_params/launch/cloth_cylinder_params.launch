@@ -7,7 +7,11 @@
     <param name="stretching_threshold"      value="$(eval (0.012 + 0.002) / 0.012)"/>
     <param name="max_time"                  value="12.0"/>
 
-    <param name="gripper_controller_type" value="random_sampling"/>
-    <param name="max_sampling_counts" value="3000"/>
+    <group ns="smmap_planner_node">
+        <param name="visualize_object_desired_motion"   value="false"/>
+        <param name="gripper_controller_type"           value="random_sampling"/>
+        <param name="max_sampling_counts"               value="5000"/>
+        <param name="stretching_cosine_threshold"       value="0.75"/>
+    </group>
 
 </launch>

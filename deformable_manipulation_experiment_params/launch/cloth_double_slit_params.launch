@@ -74,8 +74,10 @@
     <param name="world_z_min"           value="$(eval table_height - 0.22)"/>
     <param name="world_z_max"           value="$(eval table_height + 0.2)"/>
 
+
     <group ns="smmap_planner_node">
         <param name="disable_all_visualizations"    value="false"/>
+        <param name="visualize_object_desired_motion"   value="false"/>
 
         <param name="error_threshold_along_normal"          value="0.02"/>
         <param name="error_threshold_distance_to_normal"    value="0.006"/>
@@ -96,7 +98,12 @@
         <param name="rrt_max_shortcut_index_distance"       value="50"/>
         <param name="rrt_max_smoothing_iterations"          value="500"/>
         <param name="rrt_max_failed_smoothing_iterations"   value="250"/>
+
+        <param name="gripper_controller_type"           value="random_sampling"/>
+        <param name="max_sampling_counts"               value="5000"/>
+        <param name="stretching_cosine_threshold"       value="0.75"/>
     </group>
+
 
     <group ns="deform_simulator_node">
         <param name="num_simsteps_per_gripper_command"  value="10"/>

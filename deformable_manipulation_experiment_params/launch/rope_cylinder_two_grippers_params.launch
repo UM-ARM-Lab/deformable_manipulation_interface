@@ -69,13 +69,16 @@
     <param name="world_z_min"           value="$(eval table_surface_z)"/>
     <param name="world_z_max"           value="$(eval table_surface_z + rope_cylinder_height + (rope_radius * 5.0))"/>
 
+
+    <group ns="smmap_planner_node">
+        <param name="visualize_object_desired_motion"   value="false"/>
+        <param name="gripper_controller_type"           value="random_sampling"/>
+        <param name="max_sampling_counts"               value="4000"/>
+        <param name="stretching_cosine_threshold"       value="0.75"/>
+    </group>
+
+
     <group ns="deform_simulator_node">
         <param name="num_simsteps_per_gripper_command"  value="4"/>
     </group>
-
-    <group ns="smmap_planner_node">
-        <param name="gripper_controller_type" value="random_sampling"/>
-        <param name="max_sampling_counts" value="4000"/>
-    </group>
-
 </launch>
