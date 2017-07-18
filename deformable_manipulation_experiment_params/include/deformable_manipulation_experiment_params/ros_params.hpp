@@ -1022,7 +1022,7 @@ namespace smmap
         return val.GetImmutable();
     }
 
-    inline double GetStretchingThreshold(ros::NodeHandle& nh)
+    inline double GetStretchingFactorThreshold(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "stretching_threshold", __func__);
         return val.GetImmutable();
