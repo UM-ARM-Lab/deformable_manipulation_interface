@@ -24,21 +24,26 @@ namespace smmap
         return val.GetImmutable();
     }
 
-    inline bool GetVisualizeObectDesiredMotion(ros::NodeHandle& nh)
+    inline bool GetVisualizeObjectDesiredMotion(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "visualize_object_desired_motion", true);
     }
 
-    inline int GetViewerWidth(ros::NodeHandle& nh)
+    inline bool GetVisualizeObjectPredictedMotion(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamNoWarn<int>(nh, "viewer_width", 800);
+        return ROSHelpers::GetParam(nh, "visualize_object_predicted_motion", true);
+    }
+
+    inline int GetViewerWidth(ros::NodeHandle& nh)      // Pixels
+    {
+        const auto val = ROSHelpers::GetParamDebugLog<int>(nh, "viewer_width", 800);
         assert(val > 0);
         return val;
     }
 
-    inline int GetViewerHeight(ros::NodeHandle& nh)
+    inline int GetViewerHeight(ros::NodeHandle& nh)     // Pixels
     {
-        const auto val = ROSHelpers::GetParamNoWarn<int>(nh, "viewer_height", 800);
+        const auto val = ROSHelpers::GetParamDebugLog<int>(nh, "viewer_height", 800);
         assert(val > 0);
         return val;
     }
@@ -68,7 +73,7 @@ namespace smmap
 
     inline TaskType GetTaskType(ros::NodeHandle& nh)
     {
-        std::string task_type = ROSHelpers::GetParam<std::string>(nh, "task_type", "coverage");
+        const std::string task_type = ROSHelpers::GetParamRequired<std::string>(nh, "task_type", __func__).GetImmutable();
 
         if (task_type.compare("rope_cylinder_coverage") == 0)
         {
@@ -135,7 +140,13 @@ namespace smmap
 
     inline double GetMaxTime(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "max_time", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "task/max_time", __func__);
+        return val.GetImmutable();
+    }
+
+    inline double GetMaxStretchFactor(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "task/max_stretch_factor", __func__);
         return val.GetImmutable();
     }
 
@@ -145,19 +156,19 @@ namespace smmap
 
     inline double GetErrorThresholdAlongNormal(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "error_threshold_along_normal", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "task/error_threshold_along_normal", __func__);
         return val.GetImmutable();
     }
 
     inline double GetErrorThresholdDistanceToNormal(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "error_threshold_distance_to_normal", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "task/error_threshold_distance_to_normal", __func__);
         return val.GetImmutable();
     }
 
     inline double GetErrorThresholdTaskDone(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "error_threshold_task_done", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "task/error_threshold_task_done", __func__);
         return val.GetImmutable();
     }
 
@@ -165,31 +176,41 @@ namespace smmap
     // Gripper Size Settings
     ////////////////////////////////////////////////////////////////////////////
 
-    inline float GetGripperApperture(ros::NodeHandle& nh) // METERS
+    inline float GetGripperApperture(ros::NodeHandle& nh)   // METERS
     {
         switch(GetDeformableType(nh))
         {
             case DeformableType::ROPE:
                 // TODO: why did Dmitry's code use 0.5f here?
-                return ROSHelpers::GetParamNoWarn(nh, "rope_gripper_apperture", 0.03f);
+                return ROSHelpers::GetParamDebugLog(nh, "rope_gripper_apperture", 0.03f);
 
             case DeformableType::CLOTH:
                 // TODO: This number is actually the "closed gap"
                 //       The original number was 0.1f
-                return ROSHelpers::GetParamNoWarn(nh, "cloth_gripper_apperture", 0.006f);
+                return ROSHelpers::GetParamDebugLog(nh, "cloth_gripper_apperture", 0.006f);
         }
+    }
+
+    inline double GetRobotGripperRadius()                   // METERS
+    {
+        return 0.023;
+    }
+
+    inline double GetRobotMinGripperDistanceToObstacles()   // METERS
+    {
+        return 0.005;
     }
 
     inline double GetRRTMinGripperDistanceToObstacles(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt_min_gripper_distance_to_obstacles", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/min_gripper_distance_to_obstacles", __func__);
         assert(val.GetImmutable() >= 0.0);
         return val.GetImmutable();
     }
 
     inline double GetRRTTargetMinDistanceScaleFactor(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt_target_min_distance_scale_factor", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/target_min_distance_scale_factor", __func__);
         assert(val.GetImmutable() >= 1.0);
         return val.GetImmutable();
     }
@@ -225,7 +246,7 @@ namespace smmap
         return (float)val.GetImmutable();
     }
 
-    inline float GetTableHeight(ros::NodeHandle& nh)         // METERS
+    inline float GetTableHeight(ros::NodeHandle& nh)        // METERS
     {
         return ROSHelpers::GetParam(nh, "table_height", GetTableSurfaceZ(nh));
     }
@@ -368,6 +389,28 @@ namespace smmap
     inline float GetOuterWallsAlpha(ros::NodeHandle& nh)        // 0.0 thru 1.0 (inclusive)
     {
         const auto val = ROSHelpers::GetParamRequired<float>(nh, "outer_walls_alpha", __func__);
+        assert(val.GetImmutable() >= 0.0 && val.GetImmutable() <= 1.0);
+        return val.GetImmutable();
+    }
+
+    inline float GetFloorDividerAlpha(ros::NodeHandle& nh)      // 0.0 thru 1.0 (inclusive)
+    {
+        const auto val = ROSHelpers::GetParamRequired<float>(nh, "floor_divider_alpha", __func__);
+        assert(val.GetImmutable() >= 0.0 && val.GetImmutable() <= 1.0);
+        return val.GetImmutable();
+    }
+
+    inline float GetFirstFloorAlpha(ros::NodeHandle& nh)        // 0.0 thru 1.0 (inclusive)
+    {
+        const auto val = ROSHelpers::GetParamRequired<float>(nh, "first_floor_alpha", __func__);
+        assert(val.GetImmutable() >= 0.0 && val.GetImmutable() <= 1.0);
+        return val.GetImmutable();
+    }
+
+    inline float GetSecondFloorAlpha(ros::NodeHandle& nh)       // 0.0 thru 1.0 (inclusive)
+    {
+        const auto val = ROSHelpers::GetParamRequired<float>(nh, "second_floor_alpha", __func__);
+        assert(val.GetImmutable() >= 0.0 && val.GetImmutable() <= 1.0);
         return val.GetImmutable();
     }
 
@@ -485,21 +528,8 @@ namespace smmap
 
     inline float GetClothLinearStiffness(ros::NodeHandle& nh)
     {
-        switch(GetTaskType(nh))
-        {
-            case TaskType::CLOTH_TABLE_COVERAGE:
-                return ROSHelpers::GetParam(nh, "cloth_linear_stiffness", 0.8f);
-
-            case TaskType::CLOTH_COLAB_FOLDING:
-            case TaskType::CLOTH_WAFR:
-            case TaskType::CLOTH_SINGLE_POLE:
-            case TaskType::CLOTH_WALL:
-            case TaskType::CLOTH_DOUBLE_SLIT:
-                return ROSHelpers::GetParam(nh, "cloth_linear_stiffness", 0.5f);
-
-            default:
-                throw_arc_exception(std::invalid_argument, "Unknown cloth linear stiffness for task type " + std::to_string(GetTaskType(nh)));
-        }
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "cloth_linear_stiffness", __func__);
+        return (float)val.GetImmutable();
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -520,7 +550,7 @@ namespace smmap
     // Generic target patch settings
     ////////////////////////////////////////////////////////////////////////////
 
-    inline float GetCoverRegionXMin(ros::NodeHandle& nh)
+    inline float GetCoverRegionXMin(ros::NodeHandle& nh)    // METERS
     {
         return ROSHelpers::GetParam(nh, "cover_region_x_min", 0.0f);
     }
@@ -532,12 +562,12 @@ namespace smmap
         return (size_t)steps;
     }
 
-    inline float GetCoverRegionXRes(ros::NodeHandle& nh)
+    inline float GetCoverRegionXRes(ros::NodeHandle& nh)    // METERS
     {
         return ROSHelpers::GetParam(nh, "cover_region_x_res", 0.01f);
     }
 
-    inline float GetCoverRegionYMin(ros::NodeHandle& nh)
+    inline float GetCoverRegionYMin(ros::NodeHandle& nh)    // METERS
     {
         return ROSHelpers::GetParam(nh, "cover_region_y_min", 0.0f);
     }
@@ -549,12 +579,12 @@ namespace smmap
         return (size_t)steps;
     }
 
-    inline float GetCoverRegionYRes(ros::NodeHandle& nh)
+    inline float GetCoverRegionYRes(ros::NodeHandle& nh)    // METERS
     {
         return ROSHelpers::GetParam(nh, "cover_region_y_res", 0.01f);
     }
 
-    inline float GetCoverRegionZMin(ros::NodeHandle& nh)
+    inline float GetCoverRegionZMin(ros::NodeHandle& nh)    // METERS
     {
         return ROSHelpers::GetParam(nh, "cover_region_z_min", 0.0f);
     }
@@ -566,7 +596,7 @@ namespace smmap
         return (size_t)steps;
     }
 
-    inline float GetCoverRegionZRes(ros::NodeHandle& nh)
+    inline float GetCoverRegionZRes(ros::NodeHandle& nh)    // METERS
     {
         return ROSHelpers::GetParam(nh, "cover_region_z_res", 0.01f);
     }
@@ -577,7 +607,7 @@ namespace smmap
 
     inline double GetFeedbackCovariance(ros::NodeHandle& nh)  // METERS^2
     {
-        return ROSHelpers::GetParamNoWarn(nh, "feedback_covariance", 0.0);
+        return ROSHelpers::GetParamDebugLog(nh, "feedback_covariance", 0.0);
     }
 
     inline size_t GetNumSimstepsPerGripperCommand(ros::NodeHandle& nh)
@@ -591,12 +621,12 @@ namespace smmap
 
     inline double GetRobotControlPeriod(ros::NodeHandle& nh) // SECONDS
     {
-        return ROSHelpers::GetParamNoWarn(nh, "robot_control_rate", 0.01);
+        return ROSHelpers::GetParamDebugLog(nh, "robot_control_rate", 0.01);
     }
 
     inline double GetMaxGripperVelocity(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn(nh, "max_gripper_velocity", 0.2);
+        return ROSHelpers::GetParamDebugLog(nh, "max_gripper_velocity", 0.2);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -834,7 +864,64 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    // Planner settings
+    // Model settings
+    ////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Diminishing Rigidity Parameters
+    ////////////////////////////////////////////////////////////////////////////
+
+    inline bool GetUseDiminishingRigidityModel(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "use_diminishing_rigidity_model", false);
+    }
+
+    inline double GetDefaultDeformability(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "diminishing_rigidity/default_deformability", __func__);
+        return val.GetImmutable();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Adaptive Jacobian Parameters
+    ////////////////////////////////////////////////////////////////////////////
+
+    inline bool GetUseAdaptiveModel(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "use_adaptive_model", false);
+    }
+
+    inline double GetAdaptiveModelLearningRate(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "adaptive_model/adaptive_model_learning_rate", 1e-6);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Constraint Model Parameters
+    ////////////////////////////////////////////////////////////////////////////
+
+    inline bool GetUseConstraintModel(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "use_constraint_model", false);
+    }
+
+    inline double GetConstraintTranslationalDir(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParamRequired<double>(nh, "constraint_model/translational_dir_deformability", __func__).GetImmutable();
+    }
+
+    inline double GetConstraintTranslationalDis(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParamRequired<double>(nh, "constraint_model/translational_dis_deformability", __func__).GetImmutable();
+    }
+
+    inline double GetConstraintRotational(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParamRequired<double>(nh, "constraint_model/rotational_deformability", __func__).GetImmutable();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Multi-model settings
     ////////////////////////////////////////////////////////////////////////////
 
     inline bool GetUseMultiModel(ros::NodeHandle& nh)
@@ -842,63 +929,37 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "use_multi_model", false);
     }
 
-    inline bool GetUseAdaptiveModel(ros::NodeHandle& nh)
-    {
-        return ROSHelpers::GetParam(nh, "use_adaptive_model", false);
-    }
-
-    inline bool GetUseConstraintModel(ros::NodeHandle& nh)
-    {
-        return ROSHelpers::GetParam(nh, "use_constraint_model", false);
-    }
-
-    inline double GetAdaptiveModelLearningRate(ros::NodeHandle& nh)
-    {
-        return ROSHelpers::GetParam(nh, "adaptive_model_learning_rate", 1e-6);
-    }
-
-    inline double GetProcessNoiseFactor(ros::NodeHandle& nh)
-    {
-        return ROSHelpers::GetParamNoWarn(nh, "process_noise_factor", 0.1);
-    }
-
-    inline double GetObservationNoiseFactor(ros::NodeHandle& nh)
-    {
-        return ROSHelpers::GetParamNoWarn(nh, "observation_noise_factor", 0.01);
-    }
-
-    inline double GetCorrelationStrengthFactor(ros::NodeHandle& nh)
-    {
-        return ROSHelpers::GetParamNoWarn(nh, "correlation_strength_factor", 0.9);
-    }
-
-    inline bool GetOptimizationEnabled(ros::NodeHandle& nh)
-    {
-        return ROSHelpers::GetParam(nh, "optimization_enabled", false);
-    }
-
-    inline double GetRobotMinGripperDistance()
-    {
-        return 0.005;
-    }
-
-    inline double GetRobotGripperRadius()
-    {
-        return 0.023;
-    }
-
     inline bool GetCalculateRegret(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "calculate_regret", false);
+        return ROSHelpers::GetParam(nh, "multi_model/calculate_regret", false);
     }
 
     inline double GetRewardScaleAnnealingFactor(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "reward_scale_annealing_factor", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/reward_scale_annealing_factor", __func__);
         const double factor = val.GetImmutable();
         assert(0.0 <= factor && factor < 1.0);
         return factor;
     }
+
+    inline double GetProcessNoiseFactor(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParamDebugLog(nh, "process_noise_factor", 0.1);
+    }
+
+    inline double GetObservationNoiseFactor(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParamDebugLog(nh, "observation_noise_factor", 0.01);
+    }
+
+    inline double GetCorrelationStrengthFactor(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParamDebugLog(nh, "correlation_strength_factor", 0.9);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Planner settings
+    ////////////////////////////////////////////////////////////////////////////
 
     inline bool GetUseRandomSeed(ros::NodeHandle& nh)
     {
@@ -923,9 +984,19 @@ namespace smmap
         return seed;
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    // Planner - Stuck detection settings
+    ////////////////////////////////////////////////////////////////////////////
+
+    inline bool GetEnableStuckDetection(ros::NodeHandle& nh)
+    {
+        const auto enable_stuck_detection = ROSHelpers::GetParam<bool>(nh, "enable_stuck_detection", false);
+        return enable_stuck_detection;
+    }
+
     inline size_t GetNumLookaheadSteps(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<int>(nh, "num_lookahead_steps", __func__);
+        const auto val = ROSHelpers::GetParamRequired<int>(nh, "stuck_detection/num_lookahead_steps", __func__);
         const int steps = val.GetImmutable();
         assert(steps >= 1);
         return (size_t)steps;
@@ -933,7 +1004,7 @@ namespace smmap
 
     inline double GetRubberBandOverstretchPredictionAnnealingFactor(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "band_overstretch_prediction_annealing_factor", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "stuck_detection/band_overstretch_prediction_annealing_factor", __func__);
         const double factor = val.GetImmutable();
         assert(0.0 <= factor && factor < 1.0);
         return factor;
@@ -941,32 +1012,36 @@ namespace smmap
 
     inline size_t GetMaxGrippersPoseHistoryLength(ros::NodeHandle& nh)
     {
-        size_t length = ROSHelpers::GetParam(nh, "max_pose_history_steps", 20);
+        size_t length = ROSHelpers::GetParam(nh, "stuck_detection/max_pose_history_steps", 20);
         assert(length >= 1);
         return length;
     }
 
     inline double GetErrorDeltaThresholdForProgress(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "error_delta_threshold_for_progress", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "stuck_detection/error_delta_threshold_for_progress", __func__);
         return val.GetImmutable();
     }
 
     inline double GetGrippersDistanceDeltaThresholdForProgress(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "grippers_distance_delta_threshold_for_progress", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "stuck_detection/grippers_distance_delta_threshold_for_progress", __func__);
         return val.GetImmutable();
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    // Planner - RRT settings
+    ////////////////////////////////////////////////////////////////////////////
+
     inline bool GetRRTReuseOldResults(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "rrt_reuse_old_results", __func__);
+        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "rrt/reuse_old_results", __func__);
         return val.GetImmutable();
     }
 
     inline bool GetRRTStoreNewResults(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "rrt_store_new_results", __func__);
+        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "rrt/store_new_results", __func__);
         return val.GetImmutable();
     }
 
@@ -977,82 +1052,90 @@ namespace smmap
 
     inline double GetRRTGoalBias(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt_goal_bias", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/goal_bias", __func__);
         return val.GetImmutable();
     }
 
     inline int64_t GetRRTMaxShortcutIndexDistance(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt_max_shortcut_index_distance", __func__);
+        const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt/max_shortcut_index_distance", __func__);
         return (int64_t)val.GetImmutable();
     }
 
     inline uint32_t GetRRTMaxSmoothingIterations(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt_max_smoothing_iterations",  __func__);
+        const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt/max_smoothing_iterations",  __func__);
         return (uint32_t)val.GetImmutable();
     }
 
     inline uint32_t GetRRTMaxFailedSmoothingIterations(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt_max_failed_smoothing_iterations", __func__);
+        const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt/max_failed_smoothing_iterations", __func__);
         return (uint32_t)val.GetImmutable();
     }
 
     inline double GetRRTTimeout(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt_timeout", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/timeout", __func__);
         assert(val.GetImmutable() > 0.0);
         return val.GetImmutable();
     }
 
+    inline double GetRRTPlanningXMin(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_x_min", __func__);
+        return val.GetImmutable();
+    }
+
+    inline double GetRRTPlanningXMax(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_x_max", __func__);
+        return val.GetImmutable();
+    }
+
+    inline double GetRRTPlanningYMin(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_y_min", __func__);
+        return val.GetImmutable();
+    }
+
+    inline double GetRRTPlanningYMax(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_y_max", __func__);
+        return val.GetImmutable();
+    }
+
+    inline double GetRRTPlanningZMin(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_z_min", __func__);
+        return val.GetImmutable();
+    }
+
+    inline double GetRRTPlanningZMax(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_z_max", __func__);
+        return val.GetImmutable();
+    }
+
     ////////////////////////////////////////////////////////////////////////////
-    // Diminishing Rigidity Parameters
+    // Pure Jacobian based motion controller paramters
     ////////////////////////////////////////////////////////////////////////////
 
-    inline double GetDefaultDeformability(ros::NodeHandle& nh)
+    inline bool GetJacobianControllerOptimizationEnabled(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "default_deformability", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParam(nh, "jacobian_controller/optimization_enabled", false);
     }
 
     inline double GetCollisionScalingFactor(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "collision_scaling_factor", __func__);
-        return val.GetImmutable();
-    }
-
-    inline double GetStretchingFactorThreshold(ros::NodeHandle& nh)
-    {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "stretching_threshold", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "jacobian_controller/collision_scaling_factor", __func__);
         return val.GetImmutable();
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    // Constraint Model Parameters
+    // Sampling based motion controller paramters
     ////////////////////////////////////////////////////////////////////////////
 
-    inline double GetConstraintTranslationalDir(ros::NodeHandle& nh)
-    {
-        return ROSHelpers::GetParam(nh, "constraint_translational_dir_deformability", 20.0f);
-    }
-
-    inline double GetConstraintTranslationalDis(ros::NodeHandle& nh)
-    {
-        return ROSHelpers::GetParam(nh, "constraint_translational_dis_deformability", 3.0f);
-    }
-
-    inline double GetConstraintRotational(ros::NodeHandle& nh)
-    {
-        return ROSHelpers::GetParam(nh, "constraint_rotational_deformability", 20.0f);
-    }
-
-    inline double GetConstraintObstacleThreshold(ros::NodeHandle& nh)
-    {
-        return ROSHelpers::GetParam(nh, "constraint_obstacle_threshold", 0);
-    }
-
-    // For Gripper motion controller
     inline GripperControllerType GetGripperControllerType(ros::NodeHandle& nh)
     {
         std::string gripper_controller_type =  ROSHelpers::GetParam<std::string>(nh, "gripper_controller_type", "random_sampling");
@@ -1094,7 +1177,7 @@ namespace smmap
 
     inline std::string GetLogFolder(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "log_folder", "/tmp/");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "log_folder", "/tmp/");
     }
 
     inline std::string GetDijkstrasStorageLocation(ros::NodeHandle& nh)
@@ -1105,7 +1188,7 @@ namespace smmap
                 base_path + "/logs/"
                 + task_name + "/"
                 + task_name + ".dijkstras_serialized";
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "dijkstras_file_path", default_dijkstras_file_path);
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "dijkstras_file_path", default_dijkstras_file_path);
     }
 
     inline bool GetScreenshotsEnabled(ros::NodeHandle& nh)
@@ -1118,7 +1201,7 @@ namespace smmap
 
     inline std::string GetScreenshotFolder(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "screenshot_folder", GetLogFolder(nh) + "screenshots/");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "screenshot_folder", GetLogFolder(nh) + "screenshots/");
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1127,102 +1210,102 @@ namespace smmap
 
     inline std::string GetTestGrippersPosesTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "test_grippers_poses_topic", "test_grippers_poses");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "test_grippers_poses_topic", "test_grippers_poses");
     }
 
     inline std::string GetExecuteGrippersMovementTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "execute_grippers_movement_topic", "execute_grippers_movement");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "execute_grippers_movement_topic", "execute_grippers_movement");
     }
 
     inline std::string GetSimulatorFeedbackTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "simulator_feedback_topic", "simulator_feedback");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "simulator_feedback_topic", "simulator_feedback");
     }
 
     inline std::string GetCoverPointsTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_cover_points_topic", "get_cover_points");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_cover_points_topic", "get_cover_points");
     }
 
     inline std::string GetCoverPointNormalsTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_cover_point_normals_topic", "get_cover_point_normals");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_cover_point_normals_topic", "get_cover_point_normals");
     }
 
     inline std::string GetMirrorLineTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_mirror_line_topic", "get_mirror_line");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_mirror_line_topic", "get_mirror_line");
     }
 
     inline std::string GetFreeSpaceGraphTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_free_space_graph_topic", "get_free_space_graph");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_free_space_graph_topic", "get_free_space_graph");
     }
 
     inline std::string GetSignedDistanceFieldTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_signed_distance_field_topic", "get_signed_distance_field");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_signed_distance_field_topic", "get_signed_distance_field");
     }
 
     inline std::string GetGripperNamesTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_gripper_names_topic", "get_gripper_names");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_gripper_names_topic", "get_gripper_names");
     }
 
     inline std::string GetGripperAttachedNodeIndicesTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_gripper_attached_node_indices_topic", "get_gripper_attached_node_indices");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_gripper_attached_node_indices_topic", "get_gripper_attached_node_indices");
     }
 
     inline std::string GetGripperPoseTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_gripper_pose_topic", "get_gripper_pose");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_gripper_pose_topic", "get_gripper_pose");
     }
 
     inline std::string GetObjectInitialConfigurationTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_object_initial_configuration_topic", "get_object_initial_configuration");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_object_initial_configuration_topic", "get_object_initial_configuration");
     }
 
     inline std::string GetObjectCurrentConfigurationTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_object_current_configuration_topic", "get_object_current_configuration");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_object_current_configuration_topic", "get_object_current_configuration");
     }
 
     inline std::string GetVisualizationMarkerTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "visualization_marker_topic", "visualization_marker");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "visualization_marker_topic", "visualization_marker");
     }
 
     inline std::string GetVisualizationMarkerArrayTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "visualization_marker_array_topic", "visualization_marker_vector");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "visualization_marker_array_topic", "visualization_marker_vector");
     }
 
     inline std::string GetClearVisualizationsTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "clear_visualizations_topic", "clear_visualizations");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "clear_visualizations_topic", "clear_visualizations");
     }
 
     inline std::string GetConfidenceTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "confidence_topic", "confidence");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "confidence_topic", "confidence");
     }
 
     inline std::string GetConfidenceImageTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "confidence_image_topic", "confidence_image");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "confidence_image_topic", "confidence_image");
     }
 
     inline std::string GetGripperCollisionCheckTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "get_gripper_collision_check_topic", "get_gripper_collision_check");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_gripper_collision_check_topic", "get_gripper_collision_check");
     }
 
     inline std::string GetTerminateSimulationTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamNoWarn<std::string>(nh, "terminate_simulation_topic", "terminate_simulation");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "terminate_simulation_topic", "terminate_simulation");
     }
 
     ////////////////////////////////////////////////////////////////////////////
