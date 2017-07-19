@@ -917,7 +917,7 @@ namespace smmap
 
     inline double GetConstraintRotational(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamRequired<double>(nh, "constraint_model/rotational_deformability", __func__).GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "constraint_model/rotational_dis_deformability", __func__).GetImmutable();
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1138,7 +1138,7 @@ namespace smmap
 
     inline GripperControllerType GetGripperControllerType(ros::NodeHandle& nh)
     {
-        std::string gripper_controller_type =  ROSHelpers::GetParam<std::string>(nh, "gripper_controller_type", "random_sampling");
+        std::string gripper_controller_type =  ROSHelpers::GetParam<std::string>(nh, "sampling_controller/gripper_controller_type", "random_sampling");
 
         if (gripper_controller_type.compare("random_sampling") == 0)
         {
@@ -1157,13 +1157,13 @@ namespace smmap
 
     inline int64_t GetMaxSamplingCounts(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "max_sampling_counts", 1000);
+        return ROSHelpers::GetParam(nh, "sampling_controller/max_sampling_counts", 1000);
     }
 
     // This function might be conbimed with that for task above
     inline double GetStretchingCosineThreshold(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "stretching_cosine_threshold", 0.75);
+        return ROSHelpers::GetParam(nh, "sampling_controller/stretching_cosine_threshold", 0.75);
     }
 
     ////////////////////////////////////////////////////////////////////////////
