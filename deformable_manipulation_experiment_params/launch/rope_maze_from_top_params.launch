@@ -2,7 +2,7 @@
     <!-- Arguments to override default params -->
     <arg name="task_max_time"           default="3600.0"/>
 
-        <!-- Defines which world building routines we use, and which task specification -->
+    <!-- Defines which world building routines we use, and which task specification -->
     <param name="deformable_type"       value="rope"        type="string"/>
     <param name="task_type"             value="rope_maze"   type="string"/>
 
@@ -50,7 +50,7 @@
     </group>
 
     <group ns="smmap_planner_node">
-                <group ns="task">
+        <group ns="task">
             <param name="max_time"                              value="$(arg task_max_time)"    type="double"/>
             <param name="error_threshold_along_normal"          value="0.05"                    type="double"/>
             <param name="error_threshold_distance_to_normal"    value="0.025"                   type="double"/>
