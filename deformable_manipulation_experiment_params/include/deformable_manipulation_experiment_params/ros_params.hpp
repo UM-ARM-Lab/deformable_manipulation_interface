@@ -883,6 +883,13 @@ namespace smmap
         return val.GetImmutable();
     }
 
+    // diminishing with Mengyao's controller
+    inline bool GetUseDiminishingModelWithSamplingController(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "use_diminishing_random_sample_model", false);
+    }
+
+
     ////////////////////////////////////////////////////////////////////////////
     // Adaptive Jacobian Parameters
     ////////////////////////////////////////////////////////////////////////////
