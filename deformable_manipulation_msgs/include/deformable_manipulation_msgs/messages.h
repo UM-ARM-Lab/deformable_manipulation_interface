@@ -9,6 +9,7 @@
 #include "deformable_manipulation_msgs/GetGripperAttachedNodeIndices.h"
 #include "deformable_manipulation_msgs/GetGripperPose.h"
 #include "deformable_manipulation_msgs/GetGripperCollisionReport.h"
+#include "deformable_manipulation_msgs/GetGripperStretchingVectorInfo.h"
 #include "deformable_manipulation_msgs/SimulatorFeedback.h"
 #include "deformable_manipulation_msgs/PointCloud.h"
 #include "deformable_manipulation_msgs/TestGrippersPosesAction.h"

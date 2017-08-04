@@ -1266,6 +1266,12 @@ namespace smmap
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_gripper_attached_node_indices_topic", "get_gripper_attached_node_indices");
     }
 
+    // Get Stretching Vector information for cloth two grippers
+    inline std::string GetGripperStretchingVectorInfoTopic(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_gripper_stretching_vector_topic", "get_gripper_stretching_vector");
+    }
+
     inline std::string GetGripperPoseTopic(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_gripper_pose_topic", "get_gripper_pose");
