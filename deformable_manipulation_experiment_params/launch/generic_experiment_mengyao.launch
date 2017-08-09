@@ -92,8 +92,8 @@
         <!-- Constraint Model parameters and overrides -->
         <param name="use_constraint_model"              value="$(arg use_constraint_model)"             type="bool"/>
         <group ns="constraint_model">
-            <param name="translational_dir_deformability"   value="30.0"                                type="double"/>
-            <param name="translational_dis_deformability"   value="4.0"                                 type="double"/>
+            <param name="translational_dir_deformability"   value="1000.0"                                type="double"/>
+            <param name="translational_dis_deformability"   value="6.0"                                 type="double"/>
             <param name="rotational_dis_deformability"      value="7.0"                                 type="double"/>
         </group>
 
@@ -119,7 +119,7 @@
         <!-- Sampling controller arguments -->
         <group ns="sampling_controller">
             <param name="gripper_controller_type"       value="random_sampling"                         type="string"/>
-            <param name="max_sampling_counts"           value="500"                                    type="int"/>
+            <param name="max_sampling_counts"           value="1000"                                    type="int"/>
             <param name="stretching_cosine_threshold"   value="0.75"                                    type="double"/>
         </group>
     </group>
