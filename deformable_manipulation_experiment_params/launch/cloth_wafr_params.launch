@@ -147,7 +147,7 @@
         </group>
 
 	<group ns="sampling_controller">
-            <param name="stretching_cosine_threshold"   value="0.0"                                    type="double"/>
+            <param name="stretching_cosine_threshold"   value="0.75"                                    type="double"/>
         </group>
 
     </group>
