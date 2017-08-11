@@ -121,5 +121,10 @@
         <group ns="jacobian_controller">
             <param name="collision_scaling_factor"      value="200.0"           type="double"/>
         </group>
+
+	<group ns="sampling_controller">
+            <param name="stretching_cosine_threshold"   value="0.75"            type="double"/>
+        </group>
+
     </group>
 </launch>
