@@ -38,13 +38,13 @@
     <!-- Cloth size params -->
     
     <arg name="cloth_x_size"                    value="0.4"/>
-    <arg name="cloth_y_size"                    value="0.3"/>
+    <arg name="cloth_y_size"                    value="0.4"/>
     <!-- <arg name="cloth_x_size"                    value="0.5"/> -->
     <!-- <arg name="cloth_y_size"                    value="0.4"/> -->
     <!-- <arg name="cloth_num_control_points_x"      value="50"/> -->
     <!-- <arg name="cloth_num_control_points_y"      value="40"/> -->
     <arg name="cloth_num_control_points_x"      value="40"/>
-    <arg name="cloth_num_control_points_y"      value="30"/>
+    <arg name="cloth_num_control_points_y"      value="40"/>
 
     <param name="cloth_x_size"                  value="$(arg cloth_x_size)"                 type="double"/>
     <param name="cloth_y_size"                  value="$(arg cloth_y_size)"                 type="double"/>
@@ -70,7 +70,7 @@
 
     <!-- Second wafr cylinder params -->
 
-    <arg name = "wafr_second_cylinder_height"     value="0.57"/>
+    <arg name = "wafr_second_cylinder_height"     value="0.7"/>
     <arg name = "wafr_cylinder_relative_com_x"    value="-0.15"/>
     <arg name = "wafr_cylinder_relative_com_y"    value="0.0"/>
     <arg name = "wafr_cylinder_relative_com_z"    value="0.2"/>
@@ -85,9 +85,9 @@
     <!-- Cloth position params -->
 
     <arg name="cloth_leading_edge_x"    value="-0.5175"/>
-    <arg name="cloth_com_x"             value="$(eval cloth_cylinder_com_x + 1.1 * cloth_cylinder_radius + (cloth_x_size / 2.0))"/>
-    <arg name="cloth_com_y"             value="$(arg table_surface_y)"                              type="double"/>
-    <arg name="cloth_com_z"             value="$(eval cloth_cylinder_com_z + cloth_cylinder_height / 2 - 0.01)"                 type="double"/>
+    <arg name="cloth_com_x"             value="$(eval cloth_cylinder_com_x + 1.2 * cloth_cylinder_radius + (cloth_x_size / 2.0))"/>
+    <arg name="cloth_com_y"             value="$(eval table_surface_y)"                              type="double"/>
+    <arg name="cloth_com_z"             value="$(eval cloth_cylinder_com_z + cloth_cylinder_height / 2 - 0.06)"                 type="double"/>
 
     <param name="cloth_com_x"           value="$(arg cloth_com_x)"              type="double"/> 
     <param name="cloth_com_y"           value="$(arg cloth_com_y)"              type="double"/>
@@ -125,12 +125,13 @@
 
     <group ns="smmap_planner_node">
         <group ns="task">
-            <param name="max_time"                              value="$(arg task_max_time)"    type="double"/>
-            <param name="error_threshold_along_normal"          value="0.02"                    type="double"/>
-            <param name="error_threshold_distance_to_normal"    value="0.006"                   type="double"/>
-            <param name="error_threshold_task_done"             value="0.1"                     type="double"/>
-            <!-- <param name="max_stretch_factor"            value="$(eval (0.012 + 0.002) / 0.012)" type="double"/> -->
-            <param name="max_stretch_factor"            value="$(eval (0.012 + 0.003) / 0.012)" type="double"/>
+            <param name="max_time"                             value="$(arg task_max_time)"    type="double"/>
+            <param name="error_threshold_along_normal"         value="0.02"                    type="double"/>
+            <param name="error_threshold_distance_to_normal"   value="0.006"                   type="double"/>
+            <param name="error_threshold_task_done"            value="0.1"                     type="double"/>
+            <!-- <param name="max_stretch_factor"              value="$(eval (0.012 + 0.002) / 0.012)"        type="double"/> -->
+            <param name="max_stretch_factor"                   value="$(eval (0.012 + 0.003) / 0.012)"        type="double"/>
+            <param name="stretching_correction_from_task"      value="false"                                  type="bool"/>
         </group>
 
         <param name="enable_stuck_detection"                                value="false"        type="bool"/>
@@ -170,7 +171,7 @@
         </group>
 
 	<group ns="sampling_controller">
-            <param name="stretching_cosine_threshold"   value="0.6"                                    type="double"/>
+            <param name="stretching_cosine_threshold"   value="0.5"                                    type="double"/>
         </group>
 
     </group>

@@ -150,6 +150,11 @@ namespace smmap
         return val.GetImmutable();
     }
 
+    inline bool GetStretchingCorrectionFromTask(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "task/stretching_correction_from_task", true);
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // Error calculation settings
     ////////////////////////////////////////////////////////////////////////////
