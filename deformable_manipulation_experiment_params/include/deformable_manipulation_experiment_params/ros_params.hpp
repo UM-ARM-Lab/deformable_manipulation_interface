@@ -371,6 +371,34 @@ namespace smmap
         }
     }
 
+    // Cylinder Size settings for WAFR task case
+
+    inline float GetWafrCylinderRadius(ros::NodeHandle& nh)           // METERS
+    {
+        return ROSHelpers::GetParam(nh, "wafr_second_cylinder_radius", 0.025f);
+    }
+
+    inline float GetWafrCylinderHeight(ros::NodeHandle& nh)           // METERS
+    {
+        return ROSHelpers::GetParam(nh, "wafr_second_cylinder_height", 0.51f);
+    }
+
+    inline float GetWafrCylinderRelativeCenterOfMassX(ros::NodeHandle& nh)    // METERS
+    {
+        return ROSHelpers::GetParam(nh, "wafr_cylinder_relative_com_x", - 0.15f);
+    }
+
+    inline float GetWafrCylinderRelativeCenterOfMassY(ros::NodeHandle& nh)    // METERS
+    {
+        return ROSHelpers::GetParam(nh, "wafr_cylinder_relative_com_y", 0.0f);
+    }
+
+    inline float GetWafrCylinderRelativeCenterOfMassZ(ros::NodeHandle& nh)    // METERS
+    {
+        return ROSHelpers::GetParam(nh, "wafr_cylinder_relative_com_z", 0.2f);
+    }
+
+
     ////////////////////////////////////////////////////////////////////////////
     // Wall Size and Visibility Settings
     ////////////////////////////////////////////////////////////////////////////

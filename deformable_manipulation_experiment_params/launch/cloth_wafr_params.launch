@@ -1,12 +1,14 @@
 <launch>
     <!-- Arguments to override default params -->
-    <arg name="task_max_time"           default="30.0"/>
+    <arg name="task_max_time"           default="50.0"/>
 
     <!-- Defines which world building routines we use, and which task specification -->
+
     <param name="deformable_type"       value="cloth"               type="string"/>
     <param name="task_type"             value="cloth_wafr"   type="string"/>
 
     <!-- Table size params -->
+
     <arg name="table_x_half_extents"    value="0.9"/>
     <arg name="table_y_half_extents"    value="0.9"/>
     <arg name="table_height"            value="0.2005"/>
@@ -18,6 +20,7 @@
     <param name="table_thickness"       value="$(arg table_thickness)"      type="double"/>
 
     <!-- Table position params -->
+
     <arg name="table_leading_edge_x"    value ="-0.185"/>
 
     <arg name="table_surface_x"         value="0.0"/>
@@ -29,11 +32,15 @@
     <param name="table_surface_z"       value="$(arg table_surface_z)"  type="double"/>
 
     <!-- Cloth properties params -->
+
     <param name="cloth_linear_stiffness"        value="0.8"/>
 
     <!-- Cloth size params -->
-    <arg name="cloth_x_size"                    value="0.5"/>
-    <arg name="cloth_y_size"                    value="0.4"/>
+    
+    <arg name="cloth_x_size"                    value="0.4"/>
+    <arg name="cloth_y_size"                    value="0.3"/>
+    <!-- <arg name="cloth_x_size"                    value="0.5"/> -->
+    <!-- <arg name="cloth_y_size"                    value="0.4"/> -->
     <!-- <arg name="cloth_num_control_points_x"      value="50"/> -->
     <!-- <arg name="cloth_num_control_points_y"      value="40"/> -->
     <arg name="cloth_num_control_points_x"      value="40"/>
@@ -56,27 +63,43 @@
     <param name="cloth_cylinder_com_x"  value="$(arg cloth_cylinder_com_x)"     type="double"/>
     <param name="cloth_cylinder_com_y"  value="$(arg cloth_cylinder_com_y)"     type="double"/>
     <param name="cloth_cylinder_com_z"  value="$(arg cloth_cylinder_com_z)"     type="double"/>
-    <param name="wall_com_z"  value="0.32"  type="double"/> 
+    <param name="wall_com_z"            value="0.32"                            type="double"/> 
 
-    <param name="wall_height" value="0.3"   type="double"/>
+    <param name="wall_height"           value="0.3"                             type="double"/>
     <param name="cloth_cylinder_radius" value="$(arg cloth_cylinder_radius)"    type="double"/>
 
+    <!-- Second wafr cylinder params -->
+
+    <arg name = "wafr_second_cylinder_height"     value="0.57"/>
+    <arg name = "wafr_cylinder_relative_com_x"    value="-0.15"/>
+    <arg name = "wafr_cylinder_relative_com_y"    value="0.0"/>
+    <arg name = "wafr_cylinder_relative_com_z"    value="0.2"/>
+    <arg name = "wafr_second_cylinder_radius"     value="0.025"/>
+    
+    <param name="wafr_second_cylinder_height"     value="$(arg wafr_second_cylinder_height)"     type="double"/>
+    <param name="wafr_cylinder_relative_com_x"    value="$(arg wafr_cylinder_relative_com_x)"    type="double"/>
+    <param name="wafr_cylinder_relative_com_y"    value="$(arg wafr_cylinder_relative_com_y)"    type="double"/>
+    <param name="wafr_cylinder_relative_com_z"    value="$(arg wafr_cylinder_relative_com_z)"    type="double"/>
+    <param name="wafr_second_cylinder_radius"     value="$(arg wafr_second_cylinder_radius)"     type="double"/>
+
     <!-- Cloth position params -->
+
     <arg name="cloth_leading_edge_x"    value="-0.5175"/>
-    <arg name="cloth_com_x"             value="$(eval cloth_cylinder_com_x + 1.5 * cloth_cylinder_radius + (cloth_x_size / 2.0))"/>
+    <arg name="cloth_com_x"             value="$(eval cloth_cylinder_com_x + 1.1 * cloth_cylinder_radius + (cloth_x_size / 2.0))"/>
     <arg name="cloth_com_y"             value="$(arg table_surface_y)"                              type="double"/>
-    <arg name="cloth_com_z"             value="$(eval cloth_cylinder_com_z + 0.06)"                 type="double"/>
+    <arg name="cloth_com_z"             value="$(eval cloth_cylinder_com_z + cloth_cylinder_height / 2 - 0.01)"                 type="double"/>
 
     <param name="cloth_com_x"           value="$(arg cloth_com_x)"              type="double"/> 
     <param name="cloth_com_y"           value="$(arg cloth_com_y)"              type="double"/>
     <param name="cloth_com_z"           value="$(arg cloth_com_z)"              type="double"/>
 
     <!-- World parameters for planning - used by both nodes -->
+
     <arg name="grid_resolution"         value="0.02"/>
-    <arg name="world_x_min"             value="$(eval cloth_com_x - (1.4 * cloth_x_size))"/>
-    <arg name="world_x_max"             value="$(eval cloth_com_x + (1.4 * cloth_x_size))"/>
-    <arg name="world_y_min"             value="-0.9"/>
-    <arg name="world_y_max"             value="0.9"/>
+    <arg name="world_x_min"             value="$(eval cloth_com_x - (2.0 * cloth_x_size))"/>
+    <arg name="world_x_max"             value="$(eval cloth_com_x + (2.0 * cloth_x_size))"/>
+    <arg name="world_y_min"             value="-0.7"/>
+    <arg name="world_y_max"             value="0.7"/>
     <arg name="world_z_min"             value="$(eval table_height - 0.1)"/>
     <arg name="world_z_max"             value="$(eval table_height + 0.5)"/>
 
@@ -147,7 +170,7 @@
         </group>
 
 	<group ns="sampling_controller">
-            <param name="stretching_cosine_threshold"   value="0.75"                                    type="double"/>
+            <param name="stretching_cosine_threshold"   value="0.6"                                    type="double"/>
         </group>
 
     </group>
