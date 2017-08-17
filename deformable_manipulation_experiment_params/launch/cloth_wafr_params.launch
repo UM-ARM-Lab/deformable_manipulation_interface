@@ -71,7 +71,8 @@
     <!-- Second wafr cylinder params -->
 
     <arg name = "wafr_second_cylinder_height"     value="0.7"/>
-    <arg name = "wafr_cylinder_relative_com_x"    value="-0.155"/>
+    <arg name = "wafr_cylinder_relative_com_x"    value="-0.142"/>
+    <!-- <arg name = "wafr_cylinder_relative_com_x"    value="-0.155"/> -->
     <!-- <arg name = "wafr_cylinder_relative_com_x"    value="-0.15"/> -->
     <arg name = "wafr_cylinder_relative_com_y"    value="-0.005"/>
     <arg name = "wafr_cylinder_relative_com_z"    value="0.205"/>
