@@ -71,11 +71,11 @@
     <!-- Second wafr cylinder params -->
 
     <arg name = "wafr_second_cylinder_height"     value="0.8"/>
-    <arg name = "wafr_cylinder_relative_com_x"    value="-0.135"/>
+    <arg name = "wafr_cylinder_relative_com_x"    value="-0.139"/>
     <!-- <arg name = "wafr_cylinder_relative_com_x"    value="-0.155"/> -->
     <!-- <arg name = "wafr_cylinder_relative_com_x"    value="-0.15"/> -->
     <arg name = "wafr_cylinder_relative_com_y"    value="-0.005"/>
-    <arg name = "wafr_cylinder_relative_com_z"    value="0.195"/>
+    <arg name = "wafr_cylinder_relative_com_z"    value="0.2"/>
     <!-- <arg name = "wafr_cylinder_relative_com_z"    value="0.2"/> -->
     <arg name = "wafr_second_cylinder_radius"     value="0.035"/>
     <!-- <arg name = "wafr_second_cylinder_radius"     value="0.025"/> -->
@@ -175,7 +175,7 @@
         </group>
 
 	<group ns="sampling_controller">
-            <param name="stretching_cosine_threshold"   value="0.4"                                    type="double"/>
+            <param name="stretching_cosine_threshold"   value="0.3"                                    type="double"/>
         </group>
 
     </group>
