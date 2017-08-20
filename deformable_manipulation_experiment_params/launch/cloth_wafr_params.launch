@@ -1,6 +1,6 @@
 <launch>
     <!-- Arguments to override default params -->
-    <arg name="task_max_time"           default="50.0"/>
+    <arg name="task_max_time"           default="60.0"/>
 
     <!-- Defines which world building routines we use, and which task specification -->
 
@@ -43,8 +43,8 @@
     <!-- <arg name="cloth_y_size"                    value="0.4"/> -->
     <!-- <arg name="cloth_num_control_points_x"      value="50"/> -->
     <!-- <arg name="cloth_num_control_points_y"      value="40"/> -->
-    <arg name="cloth_num_control_points_x"      value="40"/>
-    <arg name="cloth_num_control_points_y"      value="40"/>
+    <arg name="cloth_num_control_points_x"      value="20"/>
+    <arg name="cloth_num_control_points_y"      value="20"/>
 
     <param name="cloth_x_size"                  value="$(arg cloth_x_size)"                 type="double"/>
     <param name="cloth_y_size"                  value="$(arg cloth_y_size)"                 type="double"/>
@@ -71,7 +71,7 @@
     <!-- Second wafr cylinder params -->
 
     <arg name = "wafr_second_cylinder_height"     value="0.8"/>
-    <arg name = "wafr_cylinder_relative_com_x"    value="-0.139"/>
+    <arg name = "wafr_cylinder_relative_com_x"    value="-0.14"/>
     <!-- <arg name = "wafr_cylinder_relative_com_x"    value="-0.155"/> -->
     <!-- <arg name = "wafr_cylinder_relative_com_x"    value="-0.15"/> -->
     <arg name = "wafr_cylinder_relative_com_y"    value="-0.005"/>
@@ -175,7 +175,7 @@
         </group>
 
 	<group ns="sampling_controller">
-            <param name="stretching_cosine_threshold"   value="0.3"                                    type="double"/>
+            <param name="stretching_cosine_threshold"   value="0.4"                                    type="double"/>
         </group>
 
     </group>
