@@ -95,7 +95,7 @@
             <param name="max_stretch_factor"            value="$(eval (0.012 + 0.002) / 0.012)" type="double"/>
         </group>
 
-        <param name="enable_stuck_detection"                                value="true"        type="bool"/>
+        <param name="enable_stuck_detection"                                value="false"        type="bool"/>
         <group ns="stuck_detection">
             <param name="num_lookahead_steps"                               value="10"          type="int"/>
             <param name="band_overstretch_prediction_annealing_factor"      value="0.5"         type="double"/>

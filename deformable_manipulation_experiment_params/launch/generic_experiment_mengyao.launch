@@ -28,7 +28,7 @@
     <arg name="use_adaptive_model"                      default="false"/>
     <arg name="adaptive_model_learning_rate"            default="0.000001"/>
     <!-- Constraint -->
-    <arg name="use_constraint_model"                    default="true"/>
+    <arg name="use_constraint_model"                    default="false"/>
     <!-- Multi-model -->
     <arg name="use_multi_model"                         default="false"/>
     <arg name="kalman_parameters_override"              default="false"/>
@@ -38,7 +38,7 @@
     <arg name="correlation_strength_factor_override"    default="false"/>
     <arg name="correlation_strength_factor"             if="$(arg correlation_strength_factor_override)"/>
     <!-- Diminishing rigidity with Mengyao's controller-->
-    <arg name="use_diminishing_random_sample_model"          default="false"/>
+    <arg name="use_diminishing_random_sample_model"          default="true"/>
 
 
     <!-- Controller settings -->
@@ -75,6 +75,11 @@
         <param name="visualize_object_predicted_motion" value="$(arg visualize_object_predicted_motion)"    type="bool"/>
         <param name="use_random_seed"                   value="$(arg use_random_seed)"                      type="bool"/>
         <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   if="$(arg static_seed_override)"/>
+
+        <group ns="task">
+            <param name="stretching_correction_from_task"      value="false"                                  type="bool"/>
+        </group>
+
 
         <!-- Dinimishing Rigidity parameters and overrides -->
         <param name="use_diminishing_rigidity_model"    value="$(arg use_diminishing_rigidity_model)"   type="bool"/>
