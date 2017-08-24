@@ -21,6 +21,7 @@ namespace smmap
         CLOTH_WALL,
         CLOTH_DOUBLE_SLIT,
         ROPE_MAZE,
+        ROPE_ZIG_MATCH,
 
         // NEWLY ADD FOR TEST, Mengyao
         ROPE_DRAG_OPPOSITE_TABLE,       // directional rigidity

@@ -115,6 +115,11 @@ namespace smmap
         {
             return TaskType::ROPE_MAZE;
         }
+        // Fixed Correspondency Tasks for Controller.  --- Added by Mengyao
+        else if (task_type.compare("rope_zig_match") == 0)
+        {
+            return TaskType::ROPE_ZIG_MATCH;
+        }
         else if (task_type.compare("rope_drag_along_table") == 0)
         {
             return TaskType::ROPE_DRAG_ALONG_TABLE;
