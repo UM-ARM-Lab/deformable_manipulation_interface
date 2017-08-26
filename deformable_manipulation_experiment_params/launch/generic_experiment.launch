@@ -72,7 +72,7 @@
         <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   if="$(arg static_seed_override)"/>
 
         <group ns="task">
-            <param name="stretching_correction_from_task"      value="false"                                  type="bool"/>
+            <param name="stretching_correction_from_task"      value="true"                                  type="bool"/>
         </group>
 
         <!-- Dinimishing Rigidity parameters and overrides -->
