@@ -28,7 +28,7 @@
     <arg name="use_adaptive_model"                      default="false"/>
     <arg name="adaptive_model_learning_rate"            default="0.000001"/>
     <!-- Constraint -->
-    <arg name="use_constraint_model"                    default="true"/>
+    <arg name="use_constraint_model"                    default="false"/>
     <!-- Multi-model -->
     <arg name="use_multi_model"                         default="false"/>
     <arg name="kalman_parameters_override"              default="false"/>
@@ -39,8 +39,8 @@
     <arg name="correlation_strength_factor"             if="$(arg correlation_strength_factor_override)"/>
 
     <!-- Mengyao's model controller testing set-->
-    <arg name="use_diminishing_random_sample_model"          default="true"/>
-    <arg name="use_multi_model_controller"                   default="false"/>
+    <arg name="use_diminishing_random_sample_model"          default="false"/>
+    <arg name="use_multi_model_controller"                   default="true"/>
 
     <!-- Controller settings -->
     <!-- Old pure Jacobian controller -->
@@ -48,7 +48,7 @@
 
     <!-- Planner internal arguments -->
     <arg name="launch_planner"                          default="true"/>
-    <arg name="calculate_regret"                        default="false"/>
+    <arg name="calculate_regret"                        default="true"/>
     <arg name="use_random_seed"                         default="false"/>
     <arg name="static_seed_override"                    default="false"/>
     <arg name="static_seed"                             if="$(arg static_seed_override)"/>
@@ -113,9 +113,9 @@
             <param name="reward_scale_annealing_factor" value="0.9"                                     type="double"/>
         </group>
 
-        <!-- Dinimishing model with Mengyao's controller -->
+        <!-- multiple/diminishing model with Mengyao's controller -->
         <param name = "use_diminishing_random_sample_model"  value="$(arg use_diminishing_random_sample_model)" type="bool"/>
-
+        <param name="use_multi_model_controller"             value="$(arg use_multi_model_controller)" type="bool"/>
 
         <!-- Old pure Jacobian based controller -->
         <group ns="jacobian_controller">
