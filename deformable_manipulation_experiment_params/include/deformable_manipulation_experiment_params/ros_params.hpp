@@ -615,6 +615,11 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "num_simsteps_per_gripper_command", 4);
     }
 
+    inline double GetSettlingTime(ros::NodeHandle& nh, const double default_time)
+    {
+        return ROSHelpers::GetParam(nh, "settle_time", default_time);
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // (Fake) Robot settings
     ////////////////////////////////////////////////////////////////////////////
