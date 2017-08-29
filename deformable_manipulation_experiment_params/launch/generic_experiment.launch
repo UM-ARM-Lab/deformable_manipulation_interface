@@ -16,6 +16,7 @@
     <arg name="disable_all_visualizations"              default="false"/>
     <arg name="visualize_object_desired_motion"         default="false"/>
     <arg name="visualize_object_predicted_motion"       default="false"/>
+    <arg name="visualize_prm"                           default="false"/>
 
     <!-- Model arguments -->
     <!-- Diminishing rigidity -->
@@ -69,8 +70,14 @@
         <param name="disable_all_visualizations"        value="$(arg disable_all_visualizations)"           type="bool"/>
         <param name="visualize_object_desired_motion"   value="$(arg visualize_object_desired_motion)"      type="bool"/>
         <param name="visualize_object_predicted_motion" value="$(arg visualize_object_predicted_motion)"    type="bool"/>
+        <param name="visualize_prm"                     value="$(arg visualize_prm)"                        type="bool"/>
         <param name="use_random_seed"                   value="$(arg use_random_seed)"                      type="bool"/>
         <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   if="$(arg static_seed_override)"/>
+
+        <group ns="prm">
+            <param name="num_nearest"                       value="5"                           type="int"/>
+            <param name="num_samples"                       value="1000"                        type="int"/>
+        </group>
 
         <!-- Dinimishing Rigidity parameters and overrides -->
         <param name="use_diminishing_rigidity_model"    value="$(arg use_diminishing_rigidity_model)"   type="bool"/>

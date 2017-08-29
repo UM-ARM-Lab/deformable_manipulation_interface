@@ -34,6 +34,11 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "visualize_object_predicted_motion", true);
     }
 
+    inline bool GetVisualizePRM(ros::NodeHandle& nh, const bool default_vis = true)
+    {
+        return ROSHelpers::GetParam(nh, "visualize_prm", default_vis);
+    }
+
     inline int GetViewerWidth(ros::NodeHandle& nh)      // Pixels
     {
         const auto val = ROSHelpers::GetParamDebugLog<int>(nh, "viewer_width", 800);
@@ -1120,6 +1125,24 @@ namespace smmap
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_z_max", __func__);
         return val.GetImmutable();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Planner - PRM settings
+    ////////////////////////////////////////////////////////////////////////////
+
+    inline size_t GetPRMNumNearest(ros::NodeHandle& nh, const size_t default_k = 5)
+    {
+        const int retrieved_k = ROSHelpers::GetParam(nh, "prm/num_nearest", (int)default_k);
+        assert(retrieved_k > 0);
+        return (size_t)retrieved_k;
+    }
+
+    inline size_t GetPRMNumSamples(ros::NodeHandle& nh, const size_t default_num_samples = 1000)
+    {
+        const int retrieved_num_samples = ROSHelpers::GetParam(nh, "prm/num_samples", (int)default_num_samples);
+        assert(retrieved_num_samples > 0);
+        return (size_t)retrieved_num_samples;
     }
 
     ////////////////////////////////////////////////////////////////////////////
