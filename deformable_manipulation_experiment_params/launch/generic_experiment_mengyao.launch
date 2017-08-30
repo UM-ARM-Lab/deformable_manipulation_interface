@@ -98,9 +98,9 @@
         <!-- Constraint Model parameters and overrides -->
         <param name="use_constraint_model"              value="$(arg use_constraint_model)"             type="bool"/>
         <group ns="constraint_model">
-            <param name="translational_dir_deformability"   value="60.0"                                type="double"/>
-            <param name="translational_dis_deformability"   value="3.0"                                 type="double"/>
-            <param name="rotational_dis_deformability"      value="7.0"                                 type="double"/>
+            <param name="translational_dir_deformability"   value="30.0"                                type="double"/>
+            <param name="translational_dis_deformability"   value="25.0"                                 type="double"/>
+            <param name="rotational_dis_deformability"      value="20.0"                                 type="double"/>
         </group>
 
         <!-- Multi-model parameters and overrides -->
