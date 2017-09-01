@@ -89,9 +89,9 @@
     <!-- Cloth position params -->
 
     <arg name="cloth_leading_edge_x"    value="-0.5175"/>
-    <arg name="cloth_com_x"             value="$(eval cloth_cylinder_com_x + 1.2 * cloth_cylinder_radius + (cloth_x_size / 2.0))"/>
+    <arg name="cloth_com_x"             value="$(eval cloth_cylinder_com_x + 0.6 * cloth_cylinder_radius + (cloth_x_size / 2.0))"/>
     <arg name="cloth_com_y"             value="$(eval table_surface_y - 0.0)"/>
-    <arg name="cloth_com_z"             value="$(eval cloth_cylinder_com_z + cloth_cylinder_height / 2 - 0.06)"/>
+    <arg name="cloth_com_z"             value="$(eval cloth_cylinder_com_z + cloth_cylinder_height / 2 + 0.01)"/>
 
     <param name="cloth_com_x"           value="$(arg cloth_com_x)"              type="double"/> 
     <param name="cloth_com_y"           value="$(arg cloth_com_y)"              type="double"/>
