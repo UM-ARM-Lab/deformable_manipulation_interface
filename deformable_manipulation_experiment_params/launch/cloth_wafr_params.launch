@@ -1,6 +1,6 @@
 <launch>
     <!-- Arguments to override default params -->
-    <arg name="task_max_time"           default="5.4"/>
+    <arg name="task_max_time"           default="3.5"/>
 
     <!-- Defines which world building routines we use, and which task specification -->
 

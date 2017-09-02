@@ -41,8 +41,8 @@
     <!-- Mengyao's model controller testing set-->
     <arg name="use_diminishing_random_sample_model"          default="false"/>
     <arg name="use_multi_model_controller"                   default="true"/>
-    <arg name="translational_dir_deformability"            default="30.0"/>
-    <arg name="translational_dis_deformability"            default="25.0"/>
+    <arg name="translational_dir_deformability"            default="60.0"/>
+    <arg name="translational_dis_deformability"            default="10.0"/>
     <arg name="rotational_dis_deformability"               default="20.0"/>
 
 
