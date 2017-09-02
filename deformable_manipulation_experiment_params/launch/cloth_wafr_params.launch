@@ -1,6 +1,6 @@
 <launch>
     <!-- Arguments to override default params -->
-    <arg name="task_max_time"           default="60.0"/>
+    <arg name="task_max_time"           default="5.4"/>
 
     <!-- Defines which world building routines we use, and which task specification -->
 
@@ -89,7 +89,7 @@
     <!-- Cloth position params -->
 
     <arg name="cloth_leading_edge_x"    value="-0.5175"/>
-    <arg name="cloth_com_x"             value="$(eval cloth_cylinder_com_x + 0.6 * cloth_cylinder_radius + (cloth_x_size / 2.0))"/>
+    <arg name="cloth_com_x"             value="$(eval cloth_cylinder_com_x + 0.8 * cloth_cylinder_radius + (cloth_x_size / 2.0))"/>
     <arg name="cloth_com_y"             value="$(eval table_surface_y - 0.0)"/>
     <arg name="cloth_com_z"             value="$(eval cloth_cylinder_com_z + cloth_cylinder_height / 2 + 0.01)"/>
 
@@ -126,6 +126,9 @@
         <param name="viewer_width"                      value="800"     type="int"/>
         <param name="viewer_height"                     value="800"     type="int"/>
     </group>
+
+	<!-- planner, controller params -->
+    <arg name="stretching_cosine_threshold"    default="0.4"/>
 
     <group ns="smmap_planner_node">
         <group ns="task">
@@ -174,8 +177,8 @@
             <param name="collision_scaling_factor"      value="600.0"          type="double"/>
         </group>
 
-	<group ns="sampling_controller">
-            <param name="stretching_cosine_threshold"   value="0.4"                                    type="double"/>
+		<group ns="sampling_controller">
+            <param name="stretching_cosine_threshold"   value="$(arg stretching_cosine_threshold)"    type="double"/>
         </group>
 
     </group>
