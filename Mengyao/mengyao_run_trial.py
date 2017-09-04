@@ -17,6 +17,8 @@ def mengyao_run_trial(experiment,
               use_adaptive_model = None,
               adaptive_model_learning_rate = None,
 
+              desired_down_scale = None,
+
               translational_dir_deformability = None,
               translational_dis_deformability = None,
               rotational_dis_deformability = None,
@@ -61,6 +63,9 @@ def mengyao_run_trial(experiment,
     if adaptive_model_learning_rate is not None:
         roslaunch_command.append('adaptive_model_learning_rate:=' + str(adaptive_model_learning_rate))
 
+    if desired_down_scale is not None:
+        roslaunch_command.append('desired_down_scale:=' + str(desired_down_scale))
+        
     if translational_dir_deformability is not None:
         roslaunch_command.append('translational_dir_deformability:=' + str(translational_dir_deformability))
 
