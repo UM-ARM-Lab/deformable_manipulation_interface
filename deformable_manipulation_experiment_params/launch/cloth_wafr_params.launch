@@ -1,6 +1,6 @@
 <launch>
     <!-- Arguments to override default params -->
-    <arg name="task_max_time"           default="3.5"/>
+    <arg name="task_max_time"           default="5.5"/>
 
     <!-- Defines which world building routines we use, and which task specification -->
 
@@ -75,7 +75,7 @@
     <!-- <arg name = "wafr_cylinder_relative_com_x"    value="-0.155"/> -->
     <!-- <arg name = "wafr_cylinder_relative_com_x"    value="-0.15"/> -->
     <arg name = "wafr_cylinder_relative_com_y"    value="-0.005"/>
-    <arg name = "wafr_cylinder_relative_com_z"    value="0.2"/>
+    <arg name = "wafr_cylinder_relative_com_z"    value="0.22"/>
     <!-- <arg name = "wafr_cylinder_relative_com_z"    value="0.2"/> -->
     <arg name = "wafr_second_cylinder_radius"     value="0.035"/>
     <!-- <arg name = "wafr_second_cylinder_radius"     value="0.025"/> -->
@@ -89,7 +89,7 @@
     <!-- Cloth position params -->
 
     <arg name="cloth_leading_edge_x"    value="-0.5175"/>
-    <arg name="cloth_com_x"             value="$(eval cloth_cylinder_com_x + 0.8 * cloth_cylinder_radius + (cloth_x_size / 2.0))"/>
+    <arg name="cloth_com_x"             value="$(eval cloth_cylinder_com_x - 1.5 * cloth_cylinder_radius + (cloth_x_size / 2.0))"/>
     <arg name="cloth_com_y"             value="$(eval table_surface_y - 0.0)"/>
     <arg name="cloth_com_z"             value="$(eval cloth_cylinder_com_z + cloth_cylinder_height / 2 + 0.01)"/>
 
@@ -129,6 +129,8 @@
 
 	<!-- planner, controller params -->
     <arg name="stretching_cosine_threshold"    default="0.4"/>
+    <arg name="desired_down_scale"             default="400"/>
+    <arg name="fix_step_size"                  default="true"/>
 
     <group ns="smmap_planner_node">
         <group ns="task">
@@ -137,7 +139,8 @@
             <param name="error_threshold_distance_to_normal"   value="0.006"                   type="double"/>
             <param name="error_threshold_task_done"            value="0.1"                     type="double"/>
             <!-- <param name="max_stretch_factor"              value="$(eval (0.012 + 0.002) / 0.012)"        type="double"/> -->
-            <param name="max_stretch_factor"                   value="$(eval (0.012 + 0.003) / 0.012)"        type="double"/>
+            <param name="max_stretch_factor"                   value="$(eval (0.012 + 0.003) / 0.012)"     type="double"/>
+            <param name="desired_down_scale"                   value="$(arg desired_down_scale)"   type="double"/>
             
         </group>
 
@@ -179,6 +182,7 @@
 
 		<group ns="sampling_controller">
             <param name="stretching_cosine_threshold"   value="$(arg stretching_cosine_threshold)"    type="double"/>
+            <param name="fix_step_size"                 value="$(arg fix_step_size)"                  type="bool"/>
         </group>
 
     </group>

@@ -182,6 +182,11 @@ namespace smmap
         return val.GetImmutable();
     }
 
+    inline double GetDesiredDownScale(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "task/desired_down_scale", 1.0f);
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // Gripper Size Settings
     ////////////////////////////////////////////////////////////////////////////
@@ -1214,6 +1219,11 @@ namespace smmap
     inline int64_t GetMaxSamplingCounts(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "sampling_controller/max_sampling_counts", 1000);
+    }
+
+    inline bool GetFixStepSize(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "sampling_controller/fix_step_size", true);
     }
 
     // This function might be conbimed with that for task above
