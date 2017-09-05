@@ -1,6 +1,6 @@
 <launch>
     <!-- Arguments to override default params -->
-    <arg name="task_max_time"           default="20.0"/>
+    <arg name="task_max_time"           default="1.6"/>
 
     <!-- Defines which world building routines we use, and which task specification -->
     <param name="deformable_type"       value="cloth"               type="string"/>
@@ -29,10 +29,14 @@
     <param name="table_surface_z"       value="$(arg table_surface_z)"  type="double"/>
 
     <!-- Cloth size params -->
-    <arg name="cloth_x_size"                    value="0.3"/>
+    <arg name="cloth_x_size"                    default="0.3"/>
+    <arg name="cloth_y_size"                    default="0.4"/>
+    <arg name="cloth_num_control_points_x"      default="15"/>
+    <arg name="cloth_num_control_points_y"      default="20"/>
+    <!-- <arg name="cloth_x_size"                    value="0.3"/>
     <arg name="cloth_y_size"                    value="0.5"/>
     <arg name="cloth_num_control_points_x"      value="30"/>
-    <arg name="cloth_num_control_points_y"      value="50"/>
+    <arg name="cloth_num_control_points_y"      value="50"/> -->
 
     <param name="cloth_x_size"                  value="$(arg cloth_x_size)"                 type="double"/>
     <param name="cloth_y_size"                  value="$(arg cloth_y_size)"                 type="double"/>
@@ -83,16 +87,23 @@
         <param name="viewer_height"                     value="800"     type="int"/>
     </group>
 
+    <!-- planner, controller params -->
+    <arg name="stretching_cosine_threshold"    default="0.4"/>
+    <arg name="desired_down_scale"             default="400"/>
+    <arg name="fix_step_size"                  default="true"/>
+
     <group ns="smmap_planner_node">
         <group ns="task">
             <param name="max_time"                              value="$(arg task_max_time)"    type="double"/>
             <param name="error_threshold_along_normal"          value="0.02"                    type="double"/>
             <param name="error_threshold_distance_to_normal"    value="0.006"                   type="double"/>
             <param name="error_threshold_task_done"             value="0.1"                     type="double"/>
+            <!-- <param name="max_stretch_factor"            value="$(eval (0.012 + 0.002) / 0.012)" type="double"/> -->
             <param name="max_stretch_factor"            value="$(eval (0.012 + 0.002) / 0.012)" type="double"/>
+            <param name="desired_down_scale"                   value="$(arg desired_down_scale)"   type="double"/>
         </group>
 
-        <param name="enable_stuck_detection"                                value="true"        type="bool"/>
+        <param name="enable_stuck_detection"                                value="false"       type="bool"/>
         <group ns="stuck_detection">
             <param name="num_lookahead_steps"                               value="10"          type="int"/>
             <param name="band_overstretch_prediction_annealing_factor"      value="0.5"         type="double"/>
@@ -127,5 +138,11 @@
         <group ns="jacobian_controller">
             <param name="collision_scaling_factor"      value="1000.0"          type="double"/>
         </group>
+
+        <group ns="sampling_controller">
+            <param name="stretching_cosine_threshold"   value="$(arg stretching_cosine_threshold)"    type="double"/>
+            <param name="fix_step_size"                 value="$(arg fix_step_size)"                  type="bool"/>
+        </group>
+
     </group>
 </launch>
