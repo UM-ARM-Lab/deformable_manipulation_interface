@@ -11,11 +11,11 @@ def mengyao_run_trials(experiment, generate_screenshots="false", log_prefix=""):
         # deform_range = range(0, 25, 4)
         # 5:5:25
         # stretching_threshold_range = frange(0.35, 0.7, 0.05)
-        down_scale_range = [100, 400, 1000, 2500, 5000]
-        stretching_threshold_range = [0.75, 0.65, 0.5, 0.4]
-        trans_dir_deformability_range = [30,60,300]
-        trans_dis_deformability_range = [3, 7, 10,15,25]
-        rotation_deformability_range = [5,10,15,25]
+        down_scale_range = [100, 200, 400]
+        stretching_threshold_range = [0.4, 0.7, 0.5, 0.3]
+        trans_dir_deformability_range = [30,60,600]
+        trans_dis_deformability_range = [10, 3, 25, 7]
+        rotation_deformability_range = [5,10,20]
 
         # Run the single model baseline
         for rotation_deformability in rotation_deformability_range:
@@ -39,4 +39,4 @@ def mengyao_run_trials(experiment, generate_screenshots="false", log_prefix=""):
 
 
 if __name__ == '__main__':
-  mengyao_run_trials("rope_cylinder_two_grippers")        
+  mengyao_run_trials("cloth_single_pole")        
