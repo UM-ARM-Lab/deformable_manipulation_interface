@@ -53,6 +53,12 @@ namespace smmap
         return val;
     }
 
+    inline bool VisualizeStrainLines(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "visualize_strain_lines", false);
+    }
+
+
     ////////////////////////////////////////////////////////////////////////////
     // Task and Deformable Type parameters
     ////////////////////////////////////////////////////////////////////////////
@@ -152,6 +158,12 @@ namespace smmap
     inline double GetMaxStretchFactor(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "task/max_stretch_factor", __func__);
+        return val.GetImmutable();
+    }
+
+    inline float GetMaxStrain(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<float>(nh, "max_strain", __func__);
         return val.GetImmutable();
     }
 
