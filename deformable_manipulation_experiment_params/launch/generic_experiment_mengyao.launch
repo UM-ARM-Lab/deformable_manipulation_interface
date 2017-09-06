@@ -28,7 +28,7 @@
     <arg name="use_adaptive_model"                      default="false"/>
     <arg name="adaptive_model_learning_rate"            default="0.000001"/>
     <!-- Constraint -->
-    <arg name="use_constraint_model"                    default="false"/>
+    <arg name="use_constraint_model"                    default="true"/>
     <!-- Multi-model -->
     <arg name="use_multi_model"                         default="false"/>
     <arg name="kalman_parameters_override"              default="false"/>
@@ -40,7 +40,7 @@
 
     <!-- Mengyao's model controller testing set-->
     <arg name="use_diminishing_random_sample_model"          default="false"/>
-    <arg name="use_multi_model_controller"                   default="true"/>
+    <arg name="use_multi_model_controller"                   default="false"/>
     <arg name="translational_dir_deformability"            default="900.0"/>
     <arg name="translational_dis_deformability"            default="10.0"/>
     <arg name="rotational_dis_deformability"               default="20.0"/>
