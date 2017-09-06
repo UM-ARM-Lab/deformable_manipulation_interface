@@ -17,6 +17,10 @@ def mengyao_run_trial(experiment,
               use_adaptive_model = None,
               adaptive_model_learning_rate = None,
 
+              use_diminishing_rigidity_model = None,
+              use_constraint_model = None,
+              use_diminishing_random_sample_model = None,
+
               desired_down_scale = None,
 
               translational_dir_deformability = None,
