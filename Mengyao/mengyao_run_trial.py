@@ -24,6 +24,9 @@ def mengyao_run_trial(experiment,
               rotational_dis_deformability = None,
               stretching_cosine_threshold = None,
 
+              cloth_leading_edge_x = None,
+              cloth_leading_edge_y = None,
+
               process_noise_factor = None,
               observation_noise_factor = None,
 
@@ -77,6 +80,13 @@ def mengyao_run_trial(experiment,
 
     if stretching_cosine_threshold is not None:
         roslaunch_command.append('stretching_cosine_threshold:=' + str(stretching_cosine_threshold))
+
+    # Experimental setup Params
+    if cloth_leading_edge_x is not None:
+        roslaunch_command.append('cloth_leading_edge_x:=' + str(cloth_leading_edge_x))
+
+    if cloth_leading_edge_y is not None:
+        roslaunch_command.append('cloth_leading_edge_y:=' + str(cloth_leading_edge_y))
 
     # Setup multi-model parameters
     if bandit_algorithm is not None:
