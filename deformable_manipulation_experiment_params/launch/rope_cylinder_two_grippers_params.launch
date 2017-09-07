@@ -79,15 +79,9 @@
         <param name="viewer_height"                     value="800"     type="int"/>
     </group>
 
-<<<<<<< HEAD
     <arg name="stretching_cosine_threshold"    default="0.4"/>
-    <arg name="desired_down_scale"             default="8000"/>
+    <arg name="desired_down_scale"             default="10000"/>
     <arg name="fix_step_size"                  default="true"/>
-=======
-    <arg name="stretching_cosine_threshold"    default="0.75"/>
-    <arg name="desired_down_scale"             default="1000"/>
-    <arg name="fix_step_size"                  default="false"/>
->>>>>>> 17ba66fb602beb45a8853ecbcd188d5b710561b7
 
     <group ns="smmap_planner_node">
         <group ns="task">
