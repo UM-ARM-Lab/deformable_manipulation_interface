@@ -15,7 +15,7 @@ def mengyao_run_trials(experiment, generate_screenshots="false", log_prefix=""):
         trans_dir_deformability_range = [900]
         trans_dis_deformability_range = [10, 3]
         rotation_deformability_range = [20, 5]
-        down_scaling_range = [2500, 5000]
+        down_scaling_range = [300]
         stretching_threshold = 0.4
 
         # Run the single model baseline
