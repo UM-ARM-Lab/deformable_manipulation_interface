@@ -1205,9 +1205,9 @@ namespace smmap
         {
             return GripperControllerType::RANDOM_SAMPLING;
         }
-        else if (gripper_controller_type.compare("uniform_sampling") == 0)
+        else if (gripper_controller_type.compare("nomad_optimization") == 0)
         {
-            return GripperControllerType::UNIFORM_SAMPLING;
+            return GripperControllerType::NOMAD_OPTIMIZATION;
         }
         else
         {
