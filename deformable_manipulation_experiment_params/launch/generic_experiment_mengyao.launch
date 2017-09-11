@@ -128,7 +128,8 @@
 
         <!-- Sampling controller arguments -->
         <group ns="sampling_controller">
-            <param name="gripper_controller_type"       value="random_sampling"                         type="string"/>
+            <param name="gripper_controller_type"       value="nomad_optimization"                         type="string"/>
+            <!-- <param name="gripper_controller_type"       value="random_sampling"                         type="string"/> -->
             <param name="max_sampling_counts"           value="5000"                                    type="int"/>
         <!--<param name="stretching_cosine_threshold"   value="0.75"                                    type="double"/>-->
         </group>
