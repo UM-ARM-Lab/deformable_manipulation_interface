@@ -83,8 +83,8 @@
     </group>
 
     <arg name="stretching_cosine_threshold"    default="0.4"/>
-    <arg name="desired_down_scale"             default="5000"/>
-    <arg name="fix_step_size"                  default="true"/>
+    <arg name="desired_down_scale"             default="10000"/>
+    <arg name="fix_step_size"                  default="false"/>
 
     <group ns="smmap_planner_node">
         <group ns="task">

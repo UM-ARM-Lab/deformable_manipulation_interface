@@ -46,7 +46,7 @@
 
     <!-- Cloth position params -->
     <arg name="cloth_leading_edge_x"    default="0.06"/>
-    <arg name="cloth_leading_edge_y"    default="0.0"/>
+    <arg name="cloth_leading_edge_y"    default="0.05"/>
 
     <param name="cloth_com_x"           value="$(eval cloth_leading_edge_x + (cloth_x_size / 2.0))" type="double"/>
     <param name="cloth_com_y"           value="$(eval cloth_leading_edge_y + 0.0)"                  type="double"/>
@@ -91,8 +91,8 @@
 
     <!-- planner, controller params -->
     <arg name="stretching_cosine_threshold"    default="0.5"/>
-    <arg name="desired_down_scale"             default="400"/>
-    <arg name="fix_step_size"                  default="true"/>
+    <arg name="desired_down_scale"             default="800"/>
+    <arg name="fix_step_size"                  default="false"/>
 
     <group ns="smmap_planner_node">
         <group ns="task">

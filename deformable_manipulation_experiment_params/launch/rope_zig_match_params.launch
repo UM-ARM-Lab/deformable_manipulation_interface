@@ -51,7 +51,7 @@
         <param name="second_floor_alpha"                value="0.5"     type="double"/>
     </group>
 
-    <arg name="stretching_cosine_threshold"    default="0.3"/>
+    <arg name="stretching_cosine_threshold"    default="0.4"/>
     <arg name="desired_down_scale"             default="100"/>
     <arg name="fix_step_size"                  default="false"/>
 
