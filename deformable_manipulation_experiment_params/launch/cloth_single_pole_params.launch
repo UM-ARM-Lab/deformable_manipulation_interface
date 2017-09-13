@@ -1,7 +1,7 @@
 <launch>
     <!-- Arguments to override default params -->
     <!-- <arg name="task_max_time"           default="1.6"/> -->
-    <arg name="task_max_time"           default="4.0"/>
+    <arg name="task_max_time"           default="40.0"/>
 
     <!-- Defines which world building routines we use, and which task specification -->
     <param name="deformable_type"       value="cloth"               type="string"/>
@@ -45,8 +45,8 @@
     <param name="cloth_num_control_points_y"    value="$(arg cloth_num_control_points_y)"   type="int"/>
 
     <!-- Cloth position params -->
-    <arg name="cloth_leading_edge_x"    default="0.06"/>
-    <arg name="cloth_leading_edge_y"    default="0.05"/>
+    <arg name="cloth_leading_edge_x"    default="0.1"/>
+    <arg name="cloth_leading_edge_y"    default="0.1"/>
 
     <param name="cloth_com_x"           value="$(eval cloth_leading_edge_x + (cloth_x_size / 2.0))" type="double"/>
     <param name="cloth_com_y"           value="$(eval cloth_leading_edge_y + 0.0)"                  type="double"/>
@@ -91,7 +91,7 @@
 
     <!-- planner, controller params -->
     <arg name="stretching_cosine_threshold"    default="0.5"/>
-    <arg name="desired_down_scale"             default="800"/>
+    <arg name="desired_down_scale"             default="400"/>
     <arg name="fix_step_size"                  default="false"/>
 
     <group ns="smmap_planner_node">

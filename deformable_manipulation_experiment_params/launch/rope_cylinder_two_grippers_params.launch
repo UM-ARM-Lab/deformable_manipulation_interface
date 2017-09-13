@@ -49,7 +49,7 @@
 
     <!-- Rope position params-->
     <!-- <param name="rope_com_x"            value="$(eval table_surface_x + (rope_segment_length * 5.0))"          type="double"/> -->
-    <param name="rope_com_x"            value="$(eval table_surface_x + (rope_segment_length * 1.0))"          type="double"/>
+    <param name="rope_com_x"            value="$(eval table_surface_x + (rope_segment_length * 3.0))"          type="double"/>
     <param name="rope_com_y"            value="$(arg table_surface_y)"                                          type="double"/>
     <!-- <param name="rope_com_z"            value="$(eval table_surface_z + (rope_radius * 5.0))"                   type="double"/> -->
     <param name="rope_com_z"            value="$(eval table_surface_z + (rope_radius * 30.0))"                   type="double"/>
