@@ -107,10 +107,11 @@ namespace smmap
             {"rope_cross", TaskType::ROPE_CROSS}
         };
         
-        try{
+        try
+        {
             return task_map.at(task_type);
         }
-        catch(std::out_of_range& e)
+        catch (std::out_of_range& e)
         {
             ROS_FATAL_STREAM("Unknown task type: " << task_type);
             throw_arc_exception(std::invalid_argument, "Unknown task type: " + task_type);
