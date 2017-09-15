@@ -45,7 +45,7 @@
     <param name="cloth_num_control_points_y"    value="$(arg cloth_num_control_points_y)"   type="int"/>
 
     <!-- Cloth position params -->
-    <arg name="cloth_leading_edge_x"    default="0.03"/>
+    <arg name="cloth_leading_edge_x"    default="0.02"/>
     <arg name="cloth_leading_edge_y"    default="0.05"/>
 
     <param name="cloth_com_x"           value="$(eval cloth_leading_edge_x + (cloth_x_size / 2.0))" type="double"/>
