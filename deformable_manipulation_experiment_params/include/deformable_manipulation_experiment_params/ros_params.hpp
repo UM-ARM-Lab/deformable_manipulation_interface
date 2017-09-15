@@ -7,6 +7,7 @@
 #include <arc_utilities/ros_helpers.hpp>
 #include <arc_utilities/arc_exceptions.hpp>
 #include <ros/package.h>
+#include <unordered_map>
 
 #include "deformable_manipulation_experiment_params/task_enums.h"
 
@@ -82,67 +83,34 @@ namespace smmap
         }
     }
 
+    /**
+     *  Maps the ros param "task_type" into an enum TaskType
+     */
     inline TaskType GetTaskType(ros::NodeHandle& nh)
     {
         const std::string task_type = ROSHelpers::GetParamRequired<std::string>(nh, "task_type", __func__).GetImmutable();
 
-        if (task_type.compare("rope_cylinder_coverage") == 0)
-        {
-            return TaskType::ROPE_CYLINDER_COVERAGE;
+        std::unordered_map<std::string, TaskType> task_map{
+            {"rope_cylinder_coverage", TaskType::ROPE_CYLINDER_COVERAGE},
+            {"rope_cylinder_coverage_two_grippers", TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS},
+            {"cloth_cylinder_coverage", TaskType::CLOTH_CYLINDER_COVERAGE},
+            {"cloth_table_coverage", TaskType::CLOTH_TABLE_COVERAGE},
+            {"cloth_colab_folding", TaskType::CLOTH_COLAB_FOLDING},
+            {"cloth_wafr", TaskType::CLOTH_WAFR},
+            {"cloth_single_pole", TaskType::CLOTH_SINGLE_POLE},
+            {"cloth_wall", TaskType::CLOTH_WALL},
+            {"cloth_double_slit", TaskType::CLOTH_DOUBLE_SLIT},
+            {"rope_maze", TaskType::ROPE_MAZE},
+            {"rope_drag_along_table", TaskType::ROPE_DRAG_ALONG_TABLE},
+            {"rope_drag_opposite_table", TaskType::ROPE_DRAG_OPPOSITE_TABLE},
+            {"rope_toward_table", TaskType::ROPE_TOWARD_TABLE},
+            {"rope_cross", TaskType::ROPE_CROSS}
+        };
+        
+        try{
+            return task_map.at(task_type);
         }
-        else if (task_type.compare("rope_cylinder_coverage_two_grippers") == 0)
-        {
-            return TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS;
-        }
-        else if (task_type.compare("cloth_cylinder_coverage") == 0)
-        {
-            return TaskType::CLOTH_CYLINDER_COVERAGE;
-        }
-        else if (task_type.compare("cloth_table_coverage") == 0)
-        {
-            return TaskType::CLOTH_TABLE_COVERAGE;
-        }
-        else if (task_type.compare("cloth_colab_folding") == 0)
-        {
-            return TaskType::CLOTH_COLAB_FOLDING;
-        }
-        else if (task_type.compare("cloth_wafr") == 0)
-        {
-            return TaskType::CLOTH_WAFR;
-        }
-        else if (task_type.compare("cloth_single_pole") == 0)
-        {
-            return TaskType::CLOTH_SINGLE_POLE;
-        }
-        else if (task_type.compare("cloth_wall") == 0)
-        {
-            return TaskType::CLOTH_WALL;
-        }
-        else if (task_type.compare("cloth_double_slit") == 0)
-        {
-            return TaskType::CLOTH_DOUBLE_SLIT;
-        }
-        else if (task_type.compare("rope_maze") == 0)
-        {
-            return TaskType::ROPE_MAZE;
-        }
-        else if (task_type.compare("rope_drag_along_table") == 0)
-        {
-            return TaskType::ROPE_DRAG_ALONG_TABLE;
-        }
-        else if (task_type.compare("rope_drag_opposite_table") == 0)
-        {
-            return TaskType::ROPE_DRAG_OPPOSITE_TABLE;
-        }
-        else if (task_type.compare("rope_toward_table") == 0)
-        {
-            return TaskType::ROPE_TOWARD_TABLE;
-        }
-        else if (task_type.compare("rope_cross") == 0)
-        {
-            return TaskType::ROPE_CROSS;
-        }
-        else
+        catch(std::out_of_range& e)
         {
             ROS_FATAL_STREAM("Unknown task type: " << task_type);
             throw_arc_exception(std::invalid_argument, "Unknown task type: " + task_type);
