@@ -62,7 +62,7 @@
 
     <!-- World parameters for planning - used by both nodes -->
     <arg name="grid_resolution"         value="0.02"/>
-    <arg name="world_x_min"             value="-0.4"/>
+    <arg name="world_x_min"             value="-0.5"/>
     <arg name="world_x_max"             value="0.4"/>
     <arg name="world_y_min"             value="-0.3"/>
     <arg name="world_y_max"             value="0.3"/>
