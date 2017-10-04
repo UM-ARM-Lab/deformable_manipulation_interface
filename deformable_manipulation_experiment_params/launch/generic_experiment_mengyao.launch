@@ -41,9 +41,9 @@
     <!-- Mengyao's model controller testing set-->
     <arg name="use_diminishing_random_sample_model"          default="false"/>
     <arg name="use_multi_model_controller"                   default="false"/>
-    <arg name="translational_dir_deformability"            default="900.0"/>
-    <arg name="translational_dis_deformability"            default="10.0"/>
-    <arg name="rotational_dis_deformability"               default="20.0"/>
+    <arg name="translational_dir_deformability"              default="900.0"/>
+    <arg name="translational_dis_deformability"              default="10.0"/>
+    <arg name="rotational_dis_deformability"                 default="20.0"/>
 
 
     <!-- Controller settings -->
@@ -67,7 +67,6 @@
         <param name="feedback_covariance"               value="$(arg feedback_covariance)"      type="double"/>
         <param name="start_bullet_viewer"               value="$(arg start_bullet_viewer)"      type="bool"/>
         <param name="screenshots_enabled"               value="$(arg screenshots_enabled)"      type="bool"/>
-        <param name="rope_gripper_apperture"            value="$(arg rope_gripper_apperture)"   type="double"/>
     </group>
     <env name="OSG_FILE_PATH" value="$(find OpenSceneGraph)/data"/>
     <node name="deform_simulator_node" pkg="deform_simulator" type="custom_scene_node" required="true" if="$(arg launch_simulator)"/>
@@ -82,7 +81,7 @@
         <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   if="$(arg static_seed_override)"/>
 
         <group ns="task">
-            <param name="stretching_correction_from_task"      value="false"                                  type="bool"/>
+            <param name="stretching_correction_from_task"      value="false"                                type="bool"/>
         </group>
 
 
@@ -119,7 +118,7 @@
 
         <!-- multiple/diminishing model with Mengyao's controller -->
         <param name = "use_diminishing_random_sample_model"  value="$(arg use_diminishing_random_sample_model)" type="bool"/>
-        <param name="use_multi_model_controller"             value="$(arg use_multi_model_controller)" type="bool"/>
+        <param name="use_multi_model_controller"             value="$(arg use_multi_model_controller)"          type="bool"/>
 
         <!-- Old pure Jacobian based controller -->
         <group ns="jacobian_controller">
@@ -128,11 +127,8 @@
 
         <!-- Sampling controller arguments -->
         <group ns="sampling_controller">
-            <!-- <param name="gripper_controller_type"       value="nomad_optimization"                         type="string"/> -->
             <param name="gripper_controller_type"       value="random_sampling"                         type="string"/>
             <param name="max_sampling_counts"           value="5000"                                    type="int"/>
-            <!--<param name="max_sampling_counts"           value="5000" / "50"                                    type="int"/>-->
-        <!--<param name="stretching_cosine_threshold"   value="0.75"                                    type="double"/>-->
         </group>
     </group>
     <node name="smmap_planner_node" pkg="smmap" type="planner_test_node_$(arg bandit_algorithm)" required="true" if="$(arg launch_planner)"/>
