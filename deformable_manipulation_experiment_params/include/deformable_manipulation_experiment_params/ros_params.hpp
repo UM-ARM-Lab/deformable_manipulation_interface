@@ -1224,7 +1224,7 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "sampling_controller/max_sampling_counts", 1000);
     }
 
-    inline bool GetFixStepSize(ros::NodeHandle& nh)
+    inline bool GetGrippersMotionSampleSize(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "sampling_controller/fix_step_size", true);
     }
