@@ -42,10 +42,6 @@
     
     <arg name="cloth_x_size"                    value="0.4"/>
     <arg name="cloth_y_size"                    value="0.4"/>
-    <!-- <arg name="cloth_x_size"                    value="0.5"/> -->
-    <!-- <arg name="cloth_y_size"                    value="0.4"/> -->
-    <!-- <arg name="cloth_num_control_points_x"      value="50"/> -->
-    <!-- <arg name="cloth_num_control_points_y"      value="40"/> -->
     <arg name="cloth_num_control_points_x"      value="20"/>
     <arg name="cloth_num_control_points_y"      value="20"/>
 
@@ -75,13 +71,9 @@
 
     <arg name = "wafr_second_cylinder_height"     value="0.8"/>
     <arg name = "wafr_cylinder_relative_com_x"    value="-0.14"/>
-    <!-- <arg name = "wafr_cylinder_relative_com_x"    value="-0.155"/> -->
-    <!-- <arg name = "wafr_cylinder_relative_com_x"    value="-0.15"/> -->
     <arg name = "wafr_cylinder_relative_com_y"    value="-0.005"/>
     <arg name = "wafr_cylinder_relative_com_z"    value="0.22"/>
-    <!-- <arg name = "wafr_cylinder_relative_com_z"    value="0.2"/> -->
     <arg name = "wafr_second_cylinder_radius"     value="0.035"/>
-    <!-- <arg name = "wafr_second_cylinder_radius"     value="0.025"/> -->
     
     <param name="wafr_second_cylinder_height"     value="$(arg wafr_second_cylinder_height)"     type="double"/>
     <param name="wafr_cylinder_relative_com_x"    value="$(arg wafr_cylinder_relative_com_x)"    type="double"/>
@@ -136,7 +128,6 @@
             <param name="error_threshold_along_normal"         value="0.02"                    type="double"/>
             <param name="error_threshold_distance_to_normal"   value="0.006"                   type="double"/>
             <param name="error_threshold_task_done"            value="0.1"                     type="double"/>
-            <!-- <param name="max_stretch_factor"              value="$(eval (0.012 + 0.002) / 0.012)"        type="double"/> -->
             <param name="max_stretch_factor"                   value="$(eval (0.012 + 0.003) / 0.012)"     type="double"/>
             <param name="desired_down_scale"                   value="$(arg desired_down_scale)"   type="double"/>
             

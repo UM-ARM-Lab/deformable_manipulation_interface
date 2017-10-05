@@ -33,9 +33,9 @@
 
     <!-- Cloth size params -->
     <arg name="cloth_x_size"                    default="0.3"/>
-    <arg name="cloth_y_size"                    default="0.4"/>
-    <arg name="cloth_num_control_points_x"      default="15"/>
-    <arg name="cloth_num_control_points_y"      default="20"/>
+    <arg name="cloth_y_size"                    default="0.5"/>
+    <arg name="cloth_num_control_points_x"      default="30"/>
+    <arg name="cloth_num_control_points_y"      default="50"/>
 
     <param name="cloth_x_size"                  value="$(arg cloth_x_size)"                 type="double"/>
     <param name="cloth_y_size"                  value="$(arg cloth_y_size)"                 type="double"/>
@@ -43,7 +43,7 @@
     <param name="cloth_num_control_points_y"    value="$(arg cloth_num_control_points_y)"   type="int"/>
 
     <!-- Cloth position params -->
-    <arg name="cloth_leading_edge_x"    default="0.04"/>
+    <arg name="cloth_leading_edge_x"    default="0.06"/>
     <arg name="cloth_leading_edge_y"    default="0.08"/>
 
     <param name="cloth_com_x"           value="$(eval cloth_leading_edge_x + (cloth_x_size / 2.0))" type="double"/>

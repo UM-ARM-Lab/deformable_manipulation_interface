@@ -14,9 +14,9 @@
     <param name="rope_radius"           value="0.01"        type="double"/>
 
     <!-- Rope position params-->
-    <param name="rope_com_x"            value="0.7"        type="double"/>
+    <param name="rope_com_x"            value="0.7"         type="double"/>
     <param name="rope_com_y"            value="0.6"         type="double"/>
-    <param name="rope_com_z"            value="0.35"         type="double"/>
+    <param name="rope_com_z"            value="0.35"        type="double"/>
 
     <!-- World parameters for planning - used by both nodes -->
     <arg name="grid_resolution"         value="0.05"/>
