@@ -1229,7 +1229,6 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "sampling_controller/fix_step_size", true);
     }
 
-    // This function might be conbimed with that for task above
     inline double GetStretchingCosineThreshold(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "sampling_controller/stretching_cosine_threshold", 0.75);

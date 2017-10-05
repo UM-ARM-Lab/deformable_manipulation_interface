@@ -1,6 +1,6 @@
 <launch>
     <!-- Arguments to override default params -->
-    <arg name="task_max_time"           default="35"/>
+    <arg name="task_max_time"           default="20"/>
 
     <!-- Defines which world building routines we use, and which task specification -->
     <param name="deformable_type"       value="cloth"               type="string"/>
