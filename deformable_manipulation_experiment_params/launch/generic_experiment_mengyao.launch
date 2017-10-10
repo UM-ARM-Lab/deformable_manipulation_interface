@@ -11,7 +11,6 @@
     <arg name="feedback_covariance"                     default="0.0"/>
     <arg name="start_bullet_viewer"                     default="true"/>
     <arg name="screenshots_enabled"                     default="false"/>
-    <arg name="rope_gripper_apperture"                  value="0.03"/>
 
     <!-- Planner visualization arguments -->
     <arg name="disable_all_visualizations"              default="false"/>
