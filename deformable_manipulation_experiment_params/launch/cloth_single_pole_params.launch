@@ -1,13 +1,13 @@
 <launch>
     <!-- Arguments to override default params -->
-    <arg name="task_max_time"           default="20"/>
+    <arg name="task_max_time"           default="20.0"/>
 
     <!-- Defines which world building routines we use, and which task specification -->
     <param name="deformable_type"       value="cloth"               type="string"/>
     <param name="task_type"             value="cloth_single_pole"   type="string"/>
 
     <!-- planner, controller params -->
-    <arg name="desired_down_scale"             default="400"/>
+    <arg name="desired_down_scale"             default="1"/>
 
     <!-- Table size params -->
     <arg name="table_x_half_extents"    value="0.095"/>
@@ -32,10 +32,10 @@
     <param name="table_surface_z"       value="$(arg table_surface_z)"  type="double"/>
 
     <!-- Cloth size params -->
-    <arg name="cloth_x_size"                    default="0.3"/>
-    <arg name="cloth_y_size"                    default="0.5"/>
-    <arg name="cloth_num_control_points_x"      default="30"/>
-    <arg name="cloth_num_control_points_y"      default="50"/>
+    <arg name="cloth_x_size"                    value="0.3"/>
+    <arg name="cloth_y_size"                    value="0.5"/>
+    <arg name="cloth_num_control_points_x"      value="30"/>
+    <arg name="cloth_num_control_points_y"      value="50"/>
 
     <param name="cloth_x_size"                  value="$(arg cloth_x_size)"                 type="double"/>
     <param name="cloth_y_size"                  value="$(arg cloth_y_size)"                 type="double"/>
@@ -44,7 +44,7 @@
 
     <!-- Cloth position params -->
     <arg name="cloth_leading_edge_x"    default="0.06"/>
-    <arg name="cloth_leading_edge_y"    default="0.08"/>
+    <arg name="cloth_leading_edge_y"    default="0.00"/>
 
     <param name="cloth_com_x"           value="$(eval cloth_leading_edge_x + (cloth_x_size / 2.0))" type="double"/>
     <param name="cloth_com_y"           value="$(eval cloth_leading_edge_y + 0.0)"                  type="double"/>
@@ -97,7 +97,7 @@
             <param name="desired_down_scale"                  value="$(arg desired_down_scale)"       type="double"/>
         </group>
 
-        <param name="enable_stuck_detection"                                value="false"       type="bool"/>
+        <param name="enable_stuck_detection"                                value="true"        type="bool"/>
         <group ns="stuck_detection">
             <param name="num_lookahead_steps"                               value="10"          type="int"/>
             <param name="band_overstretch_prediction_annealing_factor"      value="0.5"         type="double"/>
@@ -137,6 +137,5 @@
             <param name="stretching_cosine_threshold"   value="0.55"            type="double"/>
             <param name="fix_step_size"                 value="$false"          type="bool"/>
         </group>
-
     </group>
 </launch>

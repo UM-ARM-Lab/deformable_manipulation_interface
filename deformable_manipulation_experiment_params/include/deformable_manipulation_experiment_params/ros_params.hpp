@@ -179,7 +179,8 @@ namespace smmap
         {
             case DeformableType::ROPE:
                 // TODO: why did Dmitry's code use 0.5f here?
-            return ROSHelpers::GetParam(nh, "rope_gripper_apperture", 0.03f);
+                return ROSHelpers::GetParamDebugLog(nh, "rope_gripper_apperture", 0.03f);
+
             case DeformableType::CLOTH:
                 // TODO: This number is actually the "closed gap"
                 //       The original number was 0.1f
@@ -917,7 +918,6 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "use_diminishing_random_sample_model", false);
     }
 
-
     ////////////////////////////////////////////////////////////////////////////
     // Adaptive Jacobian Parameters
     ////////////////////////////////////////////////////////////////////////////
@@ -1001,7 +1001,6 @@ namespace smmap
     {
         return ROSHelpers::GetParam(nh, "use_multi_model_controller", false);
     }
-
 
     ////////////////////////////////////////////////////////////////////////////
     // Planner settings

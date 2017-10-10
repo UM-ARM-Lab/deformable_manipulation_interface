@@ -14,7 +14,7 @@
 
     <!-- Planner visualization arguments -->
     <arg name="disable_all_visualizations"              default="false"/>
-    <arg name="visualize_object_desired_motion"         default="true"/>
+    <arg name="visualize_object_desired_motion"         default="false"/>
     <arg name="visualize_object_predicted_motion"       default="false"/>
     <arg name="visualize_prm"                           default="false"/>
 
@@ -73,12 +73,6 @@
         <param name="visualize_prm"                     value="$(arg visualize_prm)"                        type="bool"/>
         <param name="use_random_seed"                   value="$(arg use_random_seed)"                      type="bool"/>
         <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   if="$(arg static_seed_override)"/>
-
-
-        <group ns="task">
-            <param name="stretching_correction_from_task"      value="true"                                  type="bool"/>
-        </group>
-
 
         <group ns="prm">
             <param name="num_nearest"                       value="5"                           type="int"/>
