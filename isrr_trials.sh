@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 EXPERIMENT=${1}
-BASENAME="isrr_quinlan_band/trial_"
+BASENAME="isrr_quinlan_band_sunday_645/trial_"
 
 STARTING_DIR=${PWD}
 cd "/home/dmcconac/Dropbox/catkin_ws/src/smmap/logs/${EXPERIMENT}"
