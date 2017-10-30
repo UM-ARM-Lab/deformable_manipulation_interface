@@ -1289,6 +1289,7 @@ namespace smmap
 
     inline std::string GetVisualizationMarkerArrayTopic(ros::NodeHandle& nh)
     {
+        ROS_WARN_ONCE("There is no longer anything from SMMAP publishing on the vector version of the visualization topic, it can be removed");
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "visualization_marker_array_topic", "visualization_marker_vector");
     }
 

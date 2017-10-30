@@ -1,0 +1,142 @@
+<launch>
+    <!-- Task and logging arguments -->
+    <arg name="task_type"/>
+    <arg name="logging_enabled"                         default="true"/>
+    <arg name="test_id"                                 default="default"/>
+    <arg name="task_max_time_override"                  default="false"/>
+    <arg name="task_max_time"                           if="$(arg task_max_time_override)"/>
+
+    <!-- Simulator arguments -->
+    <arg name="launch_simulator"                        default="true"/>
+    <arg name="feedback_covariance"                     default="0.0"/>
+    <arg name="start_bullet_viewer"                     default="true"/>
+    <arg name="screenshots_enabled"                     default="false"/>
+
+    <!-- Planner visualization arguments -->
+    <arg name="disable_all_visualizations"              default="false"/>
+    <arg name="visualize_object_desired_motion"         default="false"/>
+    <arg name="visualize_object_predicted_motion"       default="false"/>
+    <arg name="visualize_prm"                           default="false"/>
+
+    <!-- Model arguments -->
+    <!-- Diminishing rigidity -->
+    <arg name="use_diminishing_rigidity_model"          default="true"/>
+    <arg name="deformability_override"                  default="false"/>
+    <arg name="translational_deformability"             if="$(arg deformability_override)"/>
+    <arg name="rotational_deformability"                if="$(arg deformability_override)"/>
+    <!-- Adaptive Jacobian -->
+    <arg name="use_adaptive_model"                      default="false"/>
+    <arg name="adaptive_model_learning_rate"            default="0.000001"/>
+    <!-- Constraint -->
+    <arg name="use_constraint_model"                    default="false"/>
+    <!-- Multi-model -->
+    <arg name="use_multi_model"                         default="false"/>
+    <arg name="kalman_parameters_override"              default="false"/>
+    <arg name="process_noise_factor"                    if="$(arg kalman_parameters_override)"/>
+    <arg name="observation_noise_factor"                if="$(arg kalman_parameters_override)"/>
+    <arg name="bandit_algorithm"                        default="UCB"/>
+    <arg name="correlation_strength_factor_override"    default="false"/>
+    <arg name="correlation_strength_factor"             if="$(arg correlation_strength_factor_override)"/>
+
+    <!-- Controller settings -->
+    <!-- Old pure Jacobian controller -->
+    <arg name="optimization_enabled"                    default="true"/>
+
+    <!-- Planner internal arguments -->
+    <arg name="launch_planner"                          default="true"/>
+    <arg name="calculate_regret"                        default="false"/>
+    <arg name="use_random_seed"                         default="false"/>
+    <arg name="static_seed_override"                    default="false"/>
+    <arg name="static_seed"                             if="$(arg static_seed_override)"/>
+
+    <!-- Setup task parameters -->
+    <include file="$(find deformable_manipulation_experiment_params)/launch/$(arg task_type)_params.launch"/>
+    <param name="logging_enabled"                       value="$(arg logging_enabled)"                                      type="bool"/>
+    <param name="log_folder"                            value="$(find smmap)/logs/$(arg task_type)/$(arg test_id)/"         type="string"/>
+
+    <!-- Setup the simulator -->
+    <group ns="deform_simulator_node">
+        <param name="feedback_covariance"               value="$(arg feedback_covariance)"      type="double"/>
+        <param name="start_bullet_viewer"               value="$(arg start_bullet_viewer)"      type="bool"/>
+        <param name="screenshots_enabled"               value="$(arg screenshots_enabled)"      type="bool"/>
+        <param name="settle_time"                       value="4.0"/>
+    </group>
+    <env name="OSG_FILE_PATH" value="$(find OpenSceneGraph)/data"/>
+    <node name="deform_simulator_node" pkg="deform_simulator" type="custom_scene_node" required="true" if="$(arg launch_simulator)"/>
+
+
+    <!-- Setup the planner -->
+    <group ns="smmap_planner_node">
+        <param name="disable_all_visualizations"        value="$(arg disable_all_visualizations)"           type="bool"/>
+        <param name="visualize_object_desired_motion"   value="$(arg visualize_object_desired_motion)"      type="bool"/>
+        <param name="visualize_object_predicted_motion" value="$(arg visualize_object_predicted_motion)"    type="bool"/>
+        <param name="visualize_prm"                     value="$(arg visualize_prm)"                        type="bool"/>
+        <param name="use_random_seed"                   value="$(arg use_random_seed)"                      type="bool"/>
+        <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   if="$(arg static_seed_override)"/>
+
+        <group ns="rrt">
+            <param name="timeout"                           value="600.0"                   type="double"/>
+            <param name="reuse_old_results"                 value="false"                   type="bool"/>
+            <param name="store_new_results"                 value="true"                    type="bool"/>
+        </group>
+
+        <group ns="prm">
+            <param name="num_nearest"                       value="5"                           type="int"/>
+            <param name="num_samples"                       value="1000"                        type="int"/>
+        </group>
+
+        <group ns="band">
+            <param name="logging_enabled"               value="$(arg logging_enabled)"                                      type="bool"/>
+            <param name="log_folder"                    value="$(find smmap)/logs/$(arg task_type)/$(arg test_id)/"         type="string"/>
+            <!--<param name="use_stored_band"               value="true"                        type="bool"/>-->
+            <param name="use_stored_band"               value="false"                       type="bool"/>
+            <param name="band_file_name_prefix"         value="band"                        type="string"/>
+            <param name="band_file_name_suffix_to_load" value="2017-10-30__00-12-51-043"    type="string"/>
+            <!--<param name="band_file_name_suffix_to_load" value="infinite_loop_in_interpolate" type="string"/>-->
+        </group>
+
+        <!-- Dinimishing Rigidity parameters and overrides -->
+        <param name="use_diminishing_rigidity_model"    value="$(arg use_diminishing_rigidity_model)"   type="bool"/>
+        <group ns="diminishing_rigidity">
+            <param name="translational_deformability"   value="$(arg translational_deformability)"      type="double"   if="$(arg deformability_override)"/>
+            <param name="rotational_deformability"      value="$(arg rotational_deformability)"         type="double"   if="$(arg deformability_override)"/>
+        </group>
+
+        <!-- Adaptive Jacobian parameters and overrides -->
+        <param name="use_adaptive_model"                value="$(arg use_adaptive_model)"               type="bool"/>
+        <group ns="adaptive_model">
+            <param name="adaptive_model_learning_rate"  value="$(arg adaptive_model_learning_rate)"     type="double"/>
+        </group>
+
+        <!-- Constraint Model parameters and overrides -->
+        <param name="use_constraint_model"              value="$(arg use_constraint_model)"             type="bool"/>
+        <group ns="constraint_model">
+            <param name="translational_dir_deformability"   value="30.0"                                type="double"/>
+            <param name="translational_dis_deformability"   value="4.0"                                 type="double"/>
+            <param name="rotational_dis_deformability"      value="7.0"                                 type="double"/>
+        </group>
+
+        <!-- Multi-model parameters and overrides -->
+        <param name="use_multi_model"                   value="$(arg use_multi_model)"                  type="bool"/>
+        <group ns="multi_model">
+            <param name="process_noise_factor"          value="$(arg process_noise_factor)"             type="double"   if="$(arg kalman_parameters_override)"/>
+            <param name="observation_noise_factor"      value="$(arg observation_noise_factor)"         type="double"   if="$(arg kalman_parameters_override)"/>
+            <param name="calculate_regret"              value="$(arg calculate_regret)"                 type="bool"/>
+            <param name="correlation_strength_factor"   value="$(arg correlation_strength_factor)"      type="double"   if="$(arg correlation_strength_factor_override)"/>
+            <param name="reward_scale_annealing_factor" value="0.9"                                     type="double"/>
+        </group>
+
+        <!-- Old pure Jacobian based controller -->
+        <group ns="jacobian_controller">
+            <param name="optimization_enabled"          value="$(arg optimization_enabled)"             type="bool"/>
+        </group>
+
+        <!-- Sampling controller arguments -->
+        <group ns="sampling_controller">
+            <param name="gripper_controller_type"       value="random_sampling"                         type="string"/>
+            <param name="max_sampling_counts"           value="5000"                                    type="int"/>
+            <param name="stretching_cosine_threshold"   value="0.75"                                    type="double"/>
+        </group>
+    </group>
+    <node name="smmap_planner_node" pkg="smmap" type="planner_test_node_$(arg bandit_algorithm)" required="true" if="$(arg launch_planner)"/>
+</launch>
