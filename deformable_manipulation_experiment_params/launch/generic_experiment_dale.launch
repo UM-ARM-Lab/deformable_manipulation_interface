@@ -75,9 +75,9 @@
         <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   if="$(arg static_seed_override)"/>
 
         <group ns="rrt">
-            <param name="timeout"                           value="600.0"                   type="double"/>
-            <param name="reuse_old_results"                 value="false"                   type="bool"/>
-            <param name="store_new_results"                 value="true"                    type="bool"/>
+            <param name="timeout"                       value="1200.0"                      type="double"/>
+            <param name="reuse_old_results"             value="false"                       type="bool"/>
+            <param name="store_new_results"             value="true"                        type="bool"/>
         </group>
 
         <group ns="prm">
@@ -92,7 +92,6 @@
             <param name="use_stored_band"               value="false"                       type="bool"/>
             <param name="band_file_name_prefix"         value="band"                        type="string"/>
             <param name="band_file_name_suffix_to_load" value="2017-10-30__00-12-51-043"    type="string"/>
-            <!--<param name="band_file_name_suffix_to_load" value="infinite_loop_in_interpolate" type="string"/>-->
         </group>
 
         <!-- Dinimishing Rigidity parameters and overrides -->
