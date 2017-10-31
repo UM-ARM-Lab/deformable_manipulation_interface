@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 
-EXPERIMENT="cloth_single_pole"
+#EXPERIMENT="cloth_single_pole"
 #EXPERIMENT="cloth_double_slit"
 #EXPERIMENT="rope_maze"
-#EXPERIMENT="rope_maze_from_top"
-TRIAL_DIR="isrr_quinlan_band"
+EXPERIMENT="rope_maze_from_top"
+TRIAL_DIR="isrr_quinlan_band_monday_0117"
 TRIAL_PREFIX="trial_"
 
 OUTPUT_DIR="${EXPERIMENT}/${TRIAL_DIR}"
 GREP_DIR="${EXPERIMENT}/${TRIAL_DIR}/${TRIAL_PREFIX}*"
 
-roscd smmap/logs
+STARTING_DIR=${PWD}
+cd "/home/dmcconac/Dropbox/catkin_ws/src/smmap/logs/"
 
 grep -r "total_samples"                                             ${GREP_DIR} | grep -o "[0-9]*$" > ${OUTPUT_DIR}/planning_total_samples.txt
 grep -r "total_states"                                              ${GREP_DIR} | grep -o "[0-9]*$" > ${OUTPUT_DIR}/planning_total_states.txt
@@ -26,3 +27,5 @@ grep -r "smoothing2_forward_propogation_band_sim_time"              ${GREP_DIR} 
 grep -r "smoothing3_forward_propogation_first_order_vis_time"       ${GREP_DIR} | grep -o "[0-9]*\.*[0-9]*$" > ${OUTPUT_DIR}/smoothing_first_ordeer_vis_time.txt
 grep -r "smoothing4_forward_propogation_everything_included_time"   ${GREP_DIR} | grep -o "[0-9]*\.*[0-9]*$" > ${OUTPUT_DIR}/smoothing_forward_prop_everything_time.txt
 grep -r "smoothing5_total_time"                                     ${GREP_DIR} | grep -o "[0-9]*\.*[0-9]*$" > ${OUTPUT_DIR}/smoothing_total_time.txt
+
+cd ${STARTING_DIR}
