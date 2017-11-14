@@ -1,14 +1,11 @@
 #!/usr/bin/env bash
 
-#EXPERIMENT="cloth_single_pole"
-#EXPERIMENT="cloth_double_slit"
-#EXPERIMENT="rope_maze"
-EXPERIMENT="rope_maze_from_top"
-TRIAL_DIR="isrr_quinlan_band_monday_0117"
+EXPERIMENT=${1}
+TRIAL_DIR="isrr_quinlan_band_wednesday_0035"
 TRIAL_PREFIX="trial_"
 
 OUTPUT_DIR="${EXPERIMENT}/${TRIAL_DIR}"
-GREP_DIR="${EXPERIMENT}/${TRIAL_DIR}/${TRIAL_PREFIX}*"
+GREP_DIR="${EXPERIMENT}/${TRIAL_DIR}/${TRIAL_PREFIX}?"
 
 STARTING_DIR=${PWD}
 cd "/home/dmcconac/Dropbox/catkin_ws/src/smmap/logs/"
