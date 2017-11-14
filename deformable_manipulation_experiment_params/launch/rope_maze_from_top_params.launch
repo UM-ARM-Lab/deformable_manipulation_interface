@@ -8,7 +8,7 @@
 
     <!-- Rope phyiscal parameters -->
     <param name="rope_segment_length"   value="0.02"        type="double"/>
-    <param name="rope_num_links"        value="45"          type="int"/>
+    <param name="rope_num_links"        value="47"          type="int"/>
     <param name="rope_radius"           value="0.01"        type="double"/>
 
     <!-- Rope starting position params-->
