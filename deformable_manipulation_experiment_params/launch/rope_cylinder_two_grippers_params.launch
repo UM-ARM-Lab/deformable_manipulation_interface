@@ -6,7 +6,7 @@
     <param name="deformable_type"       value="rope"                                type="string"/>
     <param name="task_type"             value="rope_cylinder_coverage_two_grippers" type="string"/>
 
-    <arg name="desired_down_scale"      default="5000"/>
+    <arg name="desired_motion_scale_factor"     default="5000"/>
 
     <!-- Rope phyiscal parameters -->
     <arg name="rope_segment_length"     value="0.02"/>
@@ -82,12 +82,12 @@
 
     <group ns="smmap_planner_node">
         <group ns="task">
-            <param name="max_time"                            value="$(arg task_max_time)"       type="double"/>
-            <param name="error_threshold_along_normal"        value="0.05"                       type="double"/>
-            <param name="error_threshold_distance_to_normal"  value="0.025"                      type="double"/>
-            <param name="error_threshold_task_done"           value="0.4"                        type="double"/>
-            <param name="max_stretch_factor"                  value="1.1"                        type="double"/>
-            <param name="desired_down_scale"                  value="$(arg desired_down_scale)"  type="double"/>
+            <param name="max_time"                            value="$(arg task_max_time)"                  type="double"/>
+            <param name="error_threshold_along_normal"        value="0.05"                                  type="double"/>
+            <param name="error_threshold_distance_to_normal"  value="0.025"                                 type="double"/>
+            <param name="error_threshold_task_done"           value="0.4"                                   type="double"/>
+            <param name="max_stretch_factor"                  value="1.1"                                   type="double"/>
+            <param name="desired_motion_scale_factor"         value="$(arg desired_motion_scale_factor)"    type="double"/>
         </group>
 
         <param name="enable_stuck_detection"                                value="false"        type="bool"/>

@@ -163,9 +163,9 @@ namespace smmap
         return val.GetImmutable();
     }
 
-    inline double GetDesiredDownScale(ros::NodeHandle& nh)
+    inline double GetDesiredMotionScalingFactor(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "task/desired_down_scale", 1.0f);
+        return ROSHelpers::GetParam(nh, "task/desired_motion_scale_factor", 1.0f);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -192,6 +192,7 @@ namespace smmap
         return 0.023;
     }
 
+    // Used by the "older" avoidance code, I.e. LeastSquaresControllerWithObjectAvoidance
     inline double GetRobotMinGripperDistanceToObstacles()   // METERS
     {
         return 0.005;

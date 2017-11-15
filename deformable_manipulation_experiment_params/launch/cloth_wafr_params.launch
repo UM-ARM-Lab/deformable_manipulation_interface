@@ -8,7 +8,7 @@
     <param name="task_type"             value="cloth_wafr"          type="string"/>
 
     <!-- planner, controller params -->
-    <arg name="desired_down_scale"             default="400"/>
+    <arg name="desired_motion_scale_factor" default="400"/>
 
     <!-- Table size params -->
 
@@ -124,12 +124,12 @@
 
     <group ns="smmap_planner_node">
         <group ns="task">
-            <param name="max_time"                             value="$(arg task_max_time)"             type="double"/>
-            <param name="error_threshold_along_normal"         value="0.02"                             type="double"/>
-            <param name="error_threshold_distance_to_normal"   value="0.006"                            type="double"/>
-            <param name="error_threshold_task_done"            value="0.1"                              type="double"/>
-            <param name="max_stretch_factor"                   value="$(eval (0.012 + 0.003) / 0.012)"  type="double"/>
-            <param name="desired_down_scale"                   value="$(arg desired_down_scale)"        type="double"/>
+            <param name="max_time"                             value="$(arg task_max_time)"                 type="double"/>
+            <param name="error_threshold_along_normal"         value="0.02"                                 type="double"/>
+            <param name="error_threshold_distance_to_normal"   value="0.006"                                type="double"/>
+            <param name="error_threshold_task_done"            value="0.1"                                  type="double"/>
+            <param name="max_stretch_factor"                   value="$(eval (0.012 + 0.003) / 0.012)"      type="double"/>
+            <param name="desired_motion_scale_factor"          value="$(arg desired_motion_scale_factor)"   type="double"/>
             
         </group>
 
