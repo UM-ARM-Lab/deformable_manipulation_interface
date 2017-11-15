@@ -59,7 +59,6 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "visualize_strain_lines", false);
     }
 
-
     ////////////////////////////////////////////////////////////////////////////
     // Task and Deformable Type parameters
     ////////////////////////////////////////////////////////////////////////////
@@ -91,20 +90,21 @@ namespace smmap
         const std::string task_type = ROSHelpers::GetParamRequired<std::string>(nh, "task_type", __func__).GetImmutable();
 
         std::unordered_map<std::string, TaskType> task_map{
-            {"rope_cylinder_coverage", TaskType::ROPE_CYLINDER_COVERAGE},
+            {"rope_cylinder_coverage",              TaskType::ROPE_CYLINDER_COVERAGE},
             {"rope_cylinder_coverage_two_grippers", TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS},
-            {"cloth_cylinder_coverage", TaskType::CLOTH_CYLINDER_COVERAGE},
-            {"cloth_table_coverage", TaskType::CLOTH_TABLE_COVERAGE},
-            {"cloth_colab_folding", TaskType::CLOTH_COLAB_FOLDING},
-            {"cloth_wafr", TaskType::CLOTH_WAFR},
-            {"cloth_single_pole", TaskType::CLOTH_SINGLE_POLE},
-            {"cloth_wall", TaskType::CLOTH_WALL},
-            {"cloth_double_slit", TaskType::CLOTH_DOUBLE_SLIT},
-            {"rope_maze", TaskType::ROPE_MAZE},
-            {"rope_drag_along_table", TaskType::ROPE_DRAG_ALONG_TABLE},
-            {"rope_drag_opposite_table", TaskType::ROPE_DRAG_OPPOSITE_TABLE},
-            {"rope_toward_table", TaskType::ROPE_TOWARD_TABLE},
-            {"rope_cross", TaskType::ROPE_CROSS}
+            {"cloth_cylinder_coverage",             TaskType::CLOTH_CYLINDER_COVERAGE},
+            {"cloth_table_coverage",                TaskType::CLOTH_TABLE_COVERAGE},
+            {"cloth_colab_folding",                 TaskType::CLOTH_COLAB_FOLDING},
+            {"cloth_wafr",                          TaskType::CLOTH_WAFR},
+            {"cloth_single_pole",                   TaskType::CLOTH_SINGLE_POLE},
+            {"cloth_wall",                          TaskType::CLOTH_WALL},
+            {"cloth_double_slit",                   TaskType::CLOTH_DOUBLE_SLIT},
+            {"rope_maze",                           TaskType::ROPE_MAZE},
+            {"rope_drag_along_table",               TaskType::ROPE_DRAG_ALONG_TABLE},
+            {"rope_drag_opposite_table",            TaskType::ROPE_DRAG_OPPOSITE_TABLE},
+            {"rope_toward_table",                   TaskType::ROPE_TOWARD_TABLE},
+            {"rope_cross",                          TaskType::ROPE_CROSS},
+            {"rope_zig_match",                      TaskType::ROPE_ZIG_MATCH}
         };
         
         try
@@ -128,6 +128,11 @@ namespace smmap
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "task/max_stretch_factor", __func__);
         return val.GetImmutable();
+    }
+
+    inline bool GetStretchingCorrectionFromTask(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "task/stretching_correction_from_task", true);
     }
 
     inline float GetMaxStrain(ros::NodeHandle& nh)
@@ -158,6 +163,11 @@ namespace smmap
         return val.GetImmutable();
     }
 
+    inline double GetDesiredMotionScalingFactor(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "task/desired_motion_scale_factor", 1.0f);
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // Gripper Size Settings
     ////////////////////////////////////////////////////////////////////////////
@@ -182,6 +192,7 @@ namespace smmap
         return 0.023;
     }
 
+    // Used by the "older" avoidance code, I.e. LeastSquaresControllerWithObjectAvoidance
     inline double GetRobotMinGripperDistanceToObstacles()   // METERS
     {
         return 0.005;
@@ -354,6 +365,33 @@ namespace smmap
             default:
                 throw_arc_exception(std::invalid_argument, "Unknown cylinder com for task type " + std::to_string(GetTaskType(nh)));
         }
+    }
+
+    // Cylinder Size settings for WAFR task case
+
+    inline float GetWafrCylinderRadius(ros::NodeHandle& nh)           // METERS
+    {
+        return ROSHelpers::GetParam(nh, "wafr_second_cylinder_radius", 0.025f);
+    }
+
+    inline float GetWafrCylinderHeight(ros::NodeHandle& nh)           // METERS
+    {
+        return ROSHelpers::GetParam(nh, "wafr_second_cylinder_height", 0.51f);
+    }
+
+    inline float GetWafrCylinderRelativeCenterOfMassX(ros::NodeHandle& nh)    // METERS
+    {
+        return ROSHelpers::GetParam(nh, "wafr_cylinder_relative_com_x", - 0.15f);
+    }
+
+    inline float GetWafrCylinderRelativeCenterOfMassY(ros::NodeHandle& nh)    // METERS
+    {
+        return ROSHelpers::GetParam(nh, "wafr_cylinder_relative_com_y", 0.0f);
+    }
+
+    inline float GetWafrCylinderRelativeCenterOfMassZ(ros::NodeHandle& nh)    // METERS
+    {
+        return ROSHelpers::GetParam(nh, "wafr_cylinder_relative_com_z", 0.2f);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -855,17 +893,36 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    // Model settings
+    // Planner trial type settings
     ////////////////////////////////////////////////////////////////////////////
+
+    inline PlannerTrialType GetPlannerTrialType(ros::NodeHandle& nh)
+    {
+        const std::string planner_trial_type = ROSHelpers::GetParamRequired<std::string>(nh, "planner_trial_type", __func__).GetImmutable();
+
+        std::unordered_map<std::string, PlannerTrialType> task_map{
+            {"diminishing_rigidity_single_model_least_squares_controller",  PlannerTrialType::DIMINISHING_RIGIDITY_SINGLE_MODEL_LEAST_SQUARES_CONTROLLER},
+            {"adaptive_jacobian_single_model_least_squares_controller",     PlannerTrialType::ADAPTIVE_JACOBIAN_SINGLE_MODEL_LEAST_SQUARES_CONTROLLER},
+            {"constraint_single_model_constraint_controller",               PlannerTrialType::CONSTRAINT_SINGLE_MODEL_CONSTRAINT_CONTROLLER},
+            {"diminishing_rigidity_single_model_constraint_controller",     PlannerTrialType::DIMINISHING_RIGIDITY_SINGLE_MODEL_CONSTRAINT_CONTROLLER},
+            {"multi_model_bandit_test",                                     PlannerTrialType::MULTI_MODEL_BANDIT_TEST},
+            {"multi_model_controller_test",                                 PlannerTrialType::MULTI_MODEL_CONTROLLER_TEST}
+        };
+
+        try
+        {
+            return task_map.at(planner_trial_type);
+        }
+        catch (std::out_of_range& e)
+        {
+            ROS_FATAL_STREAM("Unknown planner trial type type: " << planner_trial_type);
+            throw_arc_exception(std::invalid_argument, "Unknown planner trial type: " + planner_trial_type);
+        }
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     // Diminishing Rigidity Parameters
     ////////////////////////////////////////////////////////////////////////////
-
-    inline bool GetUseDiminishingRigidityModel(ros::NodeHandle& nh)
-    {
-        return ROSHelpers::GetParam(nh, "use_diminishing_rigidity_model", false);
-    }
 
     inline double GetDefaultDeformability(ros::NodeHandle& nh)
     {
@@ -877,11 +934,6 @@ namespace smmap
     // Adaptive Jacobian Parameters
     ////////////////////////////////////////////////////////////////////////////
 
-    inline bool GetUseAdaptiveModel(ros::NodeHandle& nh)
-    {
-        return ROSHelpers::GetParam(nh, "use_adaptive_model", false);
-    }
-
     inline double GetAdaptiveModelLearningRate(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "adaptive_model/adaptive_model_learning_rate", 1e-6);
@@ -890,11 +942,6 @@ namespace smmap
     ////////////////////////////////////////////////////////////////////////////
     // Constraint Model Parameters
     ////////////////////////////////////////////////////////////////////////////
-
-    inline bool GetUseConstraintModel(ros::NodeHandle& nh)
-    {
-        return ROSHelpers::GetParam(nh, "use_constraint_model", false);
-    }
 
     inline double GetConstraintTranslationalDir(ros::NodeHandle& nh)
     {
@@ -912,13 +959,8 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    // Multi-model settings
+    // Bandit Multi-model settings
     ////////////////////////////////////////////////////////////////////////////
-
-    inline bool GetUseMultiModel(ros::NodeHandle& nh)
-    {
-        return ROSHelpers::GetParam(nh, "use_multi_model", false);
-    }
 
     inline bool GetCalculateRegret(ros::NodeHandle& nh)
     {
@@ -1142,7 +1184,7 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    // Sampling based motion controller paramters
+    // TODO: Update this name, Sampling based motion controller paramters
     ////////////////////////////////////////////////////////////////////////////
 
     inline GripperControllerType GetGripperControllerType(ros::NodeHandle& nh)
@@ -1153,9 +1195,9 @@ namespace smmap
         {
             return GripperControllerType::RANDOM_SAMPLING;
         }
-        else if (gripper_controller_type.compare("uniform_sampling") == 0)
+        else if (gripper_controller_type.compare("nomad_optimization") == 0)
         {
-            return GripperControllerType::UNIFORM_SAMPLING;
+            return GripperControllerType::NOMAD_OPTIMIZATION;
         }
         else
         {
@@ -1169,7 +1211,11 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "sampling_controller/max_sampling_counts", 1000);
     }
 
-    // This function might be conbimed with that for task above
+    inline bool GetGrippersMotionSampleSize(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "sampling_controller/fix_step_size", true);
+    }
+
     inline double GetStretchingCosineThreshold(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "sampling_controller/stretching_cosine_threshold", 0.75);
@@ -1265,6 +1311,12 @@ namespace smmap
     inline std::string GetGripperAttachedNodeIndicesTopic(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_gripper_attached_node_indices_topic", "get_gripper_attached_node_indices");
+    }
+
+    // Get Stretching Vector information for cloth two grippers
+    inline std::string GetGripperStretchingVectorInfoTopic(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_gripper_stretching_vector_topic", "get_gripper_stretching_vector");
     }
 
     inline std::string GetGripperPoseTopic(ros::NodeHandle& nh)

@@ -31,6 +31,7 @@ add_service_files(
     GetGripperAttachedNodeIndices.srv
     GetGripperCollisionReport.srv
     GetGripperPose.srv
+    GetGripperStretchingVectorInfo.srv
     GetPointSet.srv
     GetMirrorLine.srv
     GetFreeSpaceGraph.srv
