@@ -30,6 +30,11 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "visualize_object_desired_motion", true);
     }
 
+    inline bool GetVisualizerGripperMotion(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "visualize_gripper_motion", true);
+    }
+
     inline bool GetVisualizeObjectPredictedMotion(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "visualize_object_predicted_motion", true);
@@ -165,7 +170,7 @@ namespace smmap
 
     inline double GetDesiredMotionScalingFactor(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "task/desired_motion_scale_factor", 1.0f);
+        return ROSHelpers::GetParam(nh, "task/desired_motion_scale_factor", 1.0);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -962,9 +967,9 @@ namespace smmap
     // Bandit Multi-model settings
     ////////////////////////////////////////////////////////////////////////////
 
-    inline bool GetCalculateRegret(ros::NodeHandle& nh)
+    inline bool GetCollectResultsForAllModels(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "multi_model/calculate_regret", false);
+        return ROSHelpers::GetParam(nh, "multi_model/collect_results_for_all_models", false);
     }
 
     inline double GetRewardScaleAnnealingFactor(ros::NodeHandle& nh)
@@ -1225,9 +1230,14 @@ namespace smmap
     // Logging functionality
     ////////////////////////////////////////////////////////////////////////////
 
-    inline bool GetLoggingEnabled(ros::NodeHandle& nh)
+    inline bool GetPlannerLoggingEnabled(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "logging_enabled", false);
+        return ROSHelpers::GetParam(nh, "planner_logging_enabled", false);
+    }
+
+    inline bool GetControllerLoggingEnabled(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "controller_logging_enabled", false);
     }
 
     inline std::string GetLogFolder(ros::NodeHandle& nh)
@@ -1341,6 +1351,7 @@ namespace smmap
 
     inline std::string GetVisualizationMarkerArrayTopic(ros::NodeHandle& nh)
     {
+        ROS_WARN_ONCE("There is no longer anything from SMMAP publishing on the vector version of the visualization topic, it can be removed");
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "visualization_marker_array_topic", "visualization_marker_vector");
     }
 
