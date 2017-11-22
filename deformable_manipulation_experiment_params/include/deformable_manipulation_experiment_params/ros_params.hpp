@@ -1227,6 +1227,78 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
+    // Occlusion and ray cast paramters
+    ////////////////////////////////////////////////////////////////////////////
+
+    inline bool GetFullyObservable(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "fully_observable", true);
+    }
+
+    inline float GetRayCastSourceX(ros::NodeHandle& nh)      // METERS
+    {
+        return ROSHelpers::GetParam(nh, "raycast_sensor/raycast_source_x", 0.0f);
+    }
+
+    inline float GetRayCastSourceY(ros::NodeHandle& nh)      // METERS
+    {
+        return ROSHelpers::GetParam(nh, "raycast_sensor/raycast_source_y", 0.0f);
+    }
+
+    inline float GetRayCastSourceZ(ros::NodeHandle& nh)      // METERS
+    {
+        return ROSHelpers::GetParam(nh, "raycast_sensor/raycast_source_z", 5.0f);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Template collection paramters
+    ////////////////////////////////////////////////////////////////////////////
+
+    inline bool GetCollectTemplates(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "templates_collecter/collect_templates", true);
+    }
+
+    inline bool GetRecollectAllTemplates(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "templates_collecter/recollect_all_templates", false);
+    }
+
+    inline int GetNumTemplatesToCollect(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "templates_collecter/num_templates_to_collect", 100);
+    }
+
+    inline int GetTemplatesCollectionFrequency(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "templates_collecter/templates_collection_frequency", 100);
+    }
+
+    inline double GetSimilarityThreshold(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "templates_collecter/similarity_threshold", 0.5);
+    }
+
+    inline EstimatotType GetEstimatorType(ros::NodeHandle& nh)
+    {
+        std::string estimator_type =  ROSHelpers::GetParam<std::string>(nh, "templates_collecter/estimator_type", "procrustes_least_square_norm");
+
+        if (estimator_type.compare("procrustes_least_square_norm") == 0)
+        {
+            return EstimatotType::PROCRUSTES_LEAST_SQUARE_NORM;
+        }
+        else if (estimator_type.compare("procrustes_least_absolute_norm") == 0)
+        {
+            return EstimatotType::PROCRUSTES_LEAST_ABSOLUTE_NORM;
+        }
+        else
+        {
+            ROS_FATAL_STREAM("Unknown estimator_type type: " << estimator_type);
+            throw_arc_exception(std::invalid_argument, "Unknown estimator_type type: " + estimator_type);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
     // Logging functionality
     ////////////////////////////////////////////////////////////////////////////
 
@@ -1254,6 +1326,17 @@ namespace smmap
                 + task_name + "/"
                 + task_name + ".dijkstras_serialized";
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "dijkstras_file_path", default_dijkstras_file_path);
+    }
+
+    inline std::string GetTemplatesStorageLocation(ros::NodeHandle& nh)
+    {
+        const std::string base_path = ros::package::getPath("smmap");
+        const std::string task_name = ROSHelpers::GetParamRequired<std::string>(nh, "task_type", __func__).GetImmutable();
+        const std::string default_dijkstras_file_path =
+                base_path + "/logs/"
+                + task_name + "/"
+                + task_name + ".templates_serialized";
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "templates_file_path", default_dijkstras_file_path);
     }
 
     inline bool GetScreenshotsEnabled(ros::NodeHandle& nh)

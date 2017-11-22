@@ -1,4 +1,5 @@
 geometry_msgs/Point[] object_configuration
+int8[] observable_nodes
 string[] gripper_names
 geometry_msgs/Pose[] gripper_poses
 geometry_msgs/Point[] gripper_nearest_point_to_obstacle

@@ -3,6 +3,7 @@
     <arg name="task_type"/>
     <arg name="planner_logging_enabled"                 default="false"/>
     <arg name="controller_logging_enabled"              default="false"/>
+    <arg name="estimator_logging_enabled"               default="true"/>
     <arg name="test_id"                                 default="default"/>
     <arg name="task_max_time_override"                  default="false"/>
     <arg name="task_max_time"                           if="$(arg task_max_time_override)"/>
@@ -138,9 +139,23 @@
 
         <!-- Sampling controller arguments -->
         <group ns="sampling_controller">
+            <!-- <param name="gripper_controller_type"       value="nomad_optimization"                         type="string"/> -->
             <param name="gripper_controller_type"       value="random_sampling"                         type="string"/>
             <param name="max_sampling_counts"           value="5000"                                    type="int"/>
         </group>
+
+        <!-- templates collecters arguments -->
+        <group ns="templates_collecter">
+            <!-- <param name="gripper_controller_type"       value="nomad_optimization"                         type="string"/> -->
+            <param name="collect_templates"              value="false"                              type="bool"/>
+            <param name="recollect_all_templates"        value="false"                              type="bool"/>
+            <param name="num_templates_to_collect"       value="30"                                 type="int"/>
+            <param name="templates_collection_frequency" value="12"                                 type="int"/>
+            <param name="similarity_threshold"           value="0.5"                                type="double"/>            
+            <!--<param name="estimator_type"                 value="procrustes_least_square_norm"     type="string"/> --> 
+            <param name="estimator_type"                 value="procrustes_least_absolute_norm"     type="string"/>
+        </group>
+
     </group>
     <node name="smmap_planner_node" pkg="smmap" type="planner_test_node_$(arg bandit_algorithm)" required="true" if="$(arg launch_planner)"/>
 </launch>

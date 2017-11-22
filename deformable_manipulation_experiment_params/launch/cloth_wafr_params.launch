@@ -42,6 +42,10 @@
     
     <arg name="cloth_x_size"                    value="0.4"/>
     <arg name="cloth_y_size"                    value="0.4"/>
+    <!-- <arg name="cloth_x_size"                    value="0.5"/> -->
+    <!-- <arg name="cloth_y_size"                    value="0.4"/> -->
+    <!-- <arg name="cloth_num_control_points_x"      value="50"/> -->
+    <!-- <arg name="cloth_num_control_points_y"      value="40"/> -->
     <arg name="cloth_num_control_points_x"      value="20"/>
     <arg name="cloth_num_control_points_y"      value="20"/>
 
@@ -71,9 +75,13 @@
 
     <arg name = "wafr_second_cylinder_height"     value="0.8"/>
     <arg name = "wafr_cylinder_relative_com_x"    value="-0.14"/>
+    <!-- <arg name = "wafr_cylinder_relative_com_x"    value="-0.155"/> -->
+    <!-- <arg name = "wafr_cylinder_relative_com_x"    value="-0.15"/> -->
     <arg name = "wafr_cylinder_relative_com_y"    value="-0.005"/>
     <arg name = "wafr_cylinder_relative_com_z"    value="0.22"/>
+    <!-- <arg name = "wafr_cylinder_relative_com_z"    value="0.2"/> -->
     <arg name = "wafr_second_cylinder_radius"     value="0.035"/>
+    <!-- <arg name = "wafr_second_cylinder_radius"     value="0.025"/> -->
     
     <param name="wafr_second_cylinder_height"     value="$(arg wafr_second_cylinder_height)"     type="double"/>
     <param name="wafr_cylinder_relative_com_x"    value="$(arg wafr_cylinder_relative_com_x)"    type="double"/>
@@ -122,6 +130,20 @@
         <param name="viewer_height"                     value="800"     type="int"/>
     </group>
 
+    <!-- Occlusion and ray-cast sensor paramters  -->
+    <group ns="raycast_sensor">
+
+        <!--
+        <param name="raycast_source_x"         value="-1.0"       type="double"/>
+        <param name="raycast_source_y"         value="0.0"        type="double"/>
+        <param name="raycast_source_z"         value="0.6"        type="double"/>
+        -->
+        <param name="raycast_source_x"         value="-1.0"       type="double"/>
+        <param name="raycast_source_y"         value="0.0"        type="double"/>
+        <param name="raycast_source_z"         value="0.6"        type="double"/>
+    </group>
+
+
     <group ns="smmap_planner_node">
         <group ns="task">
             <param name="max_time"                             value="$(arg task_max_time)"                 type="double"/>
@@ -169,7 +191,7 @@
             <param name="collision_scaling_factor"      value="600.0"           type="double"/>
         </group>
 
-		<group ns="sampling_controller">
+	<group ns="sampling_controller">
             <param name="stretching_cosine_threshold"   value="0.4"             type="double"/>
             <param name="fix_step_size"                 value="false"           type="bool"/>
         </group>

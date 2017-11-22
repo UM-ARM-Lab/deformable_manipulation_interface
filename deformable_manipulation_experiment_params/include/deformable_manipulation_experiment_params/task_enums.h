@@ -48,6 +48,11 @@ namespace smmap
         NOMAD_OPTIMIZATION
     };
 
+    enum EstimatotType
+    {
+        PROCRUSTES_LEAST_SQUARE_NORM,
+        PROCRUSTES_LEAST_ABSOLUTE_NORM,
+    };
 }
 
 #endif // TASK_ENUMS_H
