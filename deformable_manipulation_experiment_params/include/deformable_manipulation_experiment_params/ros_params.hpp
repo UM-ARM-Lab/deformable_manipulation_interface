@@ -1312,6 +1312,11 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "controller_logging_enabled", false);
     }
 
+    inline bool GetEstimatorLoggingEnabled(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "estimator_logging_enabled", true);
+    }
+
     inline std::string GetLogFolder(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "log_folder", "/tmp/");

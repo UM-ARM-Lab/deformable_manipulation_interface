@@ -57,6 +57,9 @@
     <include file="$(find deformable_manipulation_experiment_params)/launch/$(arg task_type)_params.launch"/>
     <param name="log_folder"                            value="$(find smmap)/logs/$(arg task_type)/$(arg test_id)/"         type="string"/>
 
+    <!-- Occlusion and ray-cast sensor paramters  -->
+    <param name="fully_observable"                      value ="false"                          type="bool"/> 
+
     <!-- Setup the simulator -->
     <group ns="deform_simulator_node">
         <param name="feedback_covariance"               value="$(arg feedback_covariance)"      type="double"/>
@@ -152,8 +155,8 @@
             <param name="num_templates_to_collect"       value="30"                                 type="int"/>
             <param name="templates_collection_frequency" value="12"                                 type="int"/>
             <param name="similarity_threshold"           value="0.5"                                type="double"/>            
-            <!--<param name="estimator_type"                 value="procrustes_least_square_norm"     type="string"/> --> 
-            <param name="estimator_type"                 value="procrustes_least_absolute_norm"     type="string"/>
+            <param name="estimator_type"                 value="procrustes_least_square_norm"     type="string"/>
+            <!--<param name="estimator_type"                 value="procrustes_least_absolute_norm"     type="string"/> -->
         </group>
 
     </group>
