@@ -15,7 +15,9 @@
     <arg name="screenshots_enabled"                     default="false"/>
 
     <!-- Planner trial type -->
-    <arg name="planner_trial_type"                      default="multi_model_controller_test"/>
+    <!-- <arg name="planner_trial_type"                      default="multi_model_controller_test"/> -->
+    <arg name="planner_trial_type"                      default="diminishing_rigidity_single_model_least_squares_controller"/>
+
 
     <!-- Planner visualization arguments -->
     <arg name="disable_all_visualizations"              default="false"/>
