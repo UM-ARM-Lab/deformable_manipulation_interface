@@ -51,7 +51,7 @@ namespace smmap
     enum EstimatotType
     {
         PROCRUSTES_LEAST_SQUARE_NORM,
-        PROCRUSTES_LEAST_ABSOLUTE_NORM,
+        PROCRUSTES_LEAST_SQUARE_L1_REGULARIZATION,
     };
 }
 

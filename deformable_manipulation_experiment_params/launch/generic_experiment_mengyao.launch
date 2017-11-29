@@ -88,7 +88,7 @@
         <param name="visualize_prm"                     value="$(arg visualize_prm)"                        type="bool"/>
 
         <group ns="task">
-            <param name="stretching_correction_from_task"      value="false"                                type="bool"/>
+            <param name="stretching_correction_from_task"      value="false"                type="bool"/>
         </group>
 
         <group ns="rrt">
@@ -139,26 +139,26 @@
 
         <!-- Old pure Jacobian based controller -->
         <group ns="jacobian_controller">
-            <param name="optimization_enabled"          value="true"                                    type="bool"/>
+            <param name="optimization_enabled"              value="true"                                    type="bool"/>
         </group>
 
         <!-- Sampling controller arguments -->
         <group ns="sampling_controller">
             <!-- <param name="gripper_controller_type"       value="nomad_optimization"                         type="string"/> -->
-            <param name="gripper_controller_type"       value="random_sampling"                         type="string"/>
-            <param name="max_sampling_counts"           value="5000"                                    type="int"/>
+            <param name="gripper_controller_type"        value="random_sampling"                            type="string"/>
+            <param name="max_sampling_counts"            value="5000"                                       type="int"/>
         </group>
 
         <!-- templates collecters arguments -->
         <group ns="templates_collecter">
             <!-- <param name="gripper_controller_type"       value="nomad_optimization"                         type="string"/> -->
-            <param name="collect_templates"              value="false"                              type="bool"/>
-            <param name="recollect_all_templates"        value="false"                              type="bool"/>
-            <param name="num_templates_to_collect"       value="30"                                 type="int"/>
-            <param name="templates_collection_frequency" value="12"                                 type="int"/>
-            <param name="similarity_threshold"           value="0.5"                                type="double"/>            
-            <param name="estimator_type"                 value="procrustes_least_square_norm"     type="string"/>
-            <!--<param name="estimator_type"                 value="procrustes_least_absolute_norm"     type="string"/> -->
+            <param name="collect_templates"              value="false"                                      type="bool"/>
+            <param name="recollect_all_templates"        value="false"                                      type="bool"/>
+            <param name="num_templates_to_collect"       value="30"                                         type="int"/>
+            <param name="templates_collection_frequency" value="12"                                         type="int"/>
+            <param name="similarity_threshold"           value="0.5"                                        type="double"/>            
+            <!-- <param name="estimator_type"                 value="procrustes_least_square_norm"               type="string"/> -->
+            <param name="estimator_type"                 value="procrustes_least_square_L1_regularization"  type="string"/> 
         </group>
 
     </group>

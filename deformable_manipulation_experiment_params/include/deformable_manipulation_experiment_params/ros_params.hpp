@@ -1287,9 +1287,9 @@ namespace smmap
         {
             return EstimatotType::PROCRUSTES_LEAST_SQUARE_NORM;
         }
-        else if (estimator_type.compare("procrustes_least_absolute_norm") == 0)
+        else if (estimator_type.compare("procrustes_least_square_L1_regularization") == 0)
         {
-            return EstimatotType::PROCRUSTES_LEAST_ABSOLUTE_NORM;
+            return EstimatotType::PROCRUSTES_LEAST_SQUARE_L1_REGULARIZATION;
         }
         else
         {
@@ -1406,6 +1406,11 @@ namespace smmap
     inline std::string GetSignedDistanceFieldTopic(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_signed_distance_field_topic", "get_signed_distance_field");
+    }
+
+    inline std::string GetObservabilitySignedDistanceFieldTopic(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_observability_signed_distance_field_topic", "get_observability_signed_distance_field");
     }
 
     inline std::string GetGripperNamesTopic(ros::NodeHandle& nh)
