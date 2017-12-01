@@ -1279,6 +1279,11 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "templates_collecter/similarity_threshold", 0.5);
     }
 
+    inline double GetL1RegularizationFactor(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "templates_collecter/L1_regularization_factor", 0.001);
+    }
+
     inline EstimatotType GetEstimatorType(ros::NodeHandle& nh)
     {
         std::string estimator_type =  ROSHelpers::GetParam<std::string>(nh, "templates_collecter/estimator_type", "procrustes_least_square_norm");

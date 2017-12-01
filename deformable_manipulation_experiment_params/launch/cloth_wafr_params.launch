@@ -8,7 +8,7 @@
     <param name="task_type"             value="cloth_wafr"          type="string"/>
 
     <!-- planner, controller params -->
-    <arg name="desired_motion_scale_factor" default="400"/>
+    <arg name="desired_motion_scale_factor" default="1"/>
 
     <!-- Table size params -->
 
@@ -73,7 +73,7 @@
 
     <!-- Second wafr cylinder params -->
 
-    <arg name = "wafr_second_cylinder_height"     value="0.8"/>
+    <arg name = "wafr_second_cylinder_height"     value="0.6"/>
     <arg name = "wafr_cylinder_relative_com_x"    value="-0.14"/>
     <!-- <arg name = "wafr_cylinder_relative_com_x"    value="-0.155"/> -->
     <!-- <arg name = "wafr_cylinder_relative_com_x"    value="-0.15"/> -->
@@ -151,7 +151,7 @@
             <param name="error_threshold_along_normal"         value="0.02"                                 type="double"/>
             <param name="error_threshold_distance_to_normal"   value="0.006"                                type="double"/>
             <param name="error_threshold_task_done"            value="0.1"                                  type="double"/>
-            <param name="max_stretch_factor"                   value="$(eval (0.012 + 0.003) / 0.012)"      type="double"/>
+            <param name="max_stretch_factor"                   value="$(eval (0.012 + 0.001) / 0.012)"      type="double"/>
             <param name="desired_motion_scale_factor"          value="$(arg desired_motion_scale_factor)"   type="double"/>
             
         </group>
