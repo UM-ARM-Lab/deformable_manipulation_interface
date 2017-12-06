@@ -159,7 +159,7 @@
             <param name="num_templates_to_collect"       value="30"                                         type="int"/>
             <param name="templates_collection_frequency" value="12"                                         type="int"/>
             <param name="similarity_threshold"           value="0.5"                                        type="double"/>
-            <param name="L1_regularization_factor"       value="1000.0"                                  type="double"/>            
+            <param name="L1_regularization_factor"       value="0.1"                                  type="double"/>            
             <!-- procrustes_least_square_L1_regularization     procrustes_least_square_norm           -->
             <param name="estimator_type"                 value="procrustes_least_square_L1_regularization"  type="string"/> 
         </group>
