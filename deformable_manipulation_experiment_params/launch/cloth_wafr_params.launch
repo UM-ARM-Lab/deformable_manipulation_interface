@@ -1,6 +1,6 @@
 <launch>
     <!-- Arguments to override default params -->
-    <arg name="task_max_time"           default="25.0"/>
+    <arg name="task_max_time"           default="8.0"/>
 
     <!-- Defines which world building routines we use, and which task specification -->
 
@@ -8,7 +8,7 @@
     <param name="task_type"             value="cloth_wafr"          type="string"/>
 
     <!-- planner, controller params -->
-    <arg name="desired_motion_scale_factor" default="1"/>
+    <arg name="desired_motion_scale_factor" default="400"/>
 
     <!-- Table size params -->
 
@@ -73,13 +73,13 @@
 
     <!-- Second wafr cylinder params -->
 
-    <arg name = "wafr_second_cylinder_height"     value="0.6"/>
+    <arg name = "wafr_second_cylinder_height"     value="0.8"/>
     <arg name = "wafr_cylinder_relative_com_x"    value="-0.14"/>
     <!-- <arg name = "wafr_cylinder_relative_com_x"    value="-0.155"/> -->
     <!-- <arg name = "wafr_cylinder_relative_com_x"    value="-0.15"/> -->
     <arg name = "wafr_cylinder_relative_com_y"    value="-0.005"/>
-    <arg name = "wafr_cylinder_relative_com_z"    value="0.22"/>
-    <!-- <arg name = "wafr_cylinder_relative_com_z"    value="0.2"/> -->
+    <!--<arg name = "wafr_cylinder_relative_com_z"    value="0.22"/>-->
+    <arg name = "wafr_cylinder_relative_com_z"    value="0.2"/>
     <arg name = "wafr_second_cylinder_radius"     value="0.035"/>
     <!-- <arg name = "wafr_second_cylinder_radius"     value="0.025"/> -->
     
@@ -93,8 +93,8 @@
 
     <arg name="cloth_leading_edge_x"    value="-0.5175"/>
 
-    <!-- <arg name="cloth_com_x"             value="$(eval cloth_cylinder_com_x + 0.2 * cloth_cylinder_radius + (cloth_x_size / 2.0))"/> -->
-    <arg name="cloth_com_x"             value="$(eval cloth_cylinder_com_x - 2.0 * cloth_cylinder_radius + (cloth_x_size / 2.0))"/>
+    <arg name="cloth_com_x"             value="$(eval cloth_cylinder_com_x + 0.2 * cloth_cylinder_radius + (cloth_x_size / 2.0))"/>
+    <!--<arg name="cloth_com_x"             value="$(eval cloth_cylinder_com_x - 2.0 * cloth_cylinder_radius + (cloth_x_size / 2.0))"/> -->
     <arg name="cloth_com_y"             value="$(eval table_surface_y - 0.0)"/>
     <arg name="cloth_com_z"             value="$(eval cloth_cylinder_com_z + cloth_cylinder_height / 2 + 0.01)"/>
 

@@ -57,12 +57,17 @@
     <arg name="static_seed_override"                    default="false"/>
     <arg name="static_seed"                             if="$(arg static_seed_override)"/>
 
+    <arg name="fully_observable"                        default="false"/>
+    <arg name="collect_templates"                       default="false"/>
+    <arg name="recollect_all_templates"                 default="false"/>
+
+
     <!-- Setup task parameters -->
     <include file="$(find deformable_manipulation_experiment_params)/launch/$(arg task_type)_params.launch"/>
     <param name="log_folder"                            value="$(find smmap)/logs/$(arg task_type)/$(arg test_id)/"         type="string"/>
 
     <!-- Occlusion and ray-cast sensor paramters  -->
-    <param name="fully_observable"                      value ="false"                          type="bool"/> 
+    <param name="fully_observable"                      value ="$(arg fully_observable)"        type="bool"/> 
 
     <!-- Setup the simulator -->
     <group ns="deform_simulator_node">
@@ -154,14 +159,14 @@
         <!-- templates collecters arguments -->
         <group ns="templates_collecter">
             <!-- <param name="gripper_controller_type"       value="nomad_optimization"                         type="string"/> -->
-            <param name="collect_templates"              value="false"                                      type="bool"/>
-            <param name="recollect_all_templates"        value="false"                                      type="bool"/>
-            <param name="num_templates_to_collect"       value="30"                                         type="int"/>
+            <param name="collect_templates"              value="$(arg collect_templates)"                   type="bool"/>
+            <param name="recollect_all_templates"        value="$(arg recollect_all_templates)"             type="bool"/>
+            <param name="num_templates_to_collect"       value="25"                                         type="int"/>
             <param name="templates_collection_frequency" value="12"                                         type="int"/>
             <param name="similarity_threshold"           value="0.5"                                        type="double"/>
             <param name="L1_regularization_factor"       value="0.1"                                  type="double"/>            
             <!-- procrustes_least_square_L1_regularization     procrustes_least_square_norm           -->
-            <param name="estimator_type"                 value="procrustes_least_square_L1_regularization"  type="string"/> 
+            <param name="estimator_type"                 value="procrustes_least_square_norm"  type="string"/> 
         </group>
 
     </group>

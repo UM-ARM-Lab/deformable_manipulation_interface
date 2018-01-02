@@ -1330,8 +1330,6 @@ namespace smmap
                 base_path + "/logs/"
                 + task_name + "/default/";
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "log_data_path", default_log_path);
-
-    //    return ROSHelpers::GetParamDebugLog<std::string>(nh, "log_folder", "/tmp/");
     }
 
     inline std::string GetDijkstrasStorageLocation(ros::NodeHandle& nh)
