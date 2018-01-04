@@ -1381,27 +1381,46 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
+    // Live Robot Settings
+    ////////////////////////////////////////////////////////////////////////////
+
+    inline std::string GetDeformableObjectEstimateTopic()
+    {
+        return "object_estimate";
+    }
+
+    inline std::string GetARTagTopic()
+    {
+        return "ar_pose_marker";
+    }
+
+    inline std::string GetGripper0TF2Name()
+    {
+        return "victor_left_gripper";
+    }
+
+    inline std::string GetGripper1TF2Name()
+    {
+        return "victor_right_gripper";
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
     // ROS TF Frame name settings
     ////////////////////////////////////////////////////////////////////////////
 
     inline std::string GetWorldFrameName()
     {
-        return "/mocap_world";
+        return "world_origin";
     }
 
     inline std::string GetTableFrameName()
     {
-        return "/table_surface";
+        return "table_surface";
     }
 
-    inline std::string GetKinectBaseFrameName()
+    inline std::string GetARTrackOutputFrame(ros::NodeHandle& nh)
     {
-        return "/mocap_Kinect2Block_Kinect2Block";
-    }
-
-    inline std::string GetKinectCameraFrameName()
-    {
-        return "/Kinect2_ir_camera";
+        return ROSHelpers::GetParam<std::string>(nh, "ar_track_roof/output_frame", "world_origin");
     }
 }
 

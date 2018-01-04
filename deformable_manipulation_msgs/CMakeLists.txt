@@ -21,6 +21,7 @@ add_message_files(
     VectorPose.msg
     SimulatorFeedback.msg
     PointCloud.msg
+    ObjectConfiguration.msg
 )
 
 ## Generate services in the 'srv' folder

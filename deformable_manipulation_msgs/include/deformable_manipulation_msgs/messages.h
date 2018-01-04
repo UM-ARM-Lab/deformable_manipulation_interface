@@ -14,6 +14,7 @@
 #include "deformable_manipulation_msgs/PointCloud.h"
 #include "deformable_manipulation_msgs/TestGrippersPosesAction.h"
 #include "deformable_manipulation_msgs/ExecuteGripperMovement.h"
+#include "deformable_manipulation_msgs/ObjectConfiguration.h"
 // This pragma is here because the service call has an empty request
 // (or response) message thus the allocator that it is passed never gets used
 #pragma GCC diagnostic push
