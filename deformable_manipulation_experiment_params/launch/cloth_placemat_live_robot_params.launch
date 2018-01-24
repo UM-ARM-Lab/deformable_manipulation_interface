@@ -1,6 +1,6 @@
 <launch>
     <!-- Arguments to override default params -->
-    <arg name="task_max_time"           default="200.0"/>
+    <arg name="task_max_time"           default="3600.0"/>
 
     <!-- Defines which world building routines we use, and which task specification -->
     <param name="deformable_type"       value="cloth"                       type="string"/>
@@ -9,21 +9,20 @@
     <!-- planner, controller params -->
     <arg name="desired_motion_scale_factor"     default="1"/>
 
-    <!-- Table size params -->
-    <arg name="table_x_half_extents"    value="0.095"/>
-    <arg name="table_y_half_extents"    value="0.24"/>
-    <arg name="table_height"            value="0.2005"/>
+    <!-- Table size params: +'ve X points towards the door -->
+    <arg name="table_x_half_extents"    value="$(eval 30.0 / 2.0 * 0.0254)"/> <!-- 30 inches is the width of the table, converted into meters -->
+    <arg name="table_y_half_extents"    value="$(eval 42.0 / 2.0 * 0.0254)"/> <!-- 42 inches is the length of the table, converted into meters -->
+    <arg name="table_height"            value="0.7005"/>                      <!-- Height is mostly arbitrary, set to be above the floor somewhere and work well with the SDF resolution -->
     <arg name="table_thickness"         value="0.05"/>
 
     <param name="table_x_half_extents"  value="$(arg table_x_half_extents)" type="double"/>
     <param name="table_y_half_extents"  value="$(arg table_y_half_extents)" type="double"/>
     <param name="table_height"          value="$(arg table_height)"         type="double"/>
     <param name="table_thickness"       value="$(arg table_thickness)"      type="double"/>
+    <!-- TODO: Table legs? -->
 
     <!-- Table position params -->
-    <arg name="table_leading_edge_x"    value ="-0.185"/>
-
-    <arg name="table_surface_x"         value="$(eval table_leading_edge_x - table_x_half_extents)"/>
+    <arg name="table_surface_x"         value="0.0"/>
     <arg name="table_surface_y"         value="0.0"/>
     <arg name="table_surface_z"         value="$(arg table_height)"/>
 
@@ -32,38 +31,40 @@
     <param name="table_surface_z"       value="$(arg table_surface_z)"  type="double"/>
 
     <!-- Cloth size params -->
-    <arg name="cloth_x_size"                    value="0.3"/>
-    <arg name="cloth_y_size"                    value="0.5"/>
-    <arg name="cloth_num_control_points_x"      value="3"/>
-    <arg name="cloth_num_control_points_y"      value="3"/>
+    <arg   name="cloth_x_size"                  value="$(eval 13.0 * 0.0254 / 2.0)"/> <!-- 1/4 of the black placemat area: 13/2 inches to meters -->
+    <arg   name="cloth_y_size"                  value="$(eval 18.0 * 0.0254 / 2.0)"/> <!-- 1/4 of the black placemat area: 18/2 inches to meters -->
+    <arg   name="cloth_num_control_points_x"    value="3"/>
+    <arg   name="cloth_num_control_points_y"    value="3"/>
 
     <param name="cloth_x_size"                  value="$(arg cloth_x_size)"                 type="double"/>
     <param name="cloth_y_size"                  value="$(arg cloth_y_size)"                 type="double"/>
     <param name="cloth_num_control_points_x"    value="$(arg cloth_num_control_points_x)"   type="int"/>
     <param name="cloth_num_control_points_y"    value="$(arg cloth_num_control_points_y)"   type="int"/>
 
-    <!-- Cloth position params -->
-    <arg name="cloth_leading_edge_x"    default="0.06"/>
-
-    <param name="cloth_com_x"           value="$(eval cloth_leading_edge_x + (cloth_x_size / 2.0))" type="double"/>
-    <param name="cloth_com_y"           value="0.0"                                                 type="double"/>
-    <param name="cloth_com_z"           value="$(eval table_surface_z + 0.1)"                       type="double"/>
-
     <!-- Obstacle parameters -->
-    <param name="cloth_cylinder_com_x"  value="0.0"     type="double"/>
-    <param name="cloth_cylinder_com_y"  value="0.0"     type="double"/>
-    <param name="cloth_cylinder_com_z"  value="0.32"    type="double"/>
+    <arg   name="cylinder_radius" value="0.02"/>
+    <arg   name="cylinder_height" value="$(arg table_surface_z)"/>
 
-    <param name="cloth_cylinder_height" value="0.7"     type="double"/>
-    <param name="cloth_cylinder_radius" value="0.04"    type="double"/>
+    <param name="cylinder_height" value="$(arg cylinder_height)"                            type="double"/>
+    <param name="cylinder_radius" value="$(arg cylinder_radius)"                            type="double"/>
+
+    <param name="cylinder_com_x"  value="$(eval table_surface_x)"                           type="double"/>
+    <param name="cylinder_com_y"  value="$(eval table_surface_y)"                           type="double"/>
+    <param name="cylinder_com_z"  value="$(eval table_surface_z + (cylinder_height / 2.0))" type="double"/>
+
+    <!-- Cloth position params -->
+
+    <param name="cloth_com_x"           value="$(eval table_surface_x + (cloth_x_size / 2.0) + cylinder_radius + 0.01)" type="double"/>
+    <param name="cloth_com_y"           value="0.0"                                                                     type="double"/>
+    <param name="cloth_com_z"           value="$(eval table_surface_z + 0.3)"                                           type="double"/>
 
     <!-- World parameters for planning - used by both nodes -->
     <arg name="grid_resolution"         value="0.02"/>
-    <arg name="world_x_min"             value="-0.5"/>
-    <arg name="world_x_max"             value="0.4"/>
-    <arg name="world_y_min"             value="-0.3"/>
-    <arg name="world_y_max"             value="0.3"/>
-    <arg name="world_z_min"             value="$(eval table_height - 0.22)"/>
+    <arg name="world_x_min"             value="$(eval table_surface_x - table_x_half_extents / 1.5)"/>
+    <arg name="world_x_max"             value="$(eval table_surface_x + table_x_half_extents / 1.5)"/>
+    <arg name="world_y_min"             value="$(eval table_surface_y - table_y_half_extents / 1.5)"/>
+    <arg name="world_y_max"             value="$(eval table_surface_y + table_y_half_extents / 1.5)"/>
+    <arg name="world_z_min"             value="$(eval table_height - 0.1)"/>
     <arg name="world_z_max"             value="$(eval table_height + 0.2)"/>
 
     <param name="world_x_step"          value="$(arg grid_resolution)"  type="double"/>
@@ -87,6 +88,7 @@
     </group>
 
     <group ns="smmap_planner_node">
+        <!-- TODO: Update these parameters to make them work for this task -->
         <group ns="task">
             <param name="max_time"                            value="$(arg task_max_time)"                  type="double"/>
             <param name="error_threshold_along_normal"        value="0.023"                                 type="double"/>
@@ -96,7 +98,7 @@
             <param name="desired_motion_scale_factor"         value="$(arg desired_motion_scale_factor)"    type="double"/>
         </group>
 
-        <param name="enable_stuck_detection"                                value="true"        type="bool"/>
+        <param name="enable_stuck_detection"                                value="false"       type="bool"/>
         <group ns="stuck_detection">
             <param name="num_lookahead_steps"                               value="10"          type="int"/>
             <param name="band_overstretch_prediction_annealing_factor"      value="0.5"         type="double"/>

@@ -29,7 +29,10 @@ namespace smmap
         ROPE_DRAG_OPPOSITE_TABLE,       // directional rigidity
         ROPE_DRAG_ALONG_TABLE,          // directional rigidity
         ROPE_TOWARD_TABLE,              // mask, constraint violation
-        ROPE_CROSS                      // directional rigidity use Dale's directly
+        ROPE_CROSS,                     // directional rigidity use Dale's directly
+
+        // Live robot experiments
+        CLOTH_PLACEMAT_LIVE_ROBOT
     };
 
     enum PlannerTrialType

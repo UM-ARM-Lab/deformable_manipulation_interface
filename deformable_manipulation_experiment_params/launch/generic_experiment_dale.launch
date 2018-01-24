@@ -30,7 +30,7 @@
     <arg name="rotational_deformability"                if="$(arg deformability_override)"/>
     <!-- Adaptive Jacobian -->
     <arg name="adaptive_model_learning_rate"            default="0.000001"/>
-    <!-- Multi-mode Bandit  -->
+    <!-- Multi-model Bandit -->
     <arg name="kalman_parameters_override"              default="false"/>
     <arg name="process_noise_factor"                    if="$(arg kalman_parameters_override)"/>
     <arg name="observation_noise_factor"                if="$(arg kalman_parameters_override)"/>

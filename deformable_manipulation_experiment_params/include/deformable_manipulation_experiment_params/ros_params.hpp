@@ -70,7 +70,8 @@ namespace smmap
 
     inline DeformableType GetDeformableType(ros::NodeHandle& nh)
     {
-        std::string deformable_type = ROSHelpers::GetParam<std::string>(nh, "deformable_type", "rope");
+        const auto val = ROSHelpers::GetParamRequiredDebugLog<std::string>(nh, "deformable_type", __func__);
+        const std::string deformable_type = val.GetImmutable();
 
         if (deformable_type.compare("rope") == 0)
         {
@@ -92,7 +93,8 @@ namespace smmap
      */
     inline TaskType GetTaskType(ros::NodeHandle& nh)
     {
-        const std::string task_type = ROSHelpers::GetParamRequired<std::string>(nh, "task_type", __func__).GetImmutable();
+        const auto val = ROSHelpers::GetParamRequiredDebugLog<std::string>(nh, "task_type", __func__);
+        const std::string task_type = val.GetImmutable();
 
         std::unordered_map<std::string, TaskType> task_map{
             {"rope_cylinder_coverage",              TaskType::ROPE_CYLINDER_COVERAGE},
@@ -109,7 +111,8 @@ namespace smmap
             {"rope_drag_opposite_table",            TaskType::ROPE_DRAG_OPPOSITE_TABLE},
             {"rope_toward_table",                   TaskType::ROPE_TOWARD_TABLE},
             {"rope_cross",                          TaskType::ROPE_CROSS},
-            {"rope_zig_match",                      TaskType::ROPE_ZIG_MATCH}
+            {"rope_zig_match",                      TaskType::ROPE_ZIG_MATCH},
+            {"cloth_placemat_live_robot",           TaskType::CLOTH_PLACEMAT_LIVE_ROBOT}
         };
         
         try
@@ -265,6 +268,7 @@ namespace smmap
 
     ////////////////////////////////////////////////////////////////////////////
     // Cylinder Size Settings
+    // TODO: Update launch files to contain these defaults
     ////////////////////////////////////////////////////////////////////////////
 
     inline float GetCylinderRadius(ros::NodeHandle& nh)           // METERS
@@ -284,7 +288,8 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_radius", 0.04f);
 
             default:
-                throw_arc_exception(std::invalid_argument, "Unknown cylinder radius for task type " + std::to_string(GetTaskType(nh)));
+                const auto val = ROSHelpers::GetParamRequired<double>(nh, "cylinder_radius", __func__);
+                return (float)val.GetImmutable();
         }
     }
 
@@ -305,7 +310,8 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_height", 1.0f);
 
             default:
-                throw_arc_exception(std::invalid_argument, "Unknown cylinder height for task type " + std::to_string(GetTaskType(nh)));
+                const auto val = ROSHelpers::GetParamRequired<double>(nh, "cylinder_height", __func__);
+                return (float)val.GetImmutable();
         }
     }
 
@@ -326,7 +332,8 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_com_x", -0.3f);
 
             default:
-                throw_arc_exception(std::invalid_argument, "Unknown cylinder com for task type " + std::to_string(GetTaskType(nh)));
+                const auto val = ROSHelpers::GetParamRequired<double>(nh, "cylinder_com_x", __func__);
+                return (float)val.GetImmutable();
         }
     }
 
@@ -347,7 +354,8 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_com_y", 0.0f);
 
             default:
-                throw_arc_exception(std::invalid_argument, "Unknown cylinder com for task type " + std::to_string(GetTaskType(nh)));
+                const auto val = ROSHelpers::GetParamRequired<double>(nh, "cylinder_com_y", __func__);
+                return (float)val.GetImmutable();
         }
     }
 
@@ -368,7 +376,8 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_cylinder_com_z", 1.0f);
 
             default:
-                throw_arc_exception(std::invalid_argument, "Unknown cylinder com for task type " + std::to_string(GetTaskType(nh)));
+                const auto val = ROSHelpers::GetParamRequired<double>(nh, "cylinder_com_z", __func__);
+                return (float)val.GetImmutable();
         }
     }
 
@@ -400,7 +409,7 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    // Wall Size and Visibility Settings
+    // Rope Maze Wall Size and Visibility Settings
     ////////////////////////////////////////////////////////////////////////////
 
     inline float GetWallHeight(ros::NodeHandle& nh)             // METERS
@@ -463,7 +472,7 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    // Rope-Cylinder experiment settings
+    // Rope starting position settings
     ////////////////////////////////////////////////////////////////////////////
 
     inline float GetRopeCenterOfMassX(ros::NodeHandle& nh)    // METERS
@@ -841,7 +850,6 @@ namespace smmap
 
             case TaskType::ROPE_TOWARD_TABLE:
                 return ROSHelpers::GetParam(nh, "world_z_min", GetTableSurfaceZ(nh)- 0.6f);
-
 
             case TaskType::CLOTH_COLAB_FOLDING:
                 return -0.05;
