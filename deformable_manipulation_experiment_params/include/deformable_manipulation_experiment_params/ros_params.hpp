@@ -1402,19 +1402,46 @@ namespace smmap
         return "ar_pose_marker";
     }
 
-    inline std::string GetGripper0TF2Name()
+    inline std::string GetGripper0Name(ros::NodeHandle& nh)
     {
-        return "victor_left_gripper";
+        return ROSHelpers::GetParam<std::string>(nh, "gripper0_name", "left");
     }
 
-    inline std::string GetGripper1TF2Name()
+    inline std::string GetGripper1Name(ros::NodeHandle& nh)
     {
-        return "victor_right_gripper";
+        return ROSHelpers::GetParam<std::string>(nh, "gripper1_name", "right");
+    }
+
+    inline std::string GetGripper0TFName(ros::NodeHandle& nh)
+    {
+        const std::string name = GetGripper0Name(nh);
+        assert(name == "left" || name == "right");
+        return "victor_" + name + "_gripper";
+    }
+
+    inline std::string GetGripper1TFName(ros::NodeHandle& nh)
+    {
+        const std::string name = GetGripper1Name(nh);
+        assert(name == "left" || name == "right");
+        return "victor_" + name + "_gripper";
+    }
+
+    inline size_t GetGripperAttachedIdx(ros::NodeHandle& nh, const std::string& gripper_name)
+    {
+        const auto val = ROSHelpers::GetParamRequired<int>(nh, gripper_name + "_gripper_attached_node_idx", __func__);
+        const int idx = val.GetImmutable();
+        assert(idx >= 0);
+        return (size_t)idx;
     }
 
     ////////////////////////////////////////////////////////////////////////////
     // ROS TF Frame name settings
     ////////////////////////////////////////////////////////////////////////////
+
+    inline std::string GetBulletFrameName()
+    {
+        return "bullet_origin";
+    }
 
     inline std::string GetWorldFrameName()
     {

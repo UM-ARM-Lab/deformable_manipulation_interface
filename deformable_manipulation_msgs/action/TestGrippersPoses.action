@@ -1,4 +1,5 @@
 # define the goal
+std_msgs/Header header
 string[] gripper_names
 deformable_manipulation_msgs/VectorPose[] poses_to_test # Note that each entry in this vector should be N poses, where N is the number of grippers
 ---

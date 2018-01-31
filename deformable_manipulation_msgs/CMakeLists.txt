@@ -20,7 +20,6 @@ add_message_files(
     ConfidenceStamped.msg
     VectorPose.msg
     SimulatorFeedback.msg
-    PointCloud.msg
     ObjectConfiguration.msg
 )
 
@@ -34,6 +33,7 @@ add_service_files(
     GetGripperPose.srv
     GetGripperStretchingVectorInfo.srv
     GetPointSet.srv
+    GetVector3Set.srv
     GetMirrorLine.srv
     GetFreeSpaceGraph.srv
     GetSignedDistanceField.srv
