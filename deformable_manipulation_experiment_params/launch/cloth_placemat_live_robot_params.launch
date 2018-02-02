@@ -59,10 +59,10 @@
 
     <!-- World parameters for planning - used by both nodes -->
     <arg name="grid_resolution"         value="0.02"/>
-    <arg name="world_x_min"             value="$(eval table_surface_x - table_x_half_extents / 1.5)"/>
-    <arg name="world_x_max"             value="$(eval table_surface_x + table_x_half_extents / 1.5)"/>
-    <arg name="world_y_min"             value="$(eval table_surface_y - table_y_half_extents / 1.5)"/>
-    <arg name="world_y_max"             value="$(eval table_surface_y + table_y_half_extents / 1.5)"/>
+    <arg name="world_x_min"             value="$(eval table_surface_x - table_x_half_extents / 1.0)"/>
+    <arg name="world_x_max"             value="$(eval table_surface_x + table_x_half_extents / 1.0)"/>
+    <arg name="world_y_min"             value="$(eval table_surface_y - table_y_half_extents / 1.0)"/>
+    <arg name="world_y_max"             value="$(eval table_surface_y + table_y_half_extents / 1.0)"/>
     <arg name="world_z_min"             value="$(eval table_height - 0.1)"/>
     <arg name="world_z_max"             value="$(eval table_height + 0.2)"/>
 
