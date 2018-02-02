@@ -13,7 +13,7 @@
     <arg name="table_x_half_extents"    value="$(eval 30.0 / 2.0 * 0.0254)"/> <!-- 30 inches is the width of the table, converted into meters -->
     <arg name="table_y_half_extents"    value="$(eval 42.0 / 2.0 * 0.0254)"/> <!-- 42 inches is the length of the table, converted into meters -->
     <arg name="table_height"            value="0.7005"/>                      <!-- Height is mostly arbitrary, set to be above the floor somewhere and work well with the SDF resolution -->
-    <arg name="table_thickness"         value="0.05"/>
+    <arg name="table_thickness"         value="0.1005"/>
 
     <param name="table_x_half_extents"  value="$(arg table_x_half_extents)" type="double"/>
     <param name="table_y_half_extents"  value="$(arg table_y_half_extents)" type="double"/>
