@@ -8,56 +8,33 @@ namespace smmap
     class XYZGrid
     {
         public:
-            XYZGrid(const double world_x_min,
+            XYZGrid(const Eigen::Isometry3d& origin_transform,
+                    const std::string& frame,
                     const double world_x_step,
-                    const int64_t world_x_num_steps,
-
-                    const double world_y_min,
                     const double world_y_step,
-                    const int64_t world_y_num_steps,
-
-                    const double world_z_min,
                     const double world_z_step,
-                    const int64_t world_z_num_steps_);
+                    const ssize_t world_x_num_steps,
+                    const ssize_t world_y_num_steps,
+                    const ssize_t world_z_num_steps);
 
-            ssize_t xyzIndexToGridIndex(const ssize_t x_ind, const ssize_t y_ind, const ssize_t z_ind) const;
-            ssize_t worldPosToGridIndex(const double x, const double y, const double z) const;
-            ssize_t worldPosToGridIndex(const Eigen::Vector3d& vec) const;
-            ssize_t worldPosToGridIndexClamped(const double x, const double y, const double z) const;
-            ssize_t worldPosToGridIndexClamped(const Eigen::Vector3d& vec) const;
-
-            Eigen::Vector3d roundToGrid(const Eigen::Vector3d& vec) const;
-
-            double xIndToWorldX(ssize_t x_ind) const;
-            double yIndToWorldY(ssize_t y_ind) const;
-            double zIndToWorldZ(ssize_t z_ind) const;
-
-            double minStepDimension() const;
-
-            double getXMin() const
+            std::string getFrame() const
             {
-                return world_x_min_;
-            }
-            double getYMin() const
-            {
-                return world_y_min_;
-            }
-            double getZMin() const
-            {
-                return world_z_min_;
+                return frame_;
             }
 
-            double getXMax() const
+            Eigen::Isometry3d getOriginTransform() const
             {
-                return xIndToWorldX(world_x_num_steps_ - 1);
+                return transform_from_world_to_index0_;
             }
-            double getYMax() const
+
+            Eigen::Isometry3d getInverseOriginTransform() const
             {
-                return yIndToWorldY(world_y_num_steps_ - 1);
+                return transform_from_index0_to_world_;
             }
-            double getZMax() const
+
+            double minStepDimension() const
             {
-                return zIndToWorldZ(world_z_num_steps_ - 1);
+                return std::min({world_x_step_, world_y_step_, world_z_step_});
             }
 
             int64_t getXNumSteps() const
@@ -80,19 +57,32 @@ namespace smmap
                 return world_x_num_steps_ * world_y_num_steps_ * world_z_num_steps_;
             }
 
+            ssize_t xyzIndexToGridIndex(const ssize_t x_ind, const ssize_t y_ind, const ssize_t z_ind) const;
+            Eigen::Vector3d xyzIndexToWorldPosition(const ssize_t x_ind, const ssize_t y_ind, const ssize_t z_ind) const;
+            ssize_t worldPosToGridIndex(const double x, const double y, const double z) const;
+            ssize_t worldPosToGridIndex(const Eigen::Vector3d& pos) const;
+            ssize_t worldPosToGridIndexClamped(const double x, const double y, const double z) const;
+            ssize_t worldPosToGridIndexClamped(const Eigen::Vector3d& pos) const;
+
+            Eigen::Vector3d roundToGrid(const Eigen::Vector3d& pos) const;
+
+
         private:
+            /// Variables describing the frame of the grid
+            const std::string frame_;
+            const Eigen::Isometry3d transform_from_world_to_index0_; // transform from the origin of frame_ to the grid cell at index (0, 0, 0)
+            const Eigen::Isometry3d transform_from_index0_to_world_; // transform from the grid cell at index (0, 0, 0) to the origin of frame_
+
             /// Variables describing the extents of the graph
-            const double world_x_min_;
             const double world_x_step_;
-            const int64_t world_x_num_steps_;
-
-            const double world_y_min_;
             const double world_y_step_;
-            const int64_t world_y_num_steps_;
-
-            const double world_z_min_;
             const double world_z_step_;
-            const int64_t world_z_num_steps_;
+            const double inv_world_x_step_;
+            const double inv_world_y_step_;
+            const double inv_world_z_step_;
+            const ssize_t world_x_num_steps_;
+            const ssize_t world_y_num_steps_;
+            const ssize_t world_z_num_steps_;
     };
 }
 

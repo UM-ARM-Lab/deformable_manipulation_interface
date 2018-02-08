@@ -683,7 +683,7 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    // World size settings for Graph/Dijkstras
+    // World size settings for Graph/Dijkstras - DEFINED IN BULLET FRAME, but WORLD SIZES
     ////////////////////////////////////////////////////////////////////////////
 
     inline double GetWorldXStep(ros::NodeHandle& nh)    // METERS

@@ -19,7 +19,7 @@
     <!-- Planner visualization arguments -->
     <arg name="disable_all_visualizations"              default="false"/>
     <arg name="visualize_object_desired_motion"         default="true"/>
-    <arg name="visualize_gripper_motion"                default="false"/>
+    <arg name="visualize_gripper_motion"                default="true"/>
     <arg name="visualize_object_predicted_motion"       default="false"/>
     <arg name="visualize_prm"                           default="true"/>
     <arg name="visualize_free_space_graph"              default="true"/>
@@ -77,7 +77,7 @@
         <param name="visualize_object_predicted_motion" value="$(arg visualize_object_predicted_motion)"    type="bool"/>
         <param name="visualize_prm"                     value="$(arg visualize_prm)"                        type="bool"/>
         <param name="visualize_free_space_graph"        value="$(arg visualize_free_space_graph)"           type="bool"/>
-        <param name="visualize_correspondences"         vaule="$(arg visualize_correspondences)"            type="bool"/>
+        <param name="visualize_correspondences"         value="$(arg visualize_correspondences)"            type="bool"/>
 
         <group ns="task">
             <param name="stretching_correction_from_task"      value="true"                                 type="bool"/>
