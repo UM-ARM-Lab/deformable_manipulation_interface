@@ -81,12 +81,14 @@
         <param name="world_z_min"           value="$(arg world_z_min)"      type="double"/>
         <param name="world_z_max"           value="$(arg world_z_max)"      type="double"/>
 
-    <!-- TF2 parameters and settings to enable live robot demonstrations -->
-    <!-- Note that we are using convenient coordinates for the table, so we need a transform to move to connect to the world frame -->
-    <node name="bullet_to_table_surface_tf_publisher"
-          pkg="tf2_ros"
-          type="static_transform_publisher"
-          args="-$(arg table_surface_x) -$(arg table_surface_y) -$(arg table_surface_z) 0 0 0 table_surface bullet_origin"/>
+    <group ns="static_transform_publishers">
+        <!-- TF2 parameters and settings to enable live robot demonstrations -->
+        <!-- Note that we are using convenient coordinates for the table, so we need a transform to move to connect to the world frame -->
+        <node name="bullet_to_table_surface_tf_publisher"
+              pkg="tf2_ros"
+              type="static_transform_publisher"
+              args="-$(arg table_surface_x) -$(arg table_surface_y) -$(arg table_surface_z) 0 0 0 table_surface bullet_origin"/>
+    </group>
 
     <group ns="deform_simulator_node">
         <param name="num_simsteps_per_gripper_command"  value="10"      type="int"/>

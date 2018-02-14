@@ -1444,6 +1444,22 @@ namespace smmap
         return (size_t)idx;
     }
 
+    inline double GetClothFilterMaxDistanceScaleFactor(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "max_distance_scale_factor", __func__);
+        const auto scale_factor = val.GetImmutable();
+        assert(scale_factor >= 1.0);
+        return scale_factor;
+    }
+
+    inline double GetClothFilterTimeScaleFactor(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "time_scale_factor", __func__);
+        const auto scale_factor = val.GetImmutable();
+        assert(scale_factor >= 1.0);
+        return scale_factor;
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // ROS TF Frame name settings
     ////////////////////////////////////////////////////////////////////////////
