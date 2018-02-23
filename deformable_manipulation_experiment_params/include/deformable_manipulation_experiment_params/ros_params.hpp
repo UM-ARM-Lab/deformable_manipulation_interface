@@ -4,10 +4,10 @@
 #include <cmath>
 #include <string>
 #include <chrono>
+#include <unordered_map>
 #include <arc_utilities/ros_helpers.hpp>
 #include <arc_utilities/arc_exceptions.hpp>
 #include <ros/package.h>
-#include <unordered_map>
 
 #include "deformable_manipulation_experiment_params/task_enums.h"
 
@@ -205,6 +205,7 @@ namespace smmap
         }
     }
 
+    // TODO: where is this still used? Is it being used correctly vs ControllerMinDistToObstacles?
     inline double GetRobotGripperRadius()                   // METERS
     {
         return 0.023;
@@ -214,6 +215,11 @@ namespace smmap
     inline double GetRobotMinGripperDistanceToObstacles()   // METERS
     {
         return 0.005;
+    }
+
+    inline double GetControllerMinDistanceToObstacles(ros::NodeHandle& nh) // METERS
+    {
+        return ROSHelpers::GetParam(nh, "controller_min_distance_to_obstacles", 0.07);
     }
 
     inline double GetRRTMinGripperDistanceToObstacles(ros::NodeHandle& nh)
@@ -669,7 +675,7 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    // (Fake) Robot settings
+    // Robot settings
     ////////////////////////////////////////////////////////////////////////////
 
     inline double GetRobotControlPeriod(ros::NodeHandle& nh) // SECONDS
@@ -677,9 +683,14 @@ namespace smmap
         return ROSHelpers::GetParamDebugLog(nh, "robot_control_rate", 0.01);
     }
 
-    inline double GetMaxGripperVelocity(ros::NodeHandle& nh)
+    inline double GetMaxGripperVelocityNorm(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParamDebugLog(nh, "max_gripper_velocity", 0.2);
+    }
+
+    inline double GetMaxDOFVelocityNorm(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "max_dof_velocity", 1.0);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1291,19 +1302,19 @@ namespace smmap
     // ROS Topic settings
     ////////////////////////////////////////////////////////////////////////////
 
-    inline std::string GetTestGrippersPosesTopic(ros::NodeHandle& nh)
+    inline std::string GetTestRobotMotionTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamDebugLog<std::string>(nh, "test_grippers_poses_topic", "test_grippers_poses");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "test_robot_motion_topic", "test_robot_motion");
     }
 
-    inline std::string GetExecuteGrippersMovementTopic(ros::NodeHandle& nh)
+    inline std::string GetExecuteRobotMotionTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamDebugLog<std::string>(nh, "execute_grippers_movement_topic", "execute_grippers_movement");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "execute_robot_motion_topic", "execute_robot_motion");
     }
 
-    inline std::string GetSimulatorFeedbackTopic(ros::NodeHandle& nh)
+    inline std::string GetWorldStateTopic(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamDebugLog<std::string>(nh, "simulator_feedback_topic", "simulator_feedback");
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "world_state_topic", "world_state");
     }
 
     inline std::string GetCoverPointsTopic(ros::NodeHandle& nh)
@@ -1350,6 +1361,11 @@ namespace smmap
     inline std::string GetGripperPoseTopic(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_gripper_pose_topic", "get_gripper_pose");
+    }
+
+    inline std::string GetRobotConfigurationTopic(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_robot_configuration_topic", "get_robot_configuration");
     }
 
     inline std::string GetObjectInitialConfigurationTopic(ros::NodeHandle& nh)

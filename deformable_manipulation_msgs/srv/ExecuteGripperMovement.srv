@@ -1,7 +1,0 @@
-# define the goal
-std_msgs/Header header
-string[] grippers_names
-geometry_msgs/Pose[] gripper_poses 
----
-# define the result
-deformable_manipulation_msgs/SimulatorFeedback sim_state
