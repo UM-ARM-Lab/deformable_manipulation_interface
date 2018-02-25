@@ -2,6 +2,7 @@
     <!-- Arguments to override default params -->
     <arg name="task_max_time"           default="3600.0"/>
     <param name="max_gripper_velocity"  value="0.05"/>
+    <param name="max_dof_velocity"      value="0.8"/>
 
     <!-- Defines which world building routines we use, and which task specification -->
     <param name="deformable_type"       value="cloth"                       type="string"/>

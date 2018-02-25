@@ -71,6 +71,11 @@
         <param name="planner_logging_enabled"           value="$(arg planner_logging_enabled)"              type="bool"/>
         <param name="controller_logging_enabled"        value="$(arg controller_logging_enabled)"           type="bool"/>
 
+        <param name="log_folder"                            value="$(find smmap)/logs/$(arg task_type)/$(arg test_id)/" type="string"/>
+        <param name="use_stored_world_state"                value="false"                                               type="bool"/>
+        <param name="world_state_file_name_prefix"          value="world_state"                                         type="string"/>
+        <param name="world_state_file_name_suffix_to_load"  value="2018-02-24__19-27-39-812"                            type="string"/>
+
         <param name="disable_all_visualizations"        value="$(arg disable_all_visualizations)"           type="bool"/>
         <param name="visualize_object_desired_motion"   value="$(arg visualize_object_desired_motion)"      type="bool"/>
         <param name="visualize_gripper_motion"          value="$(arg visualize_gripper_motion)"             type="bool"/>
@@ -136,7 +141,7 @@
 
         <!-- Sampling controller arguments -->
         <group ns="sampling_controller">
-            <param name="gripper_controller_type"       value="random_sampling"                         type="string"/>
+            <param name="gripper_controller_type"       value="nomad_optimization"                      type="string"/>
             <param name="max_sampling_counts"           value="5000"                                    type="int"/>
             <param name="stretching_cosine_threshold"   value="0.75"                                    type="double"/>
         </group>
