@@ -96,7 +96,7 @@
             <param name="desired_motion_scale_factor"         value="$(arg desired_motion_scale_factor)"    type="double"/>
         </group>
 
-        <param name="enable_stuck_detection"                                value="true"        type="bool"/>
+        <param name="enable_stuck_detection"                                value="false"        type="bool"/>
         <group ns="stuck_detection">
             <param name="num_lookahead_steps"                               value="10"          type="int"/>
             <param name="band_overstretch_prediction_annealing_factor"      value="0.5"         type="double"/>
@@ -129,7 +129,7 @@
             <param name="collision_scaling_factor"      value="1000.0"          type="double"/>
         </group>
 
-        <group ns="sampling_controller">
+        <group ns="stretching_avoidance_controller">
             <param name="stretching_cosine_threshold"   value="0.55"            type="double"/>
             <param name="fix_step_size"                 value="false"           type="bool"/>
         </group>

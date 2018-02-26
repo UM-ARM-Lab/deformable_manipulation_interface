@@ -1221,38 +1221,43 @@ namespace smmap
     // TODO: Update this name, Sampling based motion controller paramters
     ////////////////////////////////////////////////////////////////////////////
 
-    inline GripperControllerType GetGripperControllerType(ros::NodeHandle& nh)
+    inline StretchingAvoidanceControllerSolverType GetStretchingAvoidanceControllerSolverType(ros::NodeHandle& nh)
     {
-        std::string gripper_controller_type =  ROSHelpers::GetParam<std::string>(nh, "sampling_controller/gripper_controller_type", "random_sampling");
+        std::string solver_type = ROSHelpers::GetParam<std::string>(nh, "stretching_avoidance_controller/solver_type", "random_sampling");
 
-        if (gripper_controller_type.compare("random_sampling") == 0)
+        std::unordered_map<std::string, StretchingAvoidanceControllerSolverType> solver_map {
+            {"random_sampling",     StretchingAvoidanceControllerSolverType::RANDOM_SAMPLING},
+            {"nomad_optimization",  StretchingAvoidanceControllerSolverType::NOMAD_OPTIMIZATION},
+            {"gradient_descent",    StretchingAvoidanceControllerSolverType::GRADIENT_DESCENT},
+        };
+
+        try
         {
-            return GripperControllerType::RANDOM_SAMPLING;
+            return solver_map.at(solver_type);
         }
-        else if (gripper_controller_type.compare("nomad_optimization") == 0)
+        catch (std::out_of_range& e)
         {
-            return GripperControllerType::NOMAD_OPTIMIZATION;
-        }
-        else
-        {
-            ROS_FATAL_STREAM("Unknown gripper controller type: " << gripper_controller_type);
-            throw_arc_exception(std::invalid_argument, "Unknown gripper controller type: " + gripper_controller_type);
+            ROS_FATAL_STREAM("Unknown solver type: " << solver_type);
+            throw_arc_exception(std::invalid_argument, "Unknown solver type: " + solver_type);
         }
     }
 
     inline int64_t GetMaxSamplingCounts(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "sampling_controller/max_sampling_counts", 1000);
+        const auto val = ROSHelpers::GetParamRequired<int>(nh, "stretching_avoidance_controller/max_sampling_counts", __func__);
+        return val.GetImmutable();
     }
 
     inline bool GetGrippersMotionSampleSize(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "sampling_controller/fix_step_size", true);
+        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "stretching_avoidance_controller/fix_step_size", __func__);
+        return val.GetImmutable();
     }
 
     inline double GetStretchingCosineThreshold(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "sampling_controller/stretching_cosine_threshold", 0.75);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "stretching_avoidance_controller/stretching_cosine_threshold", __func__);
+        return val.GetImmutable();
     }
 
     ////////////////////////////////////////////////////////////////////////////

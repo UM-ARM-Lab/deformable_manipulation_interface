@@ -22,6 +22,8 @@
     <arg name="visualize_gripper_motion"                default="true"/>
     <arg name="visualize_object_predicted_motion"       default="true"/>
     <arg name="visualize_prm"                           default="false"/>
+    <arg name="visualize_free_space_graph"              default="false"/>
+    <arg name="visualize_correspondences"               default="true"/>
 
    <!-- Model arguments -->
     <!-- Diminishing rigidity -->
@@ -61,6 +63,7 @@
         <param name="feedback_covariance"               value="$(arg feedback_covariance)"      type="double"/>
         <param name="start_bullet_viewer"               value="$(arg start_bullet_viewer)"      type="bool"/>
         <param name="screenshots_enabled"               value="$(arg screenshots_enabled)"      type="bool"/>
+        <param name="settle_time"                       value="4.0"/>
     </group>
     <env name="OSG_FILE_PATH" value="$(find OpenSceneGraph)/data"/>
     <node name="deform_simulator_node" pkg="deform_simulator" type="custom_scene_node" required="true" if="$(arg launch_simulator)"/>
@@ -75,11 +78,17 @@
         <param name="planner_logging_enabled"           value="$(arg planner_logging_enabled)"              type="bool"/>
         <param name="controller_logging_enabled"        value="$(arg controller_logging_enabled)"           type="bool"/>
 
+        <param name="use_stored_world_state"                value="false"                                   type="bool"/>
+        <param name="world_state_file_name_prefix"          value="world_state"                             type="string"/>
+        <param name="world_state_file_name_suffix_to_load"  value="2018-02-24__19-27-39-812"                type="string"/>
+
         <param name="disable_all_visualizations"        value="$(arg disable_all_visualizations)"           type="bool"/>
         <param name="visualize_object_desired_motion"   value="$(arg visualize_object_desired_motion)"      type="bool"/>
         <param name="visualize_gripper_motion"          value="$(arg visualize_gripper_motion)"             type="bool"/>
         <param name="visualize_object_predicted_motion" value="$(arg visualize_object_predicted_motion)"    type="bool"/>
         <param name="visualize_prm"                     value="$(arg visualize_prm)"                        type="bool"/>
+        <param name="visualize_free_space_graph"        value="$(arg visualize_free_space_graph)"           type="bool"/>
+        <param name="visualize_correspondences"         value="$(arg visualize_correspondences)"            type="bool"/>
 
         <group ns="task">
             <param name="stretching_correction_from_task"      value="false"                                type="bool"/>
@@ -136,9 +145,9 @@
             <param name="optimization_enabled"          value="true"                                    type="bool"/>
         </group>
 
-        <!-- Sampling controller arguments -->
-        <group ns="sampling_controller">
-            <param name="gripper_controller_type"       value="random_sampling"                         type="string"/>
+        <!-- stretching_avoidance_controller arguments -->
+        <group ns="stretching_avoidance_controller">
+            <param name="solver_type"                   value="random_sampling"                         type="string"/>
             <param name="max_sampling_counts"           value="5000"                                    type="int"/>
         </group>
     </group>

@@ -131,10 +131,11 @@
         </group>
 
         <!-- Sampling controller arguments -->
-        <group ns="sampling_controller">
-            <param name="gripper_controller_type"       value="random_sampling"                         type="string"/>
+        <group ns="stretching_avoidance_controller">
+            <param name="solver_type"                   value="random_sampling"                         type="string"/>
             <param name="max_sampling_counts"           value="5000"                                    type="int"/>
             <param name="stretching_cosine_threshold"   value="0.75"                                    type="double"/>
+            <param name="fix_step_size"                 value="false"                                   type="bool"/>
         </group>
     </group>
     <node name="smmap_planner_node" pkg="smmap" type="planner_test_node_$(arg bandit_algorithm)" required="true" if="$(arg launch_planner)"/>

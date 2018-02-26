@@ -169,7 +169,7 @@
             <param name="collision_scaling_factor"      value="600.0"           type="double"/>
         </group>
 
-		<group ns="sampling_controller">
+		<group ns="stretching_avoidance_controller">
             <param name="stretching_cosine_threshold"   value="0.4"             type="double"/>
             <param name="fix_step_size"                 value="false"           type="bool"/>
         </group>

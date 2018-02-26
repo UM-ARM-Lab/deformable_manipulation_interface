@@ -45,10 +45,11 @@ namespace smmap
         MULTI_MODEL_CONTROLLER_TEST
     };
 
-    enum GripperControllerType
+    enum StretchingAvoidanceControllerSolverType
     {
         RANDOM_SAMPLING,
-        NOMAD_OPTIMIZATION
+        NOMAD_OPTIMIZATION,
+        GRADIENT_DESCENT
     };
 
 }

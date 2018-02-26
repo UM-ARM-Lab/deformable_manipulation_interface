@@ -10,19 +10,20 @@
     <!-- Simulator arguments -->
     <arg name="launch_simulator"                        default="true"/>
     <arg name="feedback_covariance"                     default="0.0"/>
-    <arg name="start_bullet_viewer"                     default="true"/>
+    <arg name="start_bullet_viewer"                     default="false"/>
     <arg name="screenshots_enabled"                     default="false"/>
 
     <!-- Planner trial type -->
-    <arg name="planner_trial_type"                      default="diminishing_rigidity_single_model_least_squares_controller"/>
+    <!--<arg name="planner_trial_type"                      default="diminishing_rigidity_single_model_least_squares_controller"/>-->
+    <arg name="planner_trial_type"                      default="constraint_single_model_constraint_controller"/>
 
     <!-- Planner visualization arguments -->
-    <arg name="disable_all_visualizations"              default="false"/>
+    <arg name="disable_all_visualizations"              default="true"/>
     <arg name="visualize_object_desired_motion"         default="true"/>
     <arg name="visualize_gripper_motion"                default="true"/>
     <arg name="visualize_object_predicted_motion"       default="false"/>
     <arg name="visualize_prm"                           default="true"/>
-    <arg name="visualize_free_space_graph"              default="true"/>
+    <arg name="visualize_free_space_graph"              default="false"/>
     <arg name="visualize_correspondences"               default="true"/>
 
     <!-- Model arguments -->
@@ -71,10 +72,9 @@
         <param name="planner_logging_enabled"           value="$(arg planner_logging_enabled)"              type="bool"/>
         <param name="controller_logging_enabled"        value="$(arg controller_logging_enabled)"           type="bool"/>
 
-        <param name="log_folder"                            value="$(find smmap)/logs/$(arg task_type)/$(arg test_id)/" type="string"/>
-        <param name="use_stored_world_state"                value="false"                                               type="bool"/>
-        <param name="world_state_file_name_prefix"          value="world_state"                                         type="string"/>
-        <param name="world_state_file_name_suffix_to_load"  value="2018-02-24__19-27-39-812"                            type="string"/>
+        <param name="use_stored_world_state"                value="false"                                   type="bool"/>
+        <param name="world_state_file_name_prefix"          value="world_state"                             type="string"/>
+        <param name="world_state_file_name_suffix_to_load"  value="2018-02-24__19-27-39-812"                type="string"/>
 
         <param name="disable_all_visualizations"        value="$(arg disable_all_visualizations)"           type="bool"/>
         <param name="visualize_object_desired_motion"   value="$(arg visualize_object_desired_motion)"      type="bool"/>
@@ -85,7 +85,7 @@
         <param name="visualize_correspondences"         value="$(arg visualize_correspondences)"            type="bool"/>
 
         <group ns="task">
-            <param name="stretching_correction_from_task"      value="true"                                 type="bool"/>
+            <param name="stretching_correction_from_task"      value="false"                                 type="bool"/>
         </group>
 
         <group ns="rrt">
@@ -139,11 +139,11 @@
             <param name="optimization_enabled"          value="true"                                    type="bool"/>
         </group>
 
-        <!-- Sampling controller arguments -->
-        <group ns="sampling_controller">
-            <param name="gripper_controller_type"       value="nomad_optimization"                      type="string"/>
+        <!-- Stretching avoidance controller arguments -->
+        <group ns="stretching_avoidance_controller">
+            <!--<param name="solver_type"                   value="nomad_optimization"                      type="string"/>-->
+            <param name="solver_type"                   value="random_sampling"                         type="string"/>
             <param name="max_sampling_counts"           value="5000"                                    type="int"/>
-            <param name="stretching_cosine_threshold"   value="0.75"                                    type="double"/>
         </group>
     </group>
     <node name="smmap_planner_node" pkg="smmap" type="planner_test_node_$(arg bandit_algorithm)" required="true" if="$(arg launch_planner)"/>
