@@ -10,7 +10,7 @@
     <!-- Simulator arguments -->
     <arg name="launch_simulator"                        default="true"/>
     <arg name="feedback_covariance"                     default="0.0"/>
-    <arg name="start_bullet_viewer"                     default="false"/>
+    <arg name="start_bullet_viewer"                     default="true"/>
     <arg name="screenshots_enabled"                     default="false"/>
 
     <!-- Planner trial type -->
@@ -18,13 +18,13 @@
     <arg name="planner_trial_type"                      default="constraint_single_model_constraint_controller"/>
 
     <!-- Planner visualization arguments -->
-    <arg name="disable_all_visualizations"              default="true"/>
+    <arg name="disable_all_visualizations"              default="false"/>
     <arg name="visualize_object_desired_motion"         default="true"/>
     <arg name="visualize_gripper_motion"                default="true"/>
     <arg name="visualize_object_predicted_motion"       default="false"/>
     <arg name="visualize_prm"                           default="true"/>
     <arg name="visualize_free_space_graph"              default="false"/>
-    <arg name="visualize_correspondences"               default="true"/>
+    <arg name="visualize_correspondences"               default="false"/>
 
     <!-- Model arguments -->
     <!-- Diminishing rigidity -->
@@ -85,7 +85,7 @@
         <param name="visualize_correspondences"         value="$(arg visualize_correspondences)"            type="bool"/>
 
         <group ns="task">
-            <param name="stretching_correction_from_task"      value="false"                                 type="bool"/>
+            <param name="stretching_correction_from_task"   value="false"                                   type="bool"/>
         </group>
 
         <group ns="rrt">
@@ -142,8 +142,9 @@
         <!-- Stretching avoidance controller arguments -->
         <group ns="stretching_avoidance_controller">
             <!--<param name="solver_type"                   value="nomad_optimization"                      type="string"/>-->
-            <param name="solver_type"                   value="random_sampling"                         type="string"/>
-            <param name="max_sampling_counts"           value="5000"                                    type="int"/>
+            <!--<param name="solver_type"                   value="random_sampling"                         type="string"/>-->
+            <param name="solver_type"                   value="gradient_descent"                       type="string"/>
+            <param name="max_sampling_counts"           value="500"                                    type="int"/>
         </group>
     </group>
     <node name="smmap_planner_node" pkg="smmap" type="planner_test_node_$(arg bandit_algorithm)" required="true" if="$(arg launch_planner)"/>
