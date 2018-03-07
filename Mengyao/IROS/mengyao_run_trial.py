@@ -10,6 +10,9 @@ def mengyao_run_trial(experiment,
               controller_logging_enabled = None,
               test_id = None,
               planning_horizon = None,
+
+              planner_trial_type = None,
+
               optimization_enabled = None,
               bandit_algorithm = None,
               multi_model = None,
@@ -55,6 +58,9 @@ def mengyao_run_trial(experiment,
     # Setup planner parameters
     if planning_horizon is not None:
         roslaunch_command.append('planning_horizion:=' + str(planning_horizon))
+
+    if planner_trial_type is not None:
+        roslaunch_command.append('planner_trial_type:=' + str(planner_trial_type))
 
     if optimization_enabled is not None:
         roslaunch_command.append('optimization_enabled:=' + str(optimization_enabled))
