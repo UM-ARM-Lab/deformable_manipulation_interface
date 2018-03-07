@@ -13,7 +13,7 @@ file_stretching_mm_08 = 'stretching_status/NM/cos_08/realtime_stretching_factor.
 file_t_dd_wo = 'stretching_status/BM/control_time.txt';
 file_t_mm_04 = 'stretching_status/NM/cos_04/control_time.txt';
 file_t_mm_06 = 'stretching_status/NM/cos_06/control_time.txt';
-file_t_mm_08 = 'stretching_status/NM/cos_08/control_time.txt';
+file_t_mm_08 = 'stretching_status/cloth_single_pole/NM/cos_08/control_time.txt';
 
 fig_path_mm = 'stretching_status/cloth_single_pole/realtime_stretching_factor.pdf';
 

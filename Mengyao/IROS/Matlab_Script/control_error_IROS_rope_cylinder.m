@@ -6,12 +6,12 @@ space_hold_2 = '%n %n';
 
 %%%%%%%%%%% Error Analysis %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 file_error_1 = 'controll_error/control_error_realtime.txt';
-file_t_1 = 'controll_error/cloth_single_pole/control_time.txt';
+file_t_1 = 'controll_error/control_time.txt';
 
 parameter_set_dd_wo = 'e^r_B';
 parameter_set_mm = 'e^r_N';
 
-[mean_error_mm, mean_error_dd_wo]  = readData_fn(file_error_1, space_hold_2);
+[mean_error_mm, mean_error_dd_wo]  = textread(file_error_1, space_hold_2,'headerlines',1);
 
 [t_1] = textread(file_t_1, space_hold_1, 'headerlines',1);
 t_dd_wo = t_1;
