@@ -143,8 +143,8 @@
         <group ns="stretching_avoidance_controller">
             <!--<param name="solver_type"                   value="nomad_optimization"                      type="string"/>-->
             <!--<param name="solver_type"                   value="random_sampling"                         type="string"/>-->
-            <param name="solver_type"                   value="gradient_descent"                       type="string"/>
-            <param name="max_sampling_counts"           value="500"                                    type="int"/>
+            <param name="solver_type"                   value="gradient_descent"                        type="string"/>
+            <param name="max_sampling_counts"           value="5000"                                    type="int"/>
         </group>
     </group>
     <node name="smmap_planner_node" pkg="smmap" type="planner_test_node_$(arg bandit_algorithm)" required="true" if="$(arg launch_planner)"/>

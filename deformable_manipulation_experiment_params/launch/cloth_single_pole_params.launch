@@ -96,7 +96,7 @@
             <param name="desired_motion_scale_factor"         value="$(arg desired_motion_scale_factor)"    type="double"/>
         </group>
 
-        <param name="controller_min_distance_to_obstacles"    value="0.005"                                 type="double"/>
+        <param name="controller_min_distance_to_obstacles"    value="0.015"                                  type="double"/>
 
         <param name="enable_stuck_detection"                                value="false"        type="bool"/>
         <group ns="stuck_detection">
