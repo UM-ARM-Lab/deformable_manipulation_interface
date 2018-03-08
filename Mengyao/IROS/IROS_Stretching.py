@@ -30,6 +30,7 @@ def mengyao_run_trials(experiment, generate_screenshots="false", log_prefix=""):
         # rope_cylinder on BenchMark model
         mengyao_run_trial(experiment = "rope_cylinder_two_grippers",
           start_bullet_viewer = "false",
+          disable_all_visualizations="true",
           controller_logging_enabled = "true",
           test_id = log_prefix + ("stretching_status/BM"),
           planner_trial_type = "diminishing_rigidity_single_model_constraint_controller",
@@ -43,6 +44,7 @@ def mengyao_run_trials(experiment, generate_screenshots="false", log_prefix=""):
         # rope_cylinder on new model
         mengyao_run_trial(experiment = "rope_cylinder_two_grippers",
           start_bullet_viewer = "false",
+          disable_all_visualizations="true",
           controller_logging_enabled = "true",
           test_id = log_prefix + ("stretching_status/NM"),
           planner_trial_type = "constraint_single_model_constraint_controller",
@@ -57,6 +59,7 @@ def mengyao_run_trials(experiment, generate_screenshots="false", log_prefix=""):
         # cloth_single_pole on Bench mark model
         mengyao_run_trial(experiment = "cloth_single_pole",
           start_bullet_viewer = "false",
+          disable_all_visualizations="true",
           controller_logging_enabled = "true",
           test_id = log_prefix + ("stretching_status/BM"),
           planner_trial_type = "diminishing_rigidity_single_model_constraint_controller",
@@ -70,6 +73,7 @@ def mengyao_run_trials(experiment, generate_screenshots="false", log_prefix=""):
         # cloth_single_pole on new model with cos = 0.4 (stretching parameter)
         mengyao_run_trial(experiment = "cloth_single_pole",
           start_bullet_viewer = "false",
+          disable_all_visualizations="true",
           controller_logging_enabled = "true",
           test_id = log_prefix + ("stretching_status/NM/cos_04"),
           planner_trial_type = "constraint_single_model_constraint_controller",
@@ -84,6 +88,7 @@ def mengyao_run_trials(experiment, generate_screenshots="false", log_prefix=""):
         stretching_threshold = 0.6
         mengyao_run_trial(experiment = "cloth_single_pole",
           start_bullet_viewer = "false",
+          disable_all_visualizations="true",
           controller_logging_enabled = "true",
           test_id = log_prefix + ("stretching_status/NM/cos_06"),
           planner_trial_type = "constraint_single_model_constraint_controller",
@@ -98,6 +103,7 @@ def mengyao_run_trials(experiment, generate_screenshots="false", log_prefix=""):
         stretching_threshold = 0.8
         mengyao_run_trial(experiment = "cloth_single_pole",
           start_bullet_viewer = "false",
+          disable_all_visualizations="true",
           controller_logging_enabled = "true",
           test_id = log_prefix + ("stretching_status/NM/cos_08"),
           planner_trial_type = "constraint_single_model_constraint_controller",

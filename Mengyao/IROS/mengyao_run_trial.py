@@ -6,6 +6,7 @@ import subprocess
 
 def mengyao_run_trial(experiment,
               start_bullet_viewer = None,
+              disable_all_visualizations = None,
               screenshots_enabled = None,
               controller_logging_enabled = None,
               test_id = None,
@@ -47,7 +48,7 @@ def mengyao_run_trial(experiment,
               max_correlation_strength_factor = None):
     # Constant values that we need
     # roslaunch_command = ["roslaunch", "smmap", "generic_experiment.launch task_type:=" + experiment]
-    roslaunch_command = ["roslaunch", "deformable_manipulation_experiment_params", "generic_experiment_mengyao.launch task_type:=" + experiment, "--screen"]
+    roslaunch_command = ["roslaunch", "deformable_manipulation_experiment_params", "generic_experiment_mengyao.launch task_type:=" + experiment]
 
     # Setup logging parameters
     if controller_logging_enabled is not None:
@@ -91,6 +92,7 @@ def mengyao_run_trial(experiment,
         roslaunch_command.append('rotational_dis_deformability:=' + str(rotational_dis_deformability))
 
     if stretching_cosine_threshold is not None:
+        roslaunch_command.append('stretching_cosine_threshold_override:=true')
         roslaunch_command.append('stretching_cosine_threshold:=' + str(stretching_cosine_threshold))
 
     # Experimental setup Params
@@ -120,6 +122,9 @@ def mengyao_run_trial(experiment,
     if start_bullet_viewer is not None:
         roslaunch_command.append('start_bullet_viewer:=' + str(start_bullet_viewer))
 
+    if disable_all_visualizations is not None:
+        roslaunch_command.append('disable_all_visualizations:=' + str(disable_all_visualizations))
+
     if calculate_regret is not None:
         roslaunch_command.append('calculate_regret:=' + str(calculate_regret))
 
@@ -140,7 +145,7 @@ def mengyao_run_trial(experiment,
     roslaunch_command += sys.argv[1:]
 
     log_folder = '~/Dropbox/catkin_ws/src/smmap/logs/' + experiment + '/' + test_id
-    roslaunch_command.append(' --screen > ' + log_folder + '/output_log.txt')
+    roslaunch_command.append('--screen > ' + log_folder + '/output_log.txt')
 
     cmd = ' '.join(roslaunch_command)
     print cmd, '\n'
