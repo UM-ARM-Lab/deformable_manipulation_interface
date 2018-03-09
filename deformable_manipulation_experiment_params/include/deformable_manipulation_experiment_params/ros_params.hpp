@@ -148,11 +148,6 @@ namespace smmap
         return val.GetImmutable();
     }
 
-    inline bool GetStretchingCorrectionFromTask(ros::NodeHandle& nh)
-    {
-        return ROSHelpers::GetParam(nh, "task/stretching_correction_from_task", true);
-    }
-
     inline float GetMaxStrain(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<float>(nh, "max_strain", __func__);
@@ -1248,7 +1243,7 @@ namespace smmap
         return val.GetImmutable();
     }
 
-    inline bool GetGrippersMotionSampleSize(ros::NodeHandle& nh)
+    inline bool GetUseFixedGripperDeltaSize(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<bool>(nh, "stretching_avoidance_controller/fix_step_size", __func__);
         return val.GetImmutable();

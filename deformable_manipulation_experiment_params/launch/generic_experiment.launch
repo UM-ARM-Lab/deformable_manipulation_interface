@@ -75,10 +75,6 @@
         <param name="visualize_object_predicted_motion" value="$(arg visualize_object_predicted_motion)"    type="bool"/>
         <param name="visualize_prm"                     value="$(arg visualize_prm)"                        type="bool"/>
 
-        <group ns="task">
-            <param name="stretching_correction_from_task"      value="true"                                 type="bool"/>
-        </group>
-
         <group ns="rrt">
             <param name="timeout"                       value="1200.0"                      type="double"/>
             <param name="reuse_old_results"             value="false"                       type="bool"/>

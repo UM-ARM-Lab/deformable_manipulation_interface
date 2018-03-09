@@ -1,6 +1,7 @@
 <launch>
     <!-- Arguments to override default params -->
     <arg name="task_max_time"           default="5.5"/>
+    <arg name="stretching_cosine_threshold" default="0.4"/>
 
     <!-- Defines which world building routines we use, and which task specification -->
     <param name="deformable_type"       value="rope"            type="string"/>
@@ -9,14 +10,24 @@
     <arg name="desired_motion_scale_factor"     default="100"/>
 
     <!-- Rope phyiscal parameters -->
-    <param name="rope_segment_length"   value="0.02"        type="double"/>
+    <param name="rope_segment_length"   value="0.02"       type="double"/>
     <param name="rope_num_links"        value="39"          type="int"/>
     <param name="rope_radius"           value="0.01"        type="double"/>
 
     <!-- Rope position params-->
-    <param name="rope_com_x"            value="0.7"         type="double"/>
+    <param name="rope_com_x"            value="0.75"         type="double"/>
     <param name="rope_com_y"            value="0.6"         type="double"/>
-    <param name="rope_com_z"            value="0.35"        type="double"/>
+    <param name="rope_com_z"            value="0.8"        type="double"/>
+
+    <!-- Set a unit vector defining what direction the rope is created in -->
+    <!--<param name="rope_extension_x"      value="0.0"/>-->
+    <!--<param name="rope_extension_y"      value="1.0"/>-->
+    <!--<param name="rope_extension_z"      value="0.0"/>-->
+
+    <param name="rope_extension_x"      value="0.099503719020999"/>
+    <param name="rope_extension_y"      value="0.995037190209989"/>
+    <param name="rope_extension_z"      value="0.0"/>
+
 
     <!-- World parameters for planning - used by both nodes -->
     <arg name="grid_resolution"         value="0.05"/>
@@ -98,8 +109,8 @@
         </group>
 
          <group ns="stretching_avoidance_controller">
-            <param name="stretching_cosine_threshold"   value="0.4"             type="double"/>
-            <param name="fix_step_size"                 value="false"           type="bool"/>
+            <param name="stretching_cosine_threshold"   value="$(arg stretching_cosine_threshold)"  type="double"/>
+            <param name="fix_step_size"                 value="true"                                type="bool"/>
         </group>
     </group>
 </launch>
