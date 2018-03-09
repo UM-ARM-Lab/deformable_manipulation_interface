@@ -86,8 +86,8 @@
         <param name="planner_logging_enabled"           value="$(arg planner_logging_enabled)"              type="bool"/>
         <param name="controller_logging_enabled"        value="$(arg controller_logging_enabled)"           type="bool"/>
 
-        <param name="use_stored_world_state"                value="true"                                    type="bool"/>
-        <!--<param name="use_stored_world_state"                value="false"                                   type="bool"/>-->
+        <!--<param name="use_stored_world_state"                value="true"                                    type="bool"/>-->
+        <param name="use_stored_world_state"                value="false"                                   type="bool"/>
         <param name="world_state_file_name_prefix"          value="world_state"                             type="string"/>
         <!--<param name="world_state_file_name_suffix_to_load"  value="cant_find_feasible"                type="string"/>-->
         <param name="world_state_file_name_suffix_to_load"  value="new_start_position_rotating_wrong_way"                type="string"/>
@@ -153,6 +153,7 @@
 
         <!-- stretching_avoidance_controller arguments -->
         <group ns="stretching_avoidance_controller">
+            <!--<param name="solver_type"                   value="random_sampling"                         type="string"/>-->
             <param name="solver_type"                   value="gradient_descent"                        type="string"/>
             <param name="max_sampling_counts"           value="5000"                                    type="int"/>
         </group>

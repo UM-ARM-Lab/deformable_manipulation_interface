@@ -15,18 +15,22 @@
     <param name="rope_radius"           value="0.01"        type="double"/>
 
     <!-- Rope position params-->
-    <param name="rope_com_x"            value="0.75"         type="double"/>
-    <param name="rope_com_y"            value="0.6"         type="double"/>
-    <param name="rope_com_z"            value="0.8"        type="double"/>
+    <!--<param name="rope_com_x"            value="0.5"         type="double"/>-->
+    <!--<param name="rope_com_y"            value="0.3"         type="double"/>-->
+    <!--<param name="rope_com_z"            value="0.4"         type="double"/>-->
+
+    <param name="rope_com_x"            value="0.7"         type="double"/>
+    <param name="rope_com_y"            value="0.5"         type="double"/>
+    <param name="rope_com_z"            value="0.8"         type="double"/>
 
     <!-- Set a unit vector defining what direction the rope is created in -->
-    <!--<param name="rope_extension_x"      value="0.0"/>-->
-    <!--<param name="rope_extension_y"      value="1.0"/>-->
-    <!--<param name="rope_extension_z"      value="0.0"/>-->
-
-    <param name="rope_extension_x"      value="0.099503719020999"/>
-    <param name="rope_extension_y"      value="0.995037190209989"/>
+    <param name="rope_extension_x"      value="0.0"/>
+    <param name="rope_extension_y"      value="1.0"/>
     <param name="rope_extension_z"      value="0.0"/>
+
+    <!--<param name="rope_extension_x"      value="0.099503719020999"/>-->
+    <!--<param name="rope_extension_y"      value="0.995037190209989"/>-->
+    <!--<param name="rope_extension_z"      value="0.0"/>-->
 
 
     <!-- World parameters for planning - used by both nodes -->
@@ -71,6 +75,8 @@
             <param name="max_stretch_factor"                  value="1.15"                                  type="double"/>
             <param name="desired_motion_scale_factor"         value="$(arg desired_motion_scale_factor)"    type="double"/>
         </group>
+
+        <param name="controller_min_distance_to_obstacles"    value="0.002"                                  type="double"/>
 
         <param name="enable_stuck_detection"                                value="false"       type="bool"/>
         <group ns="stuck_detection">
