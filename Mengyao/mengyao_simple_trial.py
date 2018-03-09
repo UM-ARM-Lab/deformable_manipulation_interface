@@ -32,19 +32,19 @@ def mengyao_run_trials(experiment, generate_screenshots="false", log_prefix=""):
                     for trans_dir_deformability in trans_dir_deformability_range:
                         for down_scale in down_scale_range:
                             mengyao_run_trial(experiment=experiment,
-                                      start_bullet_viewer="false",
-                                      logging_enabled="true",
-                                      test_id=log_prefix + ("MM_test_stretching/DM/" + "desired_down_" + str(down_scale) + 
+                                              start_bullet_viewer="false",
+                                              logging_enabled="true",
+                                              test_id=log_prefix + ("MM_test_stretching/DM/" + "desired_down_" + str(down_scale) +
                                       "/cos_" + str(stretching_threshold) + "/dir" + str(trans_dir_deformability) + 
                                       "_dis" + str(trans_dis_deformability) + "_rot" + str(rotation_deformability) + 
                                       "/cloth_x" + str(cloth_x) + "cloth_y" + str(cloth_y)),
-                                      desired_down_scale = down_scale,
-                                      translational_dir_deformability = trans_dir_deformability,
-                                      translational_dis_deformability = trans_dis_deformability,
-                                      rotational_dis_deformability=rotation_deformability,
-                                      stretching_cosine_threshold=stretching_threshold,
-                                      cloth_leading_edge_x = cloth_x,
-                                      cloth_leading_edge_y = cloth_y)
+                                              desired_motion_scale_factor = down_scale,
+                                              translational_dir_deformability = trans_dir_deformability,
+                                              translational_dis_deformability = trans_dis_deformability,
+                                              rotational_dis_deformability=rotation_deformability,
+                                              stretching_cosine_threshold=stretching_threshold,
+                                              cloth_leading_edge_x = cloth_x,
+                                              cloth_leading_edge_y = cloth_y)
 
         # Note that this is 0 to 16 as range does [start, stop), thus we get 0:1:10 in Matlab speak
 

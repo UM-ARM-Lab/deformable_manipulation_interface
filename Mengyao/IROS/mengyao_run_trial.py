@@ -5,47 +5,47 @@ import subprocess
 
 
 def mengyao_run_trial(experiment,
-              start_bullet_viewer = None,
-              disable_all_visualizations = None,
-              screenshots_enabled = None,
-              controller_logging_enabled = None,
-              test_id = None,
-              planning_horizon = None,
+                      start_bullet_viewer = None,
+                      disable_all_visualizations = None,
+                      screenshots_enabled = None,
+                      controller_logging_enabled = None,
+                      test_id = None,
+                      planning_horizon = None,
 
-              planner_trial_type = None,
+                      planner_trial_type = None,
 
-              optimization_enabled = None,
-              bandit_algorithm = None,
-              multi_model = None,
-              deformability_override = None,
-              translational_deformability = None,
-              rotational_deformability = None,
-              use_adaptive_model = None,
-              adaptive_model_learning_rate = None,
+                      optimization_enabled = None,
+                      bandit_algorithm = None,
+                      multi_model = None,
+                      deformability_override = None,
+                      translational_deformability = None,
+                      rotational_deformability = None,
+                      use_adaptive_model = None,
+                      adaptive_model_learning_rate = None,
 
-              use_diminishing_rigidity_model = None,
-              use_constraint_model = None,
-              use_diminishing_random_sample_model = None,
+                      use_diminishing_rigidity_model = None,
+                      use_constraint_model = None,
+                      use_diminishing_random_sample_model = None,
 
-              desired_down_scale = None,
+                      desired_motion_scale_factor = None,
 
-              translational_dir_deformability = None,
-              translational_dis_deformability = None,
-              rotational_dis_deformability = None,
-              stretching_cosine_threshold = None,
+                      translational_dir_deformability = None,
+                      translational_dis_deformability = None,
+                      rotational_dis_deformability = None,
+                      stretching_cosine_threshold = None,
 
-              cloth_leading_edge_x = None,
-              cloth_leading_edge_y = None,
+                      cloth_leading_edge_x = None,
+                      cloth_leading_edge_y = None,
 
-              process_noise_factor = None,
-              observation_noise_factor = None,
+                      process_noise_factor = None,
+                      observation_noise_factor = None,
 
-              feedback_covariance = None,
-              calculate_regret = None,
-              use_random_seed = None,
+                      feedback_covariance = None,
+                      calculate_regret = None,
+                      use_random_seed = None,
 
-              correlation_strength_factor = None,
-              max_correlation_strength_factor = None):
+                      correlation_strength_factor = None,
+                      max_correlation_strength_factor = None):
     # Constant values that we need
     # roslaunch_command = ["roslaunch", "smmap", "generic_experiment.launch task_type:=" + experiment]
     roslaunch_command = ["roslaunch", "deformable_manipulation_experiment_params", "generic_experiment_mengyao.launch task_type:=" + experiment]
@@ -79,8 +79,9 @@ def mengyao_run_trial(experiment,
     if adaptive_model_learning_rate is not None:
         roslaunch_command.append('adaptive_model_learning_rate:=' + str(adaptive_model_learning_rate))
 
-    if desired_down_scale is not None:
-        roslaunch_command.append('desired_down_scale:=' + str(desired_down_scale))
+    if desired_motion_scale_factor is not None:
+        roslaunch_command.append('desired_motion_scale_factor_override:=true')
+        roslaunch_command.append('desired_motion_scale_factor:=' + str(desired_motion_scale_factor))
         
     if translational_dir_deformability is not None:
         roslaunch_command.append('translational_dir_deformability:=' + str(translational_dir_deformability))
