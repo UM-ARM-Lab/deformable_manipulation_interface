@@ -7,9 +7,7 @@ from numpy import arange as frange
 
 def mengyao_run_trials(experiment, generate_screenshots="false", log_prefix=""):
 
-        down_scale = 400
-        stretching_threshold = 0.4
-        
+
         trans_dir_deformability = 900 
         rotation_deformability = 20
         trans_dis_deformability = 10
@@ -27,13 +25,15 @@ def mengyao_run_trials(experiment, generate_screenshots="false", log_prefix=""):
 
         ####### TODO: Double check the log setting here. 
 
-        # rope_cylinder on BenchMark model
+        # rope_cylinder on BenchMark model and controller
+        down_scale = 200
+        stretching_threshold = 0.4
         mengyao_run_trial(experiment = "rope_cylinder_two_grippers",
                           start_bullet_viewer = "false",
                           disable_all_visualizations="true",
                           controller_logging_enabled = "true",
                           test_id = log_prefix + ("stretching_status/BM"),
-                          planner_trial_type = "diminishing_rigidity_single_model_constraint_controller",
+                          planner_trial_type = "diminishing_rigidity_single_model_least_squares_controller",
                           desired_motion_scale_factor= down_scale,
                           translational_dir_deformability = trans_dir_deformability,
                           translational_dis_deformability = trans_dis_deformability,
@@ -41,7 +41,9 @@ def mengyao_run_trials(experiment, generate_screenshots="false", log_prefix=""):
                           stretching_cosine_threshold = stretching_threshold,
                           )
 
-        # rope_cylinder on new model
+        # rope_cylinder on new model and controller
+        down_scale = 200
+        stretching_threshold = 0.4
         mengyao_run_trial(experiment = "rope_cylinder_two_grippers",
                           start_bullet_viewer = "false",
                           disable_all_visualizations="true",
@@ -55,14 +57,14 @@ def mengyao_run_trials(experiment, generate_screenshots="false", log_prefix=""):
                           stretching_cosine_threshold = stretching_threshold,
                           )
 
-        down_scale = 400        
-        # cloth_single_pole on Bench mark model
+        down_scale = 100
+        # cloth_single_pole on Bench mark model and controller
         mengyao_run_trial(experiment = "cloth_single_pole",
                           start_bullet_viewer = "false",
                           disable_all_visualizations="true",
                           controller_logging_enabled = "true",
                           test_id = log_prefix + ("stretching_status/BM"),
-                          planner_trial_type = "diminishing_rigidity_single_model_constraint_controller",
+                          planner_trial_type = "diminishing_rigidity_single_model_least_squares_controller",
                           desired_motion_scale_factor= down_scale,
                           translational_dir_deformability = trans_dir_deformability,
                           translational_dis_deformability = trans_dis_deformability,
@@ -70,7 +72,9 @@ def mengyao_run_trials(experiment, generate_screenshots="false", log_prefix=""):
                           stretching_cosine_threshold = stretching_threshold,
                           )
 
-        # cloth_single_pole on new model with cos = 0.4 (stretching parameter)
+        # cloth_single_pole on new model and controller with cos = 0.4 (stretching parameter)
+        down_scale = 100
+        stretching_threshold = 0.4
         mengyao_run_trial(experiment = "cloth_single_pole",
                           start_bullet_viewer = "false",
                           disable_all_visualizations="true",
@@ -84,7 +88,8 @@ def mengyao_run_trials(experiment, generate_screenshots="false", log_prefix=""):
                           stretching_cosine_threshold = stretching_threshold,
                           )
 
-        # cloth_single_pole on new model with cos = 0.6 (stretching parameter)
+        # cloth_single_pole on new model and controller with cos = 0.6 (stretching parameter)
+        down_scale = 100
         stretching_threshold = 0.6
         mengyao_run_trial(experiment = "cloth_single_pole",
                           start_bullet_viewer = "false",
@@ -99,7 +104,8 @@ def mengyao_run_trials(experiment, generate_screenshots="false", log_prefix=""):
                           stretching_cosine_threshold = stretching_threshold,
                           )
 
-        # cloth_single_pole on new model with cos = 0.8 (stretching parameter)
+        # cloth_single_pole on new model and controller with cos = 0.8 (stretching parameter)
+        down_scale = 100
         stretching_threshold = 0.8
         mengyao_run_trial(experiment = "cloth_single_pole",
                           start_bullet_viewer = "false",

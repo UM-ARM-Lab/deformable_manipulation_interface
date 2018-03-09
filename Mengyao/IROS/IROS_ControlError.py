@@ -13,12 +13,12 @@ def mengyao_run_trials(generate_screenshots="false", log_prefix=""):
         trans_dis_deformability = 10.0
 
         ####### for each of the functions below:
-        ####### For each function below, both the bench mark model and the new model should be tested 
+        ####### For each function below, both the bench mark model and the new model should be tested
         ####### at each simulation step. The "control_error_realtime.txt" should contain 2 columns of errors.
         ####### The first column is the control error of the new model, and the second for the bench mark
 
 
-        ####### The corresponding Matlab scripts to generate plots are in the log folder. 
+        ####### The corresponding Matlab scripts to generate plots are in the log folder.
         ####### e.g: smmap/log/cloth_single_pole/control_error_IROS_cloth_single_pole.m
         #######      smmap/log/cloth_single_pole/single_stretching_factor_IROS_cloth_single_pole.m
 
@@ -37,7 +37,7 @@ def mengyao_run_trials(generate_screenshots="false", log_prefix=""):
                           stretching_cosine_threshold = stretching_threshold,
                           )
 
-        desired_motion_scale_factor = 100.0
+        desired_motion_scale_factor = 5.0
         stretching_threshold = 0.3
         mengyao_run_trial(experiment = "rope_zig_match",
                           start_bullet_viewer = "false",
@@ -68,7 +68,7 @@ def mengyao_run_trials(generate_screenshots="false", log_prefix=""):
                           stretching_cosine_threshold = stretching_threshold,
                           )
 
-        desired_motion_scale_factor = 800.0
+        desired_motion_scale_factor = 100.0
         stretching_threshold = 0.4
         mengyao_run_trial(experiment = "cloth_single_pole",
                           start_bullet_viewer = "false",
