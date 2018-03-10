@@ -25,11 +25,10 @@ namespace smmap
         ROPE_MAZE,
         ROPE_ZIG_MATCH,
 
-        // NEWLY ADD FOR TEST, Mengyao
-        ROPE_DRAG_OPPOSITE_TABLE,       // directional rigidity
-        ROPE_DRAG_ALONG_TABLE,          // directional rigidity
-        ROPE_TOWARD_TABLE,              // mask, constraint violation
-        ROPE_CROSS,                     // directional rigidity use Dale's directly
+        // Model accuracy tests
+        ROPE_TABLE_LINEAR_MOTION,   // directional rigidity
+        ROPE_TABLE_PENTRATION,      // constraint violation
+        CLOTH_TABLE_PENETRATION,    // constraint violation
 
         // Live robot experiments
         CLOTH_PLACEMAT_LIVE_ROBOT
@@ -42,7 +41,8 @@ namespace smmap
         CONSTRAINT_SINGLE_MODEL_CONSTRAINT_CONTROLLER,
         DIMINISHING_RIGIDITY_SINGLE_MODEL_CONSTRAINT_CONTROLLER,
         MULTI_MODEL_BANDIT_TEST,
-        MULTI_MODEL_CONTROLLER_TEST
+        MULTI_MODEL_CONTROLLER_TEST,
+        MULTI_MODEL_ACCURACY_TEST
     };
 
     enum StretchingAvoidanceControllerSolverType

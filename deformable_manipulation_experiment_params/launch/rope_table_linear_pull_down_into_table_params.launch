@@ -1,4 +1,6 @@
 <launch>
+    <param "NOT UPDATED YET!!!!"/>
+
     <param name="deformable_type" value="rope"/>
     <param name="task_type" value="rope_table_toward"/>
 

@@ -117,11 +117,10 @@ namespace smmap
             {"cloth_wall",                          TaskType::CLOTH_WALL},
             {"cloth_double_slit",                   TaskType::CLOTH_DOUBLE_SLIT},
             {"rope_maze",                           TaskType::ROPE_MAZE},
-            {"rope_drag_along_table",               TaskType::ROPE_DRAG_ALONG_TABLE},
-            {"rope_drag_opposite_table",            TaskType::ROPE_DRAG_OPPOSITE_TABLE},
-            {"rope_toward_table",                   TaskType::ROPE_TOWARD_TABLE},
-            {"rope_cross",                          TaskType::ROPE_CROSS},
             {"rope_zig_match",                      TaskType::ROPE_ZIG_MATCH},
+            {"rope_table_linear_motion",            TaskType::ROPE_TABLE_LINEAR_MOTION},
+            {"rope_table_penetration",              TaskType::ROPE_TABLE_PENTRATION},
+            {"cloth_table_penetration",             TaskType::CLOTH_TABLE_PENETRATION},
             {"cloth_placemat_live_robot",           TaskType::CLOTH_PLACEMAT_LIVE_ROBOT}
         };
         
@@ -769,15 +768,6 @@ namespace smmap
             case TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS:
                 return ROSHelpers::GetParam(nh, "world_y_min", GetTableSurfaceY(nh) - GetTableHalfExtentsY(nh));
 
-            case TaskType::ROPE_DRAG_ALONG_TABLE:
-                return ROSHelpers::GetParam(nh, "world_y_min", GetTableSurfaceY(nh) - GetTableHalfExtentsY(nh));
-
-            case TaskType::ROPE_DRAG_OPPOSITE_TABLE:
-                return ROSHelpers::GetParam(nh, "world_y_min", GetTableSurfaceY(nh) - GetTableHalfExtentsY(nh));
-
-            case TaskType::ROPE_TOWARD_TABLE:
-                return ROSHelpers::GetParam(nh, "world_y_min", GetTableSurfaceY(nh) - GetTableHalfExtentsY(nh));
-
             case TaskType::CLOTH_COLAB_FOLDING:
                 return -0.05;
 
@@ -801,15 +791,6 @@ namespace smmap
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
             case TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS:
-                return ROSHelpers::GetParam(nh, "world_y_max", GetTableSurfaceY(nh) + GetTableHalfExtentsY(nh));
-
-            case TaskType::ROPE_DRAG_ALONG_TABLE:
-                return ROSHelpers::GetParam(nh, "world_y_max", GetTableSurfaceY(nh) + GetTableHalfExtentsY(nh));
-
-            case TaskType::ROPE_DRAG_OPPOSITE_TABLE:
-                return ROSHelpers::GetParam(nh, "world_y_max", GetTableSurfaceY(nh) + GetTableHalfExtentsY(nh));
-
-            case TaskType::ROPE_TOWARD_TABLE:
                 return ROSHelpers::GetParam(nh, "world_y_max", GetTableSurfaceY(nh) + GetTableHalfExtentsY(nh));
 
             case TaskType::CLOTH_COLAB_FOLDING:
@@ -858,15 +839,6 @@ namespace smmap
             case TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS:
                 return ROSHelpers::GetParam(nh, "world_z_min", GetTableSurfaceZ(nh));
 
-            case TaskType::ROPE_DRAG_ALONG_TABLE:
-                return ROSHelpers::GetParam(nh, "world_z_min", GetTableSurfaceZ(nh));
-
-            case TaskType::ROPE_DRAG_OPPOSITE_TABLE:
-                return ROSHelpers::GetParam(nh, "world_z_min", GetTableSurfaceZ(nh));
-
-            case TaskType::ROPE_TOWARD_TABLE:
-                return ROSHelpers::GetParam(nh, "world_z_min", GetTableSurfaceZ(nh)- 0.6f);
-
             case TaskType::CLOTH_COLAB_FOLDING:
                 return -0.05;
 
@@ -890,15 +862,6 @@ namespace smmap
             case TaskType::ROPE_CYLINDER_COVERAGE:
             case TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS:
                 return ROSHelpers::GetParam(nh, "world_z_max", GetTableSurfaceZ(nh) + GetCylinderHeight(nh) + GetRopeRadius(nh) * 5.0);
-
-            case TaskType::ROPE_DRAG_ALONG_TABLE:
-                return ROSHelpers::GetParam(nh, "world_z_max", GetTableSurfaceZ(nh) + 1.0f );
-
-            case TaskType::ROPE_DRAG_OPPOSITE_TABLE:
-                return ROSHelpers::GetParam(nh, "world_z_max", GetTableSurfaceZ(nh) + 1.0f );
-
-            case TaskType::ROPE_TOWARD_TABLE:
-                return ROSHelpers::GetParam(nh, "world_z_max", GetTableSurfaceZ(nh) + 1.0f );
 
             case TaskType::CLOTH_COLAB_FOLDING:
                 return 0.05;
@@ -935,7 +898,8 @@ namespace smmap
             {"constraint_single_model_constraint_controller",               PlannerTrialType::CONSTRAINT_SINGLE_MODEL_CONSTRAINT_CONTROLLER},
             {"diminishing_rigidity_single_model_constraint_controller",     PlannerTrialType::DIMINISHING_RIGIDITY_SINGLE_MODEL_CONSTRAINT_CONTROLLER},
             {"multi_model_bandit_test",                                     PlannerTrialType::MULTI_MODEL_BANDIT_TEST},
-            {"multi_model_controller_test",                                 PlannerTrialType::MULTI_MODEL_CONTROLLER_TEST}
+            {"multi_model_controller_test",                                 PlannerTrialType::MULTI_MODEL_CONTROLLER_TEST},
+            {"multi_model_accuracy_test",                                   PlannerTrialType::MULTI_MODEL_ACCURACY_TEST}
         };
 
         try
@@ -950,7 +914,7 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    // Diminishing Rigidity Parameters
+    // Diminishing Rigidity Model Parameters
     ////////////////////////////////////////////////////////////////////////////
 
     inline double GetDefaultDeformability(ros::NodeHandle& nh)
@@ -960,7 +924,7 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    // Adaptive Jacobian Parameters
+    // Adaptive Jacobian Model Parameters
     ////////////////////////////////////////////////////////////////////////////
 
     inline double GetAdaptiveModelLearningRate(ros::NodeHandle& nh)
@@ -1213,7 +1177,7 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    // TODO: Update this name, Sampling based motion controller paramters
+    // Stretching avoidance controller parameters
     ////////////////////////////////////////////////////////////////////////////
 
     inline StretchingAvoidanceControllerSolverType GetStretchingAvoidanceControllerSolverType(ros::NodeHandle& nh)
@@ -1252,6 +1216,47 @@ namespace smmap
     inline double GetStretchingCosineThreshold(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "stretching_avoidance_controller/stretching_cosine_threshold", __func__);
+        return val.GetImmutable();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    // Straight line motion parameters for testing model accuracy
+    // Note: these parameters are gripper velocities *in gripper frame*
+    ////////////////////////////////////////////////////////////////////////////
+
+    inline double GetGripperStraightLineMotionTransX(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "straight_line_motion_controller/vx", __func__);
+        return val.GetImmutable();
+    }
+
+    inline double GetGripperStraightLineMotionTransY(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "straight_line_motion_controller/vy", __func__);
+        return val.GetImmutable();
+    }
+
+    inline double GetGripperStraightLineMotionTransZ(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "straight_line_motion_controller/vz", __func__);
+        return val.GetImmutable();
+    }
+
+    inline double GetGripperStraightLineMotionAngularX(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "straight_line_motion_controller/wx", __func__);
+        return val.GetImmutable();
+    }
+
+    inline double GetGripperStraightLineMotionAngularY(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "straight_line_motion_controller/wy", __func__);
+        return val.GetImmutable();
+    }
+
+    inline double GetGripperStraightLineMotionAngularZ(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "straight_line_motion_controller/wz", __func__);
         return val.GetImmutable();
     }
 
