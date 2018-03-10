@@ -1,6 +1,6 @@
 <launch>
     <!-- Arguments to override default params -->
-    <arg name="task_max_time"           default="4.0"/>
+    <arg name="task_max_time"           default="2.0"/>
 
     <!-- Defines which world building routines we use, and which task specification -->
     <param name="deformable_type"       value="rope"/>
@@ -12,9 +12,9 @@
     <param name="rope_radius"           value="0.01"        type="double"/>
 
     <!-- Rope position params-->
-    <param name="rope_com_x"            value="0.5"        type="double"/>
+    <param name="rope_com_x"            value="0.5"         type="double"/>
     <param name="rope_com_y"            value="0.2"         type="double"/>
-    <param name="rope_com_z"            value="0.8"         type="double"/>
+    <param name="rope_com_z"            value="0.9"         type="double"/>
 
     <!-- Set a unit vector defining what direction the rope is created in -->
     <param name="rope_extension_x"      value="1.0"/>

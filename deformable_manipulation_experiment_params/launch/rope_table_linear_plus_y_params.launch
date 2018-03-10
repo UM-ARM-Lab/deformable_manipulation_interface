@@ -12,7 +12,7 @@
     <param name="rope_radius"           value="0.01"        type="double"/>
 
     <!-- Rope position params-->
-    <param name="rope_com_x"            value="-1.2"        type="double"/>
+    <param name="rope_com_x"            value="0.5"        type="double"/>
     <param name="rope_com_y"            value="0.2"         type="double"/>
     <param name="rope_com_z"            value="0.8"         type="double"/>
 
@@ -95,8 +95,8 @@
         <group ns="straight_line_motion_controller">
             <!-- Note: these parameters are gripper velocities *in gripper frame* -->
             <param name="vx"    value="0.000"   type="double"/>
-            <param name="vy"    value="0.000"   type="double"/>
-            <param name="vz"    value="-0.002"  type="double"/>
+            <param name="vy"    value="0.002"   type="double"/>
+            <param name="vz"    value="0.000"   type="double"/>
             <param name="wx"    value="0.000"   type="double"/>
             <param name="wy"    value="0.000"   type="double"/>
             <param name="wz"    value="0.000"   type="double"/>

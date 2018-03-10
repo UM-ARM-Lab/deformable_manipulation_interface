@@ -1,6 +1,6 @@
 <launch>
     <!-- Arguments to override default params -->
-    <arg name="task_max_time"           default="4.0"/>
+    <arg name="task_max_time"           default="2.0"/>
 
     <!-- Defines which world building routines we use, and which task specification -->
     <param name="deformable_type"       value="rope"/>
@@ -94,7 +94,7 @@
 
         <group ns="straight_line_motion_controller">
             <!-- Note: these parameters are gripper velocities *in gripper frame* -->
-            <param name="vx"    value="-0.002"   type="double"/>
+            <param name="vx"    value="-0.002"  type="double"/>
             <param name="vy"    value="0.000"   type="double"/>
             <param name="vz"    value="0.000"   type="double"/>
             <param name="wx"    value="0.000"   type="double"/>
