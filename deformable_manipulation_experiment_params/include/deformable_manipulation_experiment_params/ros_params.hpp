@@ -951,6 +951,11 @@ namespace smmap
         return ROSHelpers::GetParamRequired<double>(nh, "constraint_model/rotational_dis_deformability", __func__).GetImmutable();
     }
 
+    inline double GetConstraintTranslationalOldVersion(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParamRequired<double>(nh, "constraint_model/translational_old_version_deformability", __func__).GetImmutable();
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // Bandit Multi-model settings
     ////////////////////////////////////////////////////////////////////////////

@@ -1,6 +1,7 @@
 <launch>
     <!-- Task and logging arguments -->
-    <arg name="task_type"/>
+    <!--<arg name="task_type"/>-->
+    <arg name="task_type"                               value="rope_table_IROS_model_accuracy_test"/>
     <arg name="planner_logging_enabled"                 default="true"/>
     <arg name="controller_logging_enabled"              default="true"/>
     <!--<arg name="model_accuracy_logging_enabled"          default="true"/>-->
@@ -18,7 +19,7 @@
     <arg name="planner_trial_type"                      value="multi_model_accuracy_test"/>
 
     <!-- Planner visualization arguments -->
-    <arg name="disable_all_visualizations"              default="false"/>
+    <arg name="disable_all_visualizations"              default="true"/>
     <arg name="visualize_gripper_motion"                default="true"/>
     <arg name="visualize_object_predicted_motion"       default="true"/>
     <arg name="visualize_free_space_graph"              default="false"/>
@@ -33,9 +34,10 @@
     <arg name="adaptive_model_learning_rate"            default="0.000001"/>
 
     <!-- Mengyao's model parameters-->
-    <arg name="translational_dir_deformability"         default="200.0"/>
+    <arg name="translational_dir_deformability"         default="4.0"/>
     <arg name="translational_dis_deformability"         default="10.0"/>
     <arg name="rotational_dis_deformability"            default="10.0"/>
+    <!--<arg name="translational_old_version_deformability" default="10.0"/>-->
 
     <!-- Planner internal arguments -->
     <arg name="launch_planner"                          default="true"/>
@@ -103,9 +105,10 @@
 
         <!-- Constraint Model parameters and overrides -->
         <group ns="constraint_model">
-            <param name="translational_dir_deformability"   value="$(arg translational_dir_deformability)"        type="double"/>
-            <param name="translational_dis_deformability"   value="$(arg translational_dis_deformability)"        type="double"/>
-            <param name="rotational_dis_deformability"      value="$(arg rotational_dis_deformability)"           type="double"/>
+            <param name="translational_dir_deformability"           value="$(arg translational_dir_deformability)"          type="double"/>
+            <param name="translational_dis_deformability"           value="$(arg translational_dis_deformability)"          type="double"/>
+            <param name="rotational_dis_deformability"              value="$(arg rotational_dis_deformability)"             type="double"/>
+            <!--<param name="translational_old_version_deformability"   value="$(arg translational_old_version_deformability)"  type="double"/>-->
         </group>
     </group>
     <node name="smmap_planner_node" pkg="smmap" type="planner_test_node_UCB" required="true" if="$(arg launch_planner)"/>
