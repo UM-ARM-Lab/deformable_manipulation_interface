@@ -152,4 +152,4 @@ def mengyao_run_trial(experiment,
     print cmd, '\n'
 
     subprocess.call(args='mkdir -p ' + log_folder, shell=True)
-    subprocess.call(args=cmd, shell=True)
+    # subprocess.call(args=cmd, shell=True)

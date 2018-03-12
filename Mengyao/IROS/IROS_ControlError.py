@@ -6,7 +6,7 @@ from numpy import arange as frange
 
 ### This script will run all the four tests in one time. 
 
-def mengyao_run_trials(generate_screenshots="false", log_prefix=""):
+def mengyao_run_trials(generate_screenshots="true", log_prefix=""):
 
         trans_dir_deformability = 900.0
         rotation_deformability = 20.0
@@ -26,6 +26,7 @@ def mengyao_run_trials(generate_screenshots="false", log_prefix=""):
         stretching_threshold = 0.3
         mengyao_run_trial(experiment = "rope_cylinder_two_grippers",
                           start_bullet_viewer = "false",
+                          screenshots_enabled = generate_screenshots,
                           disable_all_visualizations = "true",
                           controller_logging_enabled = "true",
                           test_id = log_prefix + ("controll_error"),
@@ -41,6 +42,7 @@ def mengyao_run_trials(generate_screenshots="false", log_prefix=""):
         stretching_threshold = 0.3
         mengyao_run_trial(experiment = "rope_zig_match",
                           start_bullet_viewer = "false",
+                          screenshots_enabled=generate_screenshots,
                           disable_all_visualizations="true",
                           controller_logging_enabled = "true",
                           test_id = log_prefix + ("controll_error"),
@@ -57,6 +59,7 @@ def mengyao_run_trials(generate_screenshots="false", log_prefix=""):
         stretching_threshold = 0.4
         mengyao_run_trial(experiment = "cloth_wafr",
                           start_bullet_viewer = "false",
+                          screenshots_enabled=generate_screenshots,
                           disable_all_visualizations="true",
                           controller_logging_enabled = "true",
                           test_id = log_prefix + ("controll_error"),
@@ -72,6 +75,7 @@ def mengyao_run_trials(generate_screenshots="false", log_prefix=""):
         stretching_threshold = 0.4
         mengyao_run_trial(experiment = "cloth_single_pole",
                           start_bullet_viewer = "false",
+                          screenshots_enabled=generate_screenshots,
                           disable_all_visualizations="true",
                           controller_logging_enabled = "true",
                           test_id = log_prefix + ("controll_error"),
