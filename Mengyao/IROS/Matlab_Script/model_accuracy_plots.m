@@ -45,7 +45,7 @@ if make_video
         vo = avifile([video_path '.avi'], 'fps', 1/pause_len);
     catch
         votype = 'VideoWriter';
-        vo = VideoWriter(video_path, 'Motion JPEG AVI');
+        vo = VideoWriter(video_path, 'MPEG-4');
         set(vo, 'FrameRate', 1/pause_len);
         open(vo);
     end
