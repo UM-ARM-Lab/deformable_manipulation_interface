@@ -5,6 +5,8 @@
 #include <string>
 #include <chrono>
 #include <unordered_map>
+#include <vector>
+#include <Eigen/Core>
 #include <arc_utilities/ros_helpers.hpp>
 #include <arc_utilities/arc_exceptions.hpp>
 #include <ros/package.h>
@@ -93,7 +95,7 @@ namespace smmap
         }
         else
         {
-            ROS_FATAL_STREAM("Unknown deformable type: " << deformable_type);
+            ROS_FATAL_STREAM_NAMED("params", "Unknown deformable type: " << deformable_type);
             throw_arc_exception(std::invalid_argument, "Unknown deformable type: " + deformable_type);
         }
     }
@@ -119,8 +121,8 @@ namespace smmap
             {"rope_maze",                           TaskType::ROPE_MAZE},
             {"rope_zig_match",                      TaskType::ROPE_ZIG_MATCH},
             {"rope_table_linear_motion",            TaskType::ROPE_TABLE_LINEAR_MOTION},
+            {"cloth_table_linear_motion",           TaskType::CLOTH_TABLE_LINEAR_MOTION},
             {"rope_table_penetration",              TaskType::ROPE_TABLE_PENTRATION},
-            {"cloth_table_penetration",             TaskType::CLOTH_TABLE_PENETRATION},
             {"cloth_placemat_live_robot",           TaskType::CLOTH_PLACEMAT_LIVE_ROBOT}
         };
         
@@ -130,7 +132,7 @@ namespace smmap
         }
         catch (std::out_of_range& e)
         {
-            ROS_FATAL_STREAM("Unknown task type: " << task_type);
+            ROS_FATAL_STREAM_NAMED("params", "Unknown task type: " << task_type);
             throw_arc_exception(std::invalid_argument, "Unknown task type: " + task_type);
         }
     }
@@ -702,7 +704,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_x_step", 0.02);
 
             default:
-                ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
+                ROS_FATAL_STREAM_NAMED("params", "Unknown deformable type for " << __func__);
                 throw_arc_exception(std::invalid_argument, std::string("Unknown deformable type for ") + __func__);
         }
     }
@@ -755,7 +757,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_y_step", 0.02);
 
             default:
-                ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
+                ROS_FATAL_STREAM_NAMED("params", "Unknown deformable type for " << __func__);
                 throw_arc_exception(std::invalid_argument, std::string("Unknown deformable type for ") + __func__);
         }
     }
@@ -826,7 +828,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_z_step", 0.02);
 
             default:
-                ROS_FATAL_STREAM("Unknown deformable type for " << __func__);
+                ROS_FATAL_STREAM_NAMED("params", "Unknown deformable type for " << __func__);
                 throw_arc_exception(std::invalid_argument, std::string("Unknown deformable type for ") + __func__);
         }
     }
@@ -908,7 +910,7 @@ namespace smmap
         }
         catch (std::out_of_range& e)
         {
-            ROS_FATAL_STREAM("Unknown planner trial type type: " << planner_trial_type);
+            ROS_FATAL_STREAM_NAMED("params", "Unknown planner trial type type: " << planner_trial_type);
             throw_arc_exception(std::invalid_argument, "Unknown planner trial type: " + planner_trial_type);
         }
     }
@@ -1201,7 +1203,7 @@ namespace smmap
         }
         catch (std::out_of_range& e)
         {
-            ROS_FATAL_STREAM("Unknown solver type: " << solver_type);
+            ROS_FATAL_STREAM_NAMED("params", "Unknown solver type: " << solver_type);
             throw_arc_exception(std::invalid_argument, "Unknown solver type: " + solver_type);
         }
     }
@@ -1228,6 +1230,87 @@ namespace smmap
     // Straight line motion parameters for testing model accuracy
     // Note: these parameters are gripper velocities *in gripper frame*
     ////////////////////////////////////////////////////////////////////////////
+
+    inline std::pair<std::vector<double>, std::vector<Eigen::Matrix<double, 6, 1>>> GetGripperDeltaTrajectory(ros::NodeHandle& nh, const std::string& gripper_name)
+    {
+        const std::string base_param_name = "straight_line_motion_controller/" + gripper_name + "_deltas/";
+
+//        const std::vector<double> t = ROSHelpers::GetParamRequired<std::vector<double>>(nh, base_param_name + "t", __func__).GetImmutable();
+        std::vector<double> t;
+        if (!nh.getParam(base_param_name + "t", t))
+        {
+            ROS_FATAL_STREAM_NAMED("params", "Cannot find " << nh.getNamespace() << "/" << base_param_name + "t" << " on parameter server for " << __func__ << ": Value must be on paramter sever");
+            throw_arc_exception(std::runtime_error, "Unable to find parameter on server");
+        }
+
+//        const std::vector<double> vx = ROSHelpers::GetParamRequired<std::vector<double>>(nh, base_param_name + "/vx", __func__).GetImmutable();
+//        const std::vector<double> vy = ROSHelpers::GetParamRequired<std::vector<double>>(nh, base_param_name + "/vy", __func__).GetImmutable();
+//        const std::vector<double> vz = ROSHelpers::GetParamRequired<std::vector<double>>(nh, base_param_name + "/vz", __func__).GetImmutable();
+//        const std::vector<double> wx = ROSHelpers::GetParamRequired<std::vector<double>>(nh, base_param_name + "/wx", __func__).GetImmutable();
+//        const std::vector<double> wy = ROSHelpers::GetParamRequired<std::vector<double>>(nh, base_param_name + "/wy", __func__).GetImmutable();
+//        const std::vector<double> wz = ROSHelpers::GetParamRequired<std::vector<double>>(nh, base_param_name + "/wz", __func__).GetImmutable();
+
+        std::vector<double> vx;
+        if (!nh.getParam(base_param_name + "vx", vx))
+        {
+            ROS_FATAL_STREAM_NAMED("params", "Cannot find " << nh.getNamespace() << "/" <<base_param_name + "vx" << " on parameter server for " << __func__ << ": Value must be on paramter sever");
+            throw_arc_exception(std::runtime_error, "Unable to find parameter on server");
+        }
+
+        std::vector<double> vy;
+        if (!nh.getParam(base_param_name + "vy", vy))
+        {
+            ROS_FATAL_STREAM_NAMED("params", "Cannot find " << nh.getNamespace() << "/" <<base_param_name + "vy" << " on parameter server for " << __func__ << ": Value must be on paramter sever");
+            throw_arc_exception(std::runtime_error, "Unable to find parameter on server");
+        }
+
+        std::vector<double> vz;
+        if (!nh.getParam(base_param_name + "vz", vz))
+        {
+            ROS_FATAL_STREAM_NAMED("params", "Cannot find " << nh.getNamespace() << "/" <<base_param_name + "vz" << " on parameter server for " << __func__ << ": Value must be on paramter sever");
+            throw_arc_exception(std::runtime_error, "Unable to find parameter on server");
+        }
+
+        std::vector<double> wx;
+        if (!nh.getParam(base_param_name + "wx", wx))
+        {
+            ROS_FATAL_STREAM_NAMED("params", "Cannot find " << nh.getNamespace() << "/" <<base_param_name + "wx" << " on parameter server for " << __func__ << ": Value must be on paramter sever");
+            throw_arc_exception(std::runtime_error, "Unable to find parameter on server");
+        }
+
+        std::vector<double> wy;
+        if (!nh.getParam(base_param_name + "wy", wy))
+        {
+            ROS_FATAL_STREAM_NAMED("params", "Cannot find " << nh.getNamespace() << "/" <<base_param_name + "wy" << " on parameter server for " << __func__ << ": Value must be on paramter sever");
+            throw_arc_exception(std::runtime_error, "Unable to find parameter on server");
+        }
+
+        std::vector<double> wz;
+        if (!nh.getParam(base_param_name + "wz", wz))
+        {
+            ROS_FATAL_STREAM_NAMED("params", "Cannot find " << nh.getNamespace() << "/" <<base_param_name + "wz" << " on parameter server for " << __func__ << ": Value must be on paramter sever");
+            throw_arc_exception(std::runtime_error, "Unable to find parameter on server");
+        }
+
+        assert(t.size() == vx.size());
+        assert(t.size() == vy.size());
+        assert(t.size() == vz.size());
+        assert(t.size() == wx.size());
+        assert(t.size() == wy.size());
+
+        std::vector<Eigen::Matrix<double, 6, 1>> deltas(t.size());assert(t.size() == wz.size());
+        for (size_t ind = 0; ind < t.size(); ++ind)
+        {
+            deltas[ind](0) = vx[ind];
+            deltas[ind](1) = vy[ind];
+            deltas[ind](2) = vz[ind];
+            deltas[ind](3) = wx[ind];
+            deltas[ind](4) = wy[ind];
+            deltas[ind](5) = wz[ind];
+        }
+
+        return {t, deltas};
+    }
 
     inline double GetGripperStraightLineMotionTransX(ros::NodeHandle& nh)
     {

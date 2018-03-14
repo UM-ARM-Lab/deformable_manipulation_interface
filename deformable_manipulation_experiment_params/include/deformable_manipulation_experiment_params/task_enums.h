@@ -27,8 +27,8 @@ namespace smmap
 
         // Model accuracy tests
         ROPE_TABLE_LINEAR_MOTION,   // directional rigidity
+        CLOTH_TABLE_LINEAR_MOTION,  // constraint violation
         ROPE_TABLE_PENTRATION,      // constraint violation
-        CLOTH_TABLE_PENETRATION,    // constraint violation
 
         // Live robot experiments
         CLOTH_PLACEMAT_LIVE_ROBOT

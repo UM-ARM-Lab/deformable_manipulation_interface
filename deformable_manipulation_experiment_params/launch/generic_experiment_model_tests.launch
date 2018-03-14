@@ -1,8 +1,8 @@
 <launch>
     <!-- Task and logging arguments -->
     <!--<arg name="task_type"/>-->
-    <arg name="task_type"                               value="rope_table_IROS_model_accuracy_test"/>
-    <arg name="planner_logging_enabled"                 default="true"/>
+    <arg name="task_type"/>
+    <arg name="planner_logging_enabled"                 default="false"/>
     <arg name="controller_logging_enabled"              default="true"/>
     <!--<arg name="model_accuracy_logging_enabled"          default="true"/>-->
     <arg name="test_id"                                 default="model_accuracy"/>
