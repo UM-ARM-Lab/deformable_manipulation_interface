@@ -51,11 +51,19 @@ if make_video
     end
     
     
-    plot(-1, -1, -1, -1, 'LineWidth', 2)
+    h_new = plot(-1, -1, 'LineWidth', 2); hold on
+    h_baseline = plot(-1, -1, 'LineWidth', 2); hold off
     axis([0   10.0000         0    0.0150]);
-    legend(parameter_set_mm, parameter_set_dd_wo, 'Location', 'northeast')
-    xlabel('Time (s)')
-    ylabel('Model Prediction Error')
+    h_legend = legend(parameter_set_mm, parameter_set_dd_wo, 'Location', 'northeast');
+    h_xlabel = xlabel('Time (s)');
+    h_ylabel = ylabel('Model Prediction Error');
+    
+    set([gca, h_xlabel, h_ylabel, h_legend], 'FontSize', 24);
+    
+    h_new.XDataSource = 'time_slice';
+    h_new.YDataSource = 'new_error_slice';
+    h_baseline.XDataSource = 'time_slice';
+    h_baseline.YDataSource = 'baseline_error_slice';
     
     F = getframe(gcf);
     
@@ -72,14 +80,15 @@ if make_video
     
     
     for ind = 1:length(time)    
-        plot(time(1:ind), constrained_model_error(1:ind), ...
-             time(1:ind), diminishing_rigidity_model_error(1:ind), 'LineWidth', 2)
-        
-        axis([0   10.0000         0    0.0150]);
-        legend(parameter_set_mm, parameter_set_dd_wo, 'Location', 'northeast')
-        xlabel('Time (s)')
-        ylabel('Model Prediction Error')
+%         plot(time(1:ind), constrained_model_error(1:ind), ...
+%              time(1:ind), diminishing_rigidity_model_error(1:ind), 'LineWidth', 2)
+        time_slice = time(1:ind);
+        new_error_slice = constrained_model_error(1:ind);
+        baseline_error_slice = diminishing_rigidity_model_error(1:ind);
+
+        refreshdata;
         drawnow;
+%         pause(0.01)
         
         F = getframe(gcf);
         
