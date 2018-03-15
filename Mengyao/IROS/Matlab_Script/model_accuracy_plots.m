@@ -5,7 +5,7 @@ space_hold_2 = '%n %n';
 
 % basename = '/home/dmcconac/Dropbox/catkin_ws/src/smmap/logs/';
 basename = 'E:/Dropbox/catkin_ws/src/smmap/logs/';
-folder = 'rope_table_IROS_model_accuracy_test/model_accuracy/';
+folder = 'cloth_table_IROS_model_accuracy_test/model_accuracy/';
 
 %%
 %%%%%%%%%%% Error Analysis %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -27,7 +27,8 @@ time = time - time(1);
 fig = figure(1);
 plot(time, constrained_model_error,...
      time, diminishing_rigidity_model_error, 'LineWidth', 2)
-legend(parameter_set_mm, parameter_set_dd_wo, 'Location', 'northeast')
+legend(parameter_set_mm, parameter_set_dd_wo, 'Location', 'northwest')
+axis([0   5.50000         0    0.2500]);
 
 xlabel('Time (s)')
 ylabel('Model Prediction Error')
@@ -53,8 +54,9 @@ if make_video
     
     h_new = plot(-1, -1, 'LineWidth', 2); hold on
     h_baseline = plot(-1, -1, 'LineWidth', 2); hold off
-    axis([0   10.0000         0    0.0150]);
-    h_legend = legend(parameter_set_mm, parameter_set_dd_wo, 'Location', 'northeast');
+%     axis([0   10.0000         0    0.0150]);
+    axis([0   5.50000         0    0.2500]);
+    h_legend = legend(parameter_set_mm, parameter_set_dd_wo, 'Location', 'northwest');
     h_xlabel = xlabel('Time (s)');
     h_ylabel = ylabel('Model Prediction Error');
     
@@ -80,15 +82,23 @@ if make_video
     
     
     for ind = 1:length(time)    
-%         plot(time(1:ind), constrained_model_error(1:ind), ...
-%              time(1:ind), diminishing_rigidity_model_error(1:ind), 'LineWidth', 2)
-        time_slice = time(1:ind);
-        new_error_slice = constrained_model_error(1:ind);
-        baseline_error_slice = diminishing_rigidity_model_error(1:ind);
+        plot(time(1:ind), constrained_model_error(1:ind), ...
+             time(1:ind), diminishing_rigidity_model_error(1:ind), 'LineWidth', 2)
+         
+        axis([0   5.50000         0    0.2500]);
+        h_legend = legend(parameter_set_mm, parameter_set_dd_wo, 'Location', 'northwest');
+        h_xlabel = xlabel('Time (s)');
+        h_ylabel = ylabel('Model Prediction Error');
+    
+        set([gca, h_xlabel, h_ylabel, h_legend], 'FontSize', 24);
+         
+%         time_slice = time(1:ind);
+%         new_error_slice = constrained_model_error(1:ind);
+%         baseline_error_slice = diminishing_rigidity_model_error(1:ind);
 
-        refreshdata;
+%         refreshdata;
         drawnow;
-%         pause(0.01)
+        pause(0.01)
         
         F = getframe(gcf);
         
