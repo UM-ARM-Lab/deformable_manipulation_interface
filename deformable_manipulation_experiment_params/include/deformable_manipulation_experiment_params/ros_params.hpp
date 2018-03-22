@@ -1521,6 +1521,11 @@ namespace smmap
         return "ar_pose_marker";
     }
 
+    inline std::string GetApiltagTopic()
+    {
+        return "apriltag_kinect2/detections";
+    }
+
     inline std::string GetGripper0Name(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam<std::string>(nh, "gripper0_name", "left");
@@ -1588,9 +1593,9 @@ namespace smmap
         return "table_surface";
     }
 
-    inline std::string GetARTrackOutputFrame(ros::NodeHandle& nh)
+    inline std::string GetClothPositionFilterOutputFrame(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam<std::string>(nh, "ar_track_roof/output_frame", "world_origin");
+        return ROSHelpers::GetParam<std::string>(nh, "output_frame", "world_origin");
     }
 }
 
