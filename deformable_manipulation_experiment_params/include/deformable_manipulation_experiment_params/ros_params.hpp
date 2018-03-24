@@ -1083,6 +1083,12 @@ namespace smmap
         return 1e3;
     }
 
+    inline double GetRRTMaxGripperRotation(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/max_gripper_rotation", __func__);
+        return val.GetImmutable();
+    }
+
     inline double GetRRTGoalBias(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/goal_bias", __func__);
