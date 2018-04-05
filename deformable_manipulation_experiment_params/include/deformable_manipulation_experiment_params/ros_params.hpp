@@ -709,7 +709,7 @@ namespace smmap
         }
     }
 
-    inline double GetWorldXMin(ros::NodeHandle& nh)     // METERS
+    inline double GetWorldXMinBulletFrame(ros::NodeHandle& nh)     // METERS
     {
         switch(GetTaskType(nh))
         {
@@ -725,7 +725,7 @@ namespace smmap
         }
     }
 
-    inline double GetWorldXMax(ros::NodeHandle& nh)     // METERS
+    inline double GetWorldXMaxBulletFrame(ros::NodeHandle& nh)     // METERS
     {
         switch(GetTaskType(nh))
         {
@@ -743,7 +743,7 @@ namespace smmap
 
     inline int64_t GetWorldXNumSteps(ros::NodeHandle& nh)
     {
-        return std::lround((GetWorldXMax(nh) - GetWorldXMin(nh))/GetWorldXStep(nh)) + 1;
+        return std::lround((GetWorldXMaxBulletFrame(nh) - GetWorldXMinBulletFrame(nh))/GetWorldXStep(nh)) + 1;
     }
 
     inline double GetWorldYStep(ros::NodeHandle& nh)    // METERS
@@ -762,7 +762,7 @@ namespace smmap
         }
     }
 
-    inline double GetWorldYMin(ros::NodeHandle& nh)     // METERS
+    inline double GetWorldYMinBulletFrame(ros::NodeHandle& nh)     // METERS
     {
         switch(GetTaskType(nh))
         {
@@ -787,7 +787,7 @@ namespace smmap
         }
     }
 
-    inline double GetWorldYMax(ros::NodeHandle& nh)     // METERS
+    inline double GetWorldYMaxBulletFrame(ros::NodeHandle& nh)     // METERS
     {
         switch(GetTaskType(nh))
         {
@@ -814,7 +814,7 @@ namespace smmap
 
     inline int64_t GetWorldYNumSteps(ros::NodeHandle& nh)
     {
-        return std::lround((GetWorldYMax(nh) - GetWorldYMin(nh))/GetWorldYStep(nh)) + 1;
+        return std::lround((GetWorldYMaxBulletFrame(nh) - GetWorldYMinBulletFrame(nh))/GetWorldYStep(nh)) + 1;
     }
 
     inline double GetWorldZStep(ros::NodeHandle& nh)    // METERS
@@ -833,7 +833,7 @@ namespace smmap
         }
     }
 
-    inline double GetWorldZMin(ros::NodeHandle& nh)     // METERS
+    inline double GetWorldZMinBulletFrame(ros::NodeHandle& nh)     // METERS
     {
         switch(GetTaskType(nh))
         {
@@ -857,7 +857,7 @@ namespace smmap
         }
     }
 
-    inline double GetWorldZMax(ros::NodeHandle& nh)     // METERS
+    inline double GetWorldZMaxBulletFrame(ros::NodeHandle& nh)     // METERS
     {
         switch(GetTaskType(nh))
         {
@@ -883,7 +883,7 @@ namespace smmap
 
     inline int64_t GetWorldZNumSteps(ros::NodeHandle& nh)
     {
-        return std::lround((GetWorldZMax(nh) - GetWorldZMin(nh))/GetWorldZStep(nh)) + 1;
+        return std::lround((GetWorldZMaxBulletFrame(nh) - GetWorldZMinBulletFrame(nh))/GetWorldZStep(nh)) + 1;
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1083,6 +1083,18 @@ namespace smmap
         return 1e3;
     }
 
+    inline double GetRRTMaxRobotDOFStepSize(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/max_robot_dof_step_size", __func__);
+        return val.GetImmutable();
+    }
+
+    inline double GetRRTMinRobotDOFStepSize(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/min_robot_dof_step_size", __func__);
+        return val.GetImmutable();
+    }
+
     inline double GetRRTMaxGripperRotation(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/max_gripper_rotation", __func__);
@@ -1120,37 +1132,37 @@ namespace smmap
         return val.GetImmutable();
     }
 
-    inline double GetRRTPlanningXMin(ros::NodeHandle& nh)
+    inline double GetRRTPlanningXMinBulletFrame(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_x_min", __func__);
         return val.GetImmutable();
     }
 
-    inline double GetRRTPlanningXMax(ros::NodeHandle& nh)
+    inline double GetRRTPlanningXMaxBulletFrame(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_x_max", __func__);
         return val.GetImmutable();
     }
 
-    inline double GetRRTPlanningYMin(ros::NodeHandle& nh)
+    inline double GetRRTPlanningYMinBulletFrame(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_y_min", __func__);
         return val.GetImmutable();
     }
 
-    inline double GetRRTPlanningYMax(ros::NodeHandle& nh)
+    inline double GetRRTPlanningYMaxBulletFrame(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_y_max", __func__);
         return val.GetImmutable();
     }
 
-    inline double GetRRTPlanningZMin(ros::NodeHandle& nh)
+    inline double GetRRTPlanningZMinBulletFrame(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_z_min", __func__);
         return val.GetImmutable();
     }
 
-    inline double GetRRTPlanningZMax(ros::NodeHandle& nh)
+    inline double GetRRTPlanningZMaxBulletFrame(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_z_max", __func__);
         return val.GetImmutable();
@@ -1587,6 +1599,11 @@ namespace smmap
     inline std::string GetBulletFrameName()
     {
         return "bullet_origin";
+    }
+
+    inline std::string GetTaskFrameName()
+    {
+        return GetBulletFrameName();
     }
 
     inline std::string GetWorldFrameName()

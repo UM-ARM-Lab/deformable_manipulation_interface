@@ -14,13 +14,13 @@
     <arg name="screenshots_enabled"                     default="false"/>
 
     <!-- Planner trial type -->
-    <!--<arg name="planner_trial_type"                      default="diminishing_rigidity_single_model_least_squares_controller"/>-->
-    <arg name="planner_trial_type"                      default="constraint_single_model_constraint_controller"/>
+    <arg name="planner_trial_type"                      default="diminishing_rigidity_single_model_least_squares_controller"/>
+    <!--<arg name="planner_trial_type"                      default="constraint_single_model_constraint_controller"/>-->
 
     <!-- Planner visualization arguments -->
     <arg name="disable_all_visualizations"              default="false"/>
     <arg name="visualize_object_desired_motion"         default="true"/>
-    <arg name="visualize_gripper_motion"                default="true"/>
+    <arg name="visualize_gripper_motion"                default="false"/>
     <arg name="visualize_object_predicted_motion"       default="false"/>
     <arg name="visualize_prm"                           default="true"/>
     <arg name="visualize_free_space_graph"              default="false"/>
@@ -98,9 +98,10 @@
         <group ns="band">
             <param name="logging_enabled"               value="$(arg planner_logging_enabled)"                              type="bool"/>
             <param name="log_folder"                    value="$(find smmap)/logs/$(arg task_type)/$(arg test_id)/"         type="string"/>
+            <!--<param name="use_stored_band"               value="true"                                                        type="bool"/>-->
             <param name="use_stored_band"               value="false"                                                       type="bool"/>
             <param name="band_file_name_prefix"         value="band"                                                        type="string"/>
-            <param name="band_file_name_suffix_to_load" value="2017-10-30__00-12-51-043"                                    type="string"/>
+            <param name="band_file_name_suffix_to_load" value="point0_and_point1_on_opposite_sides_of_column"               type="string"/>
         </group>
 
         <!-- Dinimishing Rigidity parameters and overrides -->
