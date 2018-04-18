@@ -1,7 +1,7 @@
 <launch>
     <!-- Task and logging arguments -->
     <arg name="task_type"/>
-    <arg name="planner_logging_enabled"                 default="false"/>
+    <arg name="planner_logging_enabled"                 default="true"/>
     <arg name="controller_logging_enabled"              default="false"/>
     <arg name="test_id"                                 default="default"/>
     <arg name="task_max_time_override"                  default="false"/>
