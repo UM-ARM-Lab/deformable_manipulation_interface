@@ -22,7 +22,7 @@
     <arg name="visualize_object_desired_motion"         default="true"/>
     <arg name="visualize_gripper_motion"                default="false"/>
     <arg name="visualize_object_predicted_motion"       default="false"/>
-    <arg name="visualize_prm"                           default="true"/>
+    <arg name="visualize_prm"                           default="false"/>
     <arg name="visualize_free_space_graph"              default="false"/>
     <arg name="visualize_correspondences"               default="false"/>
 
@@ -101,7 +101,7 @@
             <!--<param name="use_stored_band"               value="true"                                                        type="bool"/>-->
             <param name="use_stored_band"               value="false"                                                       type="bool"/>
             <param name="band_file_name_prefix"         value="band"                                                        type="string"/>
-            <param name="band_file_name_suffix_to_load" value="point0_and_point1_on_opposite_sides_of_column"               type="string"/>
+            <param name="band_file_name_suffix_to_load" value="2018-04-17__22-04-52"               type="string"/>
         </group>
 
         <!-- Dinimishing Rigidity parameters and overrides -->
