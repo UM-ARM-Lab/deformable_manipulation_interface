@@ -74,7 +74,7 @@
 
         <param name="use_stored_world_state"                value="false"                                   type="bool"/>
         <param name="world_state_file_name_prefix"          value="world_state"                             type="string"/>
-        <param name="world_state_file_name_suffix_to_load"  value="sdf_problems"                type="string"/>
+        <param name="world_state_file_name_suffix_to_load"  value="sdf_problems"                            type="string"/>
 
         <param name="disable_all_visualizations"        value="$(arg disable_all_visualizations)"           type="bool"/>
         <param name="visualize_object_desired_motion"   value="$(arg visualize_object_desired_motion)"      type="bool"/>
@@ -85,9 +85,14 @@
         <param name="visualize_correspondences"         value="$(arg visualize_correspondences)"            type="bool"/>
 
         <group ns="rrt">
-            <param name="timeout"                       value="1200.0"                      type="double"/>
-            <param name="reuse_old_results"             value="false"                       type="bool"/>
+            <param name="timeout"                       value="7200.0"                      type="double"/>
+            <param name="reuse_old_results"             value="true"                        type="bool"/>
             <param name="store_new_results"             value="true"                        type="bool"/>
+
+            <!-- Used to test shortcut smoothing -->
+            <param name="use_stored_path"               value="true"                        type="bool"/>
+            <param name="path_file_name_prefix"         value="rrt_unsmoothed_path"         type="string"/>
+            <param name="path_file_name_suffix_to_load" value="cbirrt_style_projection"     type="string"/>
         </group>
 
         <group ns="prm">
