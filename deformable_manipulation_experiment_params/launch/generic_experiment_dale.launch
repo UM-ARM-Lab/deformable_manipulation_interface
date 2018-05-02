@@ -86,13 +86,13 @@
 
         <group ns="rrt">
             <param name="timeout"                       value="7200.0"                      type="double"/>
-            <param name="reuse_old_results"             value="true"                        type="bool"/>
+            <param name="reuse_old_results"             value="false"                       type="bool"/>
             <param name="store_new_results"             value="true"                        type="bool"/>
 
             <!-- Used to test shortcut smoothing -->
             <param name="use_stored_path"               value="true"                        type="bool"/>
             <param name="path_file_name_prefix"         value="rrt_unsmoothed_path"         type="string"/>
-            <param name="path_file_name_suffix_to_load" value="cbirrt_style_projection"     type="string"/>
+            <param name="path_file_name_suffix_to_load" value="static_no_vicon_env"         type="string"/>
         </group>
 
         <group ns="prm">

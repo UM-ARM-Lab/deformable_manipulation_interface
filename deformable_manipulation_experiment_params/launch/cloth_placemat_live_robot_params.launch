@@ -99,6 +99,9 @@
 
         <param name="viewer_width"                      value="800"     type="int"/>
         <param name="viewer_height"                     value="800"     type="int"/>
+
+        <param name="cover_points_file_name_prefix"         value="cover_points"    type="string"/>
+        <param name="cover_points_file_name_suffix_to_load" value="rrt_testing"     type="string"/>
     </group>
 
     <group ns="smmap_planner_node">
@@ -129,20 +132,21 @@
             <param name="min_gripper_distance_to_obstacles" value="0.023"                       type="double"/>
             <param name="target_min_distance_scale_factor"  value="1.1"                         type="double"/>
             <param name="max_robot_dof_step_size"           value="0.05"                        type="double"/>
-            <param name="min_robot_dof_step_size"           value="0.0001"                      type="double"/>
+            <param name="min_robot_dof_step_size"           value="0.001"                       type="double"/>
             <param name="max_gripper_rotation"              value="0.7"                         type="double"/>
-            <param name="max_shortcut_index_distance"       value="50"                          type="int"/>
-            <param name="max_smoothing_iterations"          value="20000"                       type="int"/>
-            <param name="max_failed_smoothing_iterations"   value="50000"                       type="int"/>
+            <param name="max_shortcut_index_distance"       value="100"                         type="int"/>
+            <param name="max_smoothing_iterations"          value="5000"                        type="int"/>
+            <param name="max_failed_smoothing_iterations"   value="999999999"                   type="int"/>
 
 
             <!-- READ THIS! READ THIS! READ THIS! All of the "tabbed in" parameters are measured in the bullet(task) frame, but unscaled distances -->
-                <param name="planning_x_min"                    value="$(arg world_x_min)"          type="double"/>
-                <param name="planning_x_max"                    value="$(arg world_x_max)"          type="double"/>
-                <param name="planning_y_min"                    value="$(arg world_y_min)"          type="double"/>
-                <param name="planning_y_max"                    value="$(arg world_y_max)"          type="double"/>
-                <param name="planning_z_min"                    value="$(arg world_z_min)"          type="double"/>
-                <param name="planning_z_max"                    value="$(arg world_z_max)"          type="double"/>
+                <arg name="planning_boundary_margin"            value="0.000001"/>
+                <param name="planning_x_min"                    value="$(eval world_x_min + planning_boundary_margin)"  type="double"/>
+                <param name="planning_x_max"                    value="$(eval world_x_max + planning_boundary_margin)"  type="double"/>
+                <param name="planning_y_min"                    value="$(eval world_y_min + planning_boundary_margin)"  type="double"/>
+                <param name="planning_y_max"                    value="$(eval world_y_max + planning_boundary_margin)"  type="double"/>
+                <param name="planning_z_min"                    value="$(eval world_z_min + planning_boundary_margin)"  type="double"/>
+                <param name="planning_z_max"                    value="$(eval world_z_max + planning_boundary_margin)"  type="double"/>
         </group>
 
         <group ns="diminishing_rigidity">
