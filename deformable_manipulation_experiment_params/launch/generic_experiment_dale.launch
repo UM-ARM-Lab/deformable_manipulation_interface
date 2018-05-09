@@ -3,7 +3,7 @@
     <arg name="task_type"/>
     <arg name="planner_logging_enabled"                 default="true"/>
     <arg name="controller_logging_enabled"              default="false"/>
-    <arg name="test_id"                                 default="default"/>
+    <arg name="test_id"                                 default="planner_timing_tests"/>
     <arg name="task_max_time_override"                  default="false"/>
     <arg name="task_max_time"                           if="$(arg task_max_time_override)"/>
 
@@ -18,7 +18,7 @@
     <!--<arg name="planner_trial_type"                      default="constraint_single_model_constraint_controller"/>-->
 
     <!-- Planner visualization arguments -->
-    <arg name="disable_all_visualizations"              default="false"/>
+    <arg name="disable_all_visualizations"              default="true"/>
     <arg name="visualize_object_desired_motion"         default="true"/>
     <arg name="visualize_gripper_motion"                default="false"/>
     <arg name="visualize_object_predicted_motion"       default="false"/>
@@ -85,12 +85,13 @@
         <param name="visualize_correspondences"         value="$(arg visualize_correspondences)"            type="bool"/>
 
         <group ns="rrt">
-            <param name="timeout"                       value="7200.0"                      type="double"/>
+            <param name="timeout"                       value="1200.0"                      type="double"/>
             <param name="reuse_old_results"             value="false"                       type="bool"/>
             <param name="store_new_results"             value="true"                        type="bool"/>
+            <param name="use_cbirrt_style_projection"   value="true"                        type="bool"/>
 
             <!-- Used to test shortcut smoothing -->
-            <param name="use_stored_path"               value="true"                        type="bool"/>
+            <param name="use_stored_path"               value="false"                       type="bool"/>
             <param name="path_file_name_prefix"         value="rrt_unsmoothed_path"         type="string"/>
             <param name="path_file_name_suffix_to_load" value="static_no_vicon_env"         type="string"/>
         </group>
@@ -103,7 +104,6 @@
         <group ns="band">
             <param name="logging_enabled"               value="$(arg planner_logging_enabled)"                              type="bool"/>
             <param name="log_folder"                    value="$(find smmap)/logs/$(arg task_type)/$(arg test_id)/"         type="string"/>
-            <!--<param name="use_stored_band"               value="true"                                                        type="bool"/>-->
             <param name="use_stored_band"               value="false"                                                       type="bool"/>
             <param name="band_file_name_prefix"         value="band"                                                        type="string"/>
             <param name="band_file_name_suffix_to_load" value="2018-04-17__22-04-52"               type="string"/>

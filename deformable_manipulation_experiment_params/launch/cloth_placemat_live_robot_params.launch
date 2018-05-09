@@ -100,7 +100,7 @@
         <param name="viewer_width"                      value="800"     type="int"/>
         <param name="viewer_height"                     value="800"     type="int"/>
 
-        <param name="cover_points_file_name_prefix"         value="cover_points"    type="string"/>
+        <param name="cover_points_file_name_prefix"         value="../cover_points" type="string"/>
         <param name="cover_points_file_name_suffix_to_load" value="rrt_testing"     type="string"/>
     </group>
 
@@ -128,14 +128,19 @@
         </group>
 
         <group ns="rrt">
+            <param name="forward_tree_extend_iterations"    value="500"                         type="int"/>
+            <param name="backward_tree_extend_iterations"   value="500"                         type="int"/>
             <param name="goal_bias"                         value="0.01"                        type="double"/>
+
             <param name="min_gripper_distance_to_obstacles" value="0.023"                       type="double"/>
             <param name="target_min_distance_scale_factor"  value="1.1"                         type="double"/>
+            <param name="max_gripper_rotation"              value="0.7"                         type="double"/>
+
             <param name="max_robot_dof_step_size"           value="0.05"                        type="double"/>
             <param name="min_robot_dof_step_size"           value="0.001"                       type="double"/>
-            <param name="max_gripper_rotation"              value="0.7"                         type="double"/>
+
             <param name="max_shortcut_index_distance"       value="100"                         type="int"/>
-            <param name="max_smoothing_iterations"          value="5000"                        type="int"/>
+            <param name="max_smoothing_iterations"          value="2000"                        type="int"/>
             <param name="max_failed_smoothing_iterations"   value="999999999"                   type="int"/>
 
 

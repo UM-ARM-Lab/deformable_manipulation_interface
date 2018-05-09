@@ -114,7 +114,7 @@
 
         <param name="controller_min_distance_to_obstacles"    value="0.002"                                  type="double"/>
 
-        <param name="enable_stuck_detection"                                value="false"        type="bool"/>
+        <param name="enable_stuck_detection"                                value="true"        type="bool"/>
         <group ns="stuck_detection">
             <param name="num_lookahead_steps"                               value="10"          type="int"/>
             <param name="band_overstretch_prediction_annealing_factor"      value="0.5"         type="double"/>
@@ -127,6 +127,9 @@
             <param name="goal_bias"                         value="0.01"                        type="double"/>
             <param name="min_gripper_distance_to_obstacles" value="0.023"                       type="double"/>
             <param name="target_min_distance_scale_factor"  value="1.1"                         type="double"/>
+            <param name="max_robot_dof_step_size"           value="0.05"                        type="double"/>
+            <param name="min_robot_dof_step_size"           value="0.001"                       type="double"/>
+            <param name="max_gripper_rotation"              value="0.7"                         type="double"/>
             <param name="max_shortcut_index_distance"       value="20"                          type="int"/>
             <param name="max_smoothing_iterations"          value="500"                         type="int"/>
             <param name="max_failed_smoothing_iterations"   value="5000"                        type="int"/>

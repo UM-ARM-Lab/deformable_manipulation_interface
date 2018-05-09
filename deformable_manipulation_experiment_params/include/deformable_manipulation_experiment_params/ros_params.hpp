@@ -1168,6 +1168,24 @@ namespace smmap
         return val.GetImmutable();
     }
 
+    inline bool GetUseCBiRRTStyleProjection(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "rrt/use_cbirrt_style_projection", __func__);
+        return val.GetImmutable();
+    }
+
+    inline size_t GetRRTForwardTreeExtendIterations(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt/forward_tree_extend_iterations", __func__);
+        return (size_t)val.GetImmutable();
+    }
+
+    inline size_t GetRRTBackwardTreeExtendIterations(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt/backward_tree_extend_iterations", __func__);
+        return (size_t)val.GetImmutable();
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // Planner - PRM settings
     ////////////////////////////////////////////////////////////////////////////
@@ -1496,7 +1514,6 @@ namespace smmap
 
     inline std::string GetVisualizationMarkerArrayTopic(ros::NodeHandle& nh)
     {
-        ROS_WARN_ONCE("There is no longer anything from SMMAP publishing on the vector version of the visualization topic, it can be removed");
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "visualization_marker_array_topic", "visualization_marker_vector");
     }
 
