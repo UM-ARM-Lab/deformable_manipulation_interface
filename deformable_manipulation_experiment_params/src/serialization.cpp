@@ -21,7 +21,7 @@ namespace smmap
         const std::function<uint64_t(const Eigen::Vector3d&, std::vector<uint8_t>&)> value_serializer =
                 [] (const Eigen::Vector3d& value, std::vector<uint8_t>& buffer)
         {
-            return SerializeEigenType<Eigen::Vector3d>(value, buffer);
+            return SerializeEigen(value, buffer);
         };
         SerializeVector(points, buffer, value_serializer);
 
@@ -42,7 +42,7 @@ namespace smmap
         current_position += frame_deserialized.second;
         const auto value_deserializer = [] (const std::vector<uint8_t>& buffer, const uint64_t current)
         {
-            return arc_utilities::DeserializeEigenType<Eigen::Vector3d>(buffer, current);
+            return arc_utilities::DeserializeEigen<Eigen::Vector3d>(buffer, current);
         };
 
         // Read in the point vector

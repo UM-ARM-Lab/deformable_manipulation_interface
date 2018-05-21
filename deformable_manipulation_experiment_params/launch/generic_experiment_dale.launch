@@ -85,10 +85,13 @@
         <param name="visualize_correspondences"         value="$(arg visualize_correspondences)"            type="bool"/>
 
         <group ns="rrt">
-            <param name="timeout"                       value="1200.0"                      type="double"/>
+            <param name="timeout"                       value="600.0"                       type="double"/>
             <param name="reuse_old_results"             value="false"                       type="bool"/>
             <param name="store_new_results"             value="true"                        type="bool"/>
             <param name="use_cbirrt_style_projection"   value="true"                        type="bool"/>
+
+            <param name="use_brute_force_nn"            value="false"                       type="bool"/>
+            <param name="kd_tree_grow_threshold"        value="1"                         type="int"/>
 
             <!-- Used to test shortcut smoothing -->
             <param name="use_stored_path"               value="false"                       type="bool"/>
