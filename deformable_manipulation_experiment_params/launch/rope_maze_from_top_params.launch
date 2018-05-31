@@ -1,10 +1,14 @@
 <launch>
     <!-- Arguments to override default params -->
     <arg name="task_max_time"           default="3600.0"/>
+    <arg name="stretching_cosine_threshold" default="0.55"/>
 
     <!-- Defines which world building routines we use, and which task specification -->
     <param name="deformable_type"       value="rope"        type="string"/>
     <param name="task_type"             value="rope_maze"   type="string"/>
+
+    <!-- planner, controller params -->
+    <arg name="desired_motion_scale_factor"     default="1"/>
 
     <!-- Rope phyiscal parameters -->
     <param name="rope_segment_length"   value="0.02"        type="double"/>
@@ -51,12 +55,15 @@
 
     <group ns="smmap_planner_node">
         <group ns="task">
-            <param name="max_time"                              value="$(arg task_max_time)"    type="double"/>
-            <param name="error_threshold_along_normal"          value="0.055"                   type="double"/>
-            <param name="error_threshold_distance_to_normal"    value="0.025"                   type="double"/>
-            <param name="error_threshold_task_done"             value="0.4"                     type="double"/>
-            <param name="max_stretch_factor"                    value="1.1"                     type="double"/>
+            <param name="max_time"                            value="$(arg task_max_time)"                  type="double"/>
+            <param name="error_threshold_along_normal"        value="0.055"                                 type="double"/>
+            <param name="error_threshold_distance_to_normal"  value="0.025"                                 type="double"/>
+            <param name="error_threshold_task_done"           value="0.4"                                   type="double"/>
+            <param name="max_stretch_factor"                  value="1.1"                                   type="double"/>
+            <param name="desired_motion_scale_factor"         value="$(arg desired_motion_scale_factor)"    type="double"/>
         </group>
+
+        <param name="controller_min_distance_to_obstacles"    value="0.002"                                  type="double"/>
 
         <param name="enable_stuck_detection"                                value="true"        type="bool"/>
         <group ns="stuck_detection">
@@ -68,9 +75,11 @@
         </group>
 
         <group ns="rrt">
-            <param name="goal_bias"                         value="0.01"                        type="double"/>
             <param name="min_gripper_distance_to_obstacles" value="0.03"                        type="double"/>
             <param name="target_min_distance_scale_factor"  value="1.1"                         type="double"/>
+            <param name="max_robot_dof_step_size"           value="0.05"                        type="double"/>
+            <param name="min_robot_dof_step_size"           value="0.05"                        type="double"/>
+            <param name="max_gripper_rotation"              value="0.7"                         type="double"/>
             <param name="max_shortcut_index_distance"       value="20"                          type="int"/>
             <param name="max_smoothing_iterations"          value="500"                         type="int"/>
             <param name="max_failed_smoothing_iterations"   value="5000"                        type="int"/>
@@ -89,6 +98,11 @@
 
         <group ns="jacobian_controller">
             <param name="collision_scaling_factor"      value="200.0"           type="double"/>
+        </group>
+
+        <group ns="stretching_avoidance_controller">
+            <param name="stretching_cosine_threshold"   value="$(arg stretching_cosine_threshold)"  type="double"/>
+            <param name="fix_step_size"                 value="true"                                type="bool"/>
         </group>
     </group>
 </launch>

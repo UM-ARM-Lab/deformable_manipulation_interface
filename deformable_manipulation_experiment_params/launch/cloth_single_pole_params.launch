@@ -124,11 +124,10 @@
         </group>
 
         <group ns="rrt">
-            <param name="goal_bias"                         value="0.01"                        type="double"/>
             <param name="min_gripper_distance_to_obstacles" value="0.023"                       type="double"/>
             <param name="target_min_distance_scale_factor"  value="1.1"                         type="double"/>
             <param name="max_robot_dof_step_size"           value="0.05"                        type="double"/>
-            <param name="min_robot_dof_step_size"           value="0.001"                       type="double"/>
+            <param name="min_robot_dof_step_size"           value="0.05"                        type="double"/>
             <param name="max_gripper_rotation"              value="0.7"                         type="double"/>
             <param name="max_shortcut_index_distance"       value="20"                          type="int"/>
             <param name="max_smoothing_iterations"          value="500"                         type="int"/>

@@ -18,7 +18,7 @@
     <!--<arg name="planner_trial_type"                      default="constraint_single_model_constraint_controller"/>-->
 
     <!-- Planner visualization arguments -->
-    <arg name="disable_all_visualizations"              default="true"/>
+    <arg name="disable_all_visualizations"              default="false"/>
     <arg name="visualize_object_desired_motion"         default="true"/>
     <arg name="visualize_gripper_motion"                default="false"/>
     <arg name="visualize_object_predicted_motion"       default="false"/>
@@ -37,7 +37,7 @@
     <arg name="kalman_parameters_override"              default="false"/>
     <arg name="process_noise_factor"                    if="$(arg kalman_parameters_override)"/>
     <arg name="observation_noise_factor"                if="$(arg kalman_parameters_override)"/>
-    <arg name="bandit_algorithm"                        default="UCB"/>
+    <arg name="bandit_algorithm"                        default="KFMANDB"/>
     <arg name="correlation_strength_factor_override"    default="false"/>
     <arg name="correlation_strength_factor"             if="$(arg correlation_strength_factor_override)"/>
 
@@ -85,18 +85,22 @@
         <param name="visualize_correspondences"         value="$(arg visualize_correspondences)"            type="bool"/>
 
         <group ns="rrt">
-            <param name="timeout"                       value="600.0"                       type="double"/>
-            <param name="reuse_old_results"             value="false"                       type="bool"/>
-            <param name="store_new_results"             value="true"                        type="bool"/>
-            <param name="use_cbirrt_style_projection"   value="true"                        type="bool"/>
+            <param name="timeout"                           value="300.0"                   type="double"/>
+            <param name="reuse_old_results"                 value="false"                   type="bool"/>
+            <param name="store_new_results"                 value="true"                    type="bool"/>
 
-            <param name="use_brute_force_nn"            value="false"                       type="bool"/>
-            <param name="kd_tree_grow_threshold"        value="1"                         type="int"/>
+            <param name="use_brute_force_nn"                value="false"                   type="bool"/>
+            <param name="kd_tree_grow_threshold"            value="500"                     type="int"/>
+
+            <param name="forward_tree_extend_iterations"    value="10"                      type="int"/>
+            <param name="backward_tree_extend_iterations"   value="10"                      type="int"/>
+            <param name="goal_bias"                         value="0.01"                    type="double"/>
+            <param name="use_cbirrt_style_projection"       value="false"                   type="bool"/>
 
             <!-- Used to test shortcut smoothing -->
-            <param name="use_stored_path"               value="false"                       type="bool"/>
-            <param name="path_file_name_prefix"         value="rrt_unsmoothed_path"         type="string"/>
-            <param name="path_file_name_suffix_to_load" value="static_no_vicon_env"         type="string"/>
+            <param name="use_stored_path"                   value="false"                   type="bool"/>
+            <param name="path_file_name_prefix"             value="rrt_path"                type="string"/>
+            <param name="path_file_name_suffix_to_load"     value="static_no_vicon_env"     type="string"/>
         </group>
 
         <group ns="prm">

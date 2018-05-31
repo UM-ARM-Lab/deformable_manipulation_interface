@@ -1186,6 +1186,18 @@ namespace smmap
         return (size_t)val.GetImmutable();
     }
 
+    inline bool GetUseBruteForceNN(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "rrt/use_brute_force_nn", __func__);
+        return val.GetImmutable();
+    }
+
+    inline size_t GetKdTreeGrowThreshold(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt/kd_tree_grow_threshold", __func__);
+        return (size_t)val.GetImmutable();
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // Planner - PRM settings
     ////////////////////////////////////////////////////////////////////////////
