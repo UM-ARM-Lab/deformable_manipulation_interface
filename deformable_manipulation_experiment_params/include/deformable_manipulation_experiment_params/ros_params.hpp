@@ -1083,6 +1083,18 @@ namespace smmap
         return 1e3;
     }
 
+    inline double GetRRTBandDistance2ScalingFactor(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/band_dist2_scaling_factor", __func__);
+        return val.GetImmutable();
+    }
+
+    inline size_t GetRRTBandMaxPoints(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt/band_max_points_", __func__);
+        return (size_t)val.GetImmutable();
+    }
+
     inline double GetRRTMaxRobotDOFStepSize(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/max_robot_dof_step_size", __func__);

@@ -97,6 +97,9 @@
             <param name="goal_bias"                         value="0.01"                    type="double"/>
             <param name="use_cbirrt_style_projection"       value="false"                   type="bool"/>
 
+            <param name="band_dist2_scaling_factor"         value="0.000001"                type="double"/>
+            <param name="band_max_points_"                  value="500"                     type="double"/>
+
             <!-- Used to test shortcut smoothing -->
             <param name="use_stored_path"                   value="false"                   type="bool"/>
             <param name="path_file_name_prefix"             value="rrt_path"                type="string"/>
