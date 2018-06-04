@@ -19,7 +19,7 @@
 
     <!-- Planner visualization arguments -->
     <arg name="disable_all_visualizations"              default="false"/>
-    <arg name="visualize_object_desired_motion"         default="true"/>
+    <arg name="visualize_object_desired_motion"         default="false"/>
     <arg name="visualize_gripper_motion"                default="false"/>
     <arg name="visualize_object_predicted_motion"       default="false"/>
     <arg name="visualize_prm"                           default="false"/>

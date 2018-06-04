@@ -20,6 +20,11 @@
     <param name="rope_com_y"            value="0.8"         type="double"/>
     <param name="rope_com_z"            value="0.2"         type="double"/>
 
+    <!-- Set a unit vector defining what direction the rope is created in -->
+    <param name="rope_extension_x"      value="1.0"/>
+    <param name="rope_extension_y"      value="0.0"/>
+    <param name="rope_extension_z"      value="0.0"/>
+
     <!-- World parameters for planning - used by both nodes -->
     <arg name="grid_resolution"         value="0.05"/>
     <arg name="world_x_min"             value="-1.3"/>
