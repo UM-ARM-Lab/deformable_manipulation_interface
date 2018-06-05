@@ -109,6 +109,7 @@
             <param name="error_threshold_distance_to_normal"  value="0.006"                                 type="double"/>
             <param name="error_threshold_task_done"           value="0.1"                                   type="double"/>
             <param name="max_stretch_factor"                  value="$(eval (0.012 + 0.002) / 0.012)"       type="double"/>
+            <param name="max_band_length"                     value="0.548333"                              type="double"/>
             <param name="desired_motion_scale_factor"         value="$(arg desired_motion_scale_factor)"    type="double"/>
         </group>
 

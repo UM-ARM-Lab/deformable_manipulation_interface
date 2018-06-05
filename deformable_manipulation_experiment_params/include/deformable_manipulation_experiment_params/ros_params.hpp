@@ -149,6 +149,12 @@ namespace smmap
         return val.GetImmutable();
     }
 
+    inline double GetMaxBandLength(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "task/max_band_length", __func__);
+        return val.GetImmutable();
+    }
+
     inline float GetMaxStrain(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<float>(nh, "max_strain", __func__);
