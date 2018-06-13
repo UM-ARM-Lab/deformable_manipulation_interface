@@ -1605,14 +1605,42 @@ namespace smmap
     {
         const std::string name = GetGripper0Name(nh);
         assert(name == "left" || name == "right");
-        return "victor_" + name + "_gripper";
+        const bool use_victor = ROSHelpers::GetParamRequired<bool>(nh, "use_victor", __func__).GetImmutable();
+        const bool use_val = ROSHelpers::GetParamRequired<bool>(nh, "use_val", __func__).GetImmutable();
+        assert ((use_victor ^ use_val) && "Only one of Victor or Val can be specified");
+        if (use_victor)
+        {
+            return "victor_" + name + "_gripper";
+        }
+        else if (use_val)
+        {
+            return name + "gripper_tip";
+        }
+        else
+        {
+            assert(false && "This should not be possible");
+        }
     }
 
     inline std::string GetGripper1TFName(ros::NodeHandle& nh)
     {
         const std::string name = GetGripper1Name(nh);
         assert(name == "left" || name == "right");
-        return "victor_" + name + "_gripper";
+        const bool use_victor = ROSHelpers::GetParamRequired<bool>(nh, "use_victor", __func__).GetImmutable();
+        const bool use_val = ROSHelpers::GetParamRequired<bool>(nh, "use_val", __func__).GetImmutable();
+        assert ((use_victor ^ use_val) && "Only one of Victor or Val can be specified");
+        if (use_victor)
+        {
+            return "victor_" + name + "_gripper";
+        }
+        else if (use_val)
+        {
+            return name + "gripper_tip";
+        }
+        else
+        {
+            assert(false && "This should not be possible");
+        }
     }
 
     inline size_t GetGripperAttachedIdx(ros::NodeHandle& nh, const std::string& gripper_name)

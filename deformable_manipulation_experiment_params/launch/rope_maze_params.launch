@@ -60,16 +60,16 @@
 
     <group ns="smmap_planner_node">
         <group ns="task">
-            <param name="max_time"                            value="$(arg task_max_time)"                  type="double"/>
-            <param name="error_threshold_along_normal"        value="0.055"                                 type="double"/>
-            <param name="error_threshold_distance_to_normal"  value="0.025"                                 type="double"/>
-            <param name="error_threshold_task_done"           value="0.4"                                   type="double"/>
-            <param name="max_stretch_factor"                  value="1.1"                                   type="double"/>
-            <param name="max_band_length"                     value="0.836"                                 type="double"/>
-            <param name="desired_motion_scale_factor"         value="$(arg desired_motion_scale_factor)"    type="double"/>
+            <param name="max_time"                              value="$(arg task_max_time)"                type="double"/>
+            <param name="error_threshold_along_normal"          value="0.055"                               type="double"/>
+            <param name="error_threshold_distance_to_normal"    value="0.025"                               type="double"/>
+            <param name="error_threshold_task_done"             value="0.4"                                 type="double"/>
+            <param name="max_stretch_factor"                    value="1.1"                                 type="double"/>
+            <param name="max_band_length"                       value="0.836"                               type="double"/>
+            <param name="desired_motion_scale_factor"           value="$(arg desired_motion_scale_factor)"  type="double"/>
         </group>
 
-        <param name="controller_min_distance_to_obstacles"    value="0.002"                                  type="double"/>
+        <param name="controller_min_distance_to_obstacles"      value="0.002"                               type="double"/>
 
         <param name="enable_stuck_detection"                                value="true"        type="bool"/>
         <group ns="stuck_detection">
