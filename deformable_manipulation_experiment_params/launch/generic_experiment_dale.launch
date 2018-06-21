@@ -18,11 +18,12 @@
     <!--<arg name="planner_trial_type"                      default="constraint_single_model_constraint_controller"/>-->
 
     <!-- Planner visualization arguments -->
-    <arg name="disable_all_visualizations"              default="false"/>
+    <arg name="disable_all_visualizations"              default="true"/>
     <arg name="visualize_object_desired_motion"         default="false"/>
     <arg name="visualize_gripper_motion"                default="false"/>
     <arg name="visualize_object_predicted_motion"       default="false"/>
     <arg name="visualize_prm"                           default="false"/>
+    <arg name="visualize_rrt"                           default="false"/>
     <arg name="visualize_free_space_graph"              default="false"/>
     <arg name="visualize_correspondences"               default="false"/>
 
@@ -81,6 +82,7 @@
         <param name="visualize_gripper_motion"          value="$(arg visualize_gripper_motion)"             type="bool"/>
         <param name="visualize_object_predicted_motion" value="$(arg visualize_object_predicted_motion)"    type="bool"/>
         <param name="visualize_prm"                     value="$(arg visualize_prm)"                        type="bool"/>
+        <param name="visualize_rrt"                     value="$(arg visualize_rrt)"                        type="bool"/>
         <param name="visualize_free_space_graph"        value="$(arg visualize_free_space_graph)"           type="bool"/>
         <param name="visualize_correspondences"         value="$(arg visualize_correspondences)"            type="bool"/>
 
@@ -94,7 +96,7 @@
 
             <param name="forward_tree_extend_iterations"    value="10"                      type="int"/>
             <param name="backward_tree_extend_iterations"   value="10"                      type="int"/>
-            <param name="goal_bias"                         value="0.01"                    type="double"/>
+            <param name="goal_bias"                         value="0.05"                    type="double"/>
             <param name="use_cbirrt_style_projection"       value="false"                   type="bool"/>
 
             <param name="band_dist2_scaling_factor"         value="0.000001"                type="double"/>

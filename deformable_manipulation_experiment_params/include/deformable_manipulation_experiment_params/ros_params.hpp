@@ -47,6 +47,11 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "visualize_prm", default_vis);
     }
 
+    inline bool GetVisualizeRRT(ros::NodeHandle& nh, const bool default_vis = true)
+    {
+        return ROSHelpers::GetParam(nh, "visualize_rrt", default_vis);
+    }
+
     inline bool GetVisualizeFreeSpaceGraph(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "visualize_free_space_graph", true);

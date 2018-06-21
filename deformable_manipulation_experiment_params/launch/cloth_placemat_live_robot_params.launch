@@ -14,8 +14,10 @@
     <!-- READ THIS! READ THIS! READ THIS! All of the "tabbed in" parameters are measured in the bullet(task) frame, but unscaled distances -->
 
         <!-- Table size params: +'ve X points towards the door -->
-        <arg name="table_x_half_extents"    value="$(eval 30.0 / 2.0 * 0.0254)"/> <!-- 30 inches is the width of the table, converted into meters -->
-        <arg name="table_y_half_extents"    value="$(eval 42.0 / 2.0 * 0.0254)"/> <!-- 42 inches is the length of the table, converted into meters -->
+        <!--<arg name="table_x_half_extents"    value="$(eval 30.0 / 2.0 * 0.0254)"/> &lt;!&ndash; 30 inches is the width of the table, converted into meters &ndash;&gt;-->
+        <!--<arg name="table_y_half_extents"    value="$(eval 42.0 / 2.0 * 0.0254)"/> &lt;!&ndash; 42 inches is the length of the table, converted into meters &ndash;&gt;-->
+        <arg name="table_x_half_extents"    value="$(eval 23.625 / 2.0 * 0.0254)"/> <!-- 23.625 inches is the width of the table, converted into meters -->
+        <arg name="table_y_half_extents"    value="$(eval 47.25 / 2.0 * 0.0254)"/>  <!-- 47.25  inches is the length of the table, converted into meters -->
         <arg name="table_height"            value="0.7005"/>                      <!-- Height is mostly arbitrary, set to be above the floor somewhere and work well with the SDF resolution -->
         <arg name="table_thickness"         value="0.1005"/>
 
@@ -41,8 +43,8 @@
         <param name="cylinder_height" value="$(arg cylinder_height)"                            type="double"/>
         <param name="cylinder_radius" value="$(arg cylinder_radius)"                            type="double"/>
 
-        <param name="cylinder_com_x"  value="$(eval table_surface_x - 3.5 * 0.0254)"            type="double"/>
-        <param name="cylinder_com_y"  value="$(eval table_surface_y + 6.5 * 0.0254)"            type="double"/>
+        <param name="cylinder_com_x"  value="$(eval table_surface_x - 2.5 * 0.0254)"            type="double"/>
+        <param name="cylinder_com_y"  value="$(eval table_surface_y + 8.5 * 0.0254)"            type="double"/>
         <!--<param name="cylinder_com_x"  value="$(eval table_surface_x + 500.0)"                   type="double"/>-->
         <!--<param name="cylinder_com_y"  value="$(eval table_surface_y + 500.0)"                   type="double"/>-->
         <param name="cylinder_com_z"  value="$(eval table_surface_z + (cylinder_height / 2.0))" type="double"/>
@@ -66,9 +68,9 @@
         <!-- World parameters for planning - used by both nodes -->
         <arg name="grid_resolution"         value="0.02"/>
         <arg name="world_x_min"             value="$(eval table_surface_x - table_x_half_extents * 2.4)"/>
-        <arg name="world_x_max"             value="$(eval table_surface_x + table_x_half_extents * 1.2)"/>
-        <arg name="world_y_min"             value="$(eval table_surface_y - table_y_half_extents * 1.2)"/>
-        <arg name="world_y_max"             value="$(eval table_surface_y + table_y_half_extents * 1.2)"/>
+        <arg name="world_x_max"             value="$(eval table_surface_x + table_x_half_extents * 1.5)"/>
+        <arg name="world_y_min"             value="$(eval table_surface_y - table_y_half_extents * 1.5)"/>
+        <arg name="world_y_max"             value="$(eval table_surface_y + table_y_half_extents * 1.5)"/>
         <arg name="world_z_min"             value="$(eval table_height - 0.1)"/>
         <arg name="world_z_max"             value="$(eval table_height + 0.2)"/>
 
@@ -100,9 +102,12 @@
         <param name="viewer_width"                      value="800"     type="int"/>
         <param name="viewer_height"                     value="800"     type="int"/>
 
-        <param name="cover_points_file_name_prefix"         value="../cover_points" type="string"/>
-        <param name="cover_points_file_name_suffix_to_load" value="rrt_testing"     type="string"/>
+        <param name="cover_points_file_name_prefix"         value="../cover_points"             type="string"/>
+        <!--<param name="cover_points_file_name_suffix_to_load" value="small_table_right_of_val"    type="string"/>-->
+        <!--<param name="cover_points_file_name_suffix_to_load" value="small_table_center"          type="string"/>-->
+        <param name="cover_points_file_name_suffix_to_load" value="rrt_testing"          type="string"/>
     </group>
+
 
     <group ns="smmap_planner_node">
         <!-- TODO: Update these parameters to make them work for this task -->
@@ -112,7 +117,9 @@
             <param name="error_threshold_distance_to_normal"    value="0.02"                                type="double"/>
             <param name="error_threshold_task_done"             value="0.15"                                type="double"/>
             <param name="max_stretch_factor"                    value="1.01"                                type="double"/>
-            <param name="max_band_length"                       value="0.216528"                              type="double"/>
+            <param name="max_band_length"                       value="0.290812"                            type="double"/>
+            <!--<param name="max_band_length"                       value="0.216644"                            type="double"/>-->
+            <!--<param name="max_band_length"                       value="50.0"                            type="double"/>-->
             <param name="desired_motion_scale_factor"           value="$(arg desired_motion_scale_factor)"  type="double"/>
         </group>
 
@@ -131,7 +138,7 @@
         <group ns="rrt">
             <param name="min_gripper_distance_to_obstacles" value="0.023"                       type="double"/>
             <param name="target_min_distance_scale_factor"  value="1.1"                         type="double"/>
-            <param name="max_gripper_rotation"              value="0.7"                         type="double"/>
+            <param name="max_gripper_rotation"              value="1.6"                         type="double"/>
 
             <param name="max_robot_dof_step_size"           value="0.05"                        type="double"/>
             <param name="min_robot_dof_step_size"           value="0.001"                       type="double"/>
