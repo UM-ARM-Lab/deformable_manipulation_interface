@@ -18,12 +18,12 @@
     <!--<arg name="planner_trial_type"                      default="constraint_single_model_constraint_controller"/>-->
 
     <!-- Planner visualization arguments -->
-    <arg name="disable_all_visualizations"              default="true"/>
+    <arg name="disable_all_visualizations"              default="false"/>
     <arg name="visualize_object_desired_motion"         default="false"/>
     <arg name="visualize_gripper_motion"                default="false"/>
     <arg name="visualize_object_predicted_motion"       default="false"/>
     <arg name="visualize_prm"                           default="false"/>
-    <arg name="visualize_rrt"                           default="false"/>
+    <arg name="visualize_rrt"                           default="true"/>
     <arg name="visualize_free_space_graph"              default="false"/>
     <arg name="visualize_correspondences"               default="false"/>
 
