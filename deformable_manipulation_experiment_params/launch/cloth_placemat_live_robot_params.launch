@@ -2,7 +2,7 @@
     <!-- Arguments to override default params -->
     <arg name="task_max_time"           default="3600.0"/>
     <param name="max_gripper_velocity"  value="0.3"/>
-    <param name="max_dof_velocity"      value="0.8"/>
+    <param name="max_dof_velocity"      value="1.5"/>
 
     <!-- Defines which world building routines we use, and which task specification -->
     <param name="deformable_type"       value="cloth"                       type="string"/>
@@ -43,7 +43,7 @@
         <param name="cylinder_height" value="$(arg cylinder_height)"                            type="double"/>
         <param name="cylinder_radius" value="$(arg cylinder_radius)"                            type="double"/>
 
-        <param name="cylinder_com_x"  value="$(eval table_surface_x - 2.5 * 0.0254)"            type="double"/>
+        <param name="cylinder_com_x"  value="$(eval table_surface_x - 5.0 * 0.0254)"            type="double"/>
         <param name="cylinder_com_y"  value="$(eval table_surface_y + 3.0 * 0.0254)"            type="double"/>
         <!--<param name="cylinder_com_x"  value="$(eval table_surface_x + 500.0)"                   type="double"/>-->
         <!--<param name="cylinder_com_y"  value="$(eval table_surface_y + 500.0)"                   type="double"/>-->
