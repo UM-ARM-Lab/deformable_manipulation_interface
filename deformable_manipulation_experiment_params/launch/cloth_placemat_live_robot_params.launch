@@ -142,7 +142,7 @@
             <param name="min_robot_dof_step_size"           value="0.001"                       type="double"/>
 
             <param name="max_shortcut_index_distance"       value="100"                         type="int"/>
-            <param name="max_smoothing_iterations"          value="1500"                        type="int"/>
+            <param name="max_smoothing_iterations"          value="1000"                        type="int"/>
             <param name="max_failed_smoothing_iterations"   value="999999999"                   type="int"/>
 
 
