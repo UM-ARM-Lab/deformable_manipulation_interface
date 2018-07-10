@@ -1130,6 +1130,12 @@ namespace smmap
         return val.GetImmutable();
     }
 
+    inline double GetRRTBestNearRadius(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/best_near_radius", __func__);
+        return val.GetImmutable();
+    }
+
     inline int64_t GetRRTMaxShortcutIndexDistance(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt/max_shortcut_index_distance", __func__);
