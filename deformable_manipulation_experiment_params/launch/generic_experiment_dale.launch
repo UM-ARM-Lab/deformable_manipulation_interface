@@ -75,7 +75,7 @@
 
         <param name="use_stored_world_state"                value="false"                                   type="bool"/>
         <param name="world_state_file_name_prefix"          value="world_state"                             type="string"/>
-        <param name="world_state_file_name_suffix_to_load"  value="testing_gripper_predictions"             type="string"/>
+        <param name="world_state_file_name_suffix_to_load"  value="planner_false_positive"                  type="string"/>
 
         <param name="disable_all_visualizations"        value="$(arg disable_all_visualizations)"           type="bool"/>
         <param name="visualize_object_desired_motion"   value="$(arg visualize_object_desired_motion)"      type="bool"/>
