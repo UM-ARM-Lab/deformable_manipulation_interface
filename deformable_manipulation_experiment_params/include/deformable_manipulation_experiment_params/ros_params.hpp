@@ -114,21 +114,22 @@ namespace smmap
         const std::string task_type = val.GetImmutable();
 
         std::unordered_map<std::string, TaskType> task_map{
-            {"rope_cylinder_coverage",              TaskType::ROPE_CYLINDER_COVERAGE},
-            {"rope_cylinder_coverage_two_grippers", TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS},
-            {"cloth_cylinder_coverage",             TaskType::CLOTH_CYLINDER_COVERAGE},
-            {"cloth_table_coverage",                TaskType::CLOTH_TABLE_COVERAGE},
-            {"cloth_colab_folding",                 TaskType::CLOTH_COLAB_FOLDING},
-            {"cloth_wafr",                          TaskType::CLOTH_WAFR},
-            {"cloth_single_pole",                   TaskType::CLOTH_SINGLE_POLE},
-            {"cloth_wall",                          TaskType::CLOTH_WALL},
-            {"cloth_double_slit",                   TaskType::CLOTH_DOUBLE_SLIT},
-            {"rope_maze",                           TaskType::ROPE_MAZE},
-            {"rope_zig_match",                      TaskType::ROPE_ZIG_MATCH},
-            {"rope_table_linear_motion",            TaskType::ROPE_TABLE_LINEAR_MOTION},
-            {"cloth_table_linear_motion",           TaskType::CLOTH_TABLE_LINEAR_MOTION},
-            {"rope_table_penetration",              TaskType::ROPE_TABLE_PENTRATION},
-            {"cloth_placemat_live_robot",           TaskType::CLOTH_PLACEMAT_LIVE_ROBOT}
+            {"rope_cylinder_coverage",                  TaskType::ROPE_CYLINDER_COVERAGE},
+            {"rope_cylinder_coverage_two_grippers",     TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS},
+            {"cloth_cylinder_coverage",                 TaskType::CLOTH_CYLINDER_COVERAGE},
+            {"cloth_table_coverage",                    TaskType::CLOTH_TABLE_COVERAGE},
+            {"cloth_colab_folding",                     TaskType::CLOTH_COLAB_FOLDING},
+            {"cloth_wafr",                              TaskType::CLOTH_WAFR},
+            {"cloth_single_pole",                       TaskType::CLOTH_SINGLE_POLE},
+            {"cloth_wall",                              TaskType::CLOTH_WALL},
+            {"cloth_double_slit",                       TaskType::CLOTH_DOUBLE_SLIT},
+            {"rope_maze",                               TaskType::ROPE_MAZE},
+            {"rope_zig_match",                          TaskType::ROPE_ZIG_MATCH},
+            {"rope_table_linear_motion",                TaskType::ROPE_TABLE_LINEAR_MOTION},
+            {"cloth_table_linear_motion",               TaskType::CLOTH_TABLE_LINEAR_MOTION},
+            {"rope_table_penetration",                  TaskType::ROPE_TABLE_PENTRATION},
+            {"cloth_placemat_live_robot",               TaskType::CLOTH_PLACEMAT_LIVE_ROBOT},
+            {"cloth_placemat_live_robot_linear_motion", TaskType::CLOTH_PLACEMAT_LINEAR_MOTION}
         };
         
         try

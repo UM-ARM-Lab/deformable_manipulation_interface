@@ -1,10 +1,13 @@
 <launch>
+
+    !!!!!!!!!!!!! OUT OF DATE !!!!!!!!!!!!!!!!!!!!
+
+
     <!-- Task and logging arguments -->
     <!--<arg name="task_type"/>-->
     <arg name="task_type"/>
-    <arg name="planner_logging_enabled"                 default="false"/>
+    <arg name="planner_logging_enabled"                 default="true"/>
     <arg name="controller_logging_enabled"              default="true"/>
-    <!--<arg name="model_accuracy_logging_enabled"          default="true"/>-->
     <arg name="test_id"                                 default="model_accuracy"/>
     <arg name="task_max_time_override"                  default="false"/>
     <arg name="task_max_time"                           if="$(arg task_max_time_override)"/>
@@ -19,10 +22,13 @@
     <arg name="planner_trial_type"                      value="multi_model_accuracy_test"/>
 
     <!-- Planner visualization arguments -->
-    <arg name="disable_all_visualizations"              default="true"/>
+    <arg name="disable_all_visualizations"              default="false"/>
+    <arg name="visualize_object_desired_motion"         default="true"/>
     <arg name="visualize_gripper_motion"                default="true"/>
     <arg name="visualize_object_predicted_motion"       default="true"/>
+    <arg name="visualize_prm"                           default="false"/>
     <arg name="visualize_free_space_graph"              default="false"/>
+    <arg name="visualize_correspondences"               default="false"/>
 
    <!-- Model arguments -->
     <!-- Diminishing rigidity -->
@@ -32,12 +38,15 @@
 
     <!-- Adaptive Jacobian -->
     <arg name="adaptive_model_learning_rate"            default="0.000001"/>
+    
 
     <!-- Mengyao's model parameters-->
     <arg name="translational_dir_deformability"         default="4.0"/>
     <arg name="translational_dis_deformability"         default="10.0"/>
-    <arg name="rotational_dis_deformability"            default="10.0"/>
-    <!--<arg name="translational_old_version_deformability" default="10.0"/>-->
+    <arg name="rotational_dis_deformability"            default="20.0"/>
+
+    <arg name="stretching_cosine_threshold_override"    default="false"/>
+    <arg name="stretching_cosine_threshold"             if="$(arg stretching_cosine_threshold_override)"/>
 
     <!-- Planner internal arguments -->
     <arg name="launch_planner"                          default="true"/>
@@ -48,7 +57,10 @@
 
     <!-- Setup task parameters -->
     <param name="log_folder"                            value="$(find smmap)/logs/$(arg task_type)/$(arg test_id)/"         type="string"/>
-    <include file="$(find deformable_manipulation_experiment_params)/launch/$(arg task_type)_params.launch"/>
+    <include file="$(find deformable_manipulation_experiment_params)/launch/$(arg task_type)_params.launch">
+        <arg name="stretching_cosine_threshold"         value="$(arg stretching_cosine_threshold)"  if="$(arg stretching_cosine_threshold_override)"/>
+        <arg name="desired_motion_scale_factor"         value="$(arg desired_motion_scale_factor)"  if="$(arg desired_motion_scale_factor_override)"/>
+    </include>
 
     <!-- Setup the simulator -->
     <group ns="deform_simulator_node">
@@ -69,7 +81,6 @@
 
         <param name="planner_logging_enabled"           value="$(arg planner_logging_enabled)"              type="bool"/>
         <param name="controller_logging_enabled"        value="$(arg controller_logging_enabled)"           type="bool"/>
-        <!--<param name="model_accuracy_logging_enabled"    value="$(arg model_accuracy_logging_enabled)"       type="bool"/>-->
 
         <!--<param name="use_stored_world_state"                value="true"                                    type="bool"/>-->
         <param name="use_stored_world_state"                value="false"                                   type="bool"/>
@@ -78,15 +89,15 @@
         <param name="world_state_file_name_suffix_to_load"  value="new_start_position_rotating_wrong_way"                type="string"/>
 
         <param name="disable_all_visualizations"        value="$(arg disable_all_visualizations)"           type="bool"/>
-        <param name="visualize_object_desired_motion"   value="false"                                       type="bool"/>
+        <param name="visualize_object_desired_motion"   value="$(arg visualize_object_desired_motion)"      type="bool"/>
         <param name="visualize_gripper_motion"          value="$(arg visualize_gripper_motion)"             type="bool"/>
         <param name="visualize_object_predicted_motion" value="$(arg visualize_object_predicted_motion)"    type="bool"/>
-        <param name="visualize_prm"                     value="false"                                       type="bool"/>
+        <param name="visualize_prm"                     value="$(arg visualize_prm)"                        type="bool"/>
         <param name="visualize_free_space_graph"        value="$(arg visualize_free_space_graph)"           type="bool"/>
-        <param name="visualize_correspondences"         value="false"                                       type="bool"/>
+        <param name="visualize_correspondences"         value="$(arg visualize_correspondences)"            type="bool"/>
 
         <group ns="multi_model">
-            <param name="collect_results_for_all_models"    value="true"                                    type="bool"/>
+            <param name="collect_results_for_all_models"    value="$(arg collect_results_for_all_models)"   type="bool"/>
 
             <!-- Unused, but set -->
             <param name="reward_scale_annealing_factor"     value="0.9"                                     type="double"/>

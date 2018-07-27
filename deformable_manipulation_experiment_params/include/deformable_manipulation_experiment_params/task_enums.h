@@ -29,6 +29,7 @@ namespace smmap
         ROPE_TABLE_LINEAR_MOTION,   // directional rigidity
         CLOTH_TABLE_LINEAR_MOTION,  // constraint violation
         ROPE_TABLE_PENTRATION,      // constraint violation
+        CLOTH_PLACEMAT_LINEAR_MOTION, // Live robot directional rigidity
 
         // Live robot experiments
         CLOTH_PLACEMAT_LIVE_ROBOT
