@@ -39,7 +39,7 @@
     <!-- Directional rigidity -->
     <arg name="translational_dir_deformability"         default="4.0"/>
     <arg name="translational_dis_deformability"         default="10.0"/>
-    <arg name="rotational_dis_deformability"            default="20.0"/>
+    <arg name="rotational_dis_deformability"            default="10.0"/>
     <!-- Stretching Avoidance Controller -->
     <arg name="stretching_cosine_threshold_override"    default="false"/>
     <arg name="stretching_cosine_threshold"             if="$(arg stretching_cosine_threshold_override)"/>
