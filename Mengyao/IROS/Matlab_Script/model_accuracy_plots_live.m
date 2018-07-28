@@ -22,16 +22,39 @@ image_path = [basename, folder, 'model_accuracies.png'];
 constrained_model_error = sqrt(constrained_model_error_squared);
 diminishing_rigidity_model_error = sqrt(diminishing_rigidity_model_error_squared);
 time = textread(time_filename, space_hold_1, 'headerlines', 1);
-time = time - time(1);
+time = time - time(1) + time(2) - time(1);
 
 fig = figure(1);
+hold off
 plot(time, constrained_model_error,...
      time, diminishing_rigidity_model_error, 'LineWidth', 2)
+hold on
+
+% motion in x
+x = time(10);
+plot([x, x], [-1, 1], 'k--')
+
+% motion in z
+x = time(15);
+plot([x, x], [-1, 1], 'k--')
+
+% rotation
+x = time(30);
+plot([x, x], [-1, 1], 'k--')
+
+% diagonal
+x = time(39);
+plot([x, x], [-1, 1], 'k--')
+
+% motion in x
+x = time(47);
+plot([x, x], [-1, 1], 'k--')
+
 legend(parameter_set_mm, parameter_set_dd_wo, 'Location', 'northwest')
-axis([0   4.00000         0    0.2500]);
+axis([0   0.50000         0    0.1500]);
 
 xlabel('Time (s)')
-ylabel('Model Prediction Error')
+ylabel('Model Prediction Error (m)')
 saveas(fig, image_path)
 
 %%

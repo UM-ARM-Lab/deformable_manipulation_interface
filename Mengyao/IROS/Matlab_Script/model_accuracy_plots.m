@@ -5,7 +5,7 @@ space_hold_2 = '%n %n';
 
 % basename = '/home/dmcconac/Dropbox/catkin_ws/src/smmap/logs/';
 basename = 'E:/Dropbox/catkin_ws/src/smmap/logs/';
-folder = 'cloth_table_IROS_model_accuracy_test/model_accuracy/';
+folder = 'cloth_table_IROS_model_accuracy_test/default/';
 
 %%
 %%%%%%%%%%% Error Analysis %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -25,13 +25,16 @@ time = textread(time_filename, space_hold_1, 'headerlines', 1);
 time = time - time(1);
 
 fig = figure(1);
+set(gcf,'PaperUnits', 'inches');
+papersize = get(gcf, 'PaperSize');
+
 plot(time, constrained_model_error,...
      time, diminishing_rigidity_model_error, 'LineWidth', 2)
 legend(parameter_set_mm, parameter_set_dd_wo, 'Location', 'northwest')
 axis([0   5.50000         0    0.2500]);
 
 xlabel('Time (s)')
-ylabel('Model Prediction Error')
+ylabel('Model Prediction Error (m)')
 saveas(fig, image_path)
 
 %%
