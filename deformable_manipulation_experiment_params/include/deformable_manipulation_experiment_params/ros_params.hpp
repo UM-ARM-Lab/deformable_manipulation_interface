@@ -1447,12 +1447,10 @@ namespace smmap
 
     inline std::string GetDijkstrasStorageLocation(ros::NodeHandle& nh)
     {
-        const std::string base_path = ros::package::getPath("smmap");
+        const std::string base_path = GetLogFolder(nh);
         const std::string task_name = ROSHelpers::GetParamRequired<std::string>(nh, "task_type", __func__).GetImmutable();
         const std::string default_dijkstras_file_path =
-                base_path + "/logs/"
-                + task_name + "/"
-                + task_name + ".dijkstras_serialized";
+                base_path + "../" + task_name + ".dijkstras_serialized";
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "dijkstras_file_path", default_dijkstras_file_path);
     }
 

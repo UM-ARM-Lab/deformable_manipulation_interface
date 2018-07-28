@@ -66,7 +66,7 @@
     <param name="world_z_max"           value="$(arg world_z_max)"      type="double"/>
 
     <group ns="deform_simulator_node">
-        <param name="num_simsteps_per_gripper_command"  value="40"      type="int"/>
+        <param name="num_simsteps_per_gripper_command"  value="10"      type="int"/>
         <param name="cloth_linear_stiffness"            value="0.8"     type="double"/>
 
         <param name="viewer_width"                      value="1280"    type="int"/>
@@ -95,6 +95,7 @@
             <param name="error_threshold_distance_to_normal"  value="0.025"                                 type="double"/>
             <param name="error_threshold_task_done"           value="0.4"                                   type="double"/>
             <param name="max_stretch_factor"                  value="1.1"                                   type="double"/>
+            <param name="max_band_length"                     value="-1.0"                                  type="double"/>
             <param name="desired_motion_scale_factor"         value="1"                                     type="double"/>
         </group>
 
