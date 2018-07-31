@@ -1673,7 +1673,7 @@ namespace smmap
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "time_scale_factor", __func__);
         const auto scale_factor = val.GetImmutable();
-        assert(scale_factor >= 1.0);
+        assert(scale_factor > 0.0);
         return scale_factor;
     }
 

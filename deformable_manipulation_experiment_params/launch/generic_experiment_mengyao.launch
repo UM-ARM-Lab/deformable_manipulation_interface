@@ -17,6 +17,7 @@
 
     <!-- Planner trial type -->
     <arg name="planner_trial_type"                      default="constraint_single_model_constraint_controller"/>
+    <!--<arg name="planner_trial_type"                      default="multi_model_accuracy_test"/>-->
 
     <!-- Planner visualization arguments -->
     <arg name="disable_all_visualizations"              default="false"/>
