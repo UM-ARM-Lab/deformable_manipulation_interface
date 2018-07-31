@@ -1,7 +1,0 @@
-Since smmap/logs will not be pushed to the github, I add the Matlab scripts here.
-
-Please put the corresponding .m files into the right folders
-
-e.g: smmap/log/cloth_single_pole/control_error_IROS_cloth_single_pole.m
-     smmap/log/cloth_single_pole/single_stretching_factor_IROS_cloth_single_pole.m
-
