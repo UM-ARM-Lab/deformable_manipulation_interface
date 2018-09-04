@@ -10,16 +10,18 @@
 #include "deformable_manipulation_msgs/GetGripperPose.h"
 #include "deformable_manipulation_msgs/GetGripperCollisionReport.h"
 #include "deformable_manipulation_msgs/GetGripperStretchingVectorInfo.h"
-#include "deformable_manipulation_msgs/SimulatorFeedback.h"
-#include "deformable_manipulation_msgs/PointCloud.h"
-#include "deformable_manipulation_msgs/TestGrippersPosesAction.h"
-#include "deformable_manipulation_msgs/ExecuteGripperMovement.h"
+#include "deformable_manipulation_msgs/WorldState.h"
+#include "deformable_manipulation_msgs/TestRobotMotionAction.h"
+#include "deformable_manipulation_msgs/ExecuteRobotMotion.h"
+#include "deformable_manipulation_msgs/ObjectConfiguration.h"
 // This pragma is here because the service call has an empty request
 // (or response) message thus the allocator that it is passed never gets used
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #include "deformable_manipulation_msgs/GetGripperNames.h"
+#include "deformable_manipulation_msgs/GetRobotConfiguration.h"
 #include "deformable_manipulation_msgs/GetPointSet.h"
+#include "deformable_manipulation_msgs/GetVector3Set.h"
 #include "deformable_manipulation_msgs/GetMirrorLine.h"
 #include "deformable_manipulation_msgs/GetFreeSpaceGraph.h"
 #include "deformable_manipulation_msgs/GetSignedDistanceField.h"

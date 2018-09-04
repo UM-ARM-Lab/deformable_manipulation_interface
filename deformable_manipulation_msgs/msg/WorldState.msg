@@ -1,6 +1,9 @@
+std_msgs/Header header
 geometry_msgs/Point[] object_configuration
 string[] gripper_names
 geometry_msgs/Pose[] gripper_poses
+float64[] robot_configuration
+bool robot_configuration_valid
 geometry_msgs/Point[] gripper_nearest_point_to_obstacle
 geometry_msgs/Vector3[] obstacle_surface_normal
 float64[] gripper_distance_to_obstacle

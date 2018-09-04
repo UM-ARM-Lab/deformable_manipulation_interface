@@ -19,29 +19,32 @@ add_message_files(
     FILES
     ConfidenceStamped.msg
     VectorPose.msg
-    SimulatorFeedback.msg
-    PointCloud.msg
+    VectorConfiguration.msg
+    ObjectConfiguration.msg
+    WorldState.msg
 )
 
 ## Generate services in the 'srv' folder
 add_service_files(
     FILES
-    ExecuteGripperMovement.srv
+    ExecuteRobotMotion.srv
     GetGripperNames.srv
     GetGripperAttachedNodeIndices.srv
     GetGripperCollisionReport.srv
     GetGripperPose.srv
     GetGripperStretchingVectorInfo.srv
     GetPointSet.srv
+    GetVector3Set.srv
     GetMirrorLine.srv
     GetFreeSpaceGraph.srv
     GetSignedDistanceField.srv
+    GetRobotConfiguration.srv
 )
 
 ## Generate actions in the 'action' folder
 add_action_files(
     FILES
-    TestGrippersPoses.action
+    TestRobotMotion.action
 )
 
 ## Generate added messages and services with any dependencies listed here
