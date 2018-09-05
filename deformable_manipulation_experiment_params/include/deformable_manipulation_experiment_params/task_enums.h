@@ -32,7 +32,11 @@ namespace smmap
         CLOTH_PLACEMAT_LINEAR_MOTION, // Live robot directional rigidity
 
         // Live robot experiments
-        CLOTH_PLACEMAT_LIVE_ROBOT
+        CLOTH_PLACEMAT_LIVE_ROBOT,
+
+        // Hooks
+        ROPE_HOOKS_BASIC,
+        CLOTH_HOOKS
     };
 
     enum PlannerTrialType

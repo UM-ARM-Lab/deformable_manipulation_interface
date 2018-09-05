@@ -129,7 +129,9 @@ namespace smmap
             {"cloth_table_linear_motion",               TaskType::CLOTH_TABLE_LINEAR_MOTION},
             {"rope_table_penetration",                  TaskType::ROPE_TABLE_PENTRATION},
             {"cloth_placemat_live_robot",               TaskType::CLOTH_PLACEMAT_LIVE_ROBOT},
-            {"cloth_placemat_live_robot_linear_motion", TaskType::CLOTH_PLACEMAT_LINEAR_MOTION}
+            {"cloth_placemat_live_robot_linear_motion", TaskType::CLOTH_PLACEMAT_LINEAR_MOTION},
+            {"rope_hooks_basic",                        TaskType::ROPE_HOOKS_BASIC},
+            {"cloth_hooks",                             TaskType::CLOTH_HOOKS}
         };
         
         try
@@ -477,6 +479,34 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
+    // Hook size settings
+    ////////////////////////////////////////////////////////////////////////////
+
+    inline float GetHookHeight(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<float>(nh, "hook_height", __func__);
+        return val.GetImmutable();
+    }
+
+    inline float GetHookLength(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<float>(nh, "hook_length", __func__);
+        return val.GetImmutable();
+    }
+
+    inline float GetHookComX(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<float>(nh, "hook_com_x", __func__);
+        return val.GetImmutable();
+    }
+
+    inline float GetHookComOffsetY(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<float>(nh, "hook_com_offset_y", __func__);
+        return val.GetImmutable();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
     // Rope Settings
     ////////////////////////////////////////////////////////////////////////////
 
@@ -493,6 +523,21 @@ namespace smmap
     inline int GetRopeNumLinks(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "rope_num_links", 49);
+    }
+
+    inline float GetRopeExtensionVectorX(ros::NodeHandle& nh)
+    {
+        return (float)ROSHelpers::GetParam(nh, "rope_extension_x", 1.0);
+    }
+
+    inline float GetRopeExtensionVectorY(ros::NodeHandle& nh)
+    {
+        return (float)ROSHelpers::GetParam(nh, "rope_extension_y", 0.0);
+    }
+
+    inline float GetRopeExtensionVectorZ(ros::NodeHandle& nh)
+    {
+        return (float)ROSHelpers::GetParam(nh, "rope_extension_z", 0.0);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -896,6 +941,19 @@ namespace smmap
     inline int64_t GetWorldZNumSteps(ros::NodeHandle& nh)
     {
         return std::lround((GetWorldZMaxBulletFrame(nh) - GetWorldZMinBulletFrame(nh))/GetWorldZStep(nh)) + 1;
+    }
+
+    inline double GetWorldResolution(ros::NodeHandle& nh) // METERS
+    {
+        const double x_step = GetWorldXStep(nh);
+        const double y_step = GetWorldYStep(nh);
+        const double z_step = GetWorldZStep(nh);
+
+        if (x_step != y_step || x_step != z_step)
+        {
+            throw_arc_exception(std::invalid_argument, "World resolution is only valid if x_step == y_step == z_step");
+        }
+        return x_step;
     }
 
     ////////////////////////////////////////////////////////////////////////////
