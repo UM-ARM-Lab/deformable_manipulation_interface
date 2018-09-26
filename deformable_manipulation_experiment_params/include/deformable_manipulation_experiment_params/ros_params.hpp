@@ -960,28 +960,29 @@ namespace smmap
     // Planner trial type settings
     ////////////////////////////////////////////////////////////////////////////
 
-    inline PlannerTrialType GetPlannerTrialType(ros::NodeHandle& nh)
+    inline TrialType GetTrialType(ros::NodeHandle& nh)
     {
-        const std::string planner_trial_type = ROSHelpers::GetParamRequired<std::string>(nh, "planner_trial_type", __func__).GetImmutable();
+        const std::string trial_type = ROSHelpers::GetParamRequired<std::string>(nh, "trial_type", __func__).GetImmutable();
 
-        std::unordered_map<std::string, PlannerTrialType> task_map{
-            {"diminishing_rigidity_single_model_least_squares_controller",  PlannerTrialType::DIMINISHING_RIGIDITY_SINGLE_MODEL_LEAST_SQUARES_CONTROLLER},
-            {"adaptive_jacobian_single_model_least_squares_controller",     PlannerTrialType::ADAPTIVE_JACOBIAN_SINGLE_MODEL_LEAST_SQUARES_CONTROLLER},
-            {"constraint_single_model_constraint_controller",               PlannerTrialType::CONSTRAINT_SINGLE_MODEL_CONSTRAINT_CONTROLLER},
-            {"diminishing_rigidity_single_model_constraint_controller",     PlannerTrialType::DIMINISHING_RIGIDITY_SINGLE_MODEL_CONSTRAINT_CONTROLLER},
-            {"multi_model_bandit_test",                                     PlannerTrialType::MULTI_MODEL_BANDIT_TEST},
-            {"multi_model_controller_test",                                 PlannerTrialType::MULTI_MODEL_CONTROLLER_TEST},
-            {"multi_model_accuracy_test",                                   PlannerTrialType::MULTI_MODEL_ACCURACY_TEST}
+        std::unordered_map<std::string, TrialType> task_map{
+            {"diminishing_rigidity_single_model_least_squares_stretching_avoidance_controller",     TrialType::DIMINISHING_RIGIDITY_SINGLE_MODEL_LEAST_SQUARES_STRETCHING_AVOIDANCE_CONTROLLER},
+            {"adaptive_jacobian_single_model_least_squares_stretching_avoidance_controller",        TrialType::ADAPTIVE_JACOBIAN_SINGLE_MODEL_LEAST_SQUARES_STRETCHING_AVOIDANCE_CONTROLLER},
+            {"diminishing_rigidity_single_model_least_squares_stretching_constraint_controller",    TrialType::DIMINISHING_RIGIDITY_SINGLE_MODEL_LEAST_SQUARES_STRETCHING_CONSTRAINT_CONTROLLER},
+            {"constraint_single_model_constraint_controller",                                       TrialType::CONSTRAINT_SINGLE_MODEL_CONSTRAINT_CONTROLLER},
+            {"diminishing_rigidity_single_model_constraint_controller",                             TrialType::DIMINISHING_RIGIDITY_SINGLE_MODEL_CONSTRAINT_CONTROLLER},
+            {"multi_model_bandit_test",                                                             TrialType::MULTI_MODEL_BANDIT_TEST},
+            {"multi_model_controller_test",                                                         TrialType::MULTI_MODEL_CONTROLLER_TEST},
+            {"multi_model_accuracy_test",                                                           TrialType::MULTI_MODEL_ACCURACY_TEST}
         };
 
         try
         {
-            return task_map.at(planner_trial_type);
+            return task_map.at(trial_type);
         }
         catch (std::out_of_range& e)
         {
-            ROS_FATAL_STREAM_NAMED("params", "Unknown planner trial type type: " << planner_trial_type);
-            throw_arc_exception(std::invalid_argument, "Unknown planner trial type: " + planner_trial_type);
+            ROS_FATAL_STREAM_NAMED("params", "Unknown planner trial type type: " << trial_type);
+            throw_arc_exception(std::invalid_argument, "Unknown planner trial type: " + trial_type);
         }
     }
 

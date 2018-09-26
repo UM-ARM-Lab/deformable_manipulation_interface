@@ -14,8 +14,9 @@
     <arg name="screenshots_enabled"                     default="false"/>
 
     <!-- Planner trial type -->
-    <arg name="planner_trial_type"                      default="diminishing_rigidity_single_model_least_squares_controller"/>
-    <!--<arg name="planner_trial_type"                      default="constraint_single_model_constraint_controller"/>-->
+    <arg name="trial_type"                      default="diminishing_rigidity_single_model_least_squares_stretching_constraint_controller"/>
+    <!--<arg name="trial_type"                      default="constraint_single_model_constraint_controller"/>-->
+    <!--<arg name="trial_type"                      default="multi_model_bandit_test"/>-->
 
     <!-- Planner visualization arguments -->
     <arg name="disable_all_visualizations"              default="false"/>
@@ -45,7 +46,7 @@
     <arg name="kalman_parameters_override"              default="false"/>
     <arg name="process_noise_factor"                    if="$(arg kalman_parameters_override)"/>
     <arg name="observation_noise_factor"                if="$(arg kalman_parameters_override)"/>
-    <arg name="bandit_algorithm"                        default="UCB"/>
+    <arg name="bandit_algorithm"                        default="KFMANDB"/>
     <arg name="correlation_strength_factor_override"    default="false"/>
     <arg name="correlation_strength_factor"             if="$(arg correlation_strength_factor_override)"/>
 
@@ -74,16 +75,16 @@
 
     <!-- Setup the planner -->
     <group ns="smmap_planner_node">
-        <param name="planner_trial_type"                value="$(arg planner_trial_type)"                   type="string"/>
+        <param name="trial_type"                        value="$(arg trial_type)"                   type="string"/>
         <param name="use_random_seed"                   value="$(arg use_random_seed)"                      type="bool"/>
         <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   if="$(arg static_seed_override)"/>
 
         <param name="planner_logging_enabled"           value="$(arg planner_logging_enabled)"              type="bool"/>
         <param name="controller_logging_enabled"        value="$(arg controller_logging_enabled)"           type="bool"/>
 
-        <param name="use_stored_world_state"                value="false"                                   type="bool"/>
+        <param name="use_stored_world_state"                value="false"                                    type="bool"/>
         <param name="world_state_file_name_prefix"          value="world_state"                             type="string"/>
-        <param name="world_state_file_name_suffix_to_load"  value="planner_false_positive"                  type="string"/>
+        <param name="world_state_file_name_suffix_to_load"  value="band_weirdness"                          type="string"/>
 
         <param name="disable_all_visualizations"        value="$(arg disable_all_visualizations)"           type="bool"/>
         <param name="visualize_object_desired_motion"   value="$(arg visualize_object_desired_motion)"      type="bool"/>
@@ -127,7 +128,7 @@
             <param name="log_folder"                    value="$(find smmap)/logs/$(arg task_type)/$(arg test_id)/"         type="string"/>
             <param name="use_stored_band"               value="false"                                                       type="bool"/>
             <param name="band_file_name_prefix"         value="band"                                                        type="string"/>
-            <param name="band_file_name_suffix_to_load" value="2018-04-17__22-04-52"               type="string"/>
+            <param name="band_file_name_suffix_to_load" value="stuck_on_edge_of_obstacle"               type="string"/>
         </group>
 
         <!-- Dinimishing Rigidity parameters and overrides -->
