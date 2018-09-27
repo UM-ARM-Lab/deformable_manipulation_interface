@@ -56,6 +56,21 @@
         <param name="floor_divider_alpha"               value="0.2"     type="double"/>
         <param name="first_floor_alpha"                 value="0.5"     type="double"/>
         <param name="second_floor_alpha"                value="0.5"     type="double"/>
+
+        <param name="camera_override"                   value="true"    type="bool"/>
+        <group ns="camera">
+            <param name="home_x"                        value="0.0"     type="double"/>
+            <param name="home_y"                        value="0.0"     type="double"/>
+            <param name="home_z"                        value="4.0"     type="double"/>
+
+            <param name="looks_at_x"                    value="0.0"     type="double"/>
+            <param name="looks_at_y"                    value="0.0"     type="double"/>
+            <param name="looks_at_z"                    value="0.0"     type="double"/>
+
+            <param name="up_x"                          value="0.0"     type="double"/>
+            <param name="up_y"                          value="0.05"    type="double"/>
+            <param name="up_z"                          value="0.0"     type="double"/>
+        </group>
     </group>
 
     <group ns="smmap_planner_node">

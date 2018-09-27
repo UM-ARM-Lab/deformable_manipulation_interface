@@ -59,12 +59,13 @@
 
         <param name="camera_override"                   value="true"    type="bool"/>
         <group ns="camera">
-            <param name="home_x"                        value="0.5"     type="double"/>
-            <param name="home_y"                        value="0.3"     type="double"/>
-            <param name="home_z"                        value="3.2"     type="double"/>
+            <!--0.546182 0.326256 3.07372    0.553531 0.243689 -0.00103162    -0.000187994 0.0499816 -0.00134261-->
+            <param name="home_x"                        value="0.55"    type="double"/>
+            <param name="home_y"                        value="0.25"    type="double"/>
+            <param name="home_z"                        value="3.1"     type="double"/>
 
-            <param name="looks_at_x"                    value="0.5"     type="double"/>
-            <param name="looks_at_y"                    value="0.2"     type="double"/>
+            <param name="looks_at_x"                    value="0.55"    type="double"/>
+            <param name="looks_at_y"                    value="0.25"    type="double"/>
             <param name="looks_at_z"                    value="0.0"     type="double"/>
 
             <param name="up_x"                          value="0.0"     type="double"/>

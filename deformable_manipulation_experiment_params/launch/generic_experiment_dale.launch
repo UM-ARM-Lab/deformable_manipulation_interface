@@ -3,7 +3,7 @@
     <arg name="task_type"/>
     <arg name="planner_logging_enabled"                 default="true"/>
     <arg name="controller_logging_enabled"              default="false"/>
-    <arg name="test_id"                                 default="default"/>
+    <arg name="test_id"                                 default="iros2018_workshop_videos"/>
     <arg name="task_max_time_override"                  default="false"/>
     <arg name="task_max_time"                           if="$(arg task_max_time_override)"/>
 
@@ -45,7 +45,7 @@
     <arg name="kalman_parameters_override"              default="false"/>
     <arg name="process_noise_factor"                    if="$(arg kalman_parameters_override)"/>
     <arg name="observation_noise_factor"                if="$(arg kalman_parameters_override)"/>
-    <arg name="bandit_algorithm"                        default="UCB"/>
+    <arg name="bandit_algorithm"                        default="KFMANDB"/>
     <arg name="correlation_strength_factor_override"    default="false"/>
     <arg name="correlation_strength_factor"             if="$(arg correlation_strength_factor_override)"/>
 
@@ -54,8 +54,16 @@
     <arg name="collect_results_for_all_models"          default="false"/>
     <arg name="use_random_seed"                         default="false"/>
     <!--<arg name="static_seed_override"                    default="true"/>-->
-    <arg name="static_seed_override"                    default="false"/>
-    <arg name="static_seed"                             default="15351a56eb161d1e" if="$(arg static_seed_override)"/>
+    <arg name="static_seed_override"                    default="true"/>
+
+    <!--Cloth Single Pole-->
+    <!--<arg name="static_seed"                             default="1543ef2de1095aec" if="$(arg static_seed_override)"/>-->
+    <!--Cloth Double Slit-->
+    <!--<arg name="static_seed"                             default="1543ef2de1095aec" if="$(arg static_seed_override)"/>-->
+    <!--Rope Maze-->
+    <!--<arg name="static_seed"                             default="1543f002d3a12955" if="$(arg static_seed_override)"/>-->
+    <!--Rope Maze From Top-->
+    <arg name="static_seed"                             default="1543f002d3a12955" if="$(arg static_seed_override)"/>
 
     <!-- Setup task parameters -->
     <include file="$(find deformable_manipulation_experiment_params)/launch/$(arg task_type)_params.launch"/>
