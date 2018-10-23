@@ -202,7 +202,7 @@ namespace smmap
 
     inline float GetGripperApperture(ros::NodeHandle& nh)   // METERS
     {
-        switch(GetDeformableType(nh))
+        switch (GetDeformableType(nh))
         {
             case DeformableType::ROPE:
                 // TODO: why did Dmitry's code use 0.5f here?
@@ -578,7 +578,7 @@ namespace smmap
 
     inline float GetClothCenterOfMassX(ros::NodeHandle& nh)   // METERS
     {
-        switch(GetTaskType(nh))
+        switch (GetTaskType(nh))
         {
             case TaskType::CLOTH_COLAB_FOLDING:
             case TaskType::CLOTH_TABLE_COVERAGE:
@@ -597,7 +597,7 @@ namespace smmap
 
     inline float GetClothCenterOfMassY(ros::NodeHandle& nh)   // METERS
     {
-        switch(GetTaskType(nh))
+        switch (GetTaskType(nh))
         {
             case TaskType::CLOTH_COLAB_FOLDING:
             case TaskType::CLOTH_TABLE_COVERAGE:
@@ -616,7 +616,7 @@ namespace smmap
 
     inline float GetClothCenterOfMassZ(ros::NodeHandle& nh)   // METERS
     {
-        switch(GetTaskType(nh))
+        switch (GetTaskType(nh))
         {
             case TaskType::CLOTH_COLAB_FOLDING:
             case TaskType::CLOTH_TABLE_COVERAGE:
@@ -752,7 +752,7 @@ namespace smmap
 
     inline double GetWorldXStep(ros::NodeHandle& nh)    // METERS
     {
-        switch(GetDeformableType(nh))
+        switch (GetDeformableType(nh))
         {
             case DeformableType::ROPE:
                 return ROSHelpers::GetParam(nh, "world_x_step", 0.05);
@@ -768,7 +768,7 @@ namespace smmap
 
     inline double GetWorldXMinBulletFrame(ros::NodeHandle& nh)     // METERS
     {
-        switch(GetTaskType(nh))
+        switch (GetTaskType(nh))
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
                 return ROSHelpers::GetParam(nh, "world_x_min", GetTableSurfaceX(nh) - GetTableHalfExtentsX(nh));
@@ -784,7 +784,7 @@ namespace smmap
 
     inline double GetWorldXMaxBulletFrame(ros::NodeHandle& nh)     // METERS
     {
-        switch(GetTaskType(nh))
+        switch (GetTaskType(nh))
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
                 return ROSHelpers::GetParam(nh, "world_x_max", GetTableSurfaceX(nh) + GetTableHalfExtentsX(nh));
@@ -805,7 +805,7 @@ namespace smmap
 
     inline double GetWorldYStep(ros::NodeHandle& nh)    // METERS
     {
-        switch(GetDeformableType(nh))
+        switch (GetDeformableType(nh))
         {
             case DeformableType::ROPE:
                 return ROSHelpers::GetParam(nh, "world_y_step", 0.05);
@@ -821,7 +821,7 @@ namespace smmap
 
     inline double GetWorldYMinBulletFrame(ros::NodeHandle& nh)     // METERS
     {
-        switch(GetTaskType(nh))
+        switch (GetTaskType(nh))
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
             case TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS:
@@ -846,7 +846,7 @@ namespace smmap
 
     inline double GetWorldYMaxBulletFrame(ros::NodeHandle& nh)     // METERS
     {
-        switch(GetTaskType(nh))
+        switch (GetTaskType(nh))
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
             case TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS:
@@ -876,7 +876,7 @@ namespace smmap
 
     inline double GetWorldZStep(ros::NodeHandle& nh)    // METERS
     {
-        switch(GetDeformableType(nh))
+        switch (GetDeformableType(nh))
         {
             case DeformableType::ROPE:
                 return ROSHelpers::GetParam(nh, "world_z_step", 0.05);
@@ -892,7 +892,7 @@ namespace smmap
 
     inline double GetWorldZMinBulletFrame(ros::NodeHandle& nh)     // METERS
     {
-        switch(GetTaskType(nh))
+        switch (GetTaskType(nh))
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
             case TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS:
@@ -916,7 +916,7 @@ namespace smmap
 
     inline double GetWorldZMaxBulletFrame(ros::NodeHandle& nh)     // METERS
     {
-        switch(GetTaskType(nh))
+        switch (GetTaskType(nh))
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
             case TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS:
@@ -954,6 +954,32 @@ namespace smmap
             throw_arc_exception(std::invalid_argument, "World resolution is only valid if x_step == y_step == z_step");
         }
         return x_step;
+    }
+
+    // Is used as a scale factor relative to GetWorldResolution.
+    // The resulting voxel sizes in the SDF are
+    // GetWorldResolution() / GetSDFResolutionScale() in size.
+    inline int GetSDFResolutionScale(ros::NodeHandle& nh)
+    {
+        switch (GetTaskType(nh))
+        {
+            case TaskType::ROPE_CYLINDER_COVERAGE:
+            case TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS:
+            case TaskType::CLOTH_CYLINDER_COVERAGE:
+            case TaskType::CLOTH_TABLE_COVERAGE:
+            case TaskType::CLOTH_COLAB_FOLDING:
+            case TaskType::CLOTH_WAFR:
+            case TaskType::ROPE_ZIG_MATCH:
+            case TaskType::ROPE_TABLE_LINEAR_MOTION:
+            case TaskType::CLOTH_TABLE_LINEAR_MOTION:
+            case TaskType::ROPE_TABLE_PENTRATION:
+            case TaskType::CLOTH_PLACEMAT_LINEAR_MOTION:
+                return ROSHelpers::GetParam(nh, "sdf_resolution_scale", 2);
+
+            default:
+                const auto val = ROSHelpers::GetParamRequired<int>(nh, "sdf_resolution_scale", __func__);
+                return val.GetImmutable();
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1489,9 +1515,9 @@ namespace smmap
     // Logging functionality
     ////////////////////////////////////////////////////////////////////////////
 
-    inline bool GetPlannerLoggingEnabled(ros::NodeHandle& nh)
+    inline bool GetBanditsLoggingEnabled(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "planner_logging_enabled", false);
+        return ROSHelpers::GetParam(nh, "bandits_logging_enabled", false);
     }
 
     inline bool GetControllerLoggingEnabled(ros::NodeHandle& nh)

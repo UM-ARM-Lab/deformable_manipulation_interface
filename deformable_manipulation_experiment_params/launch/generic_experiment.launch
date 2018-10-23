@@ -1,7 +1,7 @@
 <launch>
     <!-- Task and logging arguments -->
     <arg name="task_type"/>
-    <arg name="planner_logging_enabled"                 default="true"/>
+    <arg name="bandits_logging_enabled"                 default="true"/>
     <arg name="controller_logging_enabled"              default="false"/>
     <arg name="test_id"                                 default="default"/>
     <arg name="task_max_time_override"                  default="false"/>
@@ -46,7 +46,7 @@
     <arg name="kalman_parameters_override"              default="false"/>
     <arg name="process_noise_factor"                    if="$(arg kalman_parameters_override)"/>
     <arg name="observation_noise_factor"                if="$(arg kalman_parameters_override)"/>
-    <arg name="bandit_algorithm"                        default="KFMANDB"/>
+    <arg name="bandit_algorithm"                        default="UCB"/>
     <arg name="correlation_strength_factor_override"    default="false"/>
     <arg name="correlation_strength_factor"             if="$(arg correlation_strength_factor_override)"/>
 
@@ -79,12 +79,12 @@
         <param name="use_random_seed"                   value="$(arg use_random_seed)"                      type="bool"/>
         <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   if="$(arg static_seed_override)"/>
 
-        <param name="planner_logging_enabled"           value="$(arg planner_logging_enabled)"              type="bool"/>
+        <param name="bandits_logging_enabled"           value="$(arg bandits_logging_enabled)"              type="bool"/>
         <param name="controller_logging_enabled"        value="$(arg controller_logging_enabled)"           type="bool"/>
 
-        <param name="use_stored_world_state"                value="false"                                    type="bool"/>
+        <param name="use_stored_world_state"                value="true"                                    type="bool"/>
         <param name="world_state_file_name_prefix"          value="world_state"                             type="string"/>
-        <param name="world_state_file_name_suffix_to_load"  value="band_weirdness"                          type="string"/>
+        <param name="world_state_file_name_suffix_to_load"  value="band_weirdness_controller_only"          type="string"/>
 
         <param name="disable_all_visualizations"        value="$(arg disable_all_visualizations)"           type="bool"/>
         <param name="visualize_object_desired_motion"   value="$(arg visualize_object_desired_motion)"      type="bool"/>
@@ -124,11 +124,11 @@
         </group>
 
         <group ns="band">
-            <param name="logging_enabled"               value="$(arg planner_logging_enabled)"                              type="bool"/>
+            <param name="logging_enabled"               value="$(arg bandits_logging_enabled)"                              type="bool"/>
             <param name="log_folder"                    value="$(find smmap)/logs/$(arg task_type)/$(arg test_id)/"         type="string"/>
             <param name="use_stored_band"               value="false"                                                       type="bool"/>
             <param name="band_file_name_prefix"         value="band"                                                        type="string"/>
-            <param name="band_file_name_suffix_to_load" value="stuck_on_edge_of_obstacle"               type="string"/>
+            <param name="band_file_name_suffix_to_load" value="stuck_on_edge_of_obstacle"                                   type="string"/>
         </group>
 
         <!-- Dinimishing Rigidity parameters and overrides -->
