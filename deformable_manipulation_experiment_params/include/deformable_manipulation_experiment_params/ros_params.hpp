@@ -1247,6 +1247,11 @@ namespace smmap
         return val.GetImmutable();
     }
 
+    inline size_t GetRRTNumTrials(ros::NodeHandle& nh)
+    {
+        return (size_t)ROSHelpers::GetParam(nh, "rrt/num_trials", 1);
+    }
+
     inline double GetRRTPlanningXMinBulletFrame(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_x_min", __func__);
