@@ -59,7 +59,7 @@
     <param name="hook_height"           value="0.4"                                                     type="double"/>
     <param name="hook_length"           value="0.2"                                                     type="double"/>
     <param name="hook_com_x"            value="$(eval (world_x_max + world_x_min)/2.0 + 0.4)"           type="double"/>
-    <param name="hook_com_offset_y"     value="0.0"                                                     type="double"/>
+    <param name="hook_com_offset_y"     value="0.15"                                                     type="double"/>
 
     <group ns="deform_simulator_node">
         <param name="num_simsteps_per_gripper_command"  value="4"       type="int"/>

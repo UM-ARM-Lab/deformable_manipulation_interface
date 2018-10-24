@@ -55,8 +55,8 @@
     <arg name="collect_results_for_all_models"          default="false"/>
     <arg name="use_random_seed"                         default="false"/>
     <!--<arg name="static_seed_override"                    default="true"/>-->
-    <arg name="static_seed_override"                    default="false"/>
-    <arg name="static_seed"                             default="15351a56eb161d1e" if="$(arg static_seed_override)"/>
+    <arg name="static_seed_override"                    default="true"/>
+    <arg name="static_seed"                             default="15605f3f84d5c1f9" if="$(arg static_seed_override)"/>
 
     <!-- Setup task parameters -->
     <include file="$(find deformable_manipulation_experiment_params)/launch/$(arg task_type)_params.launch"/>
