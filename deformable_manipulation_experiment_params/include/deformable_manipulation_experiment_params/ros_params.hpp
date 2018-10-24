@@ -1394,6 +1394,11 @@ namespace smmap
         return val.GetImmutable();
     }
 
+    inline bool GetVisualizeOverstretchCones(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParam(nh, "stretching_avoidance_controller/visualize_overstretch_cones", true);
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // Straight line motion parameters for testing model accuracy
     // Note: these parameters are gripper velocities *in gripper frame*
@@ -1542,6 +1547,15 @@ namespace smmap
         const std::string default_dijkstras_file_path =
                 base_path + "../" + task_name + ".dijkstras_serialized";
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "dijkstras_file_path", default_dijkstras_file_path);
+    }
+
+    inline std::string GetCollisionMapStorageLocation(ros::NodeHandle& nh)
+    {
+        const std::string base_path = GetLogFolder(nh);
+        const std::string task_name = ROSHelpers::GetParamRequired<std::string>(nh, "task_type", __func__).GetImmutable();
+        const std::string default_collision_map_file_path =
+                base_path + "../" + task_name + ".collision_map_serialized";
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "collision_map_file_path", default_collision_map_file_path);
     }
 
     inline bool GetScreenshotsEnabled(ros::NodeHandle& nh)

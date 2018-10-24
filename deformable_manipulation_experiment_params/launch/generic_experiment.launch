@@ -15,6 +15,7 @@
 
     <!-- Planner trial type -->
     <arg name="trial_type"                      default="diminishing_rigidity_single_model_least_squares_stretching_constraint_controller"/>
+    <!--<arg name="trial_type"                      default="diminishing_rigidity_single_model_least_squares_stretching_avoidance_controller"/>-->
     <!--<arg name="trial_type"                      default="constraint_single_model_constraint_controller"/>-->
     <!--<arg name="trial_type"                      default="multi_model_bandit_test"/>-->
 
