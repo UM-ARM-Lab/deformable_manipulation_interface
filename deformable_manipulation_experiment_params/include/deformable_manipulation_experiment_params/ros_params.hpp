@@ -129,7 +129,9 @@ namespace smmap
             {"cloth_table_linear_motion",               TaskType::CLOTH_TABLE_LINEAR_MOTION},
             {"rope_table_penetration",                  TaskType::ROPE_TABLE_PENTRATION},
             {"cloth_placemat_live_robot",               TaskType::CLOTH_PLACEMAT_LIVE_ROBOT},
-            {"cloth_placemat_live_robot_linear_motion", TaskType::CLOTH_PLACEMAT_LINEAR_MOTION}
+            {"cloth_placemat_live_robot_linear_motion", TaskType::CLOTH_PLACEMAT_LINEAR_MOTION},
+            {"rope_hooks_basic",                        TaskType::ROPE_HOOKS_BASIC},
+            {"cloth_hooks",                             TaskType::CLOTH_HOOKS}
         };
         
         try
@@ -200,7 +202,7 @@ namespace smmap
 
     inline float GetGripperApperture(ros::NodeHandle& nh)   // METERS
     {
-        switch(GetDeformableType(nh))
+        switch (GetDeformableType(nh))
         {
             case DeformableType::ROPE:
                 // TODO: why did Dmitry's code use 0.5f here?
@@ -477,6 +479,34 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
+    // Hook size settings
+    ////////////////////////////////////////////////////////////////////////////
+
+    inline float GetHookHeight(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<float>(nh, "hook_height", __func__);
+        return val.GetImmutable();
+    }
+
+    inline float GetHookLength(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<float>(nh, "hook_length", __func__);
+        return val.GetImmutable();
+    }
+
+    inline float GetHookComX(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<float>(nh, "hook_com_x", __func__);
+        return val.GetImmutable();
+    }
+
+    inline float GetHookComOffsetY(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<float>(nh, "hook_com_offset_y", __func__);
+        return val.GetImmutable();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
     // Rope Settings
     ////////////////////////////////////////////////////////////////////////////
 
@@ -493,6 +523,21 @@ namespace smmap
     inline int GetRopeNumLinks(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "rope_num_links", 49);
+    }
+
+    inline float GetRopeExtensionVectorX(ros::NodeHandle& nh)
+    {
+        return (float)ROSHelpers::GetParam(nh, "rope_extension_x", 1.0);
+    }
+
+    inline float GetRopeExtensionVectorY(ros::NodeHandle& nh)
+    {
+        return (float)ROSHelpers::GetParam(nh, "rope_extension_y", 0.0);
+    }
+
+    inline float GetRopeExtensionVectorZ(ros::NodeHandle& nh)
+    {
+        return (float)ROSHelpers::GetParam(nh, "rope_extension_z", 0.0);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -533,7 +578,7 @@ namespace smmap
 
     inline float GetClothCenterOfMassX(ros::NodeHandle& nh)   // METERS
     {
-        switch(GetTaskType(nh))
+        switch (GetTaskType(nh))
         {
             case TaskType::CLOTH_COLAB_FOLDING:
             case TaskType::CLOTH_TABLE_COVERAGE:
@@ -552,7 +597,7 @@ namespace smmap
 
     inline float GetClothCenterOfMassY(ros::NodeHandle& nh)   // METERS
     {
-        switch(GetTaskType(nh))
+        switch (GetTaskType(nh))
         {
             case TaskType::CLOTH_COLAB_FOLDING:
             case TaskType::CLOTH_TABLE_COVERAGE:
@@ -571,7 +616,7 @@ namespace smmap
 
     inline float GetClothCenterOfMassZ(ros::NodeHandle& nh)   // METERS
     {
-        switch(GetTaskType(nh))
+        switch (GetTaskType(nh))
         {
             case TaskType::CLOTH_COLAB_FOLDING:
             case TaskType::CLOTH_TABLE_COVERAGE:
@@ -707,7 +752,7 @@ namespace smmap
 
     inline double GetWorldXStep(ros::NodeHandle& nh)    // METERS
     {
-        switch(GetDeformableType(nh))
+        switch (GetDeformableType(nh))
         {
             case DeformableType::ROPE:
                 return ROSHelpers::GetParam(nh, "world_x_step", 0.05);
@@ -723,7 +768,7 @@ namespace smmap
 
     inline double GetWorldXMinBulletFrame(ros::NodeHandle& nh)     // METERS
     {
-        switch(GetTaskType(nh))
+        switch (GetTaskType(nh))
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
                 return ROSHelpers::GetParam(nh, "world_x_min", GetTableSurfaceX(nh) - GetTableHalfExtentsX(nh));
@@ -739,7 +784,7 @@ namespace smmap
 
     inline double GetWorldXMaxBulletFrame(ros::NodeHandle& nh)     // METERS
     {
-        switch(GetTaskType(nh))
+        switch (GetTaskType(nh))
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
                 return ROSHelpers::GetParam(nh, "world_x_max", GetTableSurfaceX(nh) + GetTableHalfExtentsX(nh));
@@ -760,7 +805,7 @@ namespace smmap
 
     inline double GetWorldYStep(ros::NodeHandle& nh)    // METERS
     {
-        switch(GetDeformableType(nh))
+        switch (GetDeformableType(nh))
         {
             case DeformableType::ROPE:
                 return ROSHelpers::GetParam(nh, "world_y_step", 0.05);
@@ -776,7 +821,7 @@ namespace smmap
 
     inline double GetWorldYMinBulletFrame(ros::NodeHandle& nh)     // METERS
     {
-        switch(GetTaskType(nh))
+        switch (GetTaskType(nh))
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
             case TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS:
@@ -801,7 +846,7 @@ namespace smmap
 
     inline double GetWorldYMaxBulletFrame(ros::NodeHandle& nh)     // METERS
     {
-        switch(GetTaskType(nh))
+        switch (GetTaskType(nh))
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
             case TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS:
@@ -831,7 +876,7 @@ namespace smmap
 
     inline double GetWorldZStep(ros::NodeHandle& nh)    // METERS
     {
-        switch(GetDeformableType(nh))
+        switch (GetDeformableType(nh))
         {
             case DeformableType::ROPE:
                 return ROSHelpers::GetParam(nh, "world_z_step", 0.05);
@@ -847,7 +892,7 @@ namespace smmap
 
     inline double GetWorldZMinBulletFrame(ros::NodeHandle& nh)     // METERS
     {
-        switch(GetTaskType(nh))
+        switch (GetTaskType(nh))
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
             case TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS:
@@ -871,7 +916,7 @@ namespace smmap
 
     inline double GetWorldZMaxBulletFrame(ros::NodeHandle& nh)     // METERS
     {
-        switch(GetTaskType(nh))
+        switch (GetTaskType(nh))
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
             case TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS:
@@ -898,32 +943,72 @@ namespace smmap
         return std::lround((GetWorldZMaxBulletFrame(nh) - GetWorldZMinBulletFrame(nh))/GetWorldZStep(nh)) + 1;
     }
 
+    inline double GetWorldResolution(ros::NodeHandle& nh) // METERS
+    {
+        const double x_step = GetWorldXStep(nh);
+        const double y_step = GetWorldYStep(nh);
+        const double z_step = GetWorldZStep(nh);
+
+        if (x_step != y_step || x_step != z_step)
+        {
+            throw_arc_exception(std::invalid_argument, "World resolution is only valid if x_step == y_step == z_step");
+        }
+        return x_step;
+    }
+
+    // Is used as a scale factor relative to GetWorldResolution.
+    // The resulting voxel sizes in the SDF are
+    // GetWorldResolution() / GetSDFResolutionScale() in size.
+    inline int GetSDFResolutionScale(ros::NodeHandle& nh)
+    {
+        switch (GetTaskType(nh))
+        {
+            case TaskType::ROPE_CYLINDER_COVERAGE:
+            case TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS:
+            case TaskType::CLOTH_CYLINDER_COVERAGE:
+            case TaskType::CLOTH_TABLE_COVERAGE:
+            case TaskType::CLOTH_COLAB_FOLDING:
+            case TaskType::CLOTH_WAFR:
+            case TaskType::ROPE_ZIG_MATCH:
+            case TaskType::ROPE_TABLE_LINEAR_MOTION:
+            case TaskType::CLOTH_TABLE_LINEAR_MOTION:
+            case TaskType::ROPE_TABLE_PENTRATION:
+            case TaskType::CLOTH_PLACEMAT_LINEAR_MOTION:
+                return ROSHelpers::GetParam(nh, "sdf_resolution_scale", 2);
+
+            default:
+                const auto val = ROSHelpers::GetParamRequired<int>(nh, "sdf_resolution_scale", __func__);
+                return val.GetImmutable();
+        }
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // Planner trial type settings
     ////////////////////////////////////////////////////////////////////////////
 
-    inline PlannerTrialType GetPlannerTrialType(ros::NodeHandle& nh)
+    inline TrialType GetTrialType(ros::NodeHandle& nh)
     {
-        const std::string planner_trial_type = ROSHelpers::GetParamRequired<std::string>(nh, "planner_trial_type", __func__).GetImmutable();
+        const std::string trial_type = ROSHelpers::GetParamRequired<std::string>(nh, "trial_type", __func__).GetImmutable();
 
-        std::unordered_map<std::string, PlannerTrialType> task_map{
-            {"diminishing_rigidity_single_model_least_squares_controller",  PlannerTrialType::DIMINISHING_RIGIDITY_SINGLE_MODEL_LEAST_SQUARES_CONTROLLER},
-            {"adaptive_jacobian_single_model_least_squares_controller",     PlannerTrialType::ADAPTIVE_JACOBIAN_SINGLE_MODEL_LEAST_SQUARES_CONTROLLER},
-            {"constraint_single_model_constraint_controller",               PlannerTrialType::CONSTRAINT_SINGLE_MODEL_CONSTRAINT_CONTROLLER},
-            {"diminishing_rigidity_single_model_constraint_controller",     PlannerTrialType::DIMINISHING_RIGIDITY_SINGLE_MODEL_CONSTRAINT_CONTROLLER},
-            {"multi_model_bandit_test",                                     PlannerTrialType::MULTI_MODEL_BANDIT_TEST},
-            {"multi_model_controller_test",                                 PlannerTrialType::MULTI_MODEL_CONTROLLER_TEST},
-            {"multi_model_accuracy_test",                                   PlannerTrialType::MULTI_MODEL_ACCURACY_TEST}
+        std::unordered_map<std::string, TrialType> task_map{
+            {"diminishing_rigidity_single_model_least_squares_stretching_avoidance_controller",     TrialType::DIMINISHING_RIGIDITY_SINGLE_MODEL_LEAST_SQUARES_STRETCHING_AVOIDANCE_CONTROLLER},
+            {"adaptive_jacobian_single_model_least_squares_stretching_avoidance_controller",        TrialType::ADAPTIVE_JACOBIAN_SINGLE_MODEL_LEAST_SQUARES_STRETCHING_AVOIDANCE_CONTROLLER},
+            {"diminishing_rigidity_single_model_least_squares_stretching_constraint_controller",    TrialType::DIMINISHING_RIGIDITY_SINGLE_MODEL_LEAST_SQUARES_STRETCHING_CONSTRAINT_CONTROLLER},
+            {"constraint_single_model_constraint_controller",                                       TrialType::CONSTRAINT_SINGLE_MODEL_CONSTRAINT_CONTROLLER},
+            {"diminishing_rigidity_single_model_constraint_controller",                             TrialType::DIMINISHING_RIGIDITY_SINGLE_MODEL_CONSTRAINT_CONTROLLER},
+            {"multi_model_bandit_test",                                                             TrialType::MULTI_MODEL_BANDIT_TEST},
+            {"multi_model_controller_test",                                                         TrialType::MULTI_MODEL_CONTROLLER_TEST},
+            {"multi_model_accuracy_test",                                                           TrialType::MULTI_MODEL_ACCURACY_TEST}
         };
 
         try
         {
-            return task_map.at(planner_trial_type);
+            return task_map.at(trial_type);
         }
         catch (std::out_of_range& e)
         {
-            ROS_FATAL_STREAM_NAMED("params", "Unknown planner trial type type: " << planner_trial_type);
-            throw_arc_exception(std::invalid_argument, "Unknown planner trial type: " + planner_trial_type);
+            ROS_FATAL_STREAM_NAMED("params", "Unknown planner trial type type: " << trial_type);
+            throw_arc_exception(std::invalid_argument, "Unknown planner trial type: " + trial_type);
         }
     }
 
@@ -1430,9 +1515,9 @@ namespace smmap
     // Logging functionality
     ////////////////////////////////////////////////////////////////////////////
 
-    inline bool GetPlannerLoggingEnabled(ros::NodeHandle& nh)
+    inline bool GetBanditsLoggingEnabled(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "planner_logging_enabled", false);
+        return ROSHelpers::GetParam(nh, "bandits_logging_enabled", false);
     }
 
     inline bool GetControllerLoggingEnabled(ros::NodeHandle& nh)

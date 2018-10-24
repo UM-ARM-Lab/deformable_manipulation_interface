@@ -86,6 +86,8 @@
         <param name="world_z_min"           value="$(arg world_z_min)"      type="double"/>
         <param name="world_z_max"           value="$(arg world_z_max)"      type="double"/>
 
+        <param name="sdf_resolution_scale"  value="2"                       type="int"/>
+
     <group ns="static_transform_publishers">
         <!-- TF2 parameters and settings to enable live robot demonstrations -->
         <!-- Note that we are using convenient coordinates for the table, so we need a transform to move to connect to the world frame -->

@@ -46,6 +46,8 @@
     <param name="world_z_min"           value="$(arg world_z_min)"      type="double"/>
     <param name="world_z_max"           value="$(arg world_z_max)"      type="double"/>
 
+    <param name="sdf_resolution_scale"  value="2"                       type="int"/>
+
     <group ns="deform_simulator_node">
         <param name="num_simsteps_per_gripper_command"  value="4"       type="int"/>
         <param name="viewer_width"                      value="800"     type="int"/>
