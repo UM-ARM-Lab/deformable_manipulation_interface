@@ -1,9 +1,9 @@
 <launch>
     <!-- Task and logging arguments -->
     <arg name="task_type"/>
-    <arg name="planner_logging_enabled"                 default="true"/>
+    <arg name="planner_logging_enabled"                 default="false"/>
     <arg name="controller_logging_enabled"              default="false"/>
-    <arg name="test_id"                                 default="iros2018_workshop_videos"/>
+    <arg name="test_id"                                 default="default"/>
     <arg name="task_max_time_override"                  default="false"/>
     <arg name="task_max_time"                           if="$(arg task_max_time_override)"/>
 
@@ -52,9 +52,9 @@
     <!-- Planner internal arguments -->
     <arg name="launch_planner"                          default="true"/>
     <arg name="collect_results_for_all_models"          default="false"/>
-    <arg name="use_random_seed"                         default="false"/>
+    <arg name="use_random_seed"                         default="true"/>
     <!--<arg name="static_seed_override"                    default="true"/>-->
-    <arg name="static_seed_override"                    default="true"/>
+    <arg name="static_seed_override"                    default="false"/>
 
     <!--Cloth Single Pole-->
     <!--<arg name="static_seed"                             default="1543ef2de1095aec" if="$(arg static_seed_override)"/>-->
