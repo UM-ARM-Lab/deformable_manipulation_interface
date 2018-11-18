@@ -113,6 +113,9 @@
             <param name="band_dist2_scaling_factor"         value="0.000001"                type="double"/>
             <param name="band_max_points_"                  value="500"                     type="double"/>
 
+            <param name="feasibility_distance_scale_factor" value="0.0"                     type="double"/>
+            <param name="default_propagation_confidence"    value="1.0"                     type="double"/>
+
             <!-- Used to test shortcut smoothing -->
             <param name="use_stored_path"                   value="false"                   type="bool"/>
             <param name="path_file_name_prefix"             value="rrt_path"                type="string"/>
@@ -130,6 +133,13 @@
             <param name="use_stored_band"               value="false"                                                       type="bool"/>
             <param name="band_file_name_prefix"         value="band"                                                        type="string"/>
             <param name="band_file_name_suffix_to_load" value="stuck_on_edge_of_obstacle"                                   type="string"/>
+        </group>
+
+        <group ns="transition_learning">
+            <param name="action_dist_threshold"         value="1.0"     type="double"/>
+            <param name="action_dist_scale_factor"      value="1.0"     type="double"/>
+            <param name="band_dist_threshold"           value="1.0"     type="double"/>
+            <param name="band_dist_scale_factor"        value="1.0"     type="double"/>
         </group>
 
         <!-- Dinimishing Rigidity parameters and overrides -->
