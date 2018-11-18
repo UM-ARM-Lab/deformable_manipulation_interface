@@ -1012,6 +1012,27 @@ namespace smmap
         }
     }
 
+    inline MABAlgorithm GetMABAlgorithm(ros::NodeHandle& nh)
+    {
+        const std::string mab_algorithm = ROSHelpers::GetParam<std::string>(nh, "multi_model/bandit_algorithm", "UCB");
+
+        std::unordered_map<std::string, MABAlgorithm> algorithm_map{
+            {"UCB", UCB1Normal},
+            {"KFMANB", KFMANB},
+            {"KFMANDB", KFMANDB}
+        };
+
+        try
+        {
+            return algorithm_map.at(mab_algorithm);
+        }
+        catch (std::out_of_range& e)
+        {
+            ROS_FATAL_STREAM_NAMED("params", "Unknown MAB algorithm: " << mab_algorithm);
+            throw_arc_exception(std::invalid_argument, "Unknown MAB algorithm: " + mab_algorithm);
+        }
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // Diminishing Rigidity Model Parameters
     ////////////////////////////////////////////////////////////////////////////

@@ -162,6 +162,7 @@
 
         <!-- Multi-model parameters and overrides -->
         <group ns="multi_model">
+            <param name="bandit_algorithm"                  value="$(arg bandit_algorithm)"                 type="string"/>
             <param name="process_noise_factor"              value="$(arg process_noise_factor)"             type="double"   if="$(arg kalman_parameters_override)"/>
             <param name="observation_noise_factor"          value="$(arg observation_noise_factor)"         type="double"   if="$(arg kalman_parameters_override)"/>
             <param name="collect_results_for_all_models"    value="$(arg collect_results_for_all_models)"   type="bool"/>
@@ -182,5 +183,5 @@
             <param name="max_sampling_counts"           value="5000"                                    type="int"/>
         </group>
     </group>
-    <node name="smmap_planner_node" pkg="smmap" type="planner_test_node_$(arg bandit_algorithm)" required="true" if="$(arg launch_planner)"/>
+    <node name="smmap_planner_node" pkg="smmap" type="planner_test_node" required="true" if="$(arg launch_planner)"/>
 </launch>

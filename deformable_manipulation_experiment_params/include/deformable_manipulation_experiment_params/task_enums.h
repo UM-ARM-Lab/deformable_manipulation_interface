@@ -51,6 +51,13 @@ namespace smmap
         MULTI_MODEL_ACCURACY_TEST
     };
 
+    enum MABAlgorithm
+    {
+        UCB1Normal,
+        KFMANB,
+        KFMANDB
+    };
+
     enum StretchingAvoidanceControllerSolverType
     {
         RANDOM_SAMPLING,
