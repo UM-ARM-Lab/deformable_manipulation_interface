@@ -479,34 +479,6 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    // Hook size settings
-    ////////////////////////////////////////////////////////////////////////////
-
-    inline float GetHookHeight(ros::NodeHandle& nh)
-    {
-        const auto val = ROSHelpers::GetParamRequired<float>(nh, "hook_height", __func__);
-        return val.GetImmutable();
-    }
-
-    inline float GetHookLength(ros::NodeHandle& nh)
-    {
-        const auto val = ROSHelpers::GetParamRequired<float>(nh, "hook_length", __func__);
-        return val.GetImmutable();
-    }
-
-    inline float GetHookComX(ros::NodeHandle& nh)
-    {
-        const auto val = ROSHelpers::GetParamRequired<float>(nh, "hook_com_x", __func__);
-        return val.GetImmutable();
-    }
-
-    inline float GetHookComOffsetY(ros::NodeHandle& nh)
-    {
-        const auto val = ROSHelpers::GetParamRequired<float>(nh, "hook_com_offset_y", __func__);
-        return val.GetImmutable();
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
     // Rope Settings
     ////////////////////////////////////////////////////////////////////////////
 
