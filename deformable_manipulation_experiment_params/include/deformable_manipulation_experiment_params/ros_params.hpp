@@ -1245,6 +1245,12 @@ namespace smmap
         return (uint32_t)val.GetImmutable();
     }
 
+    inline double GetRRTSmoothingBandDistThreshold(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/smoothing_band_dist_threshold", __func__);
+        return val.GetImmutable();
+    }
+
     inline double GetRRTTimeout(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/timeout", __func__);

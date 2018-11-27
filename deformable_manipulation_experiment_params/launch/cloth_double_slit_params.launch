@@ -135,6 +135,7 @@
             <param name="max_shortcut_index_distance"       value="20"                          type="int"/>
             <param name="max_smoothing_iterations"          value="500"                         type="int"/>
             <param name="max_failed_smoothing_iterations"   value="5000"                        type="int"/>
+            <param name="smoothing_band_dist_threshold"     value="0.001"                       type="double"/>
 
             <param name="planning_x_min"                    value="$(arg world_x_min)"          type="double"/>
             <param name="planning_x_max"                    value="$(arg world_x_max)"          type="double"/>

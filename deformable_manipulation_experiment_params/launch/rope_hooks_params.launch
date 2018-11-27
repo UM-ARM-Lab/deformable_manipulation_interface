@@ -17,7 +17,7 @@
     <arg name="world_y_min"             value="-0.45"/>
     <arg name="world_y_max"             value="0.45"/>
     <arg name="world_z_min"             value="0.0"/>
-    <arg name="world_z_max"             value="0.8"/>
+    <arg name="world_z_max"             value="0.4"/>
 
     <param name="world_x_step"          value="$(arg grid_resolution)"  type="double"/>
     <param name="world_x_min"           value="$(arg world_x_min)"      type="double"/>
@@ -31,7 +31,7 @@
     <param name="world_z_min"           value="$(arg world_z_min)"      type="double"/>
     <param name="world_z_max"           value="$(arg world_z_max)"      type="double"/>
 
-    <param name="sdf_resolution_scale"  value="2"                       type="int"/>
+    <param name="sdf_resolution_scale"  value="4"                       type="int"/>
 
     <!-- Rope physical parameters -->
     <param name="rope_segment_length"   value="0.02"        type="double"/>
@@ -50,8 +50,8 @@
 
     <!-- Obstacle parameters -->
     <!-- Note that this 'cylinder' is actually a rectangular object in practice -->
-    <param name="cylinder_com_x"        value="$(eval world_x_min + 0.4)"                               type="double"/>
-    <param name="cylinder_com_y"        value="$(eval (world_y_max - world_y_min)/2.0 + world_y_min)"   type="double"/>
+    <param name="cylinder_com_x"        value="$(eval world_x_min + 0.3)"                               type="double"/>
+    <param name="cylinder_com_y"        value="$(eval (world_y_max - world_y_min)/2.0 + world_y_min + 0.2)"   type="double"/>
     <param name="cylinder_com_z"        value="$(eval (world_z_max - world_z_min)/2.0 + world_z_min)"   type="double"/>
     <param name="cylinder_height"       value="$(eval world_z_max - world_z_min)"                       type="double"/>
     <param name="cylinder_radius"       value="$(eval grid_resolution * 2.0)"                           type="double"/>
@@ -59,8 +59,9 @@
     <param name="task_progress_wall_width"          value="$(eval grid_resolution * 2.0)"                   type="double"/>
     <param name="task_progress_wall_lower_height"   value="$(eval (world_z_max - world_z_min)/2.0 - 0.05)"  type="double"/>
     <param name="task_progress_wall_upper_height"   value="$(eval (world_z_max - world_z_min)/2.0 - 0.05)"  type="double"/>
-    <param name="task_progress_wall_x_com"          value="$(eval world_x_min + 1.0)"                       type="double"/>
+    <param name="task_progress_wall_x_com"          value="$(eval world_x_min + 0.7)"                       type="double"/>
 
+    <param name="gripper_separator_length"          value="$(eval world_x_max - world_x_min - 0.8)"         type="double"/>
     <param name="gripper_separator_width"           value="$(eval grid_resolution * 2.0)"                   type="double"/>
     <param name="gripper_separator_lower_height"    value="$(eval (world_z_max - world_z_min)/2.0 - 0.025)" type="double"/>
     <param name="gripper_separator_upper_height"    value="$(eval (world_z_max - world_z_min)/2.0 - 0.025)" type="double"/>
@@ -68,7 +69,7 @@
 
     <param name="hook_length"           value="0.075"   type="double"/>
     <param name="hook_radius"           value="0.025"   type="double"/>
-    <param name="hook_com_offset_y"     value="-0.10"   type="double"/>
+    <param name="hook_com_offset_y"     value="-0.15"   type="double"/>
 
     <group ns="deform_simulator_node">
         <param name="num_simsteps_per_gripper_command"  value="4"       type="int"/>
@@ -125,6 +126,7 @@
             <param name="max_shortcut_index_distance"       value="20"                          type="int"/>
             <param name="max_smoothing_iterations"          value="1500"                        type="int"/>
             <param name="max_failed_smoothing_iterations"   value="15000"                       type="int"/>
+            <param name="smoothing_band_dist_threshold"     value="0.001"                       type="double"/>
 
             <param name="planning_x_min"                    value="$(arg world_x_min)"          type="double"/>
             <param name="planning_x_max"                    value="$(arg world_x_max)"          type="double"/>
