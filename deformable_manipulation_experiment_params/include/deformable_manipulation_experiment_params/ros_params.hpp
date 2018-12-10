@@ -105,14 +105,18 @@ namespace smmap
         }
     }
 
+    inline std::string GetTaskTypeString(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequiredDebugLog<std::string>(nh, "task_type", __func__);
+        return val.GetImmutable();
+    }
+
     /**
      *  Maps the ros param "task_type" into an enum TaskType
      */
     inline TaskType GetTaskType(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequiredDebugLog<std::string>(nh, "task_type", __func__);
-        const std::string task_type = val.GetImmutable();
-
+        const std::string task_type = GetTaskTypeString(nh);
         std::unordered_map<std::string, TaskType> task_map{
             {"rope_cylinder_coverage",                  TaskType::ROPE_CYLINDER_COVERAGE},
             {"rope_cylinder_coverage_two_grippers",     TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS},
@@ -130,7 +134,7 @@ namespace smmap
             {"rope_table_penetration",                  TaskType::ROPE_TABLE_PENTRATION},
             {"cloth_placemat_live_robot",               TaskType::CLOTH_PLACEMAT_LIVE_ROBOT},
             {"cloth_placemat_live_robot_linear_motion", TaskType::CLOTH_PLACEMAT_LINEAR_MOTION},
-            {"rope_hooks_basic",                        TaskType::ROPE_HOOKS_BASIC},
+            {"rope_hooks",                              TaskType::ROPE_HOOKS},
             {"cloth_hooks",                             TaskType::CLOTH_HOOKS}
         };
         

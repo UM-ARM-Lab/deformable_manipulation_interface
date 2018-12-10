@@ -35,7 +35,7 @@ namespace smmap
         CLOTH_PLACEMAT_LIVE_ROBOT,
 
         // Hooks
-        ROPE_HOOKS_BASIC,
+        ROPE_HOOKS,
         CLOTH_HOOKS
     };
 
