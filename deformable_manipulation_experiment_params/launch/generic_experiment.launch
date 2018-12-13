@@ -54,7 +54,7 @@
     <!-- Planner internal arguments -->
     <arg name="launch_planner"                          default="true"/>
     <arg name="collect_results_for_all_models"          default="false"/>
-    <arg name="use_random_seed"                         default="true"/>
+    <arg name="use_random_seed"                         default="false"/>
     <arg name="static_seed_override"                    default="false"/>
 
     <!-- Triggers transition on smoothing on 2nd plan, not on 3rd -->
@@ -85,7 +85,7 @@
         <param name="bandits_logging_enabled"           value="$(arg bandits_logging_enabled)"              type="bool"/>
         <param name="controller_logging_enabled"        value="$(arg controller_logging_enabled)"           type="bool"/>
 
-        <param name="use_stored_world_state"                value="true"                                    type="bool"/>
+        <param name="use_stored_world_state"                value="false"                                   type="bool"/>
         <param name="world_state_file_name_prefix"          value="world_state"                             type="string"/>
         <param name="world_state_file_name_suffix_to_load"  value="band_weirdness_controller_only"          type="string"/>
 
@@ -99,9 +99,9 @@
         <param name="visualize_correspondences"         value="$(arg visualize_correspondences)"            type="bool"/>
 
         <group ns="rrt">
-            <param name="timeout"                           value="60.0"                    type="double"/>
+            <param name="timeout"                           value="600.0"                   type="double"/>
             <param name="reuse_old_results"                 value="false"                   type="bool"/>
-            <param name="store_new_results"                 value="true"                    type="bool"/>
+            <param name="store_new_results"                 value="false"                   type="bool"/>
 
             <param name="use_brute_force_nn"                value="false"                   type="bool"/>
             <param name="kd_tree_grow_threshold"            value="500"                     type="int"/>
@@ -124,11 +124,6 @@
             <param name="path_file_name_suffix_to_load"     value="static_no_vicon_env"     type="string"/>
         </group>
 
-        <group ns="prm">
-            <param name="num_nearest"                   value="5"                           type="int"/>
-            <param name="num_samples"                   value="1000"                        type="int"/>
-        </group>
-
         <group ns="band">
             <param name="logging_enabled"               value="$(arg bandits_logging_enabled)"                              type="bool"/>
             <param name="log_folder"                    value="$(find smmap)/logs/$(arg task_type)/$(arg test_id)/"         type="string"/>
@@ -140,8 +135,14 @@
         <group ns="transition_learning">
             <!--<param name="action_dist_threshold"         value="1.0"     type="double"/>-->
             <!--<param name="action_dist_scale_factor"      value="1.0"     type="double"/>-->
-            <param name="band_dist_threshold"           value="10.0"     type="double"/>
+            <param name="band_dist_threshold"           value="1000.0" type="double"/>
             <param name="band_dist_scale_factor"        value="1.0"   type="double"/>
+
+            <param name="use_stored_transitions"    value="true"                            type="bool"/>
+            <param name="file_name_prefix"          value="../learned_transitions"          type="string"/>
+            <rosparam>
+                file_name_suffixes_to_load: ["static_seed__a8710913d2b5df6c"]
+            </rosparam>
         </group>
 
         <!-- Dinimishing Rigidity parameters and overrides -->

@@ -1451,7 +1451,6 @@ namespace smmap
     {
         const std::string base_param_name = "straight_line_motion_controller/" + gripper_name + "_deltas/";
 
-//        const std::vector<double> t = ROSHelpers::GetParamRequired<std::vector<double>>(nh, base_param_name + "t", __func__).GetImmutable();
         std::vector<double> t;
         if (!nh.getParam(base_param_name + "t", t))
         {
@@ -1459,52 +1458,45 @@ namespace smmap
             throw_arc_exception(std::runtime_error, "Unable to find parameter on server");
         }
 
-//        const std::vector<double> vx = ROSHelpers::GetParamRequired<std::vector<double>>(nh, base_param_name + "/vx", __func__).GetImmutable();
-//        const std::vector<double> vy = ROSHelpers::GetParamRequired<std::vector<double>>(nh, base_param_name + "/vy", __func__).GetImmutable();
-//        const std::vector<double> vz = ROSHelpers::GetParamRequired<std::vector<double>>(nh, base_param_name + "/vz", __func__).GetImmutable();
-//        const std::vector<double> wx = ROSHelpers::GetParamRequired<std::vector<double>>(nh, base_param_name + "/wx", __func__).GetImmutable();
-//        const std::vector<double> wy = ROSHelpers::GetParamRequired<std::vector<double>>(nh, base_param_name + "/wy", __func__).GetImmutable();
-//        const std::vector<double> wz = ROSHelpers::GetParamRequired<std::vector<double>>(nh, base_param_name + "/wz", __func__).GetImmutable();
-
         std::vector<double> vx;
         if (!nh.getParam(base_param_name + "vx", vx))
         {
-            ROS_FATAL_STREAM_NAMED("params", "Cannot find " << nh.getNamespace() << "/" <<base_param_name + "vx" << " on parameter server for " << __func__ << ": Value must be on paramter sever");
+            ROS_FATAL_STREAM_NAMED("params", "Cannot find " << nh.getNamespace() << "/" << base_param_name + "vx" << " on parameter server for " << __func__ << ": Value must be on paramter sever");
             throw_arc_exception(std::runtime_error, "Unable to find parameter on server");
         }
 
         std::vector<double> vy;
         if (!nh.getParam(base_param_name + "vy", vy))
         {
-            ROS_FATAL_STREAM_NAMED("params", "Cannot find " << nh.getNamespace() << "/" <<base_param_name + "vy" << " on parameter server for " << __func__ << ": Value must be on paramter sever");
+            ROS_FATAL_STREAM_NAMED("params", "Cannot find " << nh.getNamespace() << "/" << base_param_name + "vy" << " on parameter server for " << __func__ << ": Value must be on paramter sever");
             throw_arc_exception(std::runtime_error, "Unable to find parameter on server");
         }
 
         std::vector<double> vz;
         if (!nh.getParam(base_param_name + "vz", vz))
         {
-            ROS_FATAL_STREAM_NAMED("params", "Cannot find " << nh.getNamespace() << "/" <<base_param_name + "vz" << " on parameter server for " << __func__ << ": Value must be on paramter sever");
+            ROS_FATAL_STREAM_NAMED("params", "Cannot find " << nh.getNamespace() << "/" << base_param_name + "vz" << " on parameter server for " << __func__ << ": Value must be on paramter sever");
             throw_arc_exception(std::runtime_error, "Unable to find parameter on server");
         }
 
         std::vector<double> wx;
         if (!nh.getParam(base_param_name + "wx", wx))
         {
-            ROS_FATAL_STREAM_NAMED("params", "Cannot find " << nh.getNamespace() << "/" <<base_param_name + "wx" << " on parameter server for " << __func__ << ": Value must be on paramter sever");
+            ROS_FATAL_STREAM_NAMED("params", "Cannot find " << nh.getNamespace() << "/" << base_param_name + "wx" << " on parameter server for " << __func__ << ": Value must be on paramter sever");
             throw_arc_exception(std::runtime_error, "Unable to find parameter on server");
         }
 
         std::vector<double> wy;
         if (!nh.getParam(base_param_name + "wy", wy))
         {
-            ROS_FATAL_STREAM_NAMED("params", "Cannot find " << nh.getNamespace() << "/" <<base_param_name + "wy" << " on parameter server for " << __func__ << ": Value must be on paramter sever");
+            ROS_FATAL_STREAM_NAMED("params", "Cannot find " << nh.getNamespace() << "/" << base_param_name + "wy" << " on parameter server for " << __func__ << ": Value must be on paramter sever");
             throw_arc_exception(std::runtime_error, "Unable to find parameter on server");
         }
 
         std::vector<double> wz;
         if (!nh.getParam(base_param_name + "wz", wz))
         {
-            ROS_FATAL_STREAM_NAMED("params", "Cannot find " << nh.getNamespace() << "/" <<base_param_name + "wz" << " on parameter server for " << __func__ << ": Value must be on paramter sever");
+            ROS_FATAL_STREAM_NAMED("params", "Cannot find " << nh.getNamespace() << "/" << base_param_name + "wz" << " on parameter server for " << __func__ << ": Value must be on paramter sever");
             throw_arc_exception(std::runtime_error, "Unable to find parameter on server");
         }
 
