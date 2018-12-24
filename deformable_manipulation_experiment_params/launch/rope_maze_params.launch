@@ -109,7 +109,7 @@
             <param name="collision_scaling_factor"      value="200.0"           type="double"/>
         </group>
 
-        <group ns="stretching_avoidance_controller">
+        <group ns="stretching_constraint_controller">
             <param name="stretching_cosine_threshold"   value="$(arg stretching_cosine_threshold)"  type="double"/>
             <param name="fix_step_size"                 value="true"                                type="bool"/>
         </group>

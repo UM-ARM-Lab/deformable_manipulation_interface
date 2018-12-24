@@ -58,7 +58,7 @@ namespace smmap
         KFMANDB
     };
 
-    enum StretchingAvoidanceControllerSolverType
+    enum StretchingConstraintControllerSolverType
     {
         RANDOM_SAMPLING,
         NOMAD_OPTIMIZATION,

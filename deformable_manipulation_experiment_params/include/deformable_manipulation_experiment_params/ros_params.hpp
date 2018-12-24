@@ -1395,17 +1395,17 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    // Stretching avoidance controller parameters
+    // Stretching constraint controller parameters
     ////////////////////////////////////////////////////////////////////////////
 
-    inline StretchingAvoidanceControllerSolverType GetStretchingAvoidanceControllerSolverType(ros::NodeHandle& nh)
+    inline StretchingConstraintControllerSolverType GetStretchingConstraintControllerSolverType(ros::NodeHandle& nh)
     {
-        std::string solver_type = ROSHelpers::GetParam<std::string>(nh, "stretching_avoidance_controller/solver_type", "random_sampling");
+        std::string solver_type = ROSHelpers::GetParam<std::string>(nh, "stretching_constraint_controller/solver_type", "random_sampling");
 
-        std::unordered_map<std::string, StretchingAvoidanceControllerSolverType> solver_map {
-            {"random_sampling",     StretchingAvoidanceControllerSolverType::RANDOM_SAMPLING},
-            {"nomad_optimization",  StretchingAvoidanceControllerSolverType::NOMAD_OPTIMIZATION},
-            {"gradient_descent",    StretchingAvoidanceControllerSolverType::GRADIENT_DESCENT},
+        std::unordered_map<std::string, StretchingConstraintControllerSolverType> solver_map {
+            {"random_sampling",     StretchingConstraintControllerSolverType::RANDOM_SAMPLING},
+            {"nomad_optimization",  StretchingConstraintControllerSolverType::NOMAD_OPTIMIZATION},
+            {"gradient_descent",    StretchingConstraintControllerSolverType::GRADIENT_DESCENT},
         };
 
         try
@@ -1421,25 +1421,25 @@ namespace smmap
 
     inline int64_t GetMaxSamplingCounts(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<int>(nh, "stretching_avoidance_controller/max_sampling_counts", __func__);
+        const auto val = ROSHelpers::GetParamRequired<int>(nh, "stretching_constraint_controller/max_sampling_counts", __func__);
         return val.GetImmutable();
     }
 
     inline bool GetUseFixedGripperDeltaSize(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "stretching_avoidance_controller/fix_step_size", __func__);
+        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "stretching_constraint_controller/fix_step_size", __func__);
         return val.GetImmutable();
     }
 
     inline double GetStretchingCosineThreshold(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "stretching_avoidance_controller/stretching_cosine_threshold", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "stretching_constraint_controller/stretching_cosine_threshold", __func__);
         return val.GetImmutable();
     }
 
     inline bool GetVisualizeOverstretchCones(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParam(nh, "stretching_avoidance_controller/visualize_overstretch_cones", true);
+        return ROSHelpers::GetParam(nh, "stretching_constraint_controller/visualize_overstretch_cones", true);
     }
 
     ////////////////////////////////////////////////////////////////////////////
