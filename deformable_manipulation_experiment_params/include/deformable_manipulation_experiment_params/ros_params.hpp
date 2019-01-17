@@ -1716,6 +1716,11 @@ namespace smmap
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_gripper_collision_check_topic", "get_gripper_collision_check");
     }
 
+    inline std::string GetRestartSimulationTopic(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "restart_simulation_topic", "restart_simulation");
+    }
+
     inline std::string GetTerminateSimulationTopic(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "terminate_simulation_topic", "terminate_simulation");
