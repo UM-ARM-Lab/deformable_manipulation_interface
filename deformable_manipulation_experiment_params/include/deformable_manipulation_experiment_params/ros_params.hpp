@@ -703,6 +703,11 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "settle_time", default_time);
     }
 
+    inline double GetTFWaitTime(ros::NodeHandle& nh, const double default_time = 4.0)
+    {
+        return ROSHelpers::GetParam(nh, "tf_wait_time", default_time);
+    }
+
     ////////////////////////////////////////////////////////////////////////////
     // Robot settings
     ////////////////////////////////////////////////////////////////////////////

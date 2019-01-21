@@ -71,6 +71,7 @@
         <param name="start_bullet_viewer"               value="$(arg start_bullet_viewer)"      type="bool"/>
         <param name="screenshots_enabled"               value="$(arg screenshots_enabled)"      type="bool"/>
         <param name="settle_time"                       value="4.0"/>
+        <param name="tf_wait_time"                      value="0.0"/>
     </group>
     <env name="OSG_FILE_PATH" value="$(find OpenSceneGraph)/data"/>
     <node name="deform_simulator_node" pkg="deform_simulator" type="custom_scene_node" required="true" if="$(arg launch_simulator)"/>
@@ -141,7 +142,7 @@
             <param name="use_stored_transitions"    value="true"                            type="bool"/>
             <param name="file_name_prefix"          value="../learned_transitions"          type="string"/>
             <rosparam>
-                file_name_suffixes_to_load: ["random_seed__15704229aa83e68e_take8"]
+                file_name_suffixes_to_load: ["random_seed__1570427477187c29_take9"]
             </rosparam>
         </group>
 
