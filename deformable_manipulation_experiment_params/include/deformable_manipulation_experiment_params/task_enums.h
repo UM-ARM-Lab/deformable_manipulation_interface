@@ -36,7 +36,8 @@ namespace smmap
 
         // Hooks
         ROPE_HOOKS,
-        CLOTH_HOOKS
+        CLOTH_HOOKS,
+        ROPE_HOOKS_DATA_GENERATION
     };
 
     enum TrialType

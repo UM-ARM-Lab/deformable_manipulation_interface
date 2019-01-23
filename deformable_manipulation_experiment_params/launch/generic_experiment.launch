@@ -142,7 +142,7 @@
             <param name="use_stored_transitions"    value="true"                            type="bool"/>
             <param name="file_name_prefix"          value="../learned_transitions"          type="string"/>
             <rosparam>
-                file_name_suffixes_to_load: ["random_seed__1570427477187c29_take9"]
+                file_name_suffixes_to_load: []
             </rosparam>
         </group>
 

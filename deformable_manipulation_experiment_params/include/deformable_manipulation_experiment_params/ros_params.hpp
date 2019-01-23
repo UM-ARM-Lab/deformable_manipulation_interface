@@ -1691,6 +1691,11 @@ namespace smmap
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_object_current_configuration_topic", "get_object_current_configuration");
     }
 
+    inline std::string GetRopeCurrentNodeTransformsTopic(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "get_rope_current_node_transforms_topic", "get_rope_current_node_transforms");
+    }
+
     inline std::string GetVisualizationMarkerTopic(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "visualization_marker_topic", "visualization_marker");

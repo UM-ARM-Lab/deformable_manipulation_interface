@@ -6,4 +6,6 @@ float64[] robot_configuration
 bool robot_configuration_valid
 ---
 # define the result
+deformable_manipulation_msgs/WorldState[] microstep_state_history
+# Note that this is equivalent to microstep_state_history.back()
 deformable_manipulation_msgs/WorldState world_state

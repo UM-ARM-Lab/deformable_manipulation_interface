@@ -1,5 +1,6 @@
 std_msgs/Header header
 geometry_msgs/Point[] object_configuration
+geometry_msgs/Pose[] rope_node_transforms
 string[] gripper_names
 geometry_msgs/Pose[] gripper_poses
 float64[] robot_configuration

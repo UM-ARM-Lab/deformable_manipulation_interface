@@ -35,10 +35,12 @@ add_service_files(
     GetGripperStretchingVectorInfo.srv
     GetPointSet.srv
     GetVector3Set.srv
+    GetPoseSet.srv
     GetMirrorLine.srv
     GetFreeSpaceGraph.srv
     GetSignedDistanceField.srv
     GetRobotConfiguration.srv
+    TestRobotMotionMicrosteps.srv
 )
 
 ## Generate actions in the 'action' folder
