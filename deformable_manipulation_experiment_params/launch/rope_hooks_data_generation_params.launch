@@ -1,0 +1,97 @@
+<launch>
+    <!-- Defines which world building routines we use, and which task specification -->
+    <param name="deformable_type"           value="rope"                        type="string"/>
+    <param name="task_type"                 value="rope_hooks_data_generation"  type="string"/>
+
+    <!-- World parameters for planning - used by both nodes -->
+    <arg name="grid_resolution"         value="0.025"/>
+    <arg name="world_x_min"             value="-1.3"/>
+    <arg name="world_x_max"             value="1.3"/>
+    <arg name="world_y_min"             value="-0.45"/>
+    <arg name="world_y_max"             value="0.45"/>
+    <arg name="world_z_min"             value="0.0"/>
+    <arg name="world_z_max"             value="0.4"/>
+
+    <param name="world_x_step"          value="$(arg grid_resolution)"  type="double"/>
+    <param name="world_x_min"           value="$(arg world_x_min)"      type="double"/>
+    <param name="world_x_max"           value="$(arg world_x_max)"      type="double"/>
+
+    <param name="world_y_step"          value="$(arg grid_resolution)"  type="double"/>
+    <param name="world_y_min"           value="$(arg world_y_min)"      type="double"/>
+    <param name="world_y_max"           value="$(arg world_y_max)"      type="double"/>
+
+    <param name="world_z_step"          value="$(arg grid_resolution)"  type="double"/>
+    <param name="world_z_min"           value="$(arg world_z_min)"      type="double"/>
+    <param name="world_z_max"           value="$(arg world_z_max)"      type="double"/>
+
+    <param name="sdf_resolution_scale"  value="8"                       type="int"/>
+
+    <!-- Rope physical parameters -->
+    <param name="rope_segment_length"   value="0.02"        type="double"/>
+    <param name="rope_num_links"        value="39"          type="int"/>
+    <param name="rope_radius"           value="0.01"        type="double"/>
+
+    <!-- Rope starting position params-->
+    <param name="rope_com_x"            value="$(eval world_x_min + 0.2)"                               type="double"/>
+    <param name="rope_com_y"            value="$(eval (world_y_max - world_y_min)/2.0 + world_y_min)"   type="double"/>
+    <param name="rope_com_z"            value="$(eval (world_z_max - world_z_min)/2.0 + world_z_min)"   type="double"/>
+
+    <!-- Set a unit vector defining what direction the rope is created in -->
+    <param name="rope_extension_x"      value="0.0"     type="double"/>
+    <param name="rope_extension_y"      value="-1.0"    type="double"/>
+    <param name="rope_extension_z"      value="0.0"     type="double"/>
+
+    <!-- Obstacle parameters -->
+    <!-- Note that this 'cylinder' is actually a rectangular object in practice -->
+    <param name="cylinder_com_x"        value="$(eval world_x_min + 0.3)"                               type="double"/>
+    <param name="cylinder_com_y"        value="$(eval (world_y_max - world_y_min)/2.0 + world_y_min + 0.2)"   type="double"/>
+    <param name="cylinder_com_z"        value="$(eval (world_z_max - world_z_min)/2.0 + world_z_min)"   type="double"/>
+    <param name="cylinder_height"       value="$(eval world_z_max - world_z_min)"                       type="double"/>
+    <param name="cylinder_radius"       value="$(eval grid_resolution * 2.0)"                           type="double"/>
+
+    <param name="task_progress_wall_width"          value="$(eval grid_resolution * 2.0)"                   type="double"/>
+    <param name="task_progress_wall_lower_height"   value="$(eval (world_z_max - world_z_min)/2.0 - 0.05)"  type="double"/>
+    <param name="task_progress_wall_upper_height"   value="$(eval (world_z_max - world_z_min)/2.0 - 0.05)"  type="double"/>
+    <param name="task_progress_wall_x_com"          value="$(eval world_x_min + 0.7)"                       type="double"/>
+
+    <param name="gripper_separator_length"          value="$(eval world_x_max - world_x_min - 0.8)"         type="double"/>
+    <param name="gripper_separator_width"           value="$(eval grid_resolution * 2.0)"                   type="double"/>
+    <param name="gripper_separator_lower_height"    value="$(eval (world_z_max - world_z_min)/2.0 - 0.025)" type="double"/>
+    <param name="gripper_separator_upper_height"    value="$(eval (world_z_max - world_z_min)/2.0 - 0.025)" type="double"/>
+    <param name="gripper_separator_y_offset"        value="-0.25"                                           type="double"/>
+
+    <param name="hook_length"           value="0.075"   type="double"/>
+    <param name="hook_radius"           value="0.025"   type="double"/>
+    <param name="hook_com_offset_y"     value="-0.15"   type="double"/>
+
+    <group ns="deform_simulator_node">
+        <param name="num_simsteps_per_gripper_command"  value="4"       type="int"/>
+        <param name="viewer_width"                      value="880"     type="int"/>
+        <param name="viewer_height"                     value="662"     type="int"/>
+
+        <param name="camera_override"                   value="true"    type="bool"/>
+        <group ns="camera">
+            <param name="home_x"                        value="0.0"     type="double"/>
+            <param name="home_y"                        value="0.0"    type="double"/>
+            <param name="home_z"                        value="6.0"     type="double"/>
+
+            <param name="looks_at_x"                    value="0.0"     type="double"/>
+            <param name="looks_at_y"                    value="0.0"     type="double"/>
+            <param name="looks_at_z"                    value="0.0"     type="double"/>
+
+            <param name="up_x"                          value="0.0"     type="double"/>
+            <param name="up_y"                          value="0.0"     type="double"/>
+            <param name="up_z"                          value="1.0"     type="double"/>
+        </group>
+
+        <!-- Visual settings for the simulator -->
+        <param name="outer_walls_alpha"                 value="0.1"     type="double"/>
+    </group>
+
+    <group ns="transition_learning_data_generation_node">
+        <group ns="task">
+            <param name="max_stretch_factor"                    value="1.15"                                type="double"/>
+            <param name="max_band_length"                       value="0.874"                               type="double"/>
+        </group>
+    </group>
+</launch>

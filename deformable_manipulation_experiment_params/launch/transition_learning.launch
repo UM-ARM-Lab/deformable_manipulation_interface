@@ -1,0 +1,68 @@
+<launch>
+    <!-- Task and logging arguments -->
+    <arg name="task_type"/>
+    <arg name="bandits_logging_enabled"                 default="true"/>
+    <arg name="controller_logging_enabled"              default="false"/>
+    <arg name="test_id"                                 default="default"/>
+    <arg name="task_max_time_override"                  default="false"/>
+    <arg name="task_max_time"                           if="$(arg task_max_time_override)"/>
+
+    <!-- Simulator arguments -->
+    <arg name="launch_simulator"                        default="true"/>
+    <arg name="start_bullet_viewer"                     default="true"/>
+    <arg name="screenshots_enabled"                     default="false"/>
+
+    <!-- Planner/Tester visualization arguments -->
+    <arg name="disable_all_visualizations"              default="false"/>
+    <arg name="visualize_gripper_motion"                default="false"/>
+
+    <!-- Planner/Tester internal arguments -->
+    <arg name="launch_tester"                           default="true"/>
+    <arg name="use_random_seed"                         default="false"/>
+    <arg name="static_seed_override"                    default="false"/>
+    <arg name="static_seed"                             default="156f1ba9b0fbafe2" if="$(arg static_seed_override)"/>
+
+    <!-- Setup task parameters -->
+    <include file="$(find deformable_manipulation_experiment_params)/launch/$(arg task_type)_params.launch"/>
+    <param name="log_folder"                            value="$(find smmap)/logs/$(arg task_type)/$(arg test_id)/"         type="string"/>
+
+    <!-- Setup the simulator -->
+    <group ns="deform_simulator_node">
+        <param name="start_bullet_viewer"               value="$(arg start_bullet_viewer)"      type="bool"/>
+        <param name="screenshots_enabled"               value="$(arg screenshots_enabled)"      type="bool"/>
+        <param name="settle_time"                       value="4.0"/>
+        <param name="tf_wait_time"                      value="0.0"/>
+    </group>
+    <env name="OSG_FILE_PATH" value="$(find OpenSceneGraph)/data"/>
+    <node name="deform_simulator_node" pkg="deform_simulator" type="custom_scene_node" required="true" if="$(arg launch_simulator)"/>
+
+    <!-- Setup the planner -->
+    <group ns="transition_learning_data_generation_node">
+        <param name="use_random_seed"                   value="$(arg use_random_seed)"                      type="bool"/>
+        <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   if="$(arg static_seed_override)"/>
+
+        <param name="disable_all_visualizations"        value="$(arg disable_all_visualizations)"           type="bool"/>
+        <param name="visualize_gripper_motion"          value="$(arg visualize_gripper_motion)"             type="bool"/>
+
+        <group ns="band">
+            <param name="logging_enabled"               value="$(arg bandits_logging_enabled)"                              type="bool"/>
+            <param name="log_folder"                    value="$(find smmap)/logs/$(arg task_type)/$(arg test_id)/"         type="string"/>
+        </group>
+
+        <group ns="rrt">
+            <param name="band_max_points_"              value="500"                         type="double"/>
+        </group>
+
+        <group ns="transition_learning">
+            <param name="band_dist_threshold"           value="1000.0"  type="double"/>
+            <param name="band_dist_scale_factor"        value="1.0"     type="double"/>
+
+            <param name="use_stored_transitions"        value="true"                        type="bool"/>
+            <param name="file_name_prefix"              value="../learned_transitions"      type="string"/>
+            <rosparam>
+                file_name_suffixes_to_load: ["testing_data"]
+            </rosparam>
+        </group>
+    </group>
+    <node name="transition_learning_data_generation_node" pkg="smmap" type="transition_learning_data_generation_node" required="true" if="$(arg launch_tester)"/>
+</launch>

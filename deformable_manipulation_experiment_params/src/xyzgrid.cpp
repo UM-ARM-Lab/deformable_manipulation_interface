@@ -96,3 +96,59 @@ Eigen::Vector3d XYZGrid::roundToGrid(const Eigen::Vector3d& pos) const
 
     return xyzIndexToWorldPosition(x_ind, y_ind, z_ind);
 }
+
+
+bool XYZGrid::operator==(const XYZGrid& other) const
+{
+    if (frame_ != other.frame_)
+    {
+        return false;
+    }
+    if ((transform_from_world_to_index0_.matrix().array() !=
+         other.transform_from_world_to_index0_.matrix().array()).any())
+    {
+        return false;
+    }
+    if ((transform_from_index0_to_world_.matrix().array() !=
+         other.transform_from_index0_to_world_.matrix().array()).any())
+    {
+        return false;
+    }
+    if (world_x_step_ != other.world_x_step_)
+    {
+        return false;
+    }
+    if (world_y_step_ != other.world_y_step_)
+    {
+        return false;
+    }
+    if (world_z_step_ != other.world_z_step_)
+    {
+        return false;
+    }
+    if (inv_world_x_step_ != other.inv_world_x_step_)
+    {
+        return false;
+    }
+    if (inv_world_y_step_ != other.inv_world_y_step_)
+    {
+        return false;
+    }
+    if (inv_world_z_step_ != other.inv_world_z_step_)
+    {
+        return false;
+    }
+    if (world_x_num_steps_ != other.world_x_num_steps_)
+    {
+        return false;
+    }
+    if (world_y_num_steps_ != other.world_y_num_steps_)
+    {
+        return false;
+    }
+    if (world_z_num_steps_ != other.world_z_num_steps_)
+    {
+        return false;
+    }
+    return true;
+}

@@ -20,7 +20,6 @@ def run_trial(experiment,
               process_noise_factor = None,
               observation_noise_factor = None,
 
-              feedback_covariance = None,
               calculate_regret = None,
               use_random_seed = None,
 
@@ -69,9 +68,6 @@ def run_trial(experiment,
         roslaunch_command.append('observation_noise_factor:=' + str(observation_noise_factor))
 
     # Setup simulator parameters
-    if feedback_covariance is not None:
-        roslaunch_command.append('feedback_covariance:=' + str(feedback_covariance))
-
     if start_bullet_viewer is not None:
         roslaunch_command.append('start_bullet_viewer:=' + str(start_bullet_viewer))
 

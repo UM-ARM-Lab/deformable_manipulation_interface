@@ -9,8 +9,7 @@
 
     <!-- Simulator arguments -->
     <arg name="launch_simulator"                        default="true"/>
-    <arg name="feedback_covariance"                     default="0.0"/>
-    <arg name="start_bullet_viewer"                     default="true"/>
+    <arg name="start_bullet_viewer"                     default="false"/>
     <arg name="screenshots_enabled"                     default="false"/>
 
     <!-- Planner trial type -->
@@ -67,7 +66,6 @@
 
     <!-- Setup the simulator -->
     <group ns="deform_simulator_node">
-        <param name="feedback_covariance"               value="$(arg feedback_covariance)"      type="double"/>
         <param name="start_bullet_viewer"               value="$(arg start_bullet_viewer)"      type="bool"/>
         <param name="screenshots_enabled"               value="$(arg screenshots_enabled)"      type="bool"/>
         <param name="settle_time"                       value="4.0"/>
@@ -79,7 +77,7 @@
 
     <!-- Setup the planner -->
     <group ns="smmap_planner_node">
-        <param name="trial_type"                        value="$(arg trial_type)"                   type="string"/>
+        <param name="trial_type"                        value="$(arg trial_type)"                           type="string"/>
         <param name="use_random_seed"                   value="$(arg use_random_seed)"                      type="bool"/>
         <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   if="$(arg static_seed_override)"/>
 
@@ -100,7 +98,7 @@
         <param name="visualize_correspondences"         value="$(arg visualize_correspondences)"            type="bool"/>
 
         <group ns="rrt">
-            <param name="timeout"                           value="600.0"                   type="double"/>
+            <param name="timeout"                           value="6000000000.0"                   type="double"/>
             <param name="reuse_old_results"                 value="false"                   type="bool"/>
             <param name="store_new_results"                 value="false"                   type="bool"/>
 
@@ -122,7 +120,7 @@
             <!-- Used to test shortcut smoothing -->
             <param name="use_stored_path"                   value="false"                   type="bool"/>
             <param name="path_file_name_prefix"             value="rrt_path"                type="string"/>
-            <param name="path_file_name_suffix_to_load"     value="static_no_vicon_env"     type="string"/>
+            <param name="path_file_name_suffix_to_load"     value="before_blacklisting_root_idx_4__2019-01-24__13-55-48"     type="string"/>
         </group>
 
         <group ns="band">

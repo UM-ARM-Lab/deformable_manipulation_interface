@@ -8,7 +8,6 @@
 
     <!-- Simulator arguments -->
     <arg name="launch_simulator"                        default="true"/>
-    <arg name="feedback_covariance"                     default="0.0"/>
     <arg name="start_bullet_viewer"                     default="true"/>
     <arg name="screenshots_enabled"                     default="false"/>
 
@@ -44,7 +43,6 @@
 
     <!-- Setup the simulator -->
     <group ns="deform_simulator_node">
-        <param name="feedback_covariance"               value="$(arg feedback_covariance)"      type="double"/>
         <param name="start_bullet_viewer"               value="$(arg start_bullet_viewer)"      type="bool"/>
         <param name="screenshots_enabled"               value="$(arg screenshots_enabled)"      type="bool"/>
         <param name="settle_time"                       value="1000000.0"/>

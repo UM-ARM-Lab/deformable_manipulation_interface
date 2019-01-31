@@ -66,6 +66,7 @@ namespace smmap
 
             Eigen::Vector3d roundToGrid(const Eigen::Vector3d& pos) const;
 
+            bool operator==(const XYZGrid& other) const;
 
         private:
             /// Variables describing the frame of the grid

@@ -32,7 +32,7 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "visualize_object_desired_motion", true);
     }
 
-    inline bool GetVisualizerGripperMotion(ros::NodeHandle& nh)
+    inline bool GetVisualizeGripperMotion(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParam(nh, "visualize_gripper_motion", true);
     }
@@ -117,7 +117,8 @@ namespace smmap
     inline TaskType GetTaskType(ros::NodeHandle& nh)
     {
         const std::string task_type = GetTaskTypeString(nh);
-        std::unordered_map<std::string, TaskType> task_map{
+        std::unordered_map<std::string, TaskType> task_map
+        {
             {"rope_cylinder_coverage",                  TaskType::ROPE_CYLINDER_COVERAGE},
             {"rope_cylinder_coverage_two_grippers",     TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS},
             {"cloth_cylinder_coverage",                 TaskType::CLOTH_CYLINDER_COVERAGE},
@@ -135,6 +136,7 @@ namespace smmap
             {"cloth_placemat_live_robot",               TaskType::CLOTH_PLACEMAT_LIVE_ROBOT},
             {"cloth_placemat_live_robot_linear_motion", TaskType::CLOTH_PLACEMAT_LINEAR_MOTION},
             {"rope_hooks",                              TaskType::ROPE_HOOKS},
+            {"rope_hooks_data_generation",              TaskType::ROPE_HOOKS_DATA_GENERATION},
             {"cloth_hooks",                             TaskType::CLOTH_HOOKS}
         };
         
@@ -687,11 +689,6 @@ namespace smmap
     ////////////////////////////////////////////////////////////////////////////
     // Simulator settings
     ////////////////////////////////////////////////////////////////////////////
-
-    inline double GetFeedbackCovariance(ros::NodeHandle& nh)  // METERS^2
-    {
-        return ROSHelpers::GetParamDebugLog(nh, "feedback_covariance", 0.0);
-    }
 
     inline size_t GetNumSimstepsPerGripperCommand(ros::NodeHandle& nh)
     {
@@ -1623,6 +1620,11 @@ namespace smmap
     inline std::string GetExecuteRobotMotionTopic(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "execute_robot_motion_topic", "execute_robot_motion");
+    }
+
+    inline std::string GetTestRobotMotionMicrostepsTopic(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "test_robot_motion_microsteps_topic" , "test_robot_motion_microsteps");
     }
 
     inline std::string GetWorldStateTopic(ros::NodeHandle& nh)
