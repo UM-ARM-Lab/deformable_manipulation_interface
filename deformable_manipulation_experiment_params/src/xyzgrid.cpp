@@ -152,3 +152,8 @@ bool XYZGrid::operator==(const XYZGrid& other) const
     }
     return true;
 }
+
+bool XYZGrid::operator!=(const XYZGrid& other) const
+{
+    return !(*this == other);
+}

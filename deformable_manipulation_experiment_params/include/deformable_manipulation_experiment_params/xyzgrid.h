@@ -17,17 +17,17 @@ namespace smmap
                     const ssize_t world_y_num_steps,
                     const ssize_t world_z_num_steps);
 
-            std::string getFrame() const
+            const std::string& getFrame() const
             {
                 return frame_;
             }
 
-            Eigen::Isometry3d getOriginTransform() const
+            const Eigen::Isometry3d& getOriginTransform() const
             {
                 return transform_from_world_to_index0_;
             }
 
-            Eigen::Isometry3d getInverseOriginTransform() const
+            const Eigen::Isometry3d& getInverseOriginTransform() const
             {
                 return transform_from_index0_to_world_;
             }
@@ -67,6 +67,7 @@ namespace smmap
             Eigen::Vector3d roundToGrid(const Eigen::Vector3d& pos) const;
 
             bool operator==(const XYZGrid& other) const;
+            bool operator!=(const XYZGrid& other) const;
 
         private:
             /// Variables describing the frame of the grid
