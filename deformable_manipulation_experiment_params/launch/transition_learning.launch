@@ -50,7 +50,8 @@
         </group>
 
         <group ns="rrt">
-            <param name="band_max_points_"              value="500"                         type="double"/>
+            <param name="min_gripper_distance_to_obstacles" value="0.03"                        type="double"/>
+            <param name="band_max_points_"                  value="500"                         type="double"/>
         </group>
 
         <group ns="transition_learning">
