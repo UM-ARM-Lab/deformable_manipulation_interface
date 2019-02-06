@@ -61,7 +61,7 @@ generate_messages(
 
 catkin_package(
     INCLUDE_DIRS    include
-    LIBRARIES       ${PROJECT_NAME}
+#    LIBRARIES       ${PROJECT_NAME}
     CATKIN_DEPENDS  ${CATKIN_PACKAGES}
                     message_runtime
 )
@@ -70,20 +70,5 @@ catkin_package(
 ## Build ##
 ###########
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -g -O2 -Wall -Wextra -Wpedantic -Wconversion -Werror")
-
-## Let QtCreator find these files...
-
-include_directories(include
-    SYSTEM
-    ${catkin_INCLUDE_DIRS}
-)
-
-add_library(${PROJECT_NAME}
-    include/${PROJECT_NAME}/messages.h
-    src/messages.cpp
-)
-add_dependencies(${PROJECT_NAME}
-    ${catkin_EXPORTED_TARGETS}
-    ${PROJECT_NAME}_gencpp
-)
+# Just mark this as a source in order to force it to show up in the IDE
+add_custom_target(${PROJECT_NAME}_headers SOURCES include/${PROJECT_NAME}/messages.h)

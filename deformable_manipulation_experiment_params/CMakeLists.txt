@@ -65,14 +65,9 @@ FILE(GLOB hpp_SRC "include/${PROJECT_NAME}/*.hpp")
 FILE(GLOB h_SRC "include/${PROJECT_NAME}/*.h")
 FILE(GLOB cpp_SRC "src/*.cpp")
 
-add_library(${PROJECT_NAME}
-    ${hpp_SRC}
-    ${h_SRC}
-    ${cpp_SRC}
-)
-add_dependencies(${PROJECT_NAME}
-    ${catkin_EXPORTED_TARGETS}
-)
+add_custom_target(${PROJECT_NAME}_headers SOURCES ${hpp_SRC} ${h_SRC})
+add_library(${PROJECT_NAME} ${cpp_SRC})
+add_dependencies(${PROJECT_NAME} ${catkin_EXPORTED_TARGETS})
 
 #############
 ## Install ##
