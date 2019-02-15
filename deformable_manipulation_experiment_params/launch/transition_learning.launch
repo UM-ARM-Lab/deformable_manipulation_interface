@@ -41,7 +41,7 @@
         <param name="use_random_seed"                   value="$(arg use_random_seed)"                      type="bool"/>
         <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   if="$(arg static_seed_override)"/>
         <param name="generate_new_data"                 value="false"                                       type="bool"/>
-        <param name="data_folder"                       value="/tmp/transition_learning_data_generation"    type="string"/>
+        <param name="data_folder"                       value="$(env HOME)/transition_learning_data_generation"    type="string"/>
 
         <param name="disable_all_visualizations"        value="$(arg disable_all_visualizations)"           type="bool"/>
         <param name="visualize_gripper_motion"          value="$(arg visualize_gripper_motion)"             type="bool"/>
