@@ -1227,12 +1227,6 @@ namespace smmap
         return val.GetImmutable();
     }
 
-    inline double GetRRTDefaultPropagationConfidence(ros::NodeHandle& nh)
-    {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/default_propagation_confidence", __func__);
-        return val.GetImmutable();
-    }
-
     inline int64_t GetRRTMaxShortcutIndexDistance(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt/max_shortcut_index_distance", __func__);
@@ -1323,13 +1317,13 @@ namespace smmap
         return (size_t)val.GetImmutable();
     }
 
-    inline bool GetUseBruteForceNN(ros::NodeHandle& nh)
+    inline bool GetRRTUseBruteForceNN(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<bool>(nh, "rrt/use_brute_force_nn", __func__);
         return val.GetImmutable();
     }
 
-    inline size_t GetKdTreeGrowThreshold(ros::NodeHandle& nh)
+    inline size_t GetRRTKdTreeGrowThreshold(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt/kd_tree_grow_threshold", __func__);
         return (size_t)val.GetImmutable();
@@ -1357,27 +1351,33 @@ namespace smmap
     // Transition Learning Parameters
     ////////////////////////////////////////////////////////////////////////////
 
+    inline double GetTransitionDefaultPropagationConfidence(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/default_propagation_confidence", __func__);
+        return val.GetImmutable();
+    }
+
     inline double GetTransitionActionDistThreshold(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_learning/action_dist_threshold", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/action_dist_threshold", __func__);
         return (double)val.GetImmutable();
     }
 
     inline double GetTransitionActionDistScaleFactor(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_learning/action_dist_scale_factor", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/action_dist_scale_factor", __func__);
         return (double)val.GetImmutable();
     }
 
     inline double GetTransitionBandDistThreshold(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_learning/band_dist_threshold", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/band_dist_threshold", __func__);
         return (double)val.GetImmutable();
     }
 
     inline double GetTransitionBandDistScaleFactor(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_learning/band_dist_scale_factor", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/band_dist_scale_factor", __func__);
         return (double)val.GetImmutable();
     }
 
