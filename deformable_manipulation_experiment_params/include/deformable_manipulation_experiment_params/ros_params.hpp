@@ -1360,25 +1360,25 @@ namespace smmap
     inline double GetTransitionActionDistThreshold(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/action_dist_threshold", __func__);
-        return (double)val.GetImmutable();
+        return val.GetImmutable();
     }
 
     inline double GetTransitionActionDistScaleFactor(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/action_dist_scale_factor", __func__);
-        return (double)val.GetImmutable();
+        return val.GetImmutable();
     }
 
     inline double GetTransitionBandDistThreshold(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/band_dist_threshold", __func__);
-        return (double)val.GetImmutable();
+        return val.GetImmutable();
     }
 
     inline double GetTransitionBandDistScaleFactor(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/band_dist_scale_factor", __func__);
-        return (double)val.GetImmutable();
+        return val.GetImmutable();
     }
 
     ////////////////////////////////////////////////////////////////////////////
