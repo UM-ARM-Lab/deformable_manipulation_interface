@@ -1357,27 +1357,33 @@ namespace smmap
         return val.GetImmutable();
     }
 
-    inline double GetTransitionActionDistThreshold(ros::NodeHandle& nh)
+    inline double GetTransitionDefaultBandDistThreshold(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/action_dist_threshold", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/default_band_dist_threshold", __func__);
         return val.GetImmutable();
     }
 
-    inline double GetTransitionActionDistScaleFactor(ros::NodeHandle& nh)
+    inline double GetTransitionConfidenceThreshold(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/action_dist_scale_factor", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/confidence_threshold", __func__);
         return val.GetImmutable();
     }
 
-    inline double GetTransitionBandDistThreshold(ros::NodeHandle& nh)
+    inline double GetTransitionTemplateMisalignmentScaleFactor(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/band_dist_threshold", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/template_misalignment_scale_factor", __func__);
         return val.GetImmutable();
     }
 
-    inline double GetTransitionBandDistScaleFactor(ros::NodeHandle& nh)
+    inline double GetTransitionTightenDeltaScaleFactor(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/band_dist_scale_factor", __func__);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/tighten_delta_scale_factor", __func__);
+        return val.GetImmutable();
+    }
+
+    inline double GetTransitionHomotopyChangesScaleFactor(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/homotopy_changes_scale_factor", __func__);
         return val.GetImmutable();
     }
 

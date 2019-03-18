@@ -9,7 +9,7 @@
 
     <!-- Simulator arguments -->
     <arg name="launch_simulator"                        default="true"/>
-    <arg name="start_bullet_viewer"                     default="false"/>
+    <arg name="start_bullet_viewer"                     default="true"/>
     <arg name="screenshots_enabled"                     default="false"/>
 
     <!-- Planner trial type -->
@@ -131,14 +131,14 @@
         </group>
 
         <group ns="transition_estimation">
-            <param name="default_propagation_confidence"    value="1.0"                     type="double"/>
-            <!--<param name="action_dist_threshold"         value="1.0"     type="double"/>-->
-            <!--<param name="action_dist_scale_factor"      value="1.0"     type="double"/>-->
-            <param name="band_dist_threshold"           value="1000.0" type="double"/>
-            <param name="band_dist_scale_factor"        value="1.0"   type="double"/>
-
-            <param name="use_stored_transitions"    value="true"                            type="bool"/>
-            <param name="file_name_prefix"          value="../learned_transitions"          type="string"/>
+            <param name="default_propagation_confidence"        value="1.0"                     type="double"/>
+            <param name="default_band_dist_threshold"           value="0.1"                     type="double"/>
+            <param name="confidence_threshold"                  value="0.2"                     type="double"/>
+            <param name="template_misalignment_scale_factor"    value="1.0"                     type="double"/>
+            <param name="tighten_delta_scale_factor"            value="1.0"                     type="double"/>
+            <param name="homotopy_changes_scale_factor"         value="1.0"                     type="double"/>
+            <param name="use_stored_transitions"                value="true"                    type="bool"/>
+            <param name="file_name_prefix"                      value="../learned_transitions"  type="string"/>
             <rosparam>
                 file_name_suffixes_to_load: []
             </rosparam>
