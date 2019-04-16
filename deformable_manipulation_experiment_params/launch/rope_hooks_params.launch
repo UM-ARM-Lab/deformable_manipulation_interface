@@ -18,6 +18,12 @@
     <arg name="world_y_max"             value="0.45"/>
     <arg name="world_z_min"             value="0.0"/>
     <arg name="world_z_max"             value="0.4"/>
+    <arg name="world_x_center"          value="$(eval (world_x_max + world_x_min) / 2.0)"/>
+    <arg name="world_y_center"          value="$(eval (world_y_max + world_y_min) / 2.0)"/>
+    <arg name="world_z_center"          value="$(eval (world_z_max + world_z_min) / 2.0)"/>
+    <arg name="world_x_size"            value="$(eval world_x_max - world_x_min)"/>
+    <arg name="world_y_size"            value="$(eval world_y_max - world_y_min)"/>
+    <arg name="world_z_size"            value="$(eval world_z_max - world_z_min)"/>
 
     <param name="world_x_step"          value="$(arg grid_resolution)"  type="double"/>
     <param name="world_x_min"           value="$(arg world_x_min)"      type="double"/>
@@ -39,9 +45,12 @@
     <param name="rope_radius"           value="0.01"        type="double"/>
 
     <!-- Rope starting position params-->
-    <param name="rope_com_x"            value="$(eval world_x_min + 0.2)"                               type="double"/>
-    <param name="rope_com_y"            value="$(eval (world_y_max - world_y_min)/2.0 + world_y_min)"   type="double"/>
-    <param name="rope_com_z"            value="$(eval (world_z_max - world_z_min)/2.0 + world_z_min)"   type="double"/>
+    <arg name="rope_com_x"              value="$(eval world_x_min + 0.2)"/>
+    <arg name="rope_com_y"              value="$(eval world_y_center)"/>
+    <arg name="rope_com_z"              value="$(eval world_z_center)"/>
+    <param name="rope_com_x"            value="$(arg rope_com_x)"   type="double"/>
+    <param name="rope_com_y"            value="$(arg rope_com_y)"   type="double"/>
+    <param name="rope_com_z"            value="$(arg rope_com_z)"   type="double"/>
 
     <!-- Set a unit vector defining what direction the rope is created in -->
     <param name="rope_extension_x"      value="0.0"     type="double"/>
@@ -49,27 +58,67 @@
     <param name="rope_extension_z"      value="0.0"     type="double"/>
 
     <!-- Obstacle parameters -->
+    <arg name="wall_thickness"          value="$(eval grid_resolution * 4.0)"/>
+    <param name="wall_thickness"        value="$(arg wall_thickness)"   type="double"/>
+
     <!-- Note that this 'cylinder' is actually a rectangular object in practice -->
-    <param name="cylinder_com_x"        value="$(eval world_x_min + 0.3)"                               type="double"/>
-    <param name="cylinder_com_y"        value="$(eval (world_y_max - world_y_min)/2.0 + world_y_min + 0.2)"   type="double"/>
-    <param name="cylinder_com_z"        value="$(eval (world_z_max - world_z_min)/2.0 + world_z_min)"   type="double"/>
-    <param name="cylinder_height"       value="$(eval world_z_max - world_z_min)"                       type="double"/>
-    <param name="cylinder_radius"       value="$(eval grid_resolution * 2.0)"                           type="double"/>
+    <arg name="cylinder_com_x"          value="$(eval world_x_min + 0.3)"/>
+    <arg name="cylinder_com_y"          value="$(eval world_y_center + 0.2)"/>
+    <arg name="cylinder_com_z"          value="$(eval world_z_center)"/>
+    <arg name="cylinder_height"         value="$(eval world_z_size)"/>
+    <arg name="cylinder_radius"         value="$(eval grid_resolution * 2.0)"/>
+    <param name="cylinder_com_x"        value="$(arg cylinder_com_x)"   type="double"/>
+    <param name="cylinder_com_y"        value="$(arg cylinder_com_y)"   type="double"/>
+    <param name="cylinder_com_z"        value="$(arg cylinder_com_z)"   type="double"/>
+    <param name="cylinder_height"       value="$(arg cylinder_height)"  type="double"/>
+    <param name="cylinder_radius"       value="$(arg cylinder_radius)"  type="double"/>
 
-    <param name="task_progress_wall_width"          value="$(eval grid_resolution * 2.0)"                   type="double"/>
-    <param name="task_progress_wall_lower_height"   value="$(eval (world_z_max - world_z_min)/2.0 - 0.05)"  type="double"/>
-    <param name="task_progress_wall_upper_height"   value="$(eval (world_z_max - world_z_min)/2.0 - 0.05)"  type="double"/>
-    <param name="task_progress_wall_x_com"          value="$(eval world_x_min + 0.7)"                       type="double"/>
+    <arg name="task_progress_wall_width"            value="$(eval grid_resolution * 2.0)"/>
+    <arg name="task_progress_wall_length"           value="$(eval world_y_size)"/>
+    <arg name="task_progress_wall_lower_height"     value="$(eval world_z_size / 2.0 - 0.05)"/>
+    <arg name="task_progress_wall_upper_height"     value="$(eval world_z_size / 2.0 - 0.05)"/>
+    <arg name="task_progress_wall_x_com"            value="$(eval world_x_min + 0.7)"/>
+    <arg name="task_progress_wall_y_com"            value="$(eval world_y_center)"/>
+    <arg name="task_progress_wall_lower_z_com"      value="$(eval world_z_min + task_progress_wall_lower_height / 2.0)"/>
+    <arg name="task_progress_wall_upper_z_com"      value="$(eval world_z_max - task_progress_wall_lower_height / 2.0)"/>
+    <param name="task_progress_wall_width"          value="$(arg task_progress_wall_width)"         type="double"/>
+    <param name="task_progress_wall_length"         value="$(arg task_progress_wall_length)"        type="double"/>
+    <param name="task_progress_wall_lower_height"   value="$(arg task_progress_wall_lower_height)"  type="double"/>
+    <param name="task_progress_wall_upper_height"   value="$(arg task_progress_wall_upper_height)"  type="double"/>
+    <param name="task_progress_wall_x_com"          value="$(arg task_progress_wall_x_com)"         type="double"/>
+    <param name="task_progress_wall_y_com"          value="$(arg task_progress_wall_y_com)"         type="double"/>
+    <param name="task_progress_wall_lower_z_com"    value="$(arg task_progress_wall_lower_z_com)"   type="double"/>
+    <param name="task_progress_wall_upper_z_com"    value="$(arg task_progress_wall_upper_z_com)"   type="double"/>
 
-    <param name="gripper_separator_length"          value="$(eval world_x_max - world_x_min - 0.8)"         type="double"/>
-    <param name="gripper_separator_width"           value="$(eval grid_resolution * 2.0)"                   type="double"/>
-    <param name="gripper_separator_lower_height"    value="$(eval (world_z_max - world_z_min)/2.0 - 0.025)" type="double"/>
-    <param name="gripper_separator_upper_height"    value="$(eval (world_z_max - world_z_min)/2.0 - 0.025)" type="double"/>
-    <param name="gripper_separator_y_offset"        value="-0.25"                                           type="double"/>
+    <arg name="gripper_separator_length"            value="$(eval world_x_size - 0.8)"/>
+    <arg name="gripper_separator_width"             value="$(eval grid_resolution * 2.0)"/>
+    <arg name="gripper_separator_lower_height"      value="$(eval world_z_size / 2.0 - 0.025)"/>
+    <arg name="gripper_separator_upper_height"      value="$(eval world_z_size / 2.0 - 0.025)"/>
+    <arg name="gripper_separator_y_offset"          value="-0.25"/>
+    <arg name="gripper_separator_x_com"             value="$(eval world_x_min + gripper_separator_length / 2.0)"/>
+    <arg name="gripper_separator_y_com"             value="$(eval world_y_center + gripper_separator_y_offset)"/>
+    <arg name="gripper_separator_lower_z_com"       value="$(eval world_z_min + gripper_separator_lower_height / 2.0)"/>
+    <arg name="gripper_separator_upper_z_com"       value="$(eval world_z_max - gripper_separator_upper_height / 2.0)"/>
+    <param name="gripper_separator_length"          value="$(arg gripper_separator_length)"         type="double"/>
+    <param name="gripper_separator_width"           value="$(arg gripper_separator_width)"          type="double"/>
+    <param name="gripper_separator_lower_height"    value="$(arg gripper_separator_lower_height)"   type="double"/>
+    <param name="gripper_separator_upper_height"    value="$(arg gripper_separator_upper_height)"   type="double"/>
+    <param name="gripper_separator_x_com"           value="$(arg gripper_separator_x_com)"          type="double"/>
+    <param name="gripper_separator_y_com"           value="$(arg gripper_separator_y_com)"          type="double"/>
+    <param name="gripper_separator_lower_z_com"     value="$(arg gripper_separator_lower_z_com)"    type="double"/>
+    <param name="gripper_separator_upper_z_com"     value="$(arg gripper_separator_upper_z_com)"    type="double"/>
 
-    <param name="hook_length"           value="0.075"   type="double"/>
-    <param name="hook_radius"           value="0.025"   type="double"/>
-    <param name="hook_com_offset_y"     value="-0.15"   type="double"/>
+    <arg name="hook_length"             value="0.075"/>
+    <arg name="hook_radius"             value="0.025"/>
+    <arg name="hook_com_offset_y"       value="-0.15"/>
+    <arg name="hook_com_x"              value="$(eval task_progress_wall_x_com - task_progress_wall_width / 2.0 - hook_length / 2.0)"/>
+    <arg name="hook_com_y"              value="$(eval world_y_center + hook_com_offset_y)"/>
+    <arg name="hook_com_z"              value="$(eval world_z_min + gripper_separator_lower_height - hook_radius)"/>
+    <param name="hook_length"           value="$(arg hook_length)"  type="double"/>
+    <param name="hook_radius"           value="$(arg hook_radius)"  type="double"/>
+    <param name="hook_com_x"            value="$(arg hook_com_x)"   type="double"/>
+    <param name="hook_com_y"            value="$(arg hook_com_y)"   type="double"/>
+    <param name="hook_com_z"            value="$(arg hook_com_z)"   type="double"/>
 
     <group ns="deform_simulator_node">
         <param name="num_simsteps_per_gripper_command"  value="4"       type="int"/>
@@ -90,9 +139,6 @@
             <param name="up_y"                          value="0.0"     type="double"/>
             <param name="up_z"                          value="1.0"     type="double"/>
         </group>
-
-        <!-- Visual settings for the simulator -->
-        <param name="outer_walls_alpha"                 value="0.1"     type="double"/>
     </group>
 
     <group ns="smmap_planner_node">

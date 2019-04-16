@@ -68,8 +68,9 @@
     <group ns="deform_simulator_node">
         <param name="start_bullet_viewer"               value="$(arg start_bullet_viewer)"      type="bool"/>
         <param name="screenshots_enabled"               value="$(arg screenshots_enabled)"      type="bool"/>
-        <param name="settle_time"                       value="4.0"/>
-        <param name="tf_wait_time"                      value="0.0"/>
+        <param name="settle_time"                       value="4.0"                             type="double"/>
+        <param name="tf_wait_time"                      value="0.0"                             type="double"/>
+        <param name="display_grippers_axes"             value="false"                           type="bool"/>
     </group>
     <env name="OSG_FILE_PATH" value="$(find OpenSceneGraph)/data"/>
     <node name="deform_simulator_node" pkg="deform_simulator" type="custom_scene_node" required="true" if="$(arg launch_simulator)"/>
@@ -132,15 +133,15 @@
 
         <group ns="transition_estimation">
             <param name="default_propagation_confidence"        value="1.0"                     type="double"/>
-            <param name="default_band_dist_threshold"           value="0.1"                     type="double"/>
+            <param name="default_band_dist_threshold"           value="0.2"                     type="double"/>
             <param name="confidence_threshold"                  value="0.2"                     type="double"/>
             <param name="template_misalignment_scale_factor"    value="1.0"                     type="double"/>
             <param name="tighten_delta_scale_factor"            value="1.0"                     type="double"/>
             <param name="homotopy_changes_scale_factor"         value="1.0"                     type="double"/>
-            <param name="use_stored_transitions"                value="true"                    type="bool"/>
+            <param name="use_stored_transitions"                value="false"                   type="bool"/>
             <param name="file_name_prefix"                      value="../learned_transitions"  type="string"/>
             <rosparam>
-                file_name_suffixes_to_load: []
+                file_name_suffixes_to_load: ["thesis_proposal_example"]
             </rosparam>
         </group>
 

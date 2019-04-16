@@ -27,7 +27,7 @@ namespace smmap
         return i > 0 ? (int)std::log10((double)i) + 1 : 1;
     }
 
-    inline int PressKeyToContinue(const std::string& message = "Press any key to continue ")
+    inline int PressAnyKeyToContinue(const std::string& message = "Press any key to continue ")
     {
         if (!arc_helpers::IsDebuggerPresent())
         {
