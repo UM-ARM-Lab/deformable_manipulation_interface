@@ -7,5 +7,5 @@ geometry_msgs/Pose[] target_gripper_poses
 int32 num_substeps
 ---
 # define the result
-WorldState start_after_settling
+deformable_manipulation_msgs/WorldState start_after_settling
 deformable_manipulation_msgs/WorldState[] microsteps

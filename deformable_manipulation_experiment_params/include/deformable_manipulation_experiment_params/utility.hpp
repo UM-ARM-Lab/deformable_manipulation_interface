@@ -1,8 +1,10 @@
 #pragma once
 
+#include <ros/ros.h>
 #include <type_traits>
 #include <cstdint>
 #include <arc_utilities/arc_helpers.hpp>
+#include <arc_utilities/ros_helpers.hpp>
 
 namespace smmap
 {
@@ -45,6 +47,51 @@ namespace smmap
                       << "interactive flow control instead. Message: "
                       << message << std::endl;
             return '\n';
+        }
+    }
+
+    inline Eigen::Vector3d GetVectorFromParamServer(
+            ros::NodeHandle& nh,
+            const std::string& base_name)
+    {
+        using namespace ROSHelpers;
+        return Eigen::Vector3d(
+                    GetParamRequired<double>(nh, base_name + "_x", __func__).GetImmutable(),
+                    GetParamRequired<double>(nh, base_name + "_y", __func__).GetImmutable(),
+                    GetParamRequired<double>(nh, base_name + "_z", __func__).GetImmutable());
+    }
+
+    inline Eigen::Quaterniond GetQuaternionFromParamServer(
+            ros::NodeHandle& nh,
+            const std::string& base_name)
+    {
+        using namespace ROSHelpers;
+        return Eigen::Quaterniond(
+                    GetParamRequired<double>(nh, base_name + "_w", __func__).GetImmutable(),
+                    GetParamRequired<double>(nh, base_name + "_x", __func__).GetImmutable(),
+                    GetParamRequired<double>(nh, base_name + "_y", __func__).GetImmutable(),
+                    GetParamRequired<double>(nh, base_name + "_z", __func__).GetImmutable());
+    }
+
+    inline Eigen::Isometry3d GetPoseFromParamSerer(
+            ros::NodeHandle& nh,
+            const std::string& base_name,
+            const bool rotation_optional = true)
+    {
+        const Eigen::Translation3d trans(GetVectorFromParamServer(nh, base_name + "_pos"));
+        try
+        {
+            const Eigen::Quaterniond quat = GetQuaternionFromParamServer(nh, base_name + "_quat");
+            return trans * quat;
+        }
+        catch (std::invalid_argument& ex)
+        {
+            if (!rotation_optional)
+            {
+                throw;
+            }
+            (void)ex;
+            return Eigen::Isometry3d(trans);
         }
     }
 }

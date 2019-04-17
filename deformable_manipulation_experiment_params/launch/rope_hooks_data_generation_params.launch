@@ -121,7 +121,7 @@
         <param name="camera_override"                   value="true"    type="bool"/>
         <group ns="camera">
             <param name="home_x"                        value="0.0"     type="double"/>
-            <param name="home_y"                        value="0.0"    type="double"/>
+            <param name="home_y"                        value="0.0"     type="double"/>
             <param name="home_z"                        value="6.0"     type="double"/>
 
             <param name="looks_at_x"                    value="0.0"     type="double"/>
@@ -140,18 +140,30 @@
             <param name="max_band_length"                       value="0.874"                               type="double"/>
         </group>
 
-        <arg name="gripper_a_start_x"   value="$(eval hook_com_x - hook_length / 2.0 - grid_resolution / 2.0)"/>
-        <arg name="gripper_a_start_y"   value="$(eval hook_com_y + 0.2)"/>
-        <arg name="gripper_a_start_z"   value="$(eval world_z_center)"/>
-        <arg name="gripper_b_start_x"   value="$(eval hook_com_x - hook_length / 2.0 - grid_resolution / 2.0)"/>
-        <arg name="gripper_b_start_y"   value="$(eval hook_com_y - 0.2)"/>
-        <arg name="gripper_b_start_z"   value="$(eval world_z_center)"/>
-        <param name="gripper_a_start_x" value="$(arg gripper_a_start_x)" type="double"/>
-        <param name="gripper_a_start_y" value="$(arg gripper_a_start_y)" type="double"/>
-        <param name="gripper_a_start_z" value="$(arg gripper_a_start_z)" type="double"/>
-        <param name="gripper_b_start_x" value="$(arg gripper_b_start_x)" type="double"/>
-        <param name="gripper_b_start_y" value="$(arg gripper_b_start_y)" type="double"/>
-        <param name="gripper_b_start_z" value="$(arg gripper_b_start_z)" type="double"/>
+        <arg name="gripper_a_test_start_pos_x"      value="$(eval hook_com_x - hook_length / 2.0 - grid_resolution / 2.0)"/>
+        <arg name="gripper_a_test_start_pos_y"      value="$(eval hook_com_y + 0.2)"/>
+        <arg name="gripper_a_test_start_pos_z"      value="$(eval world_z_center)"/>
+        <arg name="gripper_b_test_start_pos_x"      value="$(eval hook_com_x - hook_length / 2.0 - grid_resolution / 2.0)"/>
+        <arg name="gripper_b_test_start_pos_y"      value="$(eval hook_com_y - 0.2)"/>
+        <arg name="gripper_b_test_start_pos_z"      value="$(eval world_z_center)"/>
+        <param name="gripper_a_test_start_pos_x"    value="$(arg gripper_a_test_start_pos_x)"   type="double"/>
+        <param name="gripper_a_test_start_pos_y"    value="$(arg gripper_a_test_start_pos_y)"   type="double"/>
+        <param name="gripper_a_test_start_pos_z"    value="$(arg gripper_a_test_start_pos_z)"   type="double"/>
+        <param name="gripper_b_test_start_pos_x"    value="$(arg gripper_b_test_start_pos_x)"   type="double"/>
+        <param name="gripper_b_test_start_pos_y"    value="$(arg gripper_b_test_start_pos_y)"   type="double"/>
+        <param name="gripper_b_test_start_pos_z"    value="$(arg gripper_b_test_start_pos_z)"   type="double"/>
+        <arg name="gripper_a_test_end_pos_x"        value="$(eval gripper_a_test_start_pos_x + grid_resolution)"/>
+        <arg name="gripper_a_test_end_pos_y"        value="$(eval gripper_a_test_start_pos_y)"/>
+        <arg name="gripper_a_test_end_pos_z"        value="$(eval gripper_a_test_start_pos_z)"/>
+        <arg name="gripper_b_test_end_pos_x"        value="$(eval gripper_b_test_start_pos_x + grid_resolution)"/>
+        <arg name="gripper_b_test_end_pos_y"        value="$(eval gripper_b_test_start_pos_y)"/>
+        <arg name="gripper_b_test_end_pos_z"        value="$(eval gripper_b_test_start_pos_z)"/>
+        <param name="gripper_a_test_end_pos_x"      value="$(arg gripper_a_test_end_pos_x)"     type="double"/>
+        <param name="gripper_a_test_end_pos_y"      value="$(arg gripper_a_test_end_pos_y)"     type="double"/>
+        <param name="gripper_a_test_end_pos_z"      value="$(arg gripper_a_test_end_pos_z)"     type="double"/>
+        <param name="gripper_b_test_end_pos_x"      value="$(arg gripper_b_test_end_pos_x)"     type="double"/>
+        <param name="gripper_b_test_end_pos_y"      value="$(arg gripper_b_test_end_pos_y)"     type="double"/>
+        <param name="gripper_b_test_end_pos_z"      value="$(arg gripper_b_test_end_z)"     type="double"/>
 
         <arg name="experiment_cor_x"    value="$(eval hook_com_x)"/>
         <arg name="experiment_cor_y"    value="$(eval hook_com_y)"/>

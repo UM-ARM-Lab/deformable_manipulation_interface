@@ -15,6 +15,7 @@
 #include "deformable_manipulation_msgs/ExecuteRobotMotion.h"
 #include "deformable_manipulation_msgs/ObjectConfiguration.h"
 #include "deformable_manipulation_msgs/TestRobotMotionMicrosteps.h"
+#include "deformable_manipulation_msgs/GenerateTransitionDataAction.h"
 // This pragma is here because the service call has an empty request
 // (or response) message thus the allocator that it is passed never gets used
 #pragma GCC diagnostic push

@@ -1633,6 +1633,11 @@ namespace smmap
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "test_robot_motion_microsteps_topic" , "test_robot_motion_microsteps");
     }
 
+    inline std::string GetGenerateTransitionDataTopic(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "generate_transition_data_topic" , "generate_transition_data");
+    }
+
     inline std::string GetWorldStateTopic(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "world_state_topic", "world_state");

@@ -22,6 +22,8 @@ add_message_files(
     VectorConfiguration.msg
     ObjectConfiguration.msg
     WorldState.msg
+    TransitionTest.msg
+    TransitionTestResult.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -47,6 +49,7 @@ add_service_files(
 add_action_files(
     FILES
     TestRobotMotion.action
+    GenerateTransitionData.action
 )
 
 ## Generate added messages and services with any dependencies listed here
