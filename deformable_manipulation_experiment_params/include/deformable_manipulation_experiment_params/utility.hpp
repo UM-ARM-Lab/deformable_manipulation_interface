@@ -50,7 +50,7 @@ namespace smmap
         }
     }
 
-    inline Eigen::Vector3d GetVectorFromParamServer(
+    inline Eigen::Vector3d GetVector3FromParamServer(
             ros::NodeHandle& nh,
             const std::string& base_name)
     {
@@ -78,7 +78,7 @@ namespace smmap
             const std::string& base_name,
             const bool rotation_optional = true)
     {
-        const Eigen::Translation3d trans(GetVectorFromParamServer(nh, base_name + "_pos"));
+        const Eigen::Translation3d trans(GetVector3FromParamServer(nh, base_name + "_pos"));
         try
         {
             const Eigen::Quaterniond quat = GetQuaternionFromParamServer(nh, base_name + "_quat");
