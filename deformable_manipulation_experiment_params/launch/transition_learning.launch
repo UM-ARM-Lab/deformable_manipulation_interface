@@ -48,7 +48,7 @@
         <param name="visualize_gripper_motion"          value="$(arg visualize_gripper_motion)"             type="bool"/>
 
         <group ns="rrt">
-            <param name="timeout"                           value="6000000000.0"                   type="double"/>
+            <param name="timeout"                           value="600.0"                   type="double"/>
             <param name="reuse_old_results"                 value="false"                   type="bool"/>
             <param name="store_new_results"                 value="false"                   type="bool"/>
 

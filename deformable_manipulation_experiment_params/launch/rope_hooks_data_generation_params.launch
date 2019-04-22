@@ -198,8 +198,8 @@
 
         <group ns="perturbations">
             <group ns="gripper_positions">
-                <param name="max_magnitude" value="$(eval grid_resolution * 2.0)"   type="double"/>
-                <param name="num_divisions" value="1"                               type="int"/>
+                <param name="max_magnitude" value="$(eval grid_resolution * 4.0)"   type="double"/>
+                <param name="num_divisions" value="4"                               type="int"/>
             </group>
         </group>
 
