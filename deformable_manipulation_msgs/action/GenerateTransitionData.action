@@ -1,6 +1,7 @@
 # define the goal
 std_msgs/Header header
 deformable_manipulation_msgs/TransitionTest[] tests
+std_msgs/String[] filenames
 ---
 # define the result
 # (empty)
