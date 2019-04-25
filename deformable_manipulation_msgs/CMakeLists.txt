@@ -43,6 +43,7 @@ add_service_files(
     GetSignedDistanceField.srv
     GetRobotConfiguration.srv
     TestRobotMotionMicrosteps.srv
+    TransitionTestingVisualization.srv
 )
 
 ## Generate actions in the 'action' folder
