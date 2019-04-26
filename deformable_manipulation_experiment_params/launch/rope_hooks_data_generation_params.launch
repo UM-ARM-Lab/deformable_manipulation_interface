@@ -164,10 +164,10 @@
             <param name="planning_z_max"                    value="$(arg world_z_max)"          type="double"/>
         </group>
 
-        <arg name="gripper_a_test_start_pos_x"      value="$(eval hook_com_x - hook_length / 2.0 + grid_resolution / 2.0)"/>
+        <arg name="gripper_a_test_start_pos_x"      value="$(eval hook_com_x - hook_length / 2.0 - grid_resolution / 2.0)"/>
         <arg name="gripper_a_test_start_pos_y"      value="$(eval hook_com_y + 0.2)"/>
         <arg name="gripper_a_test_start_pos_z"      value="$(eval world_z_center + 0.15)"/>
-        <arg name="gripper_b_test_start_pos_x"      value="$(eval hook_com_x - hook_length / 2.0 + grid_resolution / 2.0)"/>
+        <arg name="gripper_b_test_start_pos_x"      value="$(eval hook_com_x - hook_length / 2.0 - grid_resolution / 2.0)"/>
         <arg name="gripper_b_test_start_pos_y"      value="$(eval hook_com_y - 0.2)"/>
         <arg name="gripper_b_test_start_pos_z"      value="$(eval world_z_center + 0.15)"/>
         <param name="gripper_a_test_start_pos_x"    value="$(arg gripper_a_test_start_pos_x)"   type="double"/>
