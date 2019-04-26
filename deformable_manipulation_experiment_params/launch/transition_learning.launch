@@ -40,7 +40,8 @@
     <group ns="transition_learning_data_generation_node">
         <param name="use_random_seed"                   value="$(arg use_random_seed)"                      type="bool"/>
         <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   if="$(arg static_seed_override)"/>
-        <param name="generate_new_data"                 value="true"                                        type="bool"/>
+        <param name="generate_test_data"                value="false"                                       type="bool"/>
+        <param name="generate_transitions"              value="false"                                       type="bool"/>
         <!--<param name="data_folder"                       value="$(env HOME)/transition_learning_data_generation"    type="string"/>-->
         <param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation" type="string"/>
 
