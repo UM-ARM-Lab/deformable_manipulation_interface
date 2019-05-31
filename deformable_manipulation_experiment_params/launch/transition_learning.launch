@@ -85,7 +85,7 @@
 
         <group ns="transition_estimation">
             <param name="default_propagation_confidence"        value="1.0"                     type="double"/>
-            <param name="default_band_dist_threshold"           value="0.2"                     type="double"/>
+            <param name="default_band_dist_threshold"           value="1.0"                     type="double"/>
             <param name="confidence_threshold"                  value="0.2"                     type="double"/>
             <param name="template_misalignment_scale_factor"    value="1.0"                     type="double"/>
             <param name="tighten_delta_scale_factor"            value="1.0"                     type="double"/>
