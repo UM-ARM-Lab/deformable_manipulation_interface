@@ -5,6 +5,7 @@ set(CATKIN_PACKAGES
   actionlib_msgs
   geometry_msgs
   std_msgs
+  sensor_msgs
   sdf_tools
 )
 ## Find catkin macros and libraries
@@ -20,7 +21,6 @@ add_message_files(
     ConfidenceStamped.msg
     VectorPose.msg
     VectorConfiguration.msg
-    ObjectConfiguration.msg
     WorldState.msg
     TransitionTest.msg
     TransitionTestResult.msg

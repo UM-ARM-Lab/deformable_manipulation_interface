@@ -13,7 +13,6 @@
 #include "deformable_manipulation_msgs/WorldState.h"
 #include "deformable_manipulation_msgs/TestRobotMotionAction.h"
 #include "deformable_manipulation_msgs/ExecuteRobotMotion.h"
-#include "deformable_manipulation_msgs/ObjectConfiguration.h"
 #include "deformable_manipulation_msgs/TestRobotMotionMicrosteps.h"
 #include "deformable_manipulation_msgs/GenerateTransitionDataAction.h"
 #include "deformable_manipulation_msgs/TransitionTestingVisualization.h"
