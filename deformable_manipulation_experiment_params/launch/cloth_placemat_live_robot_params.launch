@@ -14,10 +14,10 @@
     <!-- READ THIS! READ THIS! READ THIS! All of the "tabbed in" parameters are measured in the bullet(task) frame, but unscaled distances -->
 
         <!-- Table size params: +'ve X points towards the door -->
-        <!--<arg name="table_x_half_extents"    value="$(eval 30.0 / 2.0 * 0.0254)"/> &lt;!&ndash; 30 inches is the width of the table, converted into meters &ndash;&gt;-->
-        <!--<arg name="table_y_half_extents"    value="$(eval 42.0 / 2.0 * 0.0254)"/> &lt;!&ndash; 42 inches is the length of the table, converted into meters &ndash;&gt;-->
-        <arg name="table_x_half_extents"    value="$(eval 23.625 / 2.0 * 0.0254)"/> <!-- 23.625 inches is the width of the table, converted into meters -->
-        <arg name="table_y_half_extents"    value="$(eval 47.25 / 2.0 * 0.0254)"/>  <!-- 47.25  inches is the length of the table, converted into meters -->
+        <arg name="table_x_half_extents"    value="$(eval 30.0 / 2.0 * 0.0254)"/> <!-- 30 inches is the width of the table, converted into meters -->
+        <arg name="table_y_half_extents"    value="$(eval 42.0 / 2.0 * 0.0254)"/> <!-- 42 inches is the length of the table, converted into meters -->
+        <!--<arg name="table_x_half_extents"    value="$(eval 23.625 / 2.0 * 0.0254)"/> &lt;!&ndash; 23.625 inches is the width of the table, converted into meters &ndash;&gt;-->
+        <!--<arg name="table_y_half_extents"    value="$(eval 47.25 / 2.0 * 0.0254)"/>  &lt;!&ndash; 47.25  inches is the length of the table, converted into meters &ndash;&gt;-->
         <arg name="table_height"            value="0.7005"/>                      <!-- Height is mostly arbitrary, set to be above the floor somewhere and work well with the SDF resolution -->
         <arg name="table_thickness"         value="0.1005"/>
 
@@ -65,6 +65,17 @@
         <param name="cloth_com_y"           value="0.0"                                                                     type="double"/>
         <param name="cloth_com_z"           value="$(eval table_surface_z + 0.1)"                                           type="double"/>
 
+        <!-- Cover points region params -->
+        <param name="cover_region_x_min"    value="$(eval table_surface_x + table_x_half_extents - cloth_x_size)" type="double"/>
+        <param name="cover_region_y_min"    value="$(eval table_surface_y - cloth_y_size / 2.0)"            type="double"/>
+        <param name="cover_region_z_min"    value="$(eval table_surface_z)"                                 type="double"/>
+        <param name="cover_region_x_res"    value="$(eval cloth_x_size / (cloth_num_control_points_x - 1))" type="double"/>
+        <param name="cover_region_y_res"    value="$(eval cloth_y_size / (cloth_num_control_points_y - 1))" type="double"/>
+        <param name="cover_region_z_res"    value="1"                                                       type="double"/>
+        <param name="cover_region_x_steps"  value="$(arg cloth_num_control_points_x)"                       type="int"/>
+        <param name="cover_region_y_steps"  value="$(arg cloth_num_control_points_y)"                       type="int"/>
+        <param name="cover_region_z_steps"  value="1"                                                       type="int"/>
+
         <!-- World parameters for planning - used by both nodes -->
         <arg name="grid_resolution"         value="0.02"/>
         <arg name="world_x_min"             value="$(eval table_surface_x - table_x_half_extents * 2.4)"/>
@@ -98,15 +109,17 @@
     </group>
 
     <group ns="deform_simulator_node">
+        <param name="tf_wait_time"                      value="5.0"     type="double"/>
+
         <param name="num_simsteps_per_gripper_command"  value="10"      type="int"/>
         <param name="cloth_linear_stiffness"            value="0.8"     type="double"/>
 
         <param name="viewer_width"                      value="800"     type="int"/>
         <param name="viewer_height"                     value="800"     type="int"/>
 
-        <param name="cover_points_file_name_prefix"         value="../cover_points"             type="string"/>
+        <!--<param name="cover_points_file_name_prefix"         value="../cover_points"             type="string"/>-->
         <!--<param name="cover_points_file_name_suffix_to_load" value="small_table_right_of_val"    type="string"/>-->
-        <param name="cover_points_file_name_suffix_to_load" value="small_table_center"          type="string"/>
+        <!--<param name="cover_points_file_name_suffix_to_load" value="small_table_center"          type="string"/>-->
     </group>
 
 
