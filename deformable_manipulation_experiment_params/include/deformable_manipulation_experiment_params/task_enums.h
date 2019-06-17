@@ -33,6 +33,8 @@ namespace smmap
 
         // Live robot experiments
         CLOTH_PLACEMAT_LIVE_ROBOT,
+        CLOTH_MFLAG_LIVE_ROBOT,
+        ROPE_SIMPLE_COVERAGE_TWO_GRIPPERS,
 
         // Hooks
         ROPE_HOOKS,

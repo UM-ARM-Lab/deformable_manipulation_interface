@@ -135,6 +135,8 @@ namespace smmap
             {"rope_table_penetration",                  TaskType::ROPE_TABLE_PENTRATION},
             {"cloth_placemat_live_robot",               TaskType::CLOTH_PLACEMAT_LIVE_ROBOT},
             {"cloth_placemat_live_robot_linear_motion", TaskType::CLOTH_PLACEMAT_LINEAR_MOTION},
+            {"cloth_mflag_live_robot",                  TaskType::CLOTH_MFLAG_LIVE_ROBOT},
+            {"rope_simple_live_robot",                  TaskType::ROPE_SIMPLE_COVERAGE_TWO_GRIPPERS},
             {"rope_hooks",                              TaskType::ROPE_HOOKS},
             {"rope_hooks_data_generation",              TaskType::ROPE_HOOKS_DATA_GENERATION},
             {"cloth_hooks",                             TaskType::CLOTH_HOOKS}
