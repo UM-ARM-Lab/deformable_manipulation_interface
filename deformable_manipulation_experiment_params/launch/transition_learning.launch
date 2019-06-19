@@ -42,6 +42,7 @@
         <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   if="$(arg static_seed_override)"/>
         <param name="generate_test_data"                value="false"                                       type="bool"/>
         <param name="generate_transitions"              value="false"                                       type="bool"/>
+        <param name="generate_meaningful_mistakes"      value="true"                                        type="bool"/>
         <param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation" type="string"/>
 
         <param name="disable_all_visualizations"        value="$(arg disable_all_visualizations)"           type="bool"/>
