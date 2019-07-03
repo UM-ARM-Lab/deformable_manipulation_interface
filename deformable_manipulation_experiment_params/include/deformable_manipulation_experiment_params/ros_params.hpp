@@ -133,10 +133,10 @@ namespace smmap
             {"rope_table_linear_motion",                TaskType::ROPE_TABLE_LINEAR_MOTION},
             {"cloth_table_linear_motion",               TaskType::CLOTH_TABLE_LINEAR_MOTION},
             {"rope_table_penetration",                  TaskType::ROPE_TABLE_PENTRATION},
-            {"cloth_placemat_live_robot",               TaskType::CLOTH_PLACEMAT_LIVE_ROBOT},
+            {"cloth_placemat_live_robot",               TaskType::CLOTH_PLACEMAT},
             {"cloth_placemat_live_robot_linear_motion", TaskType::CLOTH_PLACEMAT_LINEAR_MOTION},
-            {"cloth_mflag_live_robot",                  TaskType::CLOTH_MFLAG_LIVE_ROBOT},
-            {"rope_simple_live_robot",                  TaskType::ROPE_SIMPLE_COVERAGE_TWO_GRIPPERS},
+            {"live_cloth_mflag",                        TaskType::CLOTH_MFLAG},
+            {"live_rope_simple",                        TaskType::ROPE_SIMPLE_COVERAGE_TWO_GRIPPERS},
             {"rope_hooks",                              TaskType::ROPE_HOOKS},
             {"rope_hooks_data_generation",              TaskType::ROPE_HOOKS_DATA_GENERATION},
             {"cloth_hooks",                             TaskType::CLOTH_HOOKS}
@@ -311,15 +311,15 @@ namespace smmap
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
             case TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS:
-                return ROSHelpers::GetParam(nh, "rope_cylinder_radius", 0.15f);
+                return ROSHelpers::GetParam(nh, "cylinder_radius", 0.15f);
 
             case TaskType::CLOTH_CYLINDER_COVERAGE:
             case TaskType::CLOTH_WAFR:
-                return ROSHelpers::GetParam(nh, "cloth_cylinder_radius", 0.10f);
+                return ROSHelpers::GetParam(nh, "cylinder_radius", 0.10f);
 
             case TaskType::CLOTH_SINGLE_POLE:
             case TaskType::CLOTH_WALL:
-                return ROSHelpers::GetParam(nh, "cloth_cylinder_radius", 0.04f);
+                return ROSHelpers::GetParam(nh, "cylinder_radius", 0.04f);
 
             default:
                 const auto val = ROSHelpers::GetParamRequired<double>(nh, "cylinder_radius", __func__);
@@ -333,15 +333,15 @@ namespace smmap
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
             case TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS:
-                return ROSHelpers::GetParam(nh, "rope_cylinder_height", 0.3f);
+                return ROSHelpers::GetParam(nh, "cylinder_height", 0.3f);
 
             case TaskType::CLOTH_CYLINDER_COVERAGE:
             case TaskType::CLOTH_WAFR:
-                return ROSHelpers::GetParam(nh, "cloth_cylinder_height", 0.3f);
+                return ROSHelpers::GetParam(nh, "cylinder_height", 0.3f);
 
             case TaskType::CLOTH_SINGLE_POLE:
             case TaskType::CLOTH_WALL:
-                return ROSHelpers::GetParam(nh, "cloth_cylinder_height", 1.0f);
+                return ROSHelpers::GetParam(nh, "cylinder_height", 1.0f);
 
             default:
                 const auto val = ROSHelpers::GetParamRequired<double>(nh, "cylinder_height", __func__);
@@ -355,15 +355,15 @@ namespace smmap
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
             case TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS:
-                return ROSHelpers::GetParam(nh, "rope_cylinder_com_x", GetTableSurfaceX(nh));
+                return ROSHelpers::GetParam(nh, "cylinder_com_x", GetTableSurfaceX(nh));
 
             case TaskType::CLOTH_CYLINDER_COVERAGE:
             case TaskType::CLOTH_WAFR:
-                return ROSHelpers::GetParam(nh, "cloth_cylinder_com_x", GetTableSurfaceX(nh) - GetClothXSize(nh));
+                return ROSHelpers::GetParam(nh, "cylinder_com_x", GetTableSurfaceX(nh) - GetClothXSize(nh));
 
             case TaskType::CLOTH_SINGLE_POLE:
             case TaskType::CLOTH_WALL:
-                return ROSHelpers::GetParam(nh, "cloth_cylinder_com_x", -0.3f);
+                return ROSHelpers::GetParam(nh, "cylinder_com_x", -0.3f);
 
             default:
                 const auto val = ROSHelpers::GetParamRequired<double>(nh, "cylinder_com_x", __func__);
@@ -377,15 +377,15 @@ namespace smmap
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
             case TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS:
-                return ROSHelpers::GetParam(nh, "rope_cylinder_com_y", GetTableSurfaceY(nh) + GetCylinderRadius(nh) * 5.0f / 3.0f);
+                return ROSHelpers::GetParam(nh, "cylinder_com_y", GetTableSurfaceY(nh) + GetCylinderRadius(nh) * 5.0f / 3.0f);
 
             case TaskType::CLOTH_CYLINDER_COVERAGE:
             case TaskType::CLOTH_WAFR:
-                return ROSHelpers::GetParam(nh, "cloth_cylinder_com_y", GetTableSurfaceY(nh));
+                return ROSHelpers::GetParam(nh, "cylinder_com_y", GetTableSurfaceY(nh));
 
             case TaskType::CLOTH_SINGLE_POLE:
             case TaskType::CLOTH_WALL:
-                return ROSHelpers::GetParam(nh, "cloth_cylinder_com_y", 0.0f);
+                return ROSHelpers::GetParam(nh, "cylinder_com_y", 0.0f);
 
             default:
                 const auto val = ROSHelpers::GetParamRequired<double>(nh, "cylinder_com_y", __func__);
@@ -399,15 +399,15 @@ namespace smmap
         {
             case TaskType::ROPE_CYLINDER_COVERAGE:
             case TaskType::ROPE_CYLINDER_COVERAGE_TWO_GRIPPERS:
-                return ROSHelpers::GetParam(nh, "rope_cylinder_com_z", GetTableSurfaceZ(nh) + GetCylinderHeight(nh) / 2.0f);
+                return ROSHelpers::GetParam(nh, "cylinder_com_z", GetTableSurfaceZ(nh) + GetCylinderHeight(nh) / 2.0f);
 
             case TaskType::CLOTH_CYLINDER_COVERAGE:
             case TaskType::CLOTH_WAFR:
-                return ROSHelpers::GetParam(nh, "cloth_cylinder_com_z", GetTableSurfaceZ(nh));
+                return ROSHelpers::GetParam(nh, "cylinder_com_z", GetTableSurfaceZ(nh));
 
             case TaskType::CLOTH_SINGLE_POLE:
             case TaskType::CLOTH_WALL:
-                return ROSHelpers::GetParam(nh, "cloth_cylinder_com_z", 1.0f);
+                return ROSHelpers::GetParam(nh, "cylinder_com_z", 1.0f);
 
             default:
                 const auto val = ROSHelpers::GetParamRequired<double>(nh, "cylinder_com_z", __func__);

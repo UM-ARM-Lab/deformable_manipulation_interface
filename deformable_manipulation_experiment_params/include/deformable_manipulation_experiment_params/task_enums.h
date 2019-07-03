@@ -32,8 +32,8 @@ namespace smmap
         CLOTH_PLACEMAT_LINEAR_MOTION, // Live robot directional rigidity
 
         // Live robot experiments
-        CLOTH_PLACEMAT_LIVE_ROBOT,
-        CLOTH_MFLAG_LIVE_ROBOT,
+        CLOTH_PLACEMAT,
+        CLOTH_MFLAG,
         ROPE_SIMPLE_COVERAGE_TWO_GRIPPERS,
 
         // Hooks
