@@ -84,7 +84,7 @@ namespace smmap
             const Eigen::Quaterniond quat = GetQuaternionFromParamServer(nh, base_name + "_quat");
             return trans * quat;
         }
-        catch (std::invalid_argument& ex)
+        catch (const std::invalid_argument& ex)
         {
             if (!rotation_optional)
             {

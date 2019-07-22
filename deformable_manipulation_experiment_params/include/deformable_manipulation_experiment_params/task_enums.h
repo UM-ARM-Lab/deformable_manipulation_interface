@@ -8,7 +8,7 @@ namespace smmap
     enum DeformableType
     {
         ROPE,
-        CLOTH
+        CLOTH,
     };
 
     enum TaskType
