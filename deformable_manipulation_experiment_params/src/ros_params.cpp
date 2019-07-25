@@ -5,7 +5,6 @@
 #include <unordered_map>
 #include <arc_utilities/ros_helpers.hpp>
 #include <arc_utilities/arc_exceptions.hpp>
-#include <ros/package.h>
 
 namespace smmap
 {
