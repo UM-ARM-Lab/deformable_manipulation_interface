@@ -23,7 +23,6 @@
     <arg name="visualize_object_desired_motion"         default="false"/>
     <arg name="visualize_gripper_motion"                default="false"/>
     <arg name="visualize_object_predicted_motion"       default="false"/>
-    <arg name="visualize_prm"                           default="false"/>
     <arg name="visualize_rrt"                           default="true"/>
     <arg name="visualize_free_space_graph"              default="false"/>
     <arg name="visualize_correspondences"               default="false"/>
@@ -70,24 +69,22 @@
     <env name="OSG_FILE_PATH" value="$(find OpenSceneGraph)/data"/>
     <node name="deform_simulator_node" pkg="deform_simulator" type="custom_scene_node" required="true" if="$(arg launch_simulator)"/>
 
-
     <!-- Setup the planner -->
     <group ns="smmap_planner_node">
         <param name="trial_type"                        value="$(arg trial_type)"                           type="string"/>
         <param name="use_random_seed"                   value="$(arg use_random_seed)"                      type="bool"/>
         <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   unless="$(arg use_random_seed)"/>
 
-        <param name="bandits_logging_enabled"           value="$(arg bandits_logging_enabled)"              type="bool"/>
-        <param name="controller_logging_enabled"        value="$(arg controller_logging_enabled)"           type="bool"/>
-
         <param name="disable_all_visualizations"        value="$(arg disable_all_visualizations)"           type="bool"/>
         <param name="visualize_object_desired_motion"   value="$(arg visualize_object_desired_motion)"      type="bool"/>
         <param name="visualize_gripper_motion"          value="$(arg visualize_gripper_motion)"             type="bool"/>
         <param name="visualize_object_predicted_motion" value="$(arg visualize_object_predicted_motion)"    type="bool"/>
-        <param name="visualize_prm"                     value="$(arg visualize_prm)"                        type="bool"/>
         <param name="visualize_rrt"                     value="$(arg visualize_rrt)"                        type="bool"/>
         <param name="visualize_free_space_graph"        value="$(arg visualize_free_space_graph)"           type="bool"/>
         <param name="visualize_correspondences"         value="$(arg visualize_correspondences)"            type="bool"/>
+
+        <param name="bandits_logging_enabled"           value="$(arg bandits_logging_enabled)"              type="bool"/>
+        <param name="controller_logging_enabled"        value="$(arg controller_logging_enabled)"           type="bool"/>
 
         <!-- Params shared by this file and transition_learning.launch -->
         <include file="$(find deformable_manipulation_experiment_params)/launch/shared/classifier_params.launch">

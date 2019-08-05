@@ -40,17 +40,19 @@
     <group ns="transition_learning_data_generation_node">
         <param name="use_random_seed"                   value="$(arg use_random_seed)"                      type="bool"/>
         <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   unless="$(arg use_random_seed)"/>
+
+        <param name="disable_all_visualizations"        value="$(arg disable_all_visualizations)"           type="bool"/>
+        <param name="visualize_gripper_motion"          value="$(arg visualize_gripper_motion)"             type="bool"/>
+
+        <!--<param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/cannonical_straight_test" type="string"/>-->
+        <!--<param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks" type="string"/>-->
+        <param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks/start_to_end/dnn_classifier" type="string"/>
+
         <param name="generate_test_data"                value="false"                                       type="bool"/>
         <param name="generate_trajectories"             value="true"                                        type="bool"/>
         <param name="generate_transitions"              value="false"                                       type="bool"/>
         <param name="generate_meaningful_mistakes"      value="false"                                       type="bool"/>
         <param name="generate_features"                 value="false"                                       type="bool"/>
-        <!--<param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/cannonical_straight_test" type="string"/>-->
-        <!--<param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks" type="string"/>-->
-        <param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks/start_to_end" type="string"/>
-
-        <param name="disable_all_visualizations"        value="$(arg disable_all_visualizations)"           type="bool"/>
-        <param name="visualize_gripper_motion"          value="$(arg visualize_gripper_motion)"             type="bool"/>
 
         <!-- Params shared by this file and generic_experiment.launch -->
         <include file="$(find deformable_manipulation_experiment_params)/launch/shared/classifier_params.launch">
