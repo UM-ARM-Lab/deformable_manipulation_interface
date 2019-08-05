@@ -227,9 +227,16 @@ namespace smmap
 
     bool GetCollectResultsForAllModels(ros::NodeHandle& nh);
     double GetRewardScaleAnnealingFactor(ros::NodeHandle& nh);
+    double GetRewardScaleFactorStart(ros::NodeHandle& nh);
     double GetProcessNoiseFactor(ros::NodeHandle& nh);
     double GetObservationNoiseFactor(ros::NodeHandle& nh);
     double GetCorrelationStrengthFactor(ros::NodeHandle& nh);
+    double GetDeformabilityRangeMin(ros::NodeHandle& nh);
+    double GetDeformabilityRangeMax(ros::NodeHandle& nh);
+    double GetDeformabilityRangeStep(ros::NodeHandle& nh);
+    double GetAdaptiveLearningRateRangeMin(ros::NodeHandle& nh);
+    double GetAdaptiveLearningRateRangeMax(ros::NodeHandle& nh);
+    double GetAdaptiveLearningRateRangeStep(ros::NodeHandle& nh);
 
     ////////////////////////////////////////////////////////////////////////////
     // Planner settings

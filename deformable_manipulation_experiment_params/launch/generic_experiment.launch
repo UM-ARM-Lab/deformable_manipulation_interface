@@ -1,7 +1,7 @@
 <launch>
     <!-- Task and logging arguments -->
     <arg name="task_type"/>
-    <arg name="bandits_logging_enabled"                 default="true"/>
+    <arg name="bandits_logging_enabled"                 default="false"/>
     <arg name="controller_logging_enabled"              default="false"/>
     <arg name="test_id"                                 default="default"/>
     <arg name="task_max_time_override"                  default="false"/>
@@ -43,25 +43,20 @@
     <arg name="stretching_cosine_threshold_override"    default="false"/>
     <arg name="stretching_cosine_threshold"             if="$(arg stretching_cosine_threshold_override)"/>
     <!-- Multi-model Bandit  -->
-    <arg name="kalman_parameters_override"              default="false"/>
-    <arg name="process_noise_factor"                    if="$(arg kalman_parameters_override)"/>
-    <arg name="observation_noise_factor"                if="$(arg kalman_parameters_override)"/>
+    <arg name="process_noise_factor"                    default="0.1"/>
+    <arg name="observation_noise_factor"                default="0.01"/>
     <arg name="bandit_algorithm"                        default="UCB"/>
-    <arg name="correlation_strength_factor_override"    default="false"/>
-    <arg name="correlation_strength_factor"             if="$(arg correlation_strength_factor_override)"/>
+    <arg name="correlation_strength_factor"             default="0.9"/>
 
     <!-- Planner internal arguments -->
     <arg name="launch_planner"                          default="true"/>
     <arg name="collect_results_for_all_models"          default="false"/>
     <arg name="use_random_seed"                         default="false"/>
-    <arg name="static_seed_override"                    default="false"/>
-
-    <!-- Triggers transition on smoothing on 2nd plan, not on 3rd -->
-    <!--<arg name="static_seed"                             default="156f1ba9b0fbafe2" if="$(arg static_seed_override)"/>-->
-    <arg name="static_seed"                             default="156f1ba9b0fbafe2" if="$(arg static_seed_override)"/>
+    <!-- MD5 sum of Dale McConachie: a8710913d2b5df6c a30cd67f3860ddb3 -->
+    <arg name="static_seed"                             default="a8710913d2b5df6c"/>
 
     <!-- Setup task parameters -->
-    <include file="$(find deformable_manipulation_experiment_params)/launch/$(arg task_type)_params.launch"/>
+    <include file="$(find deformable_manipulation_experiment_params)/launch/experiments/$(arg task_type)_params.launch"/>
     <param name="log_folder"                            value="$(find smmap)/logs/$(arg task_type)/$(arg test_id)/"         type="string"/>
 
     <!-- Setup the simulator -->
@@ -80,14 +75,10 @@
     <group ns="smmap_planner_node">
         <param name="trial_type"                        value="$(arg trial_type)"                           type="string"/>
         <param name="use_random_seed"                   value="$(arg use_random_seed)"                      type="bool"/>
-        <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   if="$(arg static_seed_override)"/>
+        <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   unless="$(arg use_random_seed)"/>
 
         <param name="bandits_logging_enabled"           value="$(arg bandits_logging_enabled)"              type="bool"/>
         <param name="controller_logging_enabled"        value="$(arg controller_logging_enabled)"           type="bool"/>
-
-        <param name="use_stored_world_state"                value="false"                                   type="bool"/>
-        <param name="world_state_file_name_prefix"          value="world_state"                             type="string"/>
-        <param name="world_state_file_name_suffix_to_load"  value="band_weirdness_controller_only"          type="string"/>
 
         <param name="disable_all_visualizations"        value="$(arg disable_all_visualizations)"           type="bool"/>
         <param name="visualize_object_desired_motion"   value="$(arg visualize_object_desired_motion)"      type="bool"/>
@@ -98,51 +89,23 @@
         <param name="visualize_free_space_graph"        value="$(arg visualize_free_space_graph)"           type="bool"/>
         <param name="visualize_correspondences"         value="$(arg visualize_correspondences)"            type="bool"/>
 
-        <group ns="rrt">
-            <param name="timeout"                           value="60.0"                    type="double"/>
-            <param name="reuse_old_results"                 value="false"                   type="bool"/>
-            <param name="store_new_results"                 value="false"                   type="bool"/>
+        <!-- Params shared by this file and transition_learning.launch -->
+        <include file="$(find deformable_manipulation_experiment_params)/launch/shared/classifier_params.launch">
+            <arg name="task_type"   value="$(arg task_type)"/>
+        </include>
+        <include file="$(find deformable_manipulation_experiment_params)/launch/shared/transition_estimation_params.launch"/>
+        <include file="$(find deformable_manipulation_experiment_params)/launch/shared/rrt_params.launch"/>
 
-            <param name="use_brute_force_nn"                value="false"                   type="bool"/>
-            <param name="kd_tree_grow_threshold"            value="500"                     type="int"/>
-
-            <param name="forward_tree_extend_iterations"    value="10"                      type="int"/>
-            <param name="backward_tree_extend_iterations"   value="10"                      type="int"/>
-            <param name="goal_bias"                         value="0.10"                    type="double"/>
-            <param name="use_cbirrt_style_projection"       value="false"                   type="bool"/>
-            <param name="best_near_radius"                  value="0.001"                   type="double"/>
-
-            <param name="band_dist2_scaling_factor"         value="0.000001"                type="double"/>
-            <param name="band_max_points_"                  value="500"                     type="double"/>
-
-            <param name="feasibility_distance_scale_factor" value="0.0"                     type="double"/>
-
-            <!-- Used to test shortcut smoothing -->
-            <param name="use_stored_path"                   value="false"                   type="bool"/>
-            <param name="path_file_name_prefix"             value="rrt_path"                type="string"/>
-            <param name="path_file_name_suffix_to_load"     value="before_blacklisting_root_idx_4__2019-01-24__13-55-48"     type="string"/>
+        <!-- Only used for debugging -->
+        <group name="world_state">
+            <param name="use_stored_world_state"        value="false"                                       type="bool"/>
+            <param name="file_name_prefix"              value="world_state"                                 type="string"/>
+            <param name="file_name_suffix_to_load"      value="band_weirdness_controller_only"              type="string"/>
         </group>
-
         <group ns="band">
-            <param name="logging_enabled"               value="$(arg bandits_logging_enabled)"                              type="bool"/>
-            <param name="log_folder"                    value="$(find smmap)/logs/$(arg task_type)/$(arg test_id)/"         type="string"/>
-            <param name="use_stored_band"               value="false"                                                       type="bool"/>
-            <param name="band_file_name_prefix"         value="band"                                                        type="string"/>
-            <param name="band_file_name_suffix_to_load" value="stuck_on_edge_of_obstacle"                                   type="string"/>
-        </group>
-
-        <group ns="transition_estimation">
-            <param name="default_propagation_confidence"        value="1.0"                     type="double"/>
-            <param name="default_band_dist_threshold"           value="0.2"                     type="double"/>
-            <param name="confidence_threshold"                  value="0.2"                     type="double"/>
-            <param name="template_misalignment_scale_factor"    value="1.0"                     type="double"/>
-            <param name="tighten_delta_scale_factor"            value="1.0"                     type="double"/>
-            <param name="homotopy_changes_scale_factor"         value="1.0"                     type="double"/>
-            <param name="use_stored_transitions"                value="false"                   type="bool"/>
-            <param name="file_name_prefix"                      value="../learned_transitions"  type="string"/>
-            <rosparam>
-                file_name_suffixes_to_load: ["thesis_proposal_example"]
-            </rosparam>
+            <param name="use_stored_band"               value="false"                                       type="bool"/>
+            <param name="file_name_prefix"              value="band"                                        type="string"/>
+            <param name="file_name_suffix_to_load"      value="stuck_on_edge_of_obstacle"                   type="string"/>
         </group>
 
         <!-- Dinimishing Rigidity parameters and overrides -->
@@ -166,11 +129,20 @@
         <!-- Multi-model parameters and overrides -->
         <group ns="multi_model">
             <param name="bandit_algorithm"                  value="$(arg bandit_algorithm)"                 type="string"/>
-            <param name="process_noise_factor"              value="$(arg process_noise_factor)"             type="double"   if="$(arg kalman_parameters_override)"/>
-            <param name="observation_noise_factor"          value="$(arg observation_noise_factor)"         type="double"   if="$(arg kalman_parameters_override)"/>
+            <param name="process_noise_factor"              value="$(arg process_noise_factor)"             type="double"/>
+            <param name="observation_noise_factor"          value="$(arg observation_noise_factor)"         type="double"/>
             <param name="collect_results_for_all_models"    value="$(arg collect_results_for_all_models)"   type="bool"/>
-            <param name="correlation_strength_factor"       value="$(arg correlation_strength_factor)"      type="double"   if="$(arg correlation_strength_factor_override)"/>
+            <param name="correlation_strength_factor"       value="$(arg correlation_strength_factor)"      type="double"/>
             <param name="reward_scale_annealing_factor"     value="0.9"                                     type="double"/>
+            <param name="reward_std_dev_factor_start"       value="1.0"                                     type="double"/>
+
+            <param name="deformability_range_min"           value="0.0"                                     type="double"/>
+            <param name="deformability_range_max"           value="25.0"                                    type="double"/>
+            <param name="deformability_range_step"          value="4.0"                                     type="double"/>
+
+            <param name="adaptive_learning_rate_min"        value="1e-10"                                   type="double"/>
+            <param name="adaptive_learning_rate_max"        value="1.1e0"                                   type="double"/>
+            <param name="adaptive_learning_rate_step"       value="10.0"                                    type="double"/>
         </group>
 
         <!-- Old pure Jacobian based controller -->

@@ -1041,19 +1041,84 @@ namespace smmap
         return factor;
     }
 
+    double GetRewardScaleFactorStart(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/reward_std_dev_factor_start", __func__);
+        const double factor = val.GetImmutable();
+        assert(0.0 <= factor);
+        return factor;
+    }
+
     double GetProcessNoiseFactor(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamDebugLog(nh, "process_noise_factor", 0.1);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/process_noise_factor", __func__);
+        const double factor = val.GetImmutable();
+        assert(0.0 <= factor);
+        return factor;
     }
 
     double GetObservationNoiseFactor(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamDebugLog(nh, "observation_noise_factor", 0.01);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/observation_noise_factor", __func__);
+        const double factor = val.GetImmutable();
+        assert(0.0 <= factor);
+        return factor;
     }
 
     double GetCorrelationStrengthFactor(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamDebugLog(nh, "correlation_strength_factor", 0.9);
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/correlation_strength_factor", __func__);
+        const double factor = val.GetImmutable();
+        assert(0.0 <= factor && factor <= 1.0);
+        return factor;
+    }
+
+    double GetDeformabilityRangeMin(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/deformability_range_min", __func__);
+        const double factor = val.GetImmutable();
+        assert(0.0 <= factor);
+        return factor;
+    }
+
+    double GetDeformabilityRangeMax(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/deformability_range_max", __func__);
+        const double factor = val.GetImmutable();
+        assert(0.0 <= factor);
+        return factor;
+    }
+
+    double GetDeformabilityRangeStep(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/deformability_range_step", __func__);
+        const double factor = val.GetImmutable();
+        assert(0.0 <= factor);
+        return factor;
+    }
+
+    double GetAdaptiveLearningRateRangeMin(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/adaptive_learning_rate_min", __func__);
+        const double factor = val.GetImmutable();
+        assert(0.0 < factor);
+        return factor;
+    }
+
+    double GetAdaptiveLearningRateRangeMax(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/adaptive_learning_rate_max", __func__);
+        const double factor = val.GetImmutable();
+        assert(0.0 < factor);
+        return factor;
+    }
+
+    double GetAdaptiveLearningRateRangeStep(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/adaptive_learning_rate_step", __func__);
+        const double factor = val.GetImmutable();
+        assert(0.0 < factor);
+        return factor;
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1070,14 +1135,13 @@ namespace smmap
         size_t seed;
         if (GetUseRandomSeed(nh))
         {
-            assert(nh.hasParam("static_seed") == false);
+            assert(!nh.hasParam("static_seed") && "If use_random_seed is set, static_seed must not be");
             seed = std::chrono::system_clock::now().time_since_epoch().count();
         }
         else
         {
-            std::string seed_as_string = ROSHelpers::GetParam<std::string>(nh, "static_seed", "a8710913d2b5df6c"); // a30cd67f3860ddb3) // MD5 sum of "Dale McConachie"
             std::stringstream ss;
-            ss << std::hex << seed_as_string;
+            ss << std::hex << ROSHelpers::GetParamRequired<std::string>(nh, "static_seed", __func__).GetImmutable();
             ss >> seed;
         }
         return seed;
@@ -1157,7 +1221,7 @@ namespace smmap
 
     size_t GetRRTBandMaxPoints(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt/band_max_points_", __func__);
+        const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt/band_max_points", __func__);
         return (size_t)val.GetImmutable();
     }
 

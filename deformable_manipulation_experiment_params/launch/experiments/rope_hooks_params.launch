@@ -1,7 +1,14 @@
 <launch>
+    <!-- Arguments to override default params -->
+    <arg name="task_max_time"               default="3600.0"/>
+
     <!-- Defines which world building routines we use, and which task specification -->
-    <param name="deformable_type"           value="rope"                        type="string"/>
-    <param name="task_type"                 value="rope_hooks_data_generation"  type="string"/>
+    <param name="deformable_type"           value="rope"                type="string"/>
+    <param name="task_type"                 value="rope_hooks"          type="string"/>
+
+    <!-- planner, controller params -->
+    <arg name="stretching_cosine_threshold"     default="0.55"/>
+    <arg name="desired_motion_scale_factor"     default="1"/>
 
     <!-- World parameters for planning - used by both nodes -->
     <arg name="grid_resolution"         value="0.025"/>
@@ -119,6 +126,8 @@
     <param name="hook_com_z"            value="$(arg hook_com_z)"   type="double"/>
 
     <group ns="deform_simulator_node">
+        <param name="tf_wait_time"                      value="0.0"/>
+
         <param name="num_simsteps_per_gripper_command"  value="4"       type="int"/>
         <param name="viewer_width"                      value="880"     type="int"/>
         <param name="viewer_height"                     value="662"     type="int"/>
@@ -139,10 +148,26 @@
         </group>
     </group>
 
-    <group ns="transition_learning_data_generation_node">
+    <group ns="smmap_planner_node">
         <group ns="task">
+            <param name="max_time"                              value="$(arg task_max_time)"                type="double"/>
+            <param name="error_threshold_along_normal"          value="0.055"                               type="double"/>
+            <param name="error_threshold_distance_to_normal"    value="0.025"                               type="double"/>
+            <param name="error_threshold_task_done"             value="0.4"                                 type="double"/>
             <param name="max_stretch_factor"                    value="1.15"                                type="double"/>
             <param name="max_band_length"                       value="0.874"                               type="double"/>
+            <param name="desired_motion_scale_factor"           value="$(arg desired_motion_scale_factor)"  type="double"/>
+        </group>
+
+        <param name="controller_min_distance_to_obstacles"      value="0.002"                               type="double"/>
+
+        <param name="enable_stuck_detection"                                value="true"        type="bool"/>
+        <group ns="stuck_detection">
+            <param name="num_lookahead_steps"                               value="10"          type="int"/>
+            <param name="band_overstretch_prediction_annealing_factor"      value="0.7"         type="double"/>
+            <param name="max_pose_history_steps"                            value="100"         type="int"/>
+            <param name="error_delta_threshold_for_progress"                value="1.0"         type="double"/>
+            <param name="grippers_distance_delta_threshold_for_progress"    value="0.03"        type="double"/>
         </group>
 
         <group ns="rrt">
@@ -164,48 +189,17 @@
             <param name="planning_z_max"                    value="$(arg world_z_max)"          type="double"/>
         </group>
 
-        <arg name="gripper_a_test_start_pos_x"      value="$(eval hook_com_x - hook_length / 2.0 + grid_resolution / 4.0)"/>
-        <arg name="gripper_a_test_start_pos_y"      value="$(eval hook_com_y + 0.2)"/>
-        <arg name="gripper_a_test_start_pos_z"      value="$(eval world_z_center + 0.15)"/>
-        <arg name="gripper_b_test_start_pos_x"      value="$(eval hook_com_x - hook_length / 2.0 + grid_resolution / 4.0)"/>
-        <arg name="gripper_b_test_start_pos_y"      value="$(eval hook_com_y - 0.2)"/>
-        <arg name="gripper_b_test_start_pos_z"      value="$(eval world_z_center + 0.15)"/>
-        <param name="gripper_a_test_start_pos_x"    value="$(arg gripper_a_test_start_pos_x)"   type="double"/>
-        <param name="gripper_a_test_start_pos_y"    value="$(arg gripper_a_test_start_pos_y)"   type="double"/>
-        <param name="gripper_a_test_start_pos_z"    value="$(arg gripper_a_test_start_pos_z)"   type="double"/>
-        <param name="gripper_b_test_start_pos_x"    value="$(arg gripper_b_test_start_pos_x)"   type="double"/>
-        <param name="gripper_b_test_start_pos_y"    value="$(arg gripper_b_test_start_pos_y)"   type="double"/>
-        <param name="gripper_b_test_start_pos_z"    value="$(arg gripper_b_test_start_pos_z)"   type="double"/>
-        <arg name="gripper_a_action_vector_x"       value="$(eval grid_resolution)"/>
-        <arg name="gripper_a_action_vector_y"       value="0.0"/>
-        <arg name="gripper_a_action_vector_z"       value="0.0"/>
-        <arg name="gripper_b_action_vector_x"       value="$(eval grid_resolution)"/>
-        <arg name="gripper_b_action_vector_y"       value="0.0"/>
-        <arg name="gripper_b_action_vector_z"       value="0.0"/>
-        <param name="gripper_a_action_vector_x"     value="$(arg gripper_a_action_vector_x)"    type="double"/>
-        <param name="gripper_a_action_vector_y"     value="$(arg gripper_a_action_vector_y)"    type="double"/>
-        <param name="gripper_a_action_vector_z"     value="$(arg gripper_a_action_vector_z)"    type="double"/>
-        <param name="gripper_b_action_vector_x"     value="$(arg gripper_b_action_vector_x)"    type="double"/>
-        <param name="gripper_b_action_vector_y"     value="$(arg gripper_b_action_vector_y)"    type="double"/>
-        <param name="gripper_b_action_vector_z"     value="$(arg gripper_b_action_vector_z)"    type="double"/>
-
-        <arg name="experiment_cor_x"    value="$(eval hook_com_x)"/>
-        <arg name="experiment_cor_y"    value="$(eval hook_com_y)"/>
-        <arg name="experiment_cor_z"    value="$(eval hook_com_z)"/>
-        <param name="experiment_cor_x"  value="$(arg experiment_cor_x)" type="double"/>
-        <param name="experiment_cor_y"  value="$(arg experiment_cor_y)" type="double"/>
-        <param name="experiment_cor_z"  value="$(arg experiment_cor_z)" type="double"/>
-
-        <group ns="perturbations">
-            <group ns="gripper_positions">
-                <param name="max_magnitude" value="$(eval grid_resolution * 4.0)"   type="double"/>
-                <param name="num_divisions" value="2"                               type="int"/>
-            </group>
-            <group ns="action_vectors">
-                <param name="max_magnitude" value="$(eval grid_resolution)"         type="double"/>
-                <param name="num_divisions" value="2"                               type="int"/>
-            </group>
+        <group ns="diminishing_rigidity">
+            <param name="default_deformability"         value="10.0"            type="double"/>
         </group>
 
+        <group ns="jacobian_controller">
+            <param name="collision_scaling_factor"      value="200.0"           type="double"/>
+        </group>
+
+        <group ns="stretching_constraint_controller">
+            <param name="stretching_cosine_threshold"   value="$(arg stretching_cosine_threshold)"  type="double"/>
+            <param name="fix_step_size"                 value="true"                                type="bool"/>
+        </group>
     </group>
 </launch>
