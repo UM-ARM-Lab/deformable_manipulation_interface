@@ -14,4 +14,7 @@
         <param name="model_file"    value="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature_torch_model_cpu.pt" type="string"/>
         <param name="threshold"     value="0.5"                                                             type="double"/>
     </group>
+    <group ns="knn">
+        <param name="data_file"     value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks/scaled_data_13features.ssv" type="string"/>
+    </group>
 </launch>

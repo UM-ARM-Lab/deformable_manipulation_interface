@@ -94,7 +94,7 @@
         <include file="$(find deformable_manipulation_experiment_params)/launch/shared/rrt_params.launch"/>
 
         <!-- Only used for debugging -->
-        <group name="world_state">
+        <group ns="world_state">
             <param name="use_stored_world_state"        value="false"                                       type="bool"/>
             <param name="file_name_prefix"              value="world_state"                                 type="string"/>
             <param name="file_name_suffix_to_load"      value="band_weirdness_controller_only"              type="string"/>
