@@ -57,6 +57,7 @@
     <!-- Setup task parameters -->
     <include file="$(find deformable_manipulation_experiment_params)/launch/experiments/$(arg task_type)_params.launch"/>
     <param name="log_folder"                            value="$(find smmap)/logs/$(arg task_type)/$(arg test_id)/"         type="string"/>
+    <param name="test_id"                               value="$(arg test_id)"                                              type="string"/>
 
     <!-- Setup the simulator -->
     <group ns="deform_simulator_node">
@@ -92,6 +93,11 @@
         </include>
         <include file="$(find deformable_manipulation_experiment_params)/launch/shared/transition_estimation_params.launch"/>
         <include file="$(find deformable_manipulation_experiment_params)/launch/shared/rrt_params.launch"/>
+
+        <group ns="rrt">
+            <param name="num_trials" value="1000"/>
+            <param name="test_paths_in_bullet" value="true"/>
+        </group>
 
         <!-- Only used for debugging -->
         <group ns="world_state">

@@ -4,11 +4,12 @@
     <group ns="classifier">
         <param name="dim"           value="$(arg dim)"                                                      type="int"/>
         <group ns="transformer">
-            <rosparam               file="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature.scaler"     command="load"/>
+            <!--<rosparam               file="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature_torch.scaler"   command="load"/>-->
+            <rosparam               file="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature_svm.scaler"     command="load"/>
         </group>
     </group>
     <group ns="svm">
-        <param name="model_file"    value="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature.model"     type="string"/>
+        <param name="model_file"    value="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature_svm.model" type="string"/>
     </group>
     <group ns="torch">
         <param name="model_file"    value="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature_torch_model_cpu.pt" type="string"/>

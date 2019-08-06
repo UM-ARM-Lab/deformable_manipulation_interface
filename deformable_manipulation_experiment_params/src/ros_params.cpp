@@ -78,6 +78,11 @@ namespace smmap
     // Task and Deformable Type parameters
     ////////////////////////////////////////////////////////////////////////////
 
+    std::string GetTestId(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParamRequiredDebugLog<std::string>(nh, "test_id", __func__).GetImmutable();
+    }
+
     DeformableType GetDeformableType(ros::NodeHandle& nh)
     {
         const static std::unordered_map<std::string, DeformableType> deformable_type_map
@@ -1361,6 +1366,12 @@ namespace smmap
     {
         const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt/kd_tree_grow_threshold", __func__);
         return (size_t)val.GetImmutable();
+    }
+
+    bool GetRRTTestPathsInBullet(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "rrt/test_paths_in_bullet", __func__);
+        return val.GetImmutable();
     }
 
     ////////////////////////////////////////////////////////////////////////////

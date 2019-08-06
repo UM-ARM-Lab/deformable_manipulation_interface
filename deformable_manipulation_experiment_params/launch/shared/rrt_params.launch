@@ -1,6 +1,6 @@
 <launch>
     <group ns="rrt">
-        <param name="timeout"                           value="60.0"                    type="double"/>
+        <param name="timeout"                           value="60000.0"                    type="double"/>
         <param name="reuse_old_results"                 value="false"                   type="bool"/>
         <param name="store_new_results"                 value="false"                   type="bool"/>
 

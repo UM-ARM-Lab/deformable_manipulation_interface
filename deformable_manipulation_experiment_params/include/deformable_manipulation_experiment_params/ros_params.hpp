@@ -31,6 +31,7 @@ namespace smmap
     // Task and Deformable Type parameters
     ////////////////////////////////////////////////////////////////////////////
 
+    std::string GetTestId(ros::NodeHandle& nh);
     DeformableType GetDeformableType(ros::NodeHandle& nh);
     std::string GetTaskTypeString(ros::NodeHandle& nh);
     TaskType GetTaskType(ros::NodeHandle& nh);
@@ -288,6 +289,7 @@ namespace smmap
     size_t GetRRTBackwardTreeExtendIterations(ros::NodeHandle& nh);
     bool GetRRTUseBruteForceNN(ros::NodeHandle& nh);
     size_t GetRRTKdTreeGrowThreshold(ros::NodeHandle& nh);
+    bool GetRRTTestPathsInBullet(ros::NodeHandle& nh);
 
     ////////////////////////////////////////////////////////////////////////////
     // Planner - PRM settings
