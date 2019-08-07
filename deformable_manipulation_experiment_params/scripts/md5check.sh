@@ -8,12 +8,12 @@ EXIT_FAILURE=1
 
 experiment=$1
 
-params_dir=`rospack find deformable_manipulation_experiment_params`/launch
+params_dir=`rospack find deformable_manipulation_experiment_params`/launch/experiments
 logs_dir=`rospack find smmap`/logs
 cpp_dir=`rospack find deform_simulator`/src/custom_scene
 hpp_dir=`rospack find deform_simulator`/include/custom_scene
 
-params_files="${params_dir}/${experiment}_params.launch" # ${params_dir}/generic_experiment.launch"
+params_files="${params_dir}/${experiment}_params.launch"
 cpp_files=${cpp_dir}/*.cpp
 hpp_files="${hpp_dir}/*.h ${hpp_dir}/*.hpp"
 

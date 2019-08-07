@@ -1,21 +1,24 @@
 <launch>
     <arg name="task_type"/>
+    <!-- [none, kNN, svm, dnn]-->
+    <arg name="classifier_type"/>
     <arg name="dim" default="13"/>
+
     <group ns="classifier">
-        <param name="dim"           value="$(arg dim)"                                                      type="int"/>
+        <param name="dim"           value="$(arg dim)"              type="int"/>
+        <param name="type"          value="$(arg classifier_type)"  type="string"/>
         <group ns="transformer">
-            <!--<rosparam               file="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature_torch.scaler"   command="load"/>-->
-            <rosparam               file="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature_svm.scaler"     command="load"/>
+            <rosparam               file="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature_$(arg classifier_type).scaler" command="load"/>
         </group>
     </group>
-    <group ns="svm">
+    <group ns="knn" if="$(eval classifier_type == 'kNN')">>
+        <param name="data_file"     value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks/scaled_data_13features.ssv" type="string"/>
+    </group>
+    <group ns="svm" if="$(eval classifier_type == 'svm')">
         <param name="model_file"    value="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature_svm.model" type="string"/>
     </group>
-    <group ns="torch">
+    <group ns="torch" if="$(eval classifier_type == 'dnn')">>
+        <param name="threshold"     value="0.5"                     type="double"/>
         <param name="model_file"    value="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature_torch_model_cpu.pt" type="string"/>
-        <param name="threshold"     value="0.5"                                                             type="double"/>
-    </group>
-    <group ns="knn">
-        <param name="data_file"     value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks/scaled_data_13features.ssv" type="string"/>
     </group>
 </launch>

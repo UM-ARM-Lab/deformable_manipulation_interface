@@ -16,6 +16,9 @@
     <arg name="disable_all_visualizations"              default="false"/>
     <arg name="visualize_gripper_motion"                default="false"/>
 
+    <!-- Transition classifier arguments -->
+    <arg name="classifier_type"                         default="kNN"/>
+
     <!-- Planner/Tester internal arguments -->
     <arg name="launch_tester"                           default="true"/>
     <arg name="use_random_seed"                         default="false"/>
@@ -46,22 +49,24 @@
 
         <!--<param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/cannonical_straight_test" type="string"/>-->
         <!--<param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks" type="string"/>-->
-        <param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks/start_to_end/dnn_classifier" type="string"/>
+        <!--<param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks/repeated_planning_tests/dnn_classifier_12137492451484360556" type="string"/>-->
+        <param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks/pipeline_tests" type="string"/>
 
         <param name="generate_test_data"                value="false"   type="bool"/>
-        <param name="generate_trajectories"             value="true"    type="bool"/>
+        <param name="generate_trajectories"             value="false"   type="bool"/>
         <param name="generate_transitions"              value="false"   type="bool"/>
         <param name="generate_meaningful_mistakes"      value="false"   type="bool"/>
         <param name="generate_features"                 value="false"   type="bool"/>
 
-        <param name="test_classifiers"                  value="false"   type="bool"/>
+        <param name="test_classifier"                   value="true"    type="bool"/>
         <group ns="rrt">
             <param name="num_trials" value="1000"/>
         </group>
 
         <!-- Params shared by this file and generic_experiment.launch -->
         <include file="$(find deformable_manipulation_experiment_params)/launch/shared/classifier_params.launch">
-            <arg name="task_type"   value="$(arg task_type)"/>
+            <arg name="task_type"       value="$(arg task_type)"/>
+            <arg name="classifier_type" value="$(arg classifier_type)"/>
         </include>
         <include file="$(find deformable_manipulation_experiment_params)/launch/shared/transition_estimation_params.launch"/>
         <include file="$(find deformable_manipulation_experiment_params)/launch/shared/rrt_params.launch"/>

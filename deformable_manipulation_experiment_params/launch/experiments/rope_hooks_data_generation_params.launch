@@ -143,6 +143,10 @@
 
     <group ns="transition_learning_data_generation_node">
         <group ns="task">
+            <param name="max_time"                              value="1e15"                                type="double"/>
+            <param name="error_threshold_along_normal"          value="0.055"                               type="double"/>
+            <param name="error_threshold_distance_to_normal"    value="0.025"                               type="double"/>
+            <param name="error_threshold_task_done"             value="0.4"                                 type="double"/>
             <param name="max_stretch_factor"                    value="1.15"                                type="double"/>
             <param name="max_band_length"                       value="0.874"                               type="double"/>
         </group>
@@ -164,6 +168,14 @@
             <param name="planning_y_max"                    value="$(arg world_y_max)"          type="double"/>
             <param name="planning_z_min"                    value="$(arg world_z_min)"          type="double"/>
             <param name="planning_z_max"                    value="$(arg world_z_max)"          type="double"/>
+        </group>
+
+        <group ns="diminishing_rigidity">
+            <param name="default_deformability"         value="10.0"            type="double"/>
+        </group>
+
+        <group ns="jacobian_controller">
+            <param name="collision_scaling_factor"      value="200.0"           type="double"/>
         </group>
 
         <arg name="gripper_a_test_start_pos_x"      value="$(eval hook_com_x - hook_length / 2.0 + grid_resolution / 4.0)"/>
@@ -208,6 +220,5 @@
                 <param name="num_divisions" value="2"                               type="int"/>
             </group>
         </group>
-
     </group>
 </launch>

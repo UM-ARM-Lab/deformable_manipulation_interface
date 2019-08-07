@@ -61,6 +61,14 @@ namespace smmap
         KFMANDB
     };
 
+    enum ClassifierType
+    {
+        None,
+        kNN,
+        SVM,
+        DNN
+    };
+
     enum StretchingConstraintControllerSolverType
     {
         RANDOM_SAMPLING,

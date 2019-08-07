@@ -35,11 +35,6 @@ namespace smmap
         return ROSHelpers::GetParam(nh, "visualize_object_predicted_motion", true);
     }
 
-    bool GetVisualizePRM(ros::NodeHandle& nh, const bool default_vis)
-    {
-        return ROSHelpers::GetParam(nh, "visualize_prm", default_vis);
-    }
-
     bool GetVisualizeRRT(ros::NodeHandle& nh, const bool default_vis)
     {
         return ROSHelpers::GetParam(nh, "visualize_rrt", default_vis);
@@ -1375,24 +1370,6 @@ namespace smmap
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    // Planner - PRM settings
-    ////////////////////////////////////////////////////////////////////////////
-
-    size_t GetPRMNumNearest(ros::NodeHandle& nh, const size_t default_k)
-    {
-        const int retrieved_k = ROSHelpers::GetParam(nh, "prm/num_nearest", (int)default_k);
-        assert(retrieved_k > 0);
-        return (size_t)retrieved_k;
-    }
-
-    size_t GetPRMNumSamples(ros::NodeHandle& nh, const size_t default_num_samples)
-    {
-        const int retrieved_num_samples = ROSHelpers::GetParam(nh, "prm/num_samples", (int)default_num_samples);
-        assert(retrieved_num_samples > 0);
-        return (size_t)retrieved_num_samples;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
     // Transition Learning Parameters
     ////////////////////////////////////////////////////////////////////////////
 
@@ -1430,6 +1407,20 @@ namespace smmap
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/homotopy_changes_scale_factor", __func__);
         return val.GetImmutable();
+    }
+
+    ClassifierType GetClassifierType(ros::NodeHandle& nh)
+    {
+        const static std::unordered_map<std::string, ClassifierType> classifier_type_map
+        {
+            {"none",    ClassifierType::None},
+            {"kNN",     ClassifierType::kNN},
+            {"svm",     ClassifierType::SVM},
+            {"dnn",     ClassifierType::DNN},
+        };
+
+        const auto classifier_type = ROSHelpers::GetParamRequiredDebugLog<std::string>(nh, "classifier/type", __func__).GetImmutable();
+        return classifier_type_map.at(classifier_type);
     }
 
     ////////////////////////////////////////////////////////////////////////////

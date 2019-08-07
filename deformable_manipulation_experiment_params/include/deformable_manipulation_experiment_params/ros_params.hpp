@@ -18,7 +18,6 @@ namespace smmap
     bool GetVisualizeObjectDesiredMotion(ros::NodeHandle& nh);
     bool GetVisualizeGripperMotion(ros::NodeHandle& nh);
     bool GetVisualizeObjectPredictedMotion(ros::NodeHandle& nh);
-    bool GetVisualizePRM(ros::NodeHandle& nh, const bool default_vis = true);
     bool GetVisualizeRRT(ros::NodeHandle& nh, const bool default_vis = true);
     bool GetVisualizeFreeSpaceGraph(ros::NodeHandle& nh);
     bool GetVisualizeCorrespondences(ros::NodeHandle& nh);
@@ -292,13 +291,6 @@ namespace smmap
     bool GetRRTTestPathsInBullet(ros::NodeHandle& nh);
 
     ////////////////////////////////////////////////////////////////////////////
-    // Planner - PRM settings
-    ////////////////////////////////////////////////////////////////////////////
-
-    size_t GetPRMNumNearest(ros::NodeHandle& nh, const size_t default_k = 5);
-    size_t GetPRMNumSamples(ros::NodeHandle& nh, const size_t default_num_samples = 1000);
-
-    ////////////////////////////////////////////////////////////////////////////
     // Transition Learning Parameters
     ////////////////////////////////////////////////////////////////////////////
 
@@ -308,6 +300,8 @@ namespace smmap
     double GetTransitionTemplateMisalignmentScaleFactor(ros::NodeHandle& nh);
     double GetTransitionTightenDeltaScaleFactor(ros::NodeHandle& nh);
     double GetTransitionHomotopyChangesScaleFactor(ros::NodeHandle& nh);
+
+    ClassifierType GetClassifierType(ros::NodeHandle& nh);
 
     ////////////////////////////////////////////////////////////////////////////
     // Pure Jacobian based motion controller paramters

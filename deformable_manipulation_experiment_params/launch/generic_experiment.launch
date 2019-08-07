@@ -47,6 +47,9 @@
     <arg name="bandit_algorithm"                        default="UCB"/>
     <arg name="correlation_strength_factor"             default="0.9"/>
 
+    <!-- Transition classifier arguments -->
+    <arg name="classifier_type"                         default="kNN"/>
+
     <!-- Planner internal arguments -->
     <arg name="launch_planner"                          default="true"/>
     <arg name="collect_results_for_all_models"          default="false"/>
@@ -89,7 +92,8 @@
 
         <!-- Params shared by this file and transition_learning.launch -->
         <include file="$(find deformable_manipulation_experiment_params)/launch/shared/classifier_params.launch">
-            <arg name="task_type"   value="$(arg task_type)"/>
+            <arg name="task_type"       value="$(arg task_type)"/>
+            <arg name="classifier_type" value="$(arg classifier_type)"/>
         </include>
         <include file="$(find deformable_manipulation_experiment_params)/launch/shared/transition_estimation_params.launch"/>
         <include file="$(find deformable_manipulation_experiment_params)/launch/shared/rrt_params.launch"/>
