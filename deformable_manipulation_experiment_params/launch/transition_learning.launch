@@ -46,6 +46,8 @@
 
         <param name="disable_all_visualizations"        value="$(arg disable_all_visualizations)"           type="bool"/>
         <param name="visualize_gripper_motion"          value="$(arg visualize_gripper_motion)"             type="bool"/>
+        <param name="visualize_free_space_graph"        value="false"                                       type="bool"/>
+        <param name="visualize_correspondences"         value="false"                                       type="bool"/>
 
         <!--<param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/cannonical_straight_test" type="string"/>-->
         <!--<param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks" type="string"/>-->
