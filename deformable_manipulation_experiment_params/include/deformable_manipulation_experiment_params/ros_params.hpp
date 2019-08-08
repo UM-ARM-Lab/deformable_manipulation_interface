@@ -294,6 +294,7 @@ namespace smmap
     // Transition Learning Parameters
     ////////////////////////////////////////////////////////////////////////////
 
+    double GetTransitionMistakeThreshold(ros::NodeHandle& nh);
     double GetTransitionDefaultPropagationConfidence(ros::NodeHandle& nh);
     double GetTransitionDefaultBandDistThreshold(ros::NodeHandle& nh);
     double GetTransitionConfidenceThreshold(ros::NodeHandle& nh);

@@ -1,5 +1,6 @@
 <launch>
     <group ns="transition_estimation">
+        <param name="mistake_distance_threshold"            value="0.5"                     type="double"/>
         <param name="default_propagation_confidence"        value="1.0"                     type="double"/>
         <param name="default_band_dist_threshold"           value="1.0"                     type="double"/>
         <param name="confidence_threshold"                  value="0.2"                     type="double"/>

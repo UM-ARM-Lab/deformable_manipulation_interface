@@ -1373,6 +1373,12 @@ namespace smmap
     // Transition Learning Parameters
     ////////////////////////////////////////////////////////////////////////////
 
+    double GetTransitionMistakeThreshold(ros::NodeHandle& nh)
+    {
+        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/mistake_distance_threshold", __func__);
+        return val.GetImmutable();
+    }
+
     double GetTransitionDefaultPropagationConfidence(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/default_propagation_confidence", __func__);
