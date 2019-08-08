@@ -49,10 +49,10 @@
         <param name="visualize_free_space_graph"        value="false"                                       type="bool"/>
         <param name="visualize_correspondences"         value="false"                                       type="bool"/>
 
+        <arg name="root_data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans"/>
         <!--<param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/cannonical_straight_test" type="string"/>-->
-        <!--<param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks" type="string"/>-->
-        <!--<param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks/repeated_planning_tests/dnn_classifier_12137492451484360556" type="string"/>-->
-        <param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks/pipeline_tests" type="string"/>
+        <!--<param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks/pipeline_tests" type="string"/>-->
+        <param name="data_folder" value="$(arg root_data_folder)/$(arg task_type)/hook_offset_vertically/$(arg classifier_type)_classifier_$(arg static_seed)" type="string"/>
 
         <param name="generate_test_data"                value="false"   type="bool"/>
         <param name="generate_trajectories"             value="false"   type="bool"/>
@@ -61,7 +61,7 @@
         <param name="generate_meaningful_mistakes"      value="false"   type="bool"/>
         <param name="generate_features"                 value="false"   type="bool"/>
 
-        <param name="test_classifier"                   value="false"    type="bool"/>
+        <param name="test_classifier"                   value="false"   type="bool"/>
         <group ns="rrt">
             <param name="num_trials" value="1000"/>
         </group>

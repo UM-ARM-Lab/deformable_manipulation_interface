@@ -69,13 +69,13 @@
 
     <arg name="task_progress_wall_width"            value="$(eval grid_resolution * 2.0)"/>
     <arg name="task_progress_wall_length"           value="$(eval world_y_size)"/>
-    <arg name="task_progress_wall_lower_height"     value="$(eval world_z_size / 2.0 - 0.05)"/>
-    <arg name="task_progress_wall_upper_height"     value="$(eval world_z_size / 2.0 - 0.05)"/>
-    <!--<arg name="task_progress_wall_x_com"            value="$(eval world_x_min + 0.7)"/>-->
+    <!--<arg name="task_progress_wall_lower_height"     value="$(eval world_z_size / 2.0 - 0.05)"/>-->
+    <arg name="task_progress_wall_lower_height"     value="$(eval world_z_size / 2.0 + 0.1)"/>
+    <arg name="task_progress_wall_upper_height"     value="$(eval world_z_size - task_progress_wall_lower_height - 0.1)"/>
     <arg name="task_progress_wall_x_com"            value="$(eval world_x_min + 1.7)"/>
     <arg name="task_progress_wall_y_com"            value="$(eval world_y_center)"/>
     <arg name="task_progress_wall_lower_z_com"      value="$(eval world_z_min + task_progress_wall_lower_height / 2.0)"/>
-    <arg name="task_progress_wall_upper_z_com"      value="$(eval world_z_max - task_progress_wall_lower_height / 2.0)"/>
+    <arg name="task_progress_wall_upper_z_com"      value="$(eval world_z_max - task_progress_wall_upper_height / 2.0)"/>
     <param name="task_progress_wall_width"          value="$(arg task_progress_wall_width)"         type="double"/>
     <param name="task_progress_wall_length"         value="$(arg task_progress_wall_length)"        type="double"/>
     <param name="task_progress_wall_lower_height"   value="$(arg task_progress_wall_lower_height)"  type="double"/>
@@ -87,10 +87,10 @@
 
     <arg name="gripper_separator_length"            value="$(eval world_x_size - 0.8)"/>
     <arg name="gripper_separator_width"             value="$(eval grid_resolution * 2.0)"/>
-    <arg name="gripper_separator_lower_height"      value="$(eval world_z_size / 2.0 - 0.025)"/>
-    <arg name="gripper_separator_upper_height"      value="$(eval world_z_size / 2.0 - 0.025)"/>
-    <arg name="gripper_separator_y_offset"          value="-1.25"/>
+    <arg name="gripper_separator_lower_height"      value="$(eval task_progress_wall_lower_height + 0.025)"/>
+    <arg name="gripper_separator_upper_height"      value="$(eval task_progress_wall_upper_height + 0.025)"/>
     <!--<arg name="gripper_separator_y_offset"          value="-0.25"/>-->
+    <arg name="gripper_separator_y_offset"          value="-1.25"/>
     <arg name="gripper_separator_x_com"             value="$(eval world_x_min + gripper_separator_length / 2.0)"/>
     <arg name="gripper_separator_y_com"             value="$(eval world_y_center + gripper_separator_y_offset)"/>
     <arg name="gripper_separator_lower_z_com"       value="$(eval world_z_min + gripper_separator_lower_height / 2.0)"/>
