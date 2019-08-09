@@ -52,7 +52,8 @@
         <arg name="root_data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans"/>
         <!--<param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/cannonical_straight_test" type="string"/>-->
         <!--<param name="data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks/pipeline_tests" type="string"/>-->
-        <param name="data_folder" value="$(arg root_data_folder)/$(arg task_type)/hook_offset_vertically/$(arg classifier_type)_classifier_$(arg static_seed)" type="string"/>
+        <!--<param name="data_folder" value="$(arg root_data_folder)/$(arg task_type)/hook_offset_vertically/$(arg classifier_type)_classifier_$(arg static_seed)" type="string"/>-->
+        <param name="data_folder" value="$(arg root_data_folder)/$(arg task_type)/hook_small" type="string"/>
 
         <param name="generate_test_data"                value="false"   type="bool"/>
         <param name="generate_trajectories"             value="false"   type="bool"/>
@@ -61,9 +62,9 @@
         <param name="generate_meaningful_mistakes"      value="false"   type="bool"/>
         <param name="generate_features"                 value="false"   type="bool"/>
 
-        <param name="test_classifier"                   value="false"   type="bool"/>
+        <param name="test_classifier"                   value="true"   type="bool"/>
         <group ns="rrt">
-            <param name="num_trials" value="1000"/>
+            <param name="num_trials" value="100"/>
         </group>
 
         <!-- Params shared by this file and generic_experiment.launch -->
