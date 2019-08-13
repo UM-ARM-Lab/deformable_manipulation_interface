@@ -3,6 +3,7 @@
 #include <ros/ros.h>
 #include <type_traits>
 #include <cstdint>
+#include <Eigen/Dense>
 #include <arc_utilities/arc_helpers.hpp>
 #include <arc_utilities/ros_helpers.hpp>
 

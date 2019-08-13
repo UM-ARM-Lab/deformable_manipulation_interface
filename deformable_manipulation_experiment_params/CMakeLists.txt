@@ -10,7 +10,9 @@ set(CATKIN_PACKAGES
 find_package(catkin REQUIRED COMPONENTS ${CATKIN_PACKAGES})
 
 ## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
+find_package(cmake_modules REQUIRED)
+find_package(Eigen3 REQUIRED)
+set(EIGEN3_INCLUDE_DIRS ${EIGEN3_INCLUDE_DIR})
 
 ################################################
 ## Declare ROS messages, services and actions ##
@@ -44,7 +46,8 @@ find_package(catkin REQUIRED COMPONENTS ${CATKIN_PACKAGES})
 catkin_package(
     INCLUDE_DIRS include
     LIBRARIES ${PROJECT_NAME}
-    CATKIN_DEPENDS  ${CATKIN_PACKAGES}
+    CATKIN_DEPENDS ${CATKIN_PACKAGES}
+    DEPENDS EIGEN3
 )
 
 ###########
@@ -58,6 +61,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -g -O3 -flto -Wall -Wextra -W
 include_directories(include
     SYSTEM
     ${catkin_INCLUDE_DIRS}
+    ${EIGEN3_INCLUDE_DIRS}
 )
 
 ## Library file for the whole project
