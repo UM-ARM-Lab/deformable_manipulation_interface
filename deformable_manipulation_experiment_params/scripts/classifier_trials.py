@@ -81,17 +81,14 @@ def run_single_trial(experiment,
 
 def run_trials(experiment,
                run_none=True,
-               run_knn=False,
-               run_svm=False,
-               run_dnn=False,
+               run_knn=True,
+               run_svm=True,
+               run_dnn=True,
                seeds=None,
                log_prefix="",
                rrt_num_trials=1):
 
     classifiers = []
-
-    if run_none:
-        classifiers.append("none")
 
     if run_knn:
         classifiers.append("kNN")
@@ -101,6 +98,10 @@ def run_trials(experiment,
 
     if run_dnn:
         classifiers.append("dnn")
+
+    # Run "none" last in case it takes forever to succeed 10 times
+    if run_none:
+        classifiers.append("none")
 
     if log_prefix != "":
         log_prefix += "/"
@@ -123,7 +124,7 @@ def run_trials(experiment,
 
 
 if __name__ == "__main__":
-    num_trials = 1
+    num_trials = 10
     np.random.seed(0xa8710913)
     seeds = np.random.randint(low=0x1000000000000000, high=0x7fffffffffffffff, size=num_trials)
-    run_trials(experiment="rope_hooks", seeds=seeds, log_prefix="script_trial")
+    run_trials(experiment="rope_hooks", seeds=seeds, log_prefix="full_task_trials")

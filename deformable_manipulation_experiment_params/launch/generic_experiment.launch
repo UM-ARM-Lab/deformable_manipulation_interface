@@ -52,11 +52,12 @@
 
     <!-- Planner internal arguments -->
     <arg name="launch_planner"                          default="true"/>
-    <arg name="rrt_num_trials"                          default="1"/>
     <arg name="collect_results_for_all_models"          default="false"/>
     <arg name="use_random_seed"                         default="false"/>
     <!-- MD5 sum of Dale McConachie: a8710913d2b5df6c a30cd67f3860ddb3 -->
     <arg name="static_seed"                             default="a8710913d2b5df6c"/>
+    <arg name="rrt_num_trials"                          default="1"/>
+    <arg name="test_paths_in_bullet"                    default="false"/>
 
     <!-- Setup task parameters -->
     <include file="$(find deformable_manipulation_experiment_params)/launch/experiments/$(arg task_type)_params.launch"/>
@@ -105,7 +106,7 @@
 
         <group ns="rrt">
             <param name="num_trials" value="$(arg rrt_num_trials)"/>
-            <param name="test_paths_in_bullet" value="true"/>
+            <param name="test_paths_in_bullet" value="$(arg test_paths_in_bullet)"/>
         </group>
 
         <!-- Only used for debugging -->
