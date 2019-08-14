@@ -7,11 +7,6 @@ import subprocess
 import numpy as np
 
 
-def ensure_dir(directory):
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-
-
 def run_single_trial(experiment,
                      classifier_type,
                      bandits_logging_enabled=None,
@@ -62,7 +57,7 @@ def run_single_trial(experiment,
     roslaunch_args += sys.argv[1:]
 
     log_folder = "/home/dmcconac/Dropbox/catkin_ws/src/smmap/logs/" + experiment + "/" + test_id
-    ensure_dir(log_folder)
+    subprocess.call(args="mkdir -p " + log_folder, shell=True)
     roslaunch_args.append("    --screen")
     cmd = " ".join(roslaunch_args)
     print(cmd, "\n")
