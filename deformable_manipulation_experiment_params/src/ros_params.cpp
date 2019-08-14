@@ -14,9 +14,9 @@ namespace smmap
     // Visualization Settings
     ////////////////////////////////////////////////////////////////////////////
 
-    bool GetDisableAllVisualizations(ros::NodeHandle& nh)
+    bool GetDisableSmmapVisualizations(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "disable_all_visualizations", __func__);
+        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "disable_smmap_visualizations", __func__);
         return val.GetImmutable();
     }
 
@@ -1616,6 +1616,11 @@ namespace smmap
     std::string GetLogFolder(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "log_folder", "/tmp/");
+    }
+
+    std::string GetDataFolder(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "data_folder", "/tmp/");
     }
 
     std::string GetDijkstrasStorageLocation(ros::NodeHandle& nh)

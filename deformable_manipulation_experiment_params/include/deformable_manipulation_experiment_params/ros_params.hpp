@@ -14,7 +14,7 @@ namespace smmap
     // Visualization Settings
     ////////////////////////////////////////////////////////////////////////////
 
-    bool GetDisableAllVisualizations(ros::NodeHandle& nh);
+    bool GetDisableSmmapVisualizations(ros::NodeHandle& nh);
     bool GetVisualizeObjectDesiredMotion(ros::NodeHandle& nh);
     bool GetVisualizeGripperMotion(ros::NodeHandle& nh);
     bool GetVisualizeObjectPredictedMotion(ros::NodeHandle& nh);
@@ -342,6 +342,7 @@ namespace smmap
     bool GetBanditsLoggingEnabled(ros::NodeHandle& nh);
     bool GetControllerLoggingEnabled(ros::NodeHandle& nh);
     std::string GetLogFolder(ros::NodeHandle& nh);
+    std::string GetDataFolder(ros::NodeHandle& nh);
     std::string GetDijkstrasStorageLocation(ros::NodeHandle& nh);
     std::string GetCollisionMapStorageLocation(ros::NodeHandle& nh);
     bool GetScreenshotsEnabled(ros::NodeHandle& nh);
