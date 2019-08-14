@@ -1,10 +1,11 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 
 
 import os
 import sys
 import subprocess
 import numpy as np
+import rospkg
 
 
 def run_single_trial(experiment,
@@ -56,13 +57,15 @@ def run_single_trial(experiment,
     # Add any extra parameters that have been added
     roslaunch_args += sys.argv[1:]
 
-    log_folder = "/home/dmcconac/Dropbox/catkin_ws/src/smmap/logs/" + experiment + "/" + test_id
+    # Determine save locations
+    smmap_folder = rospkg.RosPack().get_path("smmap")
+
+    log_folder = smmap_folder + "/logs/" + experiment + "/" + test_id
     subprocess.call(args="mkdir -p " + log_folder, shell=True)
     roslaunch_args.append("    --screen")
     cmd = " ".join(roslaunch_args)
-    print(cmd, "\n")
-
-    # output = subprocess.run(args=roslaunch_args, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    print(cmd)
+    print("Logging to " + log_folder + "/smmap_output.log\n")
 
     with open(log_folder + "/smmap_output.log", "wb") as file:
         process = subprocess.Popen(args=cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -70,7 +73,6 @@ def run_single_trial(experiment,
             line = process.stdout.readline()
             if not line:
                 break
-            sys.stdout.write(line.decode("utf-8"))
             file.write(line)
 
 
@@ -106,10 +108,10 @@ def run_trials(experiment,
             for seed in seeds:
                 run_single_trial(experiment=experiment,
                                  classifier_type=classifier,
-                                 test_id=log_prefix + classifier + "_" + hex(seed),
+                                 test_id=log_prefix + classifier + "_" + hex(seed)[:-1],
                                  rrt_num_trials=str(rrt_num_trials),
                                  use_random_seed="false",
-                                 static_seed=hex(seed))
+                                 static_seed=hex(seed)[:-1])
         else:
             run_single_trial(experiment=experiment,
                              classifier_type=classifier,
