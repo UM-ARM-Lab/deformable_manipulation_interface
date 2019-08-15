@@ -122,7 +122,7 @@
         <rosparam subst_value="true" param="color">[$(arg light_gray), 0.0]</rosparam>
     </group>
     <group ns="walls">
-        <arg name="alpha"      value="1.0"/>
+        <arg name="alpha"      value="0.0"/>
         <group ns="top">
             <arg name="length" value="$(eval world_x_size + wall_thickness)"/>
     
@@ -353,10 +353,14 @@
 
     <!-- Cover points transform - applied to rope starting positions -->
     <group>
-        <arg name="y_offset" value="$(eval -abs(rope_com_y) * 2)"/>
-        <rosparam subst_value="true" param="cover_points_transform_pos">[0.0, $(arg y_offset), 0.0]</rosparam>
-        <!-- Rotation about z by 90 degrees -->
-        <rosparam subst_value="true" param="cover_points_transform_quat">[0.0, 0.0, 1.0, 0.0]</rosparam>
+        <arg name="x_offset" value="$(eval world_x_mid + world_x_size / 4 - rope_com_x )"/>
+        <rosparam subst_value="true" param="cover_points_transform_pos">[$(arg x_offset), 0.0, 0.0]</rosparam>
+        <rosparam subst_value="true" param="cover_points_transform_quat">[0.0, 0.0, 0.0, 1.0]</rosparam>
+
+        <!--<arg name="y_offset" value="$(eval -abs(rope_com_y) * 2)"/>-->
+        <!--<rosparam subst_value="true" param="cover_points_transform_pos">[0.0, $(arg y_offset), 0.0]</rosparam>-->
+        <!--Rotation about z by 90 degrees -->
+        <!--<rosparam subst_value="true" param="cover_points_transform_quat">[0.0, 0.0, 1.0, 0.0]</rosparam>-->
     </group>
 
     <group ns="deform_simulator_node">
@@ -364,13 +368,13 @@
 
         <param name="num_simsteps_per_gripper_command"  value="4"       type="int"/>
         <param name="viewer_width"                      value="900"    type="int"/>
-        <param name="viewer_height"                     value="1100"    type="int"/>
+        <param name="viewer_height"                     value="700"    type="int"/>
 
         <param name="camera_override"                   value="true"    type="bool"/>
         <group ns="camera">
             <param name="home_x"                        value="0.0"     type="double"/>
             <param name="home_y"                        value="0.0"     type="double"/>
-            <param name="home_z"                        value="6.0"     type="double"/>
+            <param name="home_z"                        value="3.5"     type="double"/>
 
             <param name="looks_at_x"                    value="0.0"     type="double"/>
             <param name="looks_at_y"                    value="0.0"     type="double"/>
@@ -384,6 +388,8 @@
 
     <group ns="smmap_planner_node">
         <group ns="task">
+            <param name="first_control_loop_triggers_plan"      value="false"                                type="bool"/>
+
             <param name="max_time"                              value="$(arg task_max_time)"                type="double"/>
             <param name="error_threshold_along_normal"          value="0.055"                               type="double"/>
             <param name="error_threshold_distance_to_normal"    value="0.025"                               type="double"/>
