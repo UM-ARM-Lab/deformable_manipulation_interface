@@ -138,7 +138,8 @@ namespace smmap
                 throw_arc_exception(std::invalid_argument, "Parameter is too long; length is " + std::to_string(stdvec.size()));
             }
             // Assumed order on the parameter server is (x, y, z, w)
-            return Eigen::Quaterniond(stdvec[1], stdvec[2], stdvec[3], stdvec[0]);
+            // Eigen takes the inputs as (w, x, y, z) (and then stores internally as (x, y, z, w))
+            return Eigen::Quaterniond(stdvec[3], stdvec[0], stdvec[1], stdvec[2]);
         }
 
     }

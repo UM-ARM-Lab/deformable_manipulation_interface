@@ -73,7 +73,6 @@
         <param name="start_bullet_viewer"               value="$(arg start_bullet_viewer)"      type="bool"/>
         <param name="screenshots_enabled"               value="$(arg screenshots_enabled)"      type="bool"/>
         <param name="settle_time"                       value="4.0"                             type="double"/>
-        <!--<param name="tf_wait_time"                      value="0.0"                             type="double"/>-->
         <param name="display_grippers_axes"             value="false"                           type="bool"/>
     </group>
     <env name="OSG_FILE_PATH" value="$(find OpenSceneGraph)/data"/>

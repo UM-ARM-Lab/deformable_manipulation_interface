@@ -7,9 +7,13 @@ EXIT_SUCCESS=0
 EXIT_FAILURE=1
 
 experiment=$1
+if [[ ${experiment} == rope_generic* ]]
+then
+    experiment="rope_generic"
+fi
 
 params_dir=`rospack find deformable_manipulation_experiment_params`/launch/experiments
-logs_dir=`rospack find smmap`/logs
+log_dir=`rosparam get log_folder`
 cpp_dir=`rospack find deform_simulator`/src/custom_scene
 hpp_dir=`rospack find deform_simulator`/include/custom_scene
 
@@ -17,7 +21,8 @@ params_files="${params_dir}/${experiment}_params.launch"
 cpp_files=${cpp_dir}/*.cpp
 hpp_files="${hpp_dir}/*.h ${hpp_dir}/*.hpp"
 
-md5_file=${logs_dir}/${experiment}/${experiment}_environment.md5sum
+md5_file=${log_dir}/../${experiment}_environment.md5sum
+mkdir -p ${log_dir}
 
 # If the md5_file does not exist, then we need to create it, and mark it as a failed check
 if [ ! -f ${md5_file} ]; then
