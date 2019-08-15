@@ -17,7 +17,6 @@
     <arg name="world_y_min"             value="-0.45"/>
     <arg name="world_y_max"             value="0.45"/>
     <arg name="world_z_min"             value="-0.4"/>
-    <!--<arg name="world_z_min"             value="0.0"/>-->
     <arg name="world_z_max"             value="0.4"/>
     <arg name="world_x_center"          value="$(eval (world_x_max + world_x_min) / 2.0)"/>
     <arg name="world_y_center"          value="$(eval (world_y_max + world_y_min) / 2.0)"/>

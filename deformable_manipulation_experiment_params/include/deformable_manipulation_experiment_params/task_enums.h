@@ -39,7 +39,13 @@ namespace smmap
         // Hooks
         ROPE_HOOKS,
         CLOTH_HOOKS,
-        ROPE_HOOKS_DATA_GENERATION
+        ROPE_HOOKS_DATA_GENERATION,
+
+        // Generic-can-be-anything environments
+        ROPE_GENERIC_DIJKSTRAS_COVERAGE,
+        CLOTH_GENERIC_DIJKSTRAS_COVERAGE,
+        ROPE_GENERIC_FIXED_COVERAGE,
+        CLOTH_GENERIC_FIXED_COVERAGE,
     };
 
     enum TrialType

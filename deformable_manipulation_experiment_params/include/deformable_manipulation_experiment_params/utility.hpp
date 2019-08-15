@@ -6,6 +6,7 @@
 #include <Eigen/Dense>
 #include <arc_utilities/arc_helpers.hpp>
 #include <arc_utilities/ros_helpers.hpp>
+#include <std_msgs/ColorRGBA.h>
 
 namespace smmap
 {
@@ -51,15 +52,69 @@ namespace smmap
         }
     }
 
+
+    inline std_msgs::ColorRGBA GetColorFromParamSever(
+            ros::NodeHandle& nh,
+            const std::string& base_name)
+    {
+        using namespace ROSHelpers;
+        float r, g, b, a = 1.0;
+        try
+        {
+            r = GetParamOptional<float>(nh, base_name + "_r", __func__).GetImmutable();
+            g = GetParamOptional<float>(nh, base_name + "_g", __func__).GetImmutable();
+            b = GetParamOptional<float>(nh, base_name + "_b", __func__).GetImmutable();
+            a = GetParam<float>(nh, base_name + "_a", 1.0f);
+        }
+        catch (const std::invalid_argument& /* ex */)
+        {
+            const auto stdvec = GetVectorRequired<float>(nh, base_name, __func__).GetImmutable();
+            switch(stdvec.size())
+            {
+                case 4:
+                    a = stdvec[3];
+                    [[fallthrough]];
+                case 3:
+                    r = stdvec[0];
+                    g = stdvec[1];
+                    b = stdvec[2];
+                    break;
+
+                default:
+                    throw_arc_exception(std::invalid_argument, base_name + " must be 3 or 4 elements; length on param sever is " + std::to_string(stdvec.size()));
+            }
+        }
+
+        std_msgs::ColorRGBA color;
+        color.r = r;
+        color.g = g;
+        color.b = b;
+        color.a = a;
+        return color;
+    }
+
+
     inline Eigen::Vector3d GetVector3FromParamServer(
             ros::NodeHandle& nh,
             const std::string& base_name)
     {
         using namespace ROSHelpers;
-        return Eigen::Vector3d(
-                    GetParamRequired<double>(nh, base_name + "_x", __func__).GetImmutable(),
-                    GetParamRequired<double>(nh, base_name + "_y", __func__).GetImmutable(),
-                    GetParamRequired<double>(nh, base_name + "_z", __func__).GetImmutable());
+        try
+        {
+            return Eigen::Vector3d(
+                        GetParamOptional<double>(nh, base_name + "_x", __func__).GetImmutable(),
+                        GetParamOptional<double>(nh, base_name + "_y", __func__).GetImmutable(),
+                        GetParamOptional<double>(nh, base_name + "_z", __func__).GetImmutable());
+        }
+        catch (const std::invalid_argument& /* ex */)
+        {
+            const auto stdvec = GetVectorRequired<double>(nh, base_name, __func__).GetImmutable();
+            if (stdvec.size() != 3)
+            {
+                throw_arc_exception(std::invalid_argument, "Parameter is too long; length is " + std::to_string(stdvec.size()));
+            }
+            return Eigen::Vector3d(stdvec[0], stdvec[1], stdvec[2]);
+        }
     }
 
     inline Eigen::Quaterniond GetQuaternionFromParamServer(
@@ -67,14 +122,28 @@ namespace smmap
             const std::string& base_name)
     {
         using namespace ROSHelpers;
-        return Eigen::Quaterniond(
-                    GetParamRequired<double>(nh, base_name + "_w", __func__).GetImmutable(),
-                    GetParamRequired<double>(nh, base_name + "_x", __func__).GetImmutable(),
-                    GetParamRequired<double>(nh, base_name + "_y", __func__).GetImmutable(),
-                    GetParamRequired<double>(nh, base_name + "_z", __func__).GetImmutable());
+        try
+        {
+            return Eigen::Quaterniond(
+                        GetParamOptional<double>(nh, base_name + "_w", __func__).GetImmutable(),
+                        GetParamOptional<double>(nh, base_name + "_x", __func__).GetImmutable(),
+                        GetParamOptional<double>(nh, base_name + "_y", __func__).GetImmutable(),
+                        GetParamOptional<double>(nh, base_name + "_z", __func__).GetImmutable());
+        }
+        catch (const std::invalid_argument& /* ex */)
+        {
+            const auto stdvec = GetVectorRequired<double>(nh, base_name, __func__).GetImmutable();
+            if (stdvec.size() != 4)
+            {
+                throw_arc_exception(std::invalid_argument, "Parameter is too long; length is " + std::to_string(stdvec.size()));
+            }
+            // Assumed order on the parameter server is (x, y, z, w)
+            return Eigen::Quaterniond(stdvec[1], stdvec[2], stdvec[3], stdvec[0]);
+        }
+
     }
 
-    inline Eigen::Isometry3d GetPoseFromParamSerer(
+    inline Eigen::Isometry3d GetPoseFromParamServer(
             ros::NodeHandle& nh,
             const std::string& base_name,
             const bool rotation_optional = true)

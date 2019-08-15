@@ -122,7 +122,11 @@ namespace smmap
             {"live_rope_simple",                        TaskType::ROPE_SIMPLE_COVERAGE_TWO_GRIPPERS},
             {"rope_hooks",                              TaskType::ROPE_HOOKS},
             {"rope_hooks_data_generation",              TaskType::ROPE_HOOKS_DATA_GENERATION},
-            {"cloth_hooks",                             TaskType::CLOTH_HOOKS}
+            {"cloth_hooks",                             TaskType::CLOTH_HOOKS},
+            {"rope_generic_dijkstras_coverage",         TaskType::ROPE_GENERIC_DIJKSTRAS_COVERAGE},
+            {"cloth_generic_dijkstras_coverage",        TaskType::CLOTH_GENERIC_DIJKSTRAS_COVERAGE},
+            {"rope_generic_fixed_coverage",             TaskType::ROPE_GENERIC_FIXED_COVERAGE},
+            {"cloth_generic_fixed_coverage",            TaskType::CLOTH_GENERIC_FIXED_COVERAGE},
         };
 
         const auto task_type = GetTaskTypeString(nh);
