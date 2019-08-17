@@ -12,7 +12,7 @@
             <rosparam               file="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature_$(arg classifier_type).scaler" command="load"/>
         </group>
     </group>
-    <group ns="knn" if="$(eval classifier_type == 'kNN')">>
+    <group ns="kNN" if="$(eval classifier_type == 'kNN')">>
         <param name="data_file"     value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks/scaled_data_13features.ssv" type="string"/>
         <param name="accuracy"      value="0.80"    type="double"/>
     </group>

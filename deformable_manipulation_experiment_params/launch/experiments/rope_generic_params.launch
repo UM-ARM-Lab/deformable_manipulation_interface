@@ -388,7 +388,7 @@
 
     <group ns="smmap_planner_node">
         <group ns="task">
-            <param name="first_control_loop_triggers_plan"      value="false"                               type="bool"/>
+            <param name="first_control_loop_triggers_plan"      value="true"                                type="bool"/>
 
             <param name="max_time"                              value="$(arg task_max_time)"                type="double"/>
             <param name="error_threshold_along_normal"          value="0.055"                               type="double"/>
