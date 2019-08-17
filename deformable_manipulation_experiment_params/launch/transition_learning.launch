@@ -3,7 +3,7 @@
     <arg name="task_type"/>
     <arg name="bandits_logging_enabled"                 default="true"/>
     <arg name="controller_logging_enabled"              default="false"/>
-    <arg name="test_id"                                 default="default"/>
+    <arg name="test_id"                                 default="classifier_tests_end_to_end"/>
     <arg name="task_max_time_override"                  default="false"/>
     <arg name="task_max_time"                           if="$(arg task_max_time_override)"/>
 
@@ -13,7 +13,7 @@
     <arg name="screenshots_enabled"                     default="false"/>
 
     <!-- Planner/Tester visualization arguments -->
-    <arg name="disable_all_visualizations"              default="false"/>
+    <arg name="disable_smmap_visualizations"            default="false"/>
     <arg name="visualize_gripper_motion"                default="false"/>
 
     <!-- Transition classifier arguments -->
@@ -46,7 +46,7 @@
         <param name="use_random_seed"                   value="$(arg use_random_seed)"                      type="bool"/>
         <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   unless="$(arg use_random_seed)"/>
 
-        <param name="disable_all_visualizations"        value="$(arg disable_all_visualizations)"           type="bool"/>
+        <param name="disable_smmap_visualizations"      value="$(arg disable_smmap_visualizations)"         type="bool"/>
         <param name="visualize_gripper_motion"          value="$(arg visualize_gripper_motion)"             type="bool"/>
         <param name="visualize_free_space_graph"        value="false"                                       type="bool"/>
         <param name="visualize_correspondences"         value="false"                                       type="bool"/>
