@@ -386,7 +386,7 @@
         </group>
     </group>
 
-    <group ns="smmap_planner_node">
+    <group ns="transition_learning_data_generation_node">
         <group ns="task">
             <param name="first_control_loop_triggers_plan"      value="true"                                type="bool"/>
 
