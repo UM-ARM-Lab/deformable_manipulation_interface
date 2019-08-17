@@ -2,23 +2,31 @@
     <arg name="task_type"/>
     <!-- [none, kNN, svm, dnn]-->
     <arg name="classifier_type"/>
-    <arg name="dim" default="13"/>
+    <arg name="dim" value="13"/>
 
     <group ns="classifier">
-        <param name="dim"           value="$(arg dim)"              type="int"/>
-        <param name="type"          value="$(arg classifier_type)"  type="string"/>
+        <param name="dim"                   value="$(arg dim)"              type="int"/>
+        <param name="type"                  value="$(arg classifier_type)"  type="string"/>
+        <param name="accept_scale_factor"   value="6.0"                     type="double"/>
         <group ns="transformer">
             <rosparam               file="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature_$(arg classifier_type).scaler" command="load"/>
         </group>
     </group>
     <group ns="knn" if="$(eval classifier_type == 'kNN')">>
         <param name="data_file"     value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks/scaled_data_13features.ssv" type="string"/>
+        <param name="accuracy"      value="0.80"    type="double"/>
     </group>
     <group ns="svm" if="$(eval classifier_type == 'svm')">
         <param name="model_file"    value="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature_svm.model" type="string"/>
+        <param name="accuracy"      value="0.83"    type="double"/>
     </group>
     <group ns="torch" if="$(eval classifier_type == 'dnn')">>
-        <param name="threshold"     value="0.5"                     type="double"/>
+        <param name="threshold"     value="0.6"                     type="double"/>
         <param name="model_file"    value="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature_torch_model_cpu.pt" type="string"/>
+        <param name="accuracy"      value="0.86"    type="double"/>
+    </group>
+    <group ns="none">
+        <!-- Note that this is unused for the 'none' classifier -->
+        <param name="accuracy"      value="1.0"    type="double"/>
     </group>
 </launch>
