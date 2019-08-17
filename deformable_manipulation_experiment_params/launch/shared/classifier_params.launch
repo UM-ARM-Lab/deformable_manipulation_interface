@@ -25,6 +25,9 @@
         <param name="model_file"    value="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature_torch_model_cpu.pt" type="string"/>
         <param name="accuracy"      value="0.86"    type="double"/>
     </group>
+    <group ns="dnn">
+        <param name="accuracy"      value="0.86"    type="double"/>
+    </group>
     <group ns="none">
         <!-- Note that this is unused for the 'none' classifier -->
         <param name="accuracy"      value="1.0"    type="double"/>
