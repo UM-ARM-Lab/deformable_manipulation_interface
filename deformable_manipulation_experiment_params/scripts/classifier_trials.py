@@ -15,6 +15,7 @@ def run_single_trial(experiment,
                      test_id=None,
                      task_max_time=None,
                      rrt_num_trials=None,
+                     test_paths_in_bullet=None,
                      use_random_seed=None,
                      static_seed=None):
     # Constant values that we need
@@ -53,6 +54,9 @@ def run_single_trial(experiment,
 
     if rrt_num_trials is not None:
         roslaunch_args.append("rrt_num_trials:=" + rrt_num_trials)
+
+    if test_paths_in_bullet is not None:
+        roslaunch_args.append("test_paths_in_bullet:=" + test_paths_in_bullet)
 
     # Add any extra parameters that have been added
     roslaunch_args += sys.argv[1:]
@@ -116,12 +120,15 @@ def run_trials(experiment,
             run_single_trial(experiment=experiment,
                              classifier_type=classifier,
                              test_id=log_prefix + "/" + classifier,
-                             rrt_num_trials=rrt_num_trials,
+                             rrt_num_trials=str(rrt_num_trials),
+                             test_paths_in_bullet="true",
                              use_random_seed="false")
 
 
 if __name__ == "__main__":
-    num_trials = 10
-    np.random.seed(0xa8710913)
-    seeds = np.random.randint(low=0x1000000000000000, high=0x7fffffffffffffff, size=num_trials)
-    run_trials(experiment="rope_hooks", seeds=seeds, log_prefix="full_task_trials")
+    #num_trials = 10
+    #np.random.seed(0xa8710913)
+    #seeds = np.random.randint(low=0x1000000000000000, high=0x7fffffffffffffff, size=num_trials)
+    seeds = None
+    #run_trials(experiment="rope_hooks", seeds=seeds, log_prefix="end_to_end_planning_trials", rrt_num_trials=100)
+    run_trials(experiment="rope_generic", seeds=seeds, log_prefix="end_to_end_planning_trials", rrt_num_trials=100)
