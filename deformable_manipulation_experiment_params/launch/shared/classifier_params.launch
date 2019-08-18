@@ -20,7 +20,7 @@
         <param name="model_file"    value="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature_svm.model" type="string"/>
         <param name="accuracy"      value="0.83"    type="double"/>
     </group>
-    <group ns="torch" if="$(eval classifier_type == 'dnn')">>
+    <group ns="dnn" if="$(eval classifier_type == 'dnn')">>
         <param name="threshold"     value="0.6"                     type="double"/>
         <param name="model_file"    value="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature_torch_model_cpu.pt" type="string"/>
         <param name="accuracy"      value="0.86"    type="double"/>
