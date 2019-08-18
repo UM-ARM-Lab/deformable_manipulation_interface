@@ -1,4 +1,7 @@
 <launch>
+    <!-- Arguments to override default params -->
+    <arg name="task_max_time"               default="3600.0"/>
+    
     <!-- Defines which world building routines we use, and which task specification -->
     <param name="deformable_type"           value="rope"                        type="string"/>
     <param name="task_type"                 value="rope_hooks_data_generation"  type="string"/>
