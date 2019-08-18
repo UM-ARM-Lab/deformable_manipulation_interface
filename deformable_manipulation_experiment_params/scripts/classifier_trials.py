@@ -131,4 +131,6 @@ if __name__ == "__main__":
     #seeds = np.random.randint(low=0x1000000000000000, high=0x7fffffffffffffff, size=num_trials)
     seeds = None
     #run_trials(experiment="rope_hooks", seeds=seeds, log_prefix="end_to_end_planning_trials", rrt_num_trials=100)
-    run_trials(experiment="rope_generic", seeds=seeds, log_prefix="end_to_end_planning_trials", rrt_num_trials=100)
+    #run_trials(experiment="rope_generic", seeds=seeds, log_prefix="end_to_end_planning_trials", rrt_num_trials=100)
+    run_trials(experiment="rope_hooks_data_generation", seeds=seeds, log_prefix="end_to_end_planning_trials", rrt_num_trials=100)
+
