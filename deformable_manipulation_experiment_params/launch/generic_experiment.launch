@@ -60,7 +60,10 @@
     <arg name="test_paths_in_bullet"                    default="false"/>
 
     <!-- Setup task parameters -->
-    <include file="$(find deformable_manipulation_experiment_params)/launch/experiments/$(arg task_type)_params.launch"/>
+    <group>
+        <remap from="transition_learning_data_generation_node" to="smmap_planner_node"/>
+        <include file="$(find deformable_manipulation_experiment_params)/launch/experiments/$(arg task_type)_params.launch"/>
+    </group>
     <!-- Logging/data folders -->
     <arg name="root_log_folder" value="$(find smmap)/logs"/>
     <arg name="root_data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans"/>

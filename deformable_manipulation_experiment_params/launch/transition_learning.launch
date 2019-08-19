@@ -17,7 +17,7 @@
     <arg name="visualize_gripper_motion"                default="false"/>
 
     <!-- Transition classifier arguments -->
-    <arg name="classifier_type"                         default="kNN"/>
+    <arg name="classifier_type"                         default="none"/>
 
     <!-- Planner/Tester internal arguments -->
     <arg name="launch_tester"                           default="true"/>
@@ -26,9 +26,10 @@
     <arg name="static_seed"                             default="a8710913d2b5df6c"/>
 
     <!-- Setup task parameters -->
-    <include file="$(find deformable_manipulation_experiment_params)/launch/experiments/$(arg task_type)_params.launch">
+    <group>
         <remap from="smmap_planner_node" to="transition_learning_data_generation_node"/>
-    </include>
+        <include file="$(find deformable_manipulation_experiment_params)/launch/experiments/$(arg task_type)_params.launch"/>
+    </group>
     <param name="log_folder"                            value="$(find smmap)/logs/$(arg task_type)/$(arg test_id)/"         type="string"/>
 
     <!-- Setup the simulator -->

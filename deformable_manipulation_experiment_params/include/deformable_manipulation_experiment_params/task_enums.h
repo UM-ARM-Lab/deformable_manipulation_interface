@@ -39,7 +39,8 @@ namespace smmap
         // Hooks
         ROPE_HOOKS,
         CLOTH_HOOKS,
-        ROPE_HOOKS_DATA_GENERATION,
+        ROPE_HOOKS_SIMPLE,
+        ROPE_HOOKS_MULTI,
 
         // Generic-can-be-anything environments
         ROPE_GENERIC_DIJKSTRAS_COVERAGE,
