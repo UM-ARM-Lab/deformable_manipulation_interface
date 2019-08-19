@@ -75,18 +75,19 @@
         "walls/left",
         "walls/right",
         "separator/wall",
-        "separator/hooks/top",
-        "separator/hooks/bottom",
+        <!--"separator/hooks/top",-->
+        "separator/hooks/middle",
+        <!--"separator/hooks/bottom",-->
         "initial_obstacle",
         "task_progress_wall_left/lower",
         "task_progress_wall_left/upper",
         "task_progress_wall_left/hooks/left",
-        "task_progress_wall_left/hooks/middle",
+        <!--"task_progress_wall_left/hooks/middle",-->
         "task_progress_wall_left/hooks/right",
         "task_progress_wall_right/lower",
         "task_progress_wall_right/upper",
         "task_progress_wall_right/hooks/left",
-        "task_progress_wall_right/hooks/middle",
+        <!--"task_progress_wall_right/hooks/middle",-->
         "task_progress_wall_right/hooks/right",
         ]
     </rosparam>
@@ -184,20 +185,31 @@
             <arg name="bottom_com_y"    value="$(eval top_com_y)"/>
             <arg name="bottom_com_z"    value="$(eval world_z_min + grid_resolution * 12)"/>
 
-            <group ns="top">
+            <arg name="middle_com_x"    value="$(eval top_com_x)"/>
+            <arg name="middle_com_y"    value="$(eval top_com_y)"/>
+            <arg name="middle_com_z"    value="$(eval (top_com_z + bottom_com_z) * 0.5)"/>
+
+            <!--<group ns="top">-->
+                <!--<param name="obstacle_id" value="8" type="int"/>-->
+                <!--<rosparam subst_value="true" param="pose_pos">[$(arg top_com_x), $(arg top_com_y), $(arg top_com_z)]</rosparam>-->
+                <!--<rosparam subst_value="true" param="pose_quat">[0.0, 0.0, 0.0, 1.0]</rosparam>-->
+                <!--<rosparam subst_value="true" param="extents">[$(arg hook_width), $(arg hook_length), $(arg hook_width)]</rosparam>-->
+                <!--<rosparam subst_value="true" param="color">[$(arg dark_cyan)]</rosparam>-->
+            <!--</group>-->
+            <group ns="middle">
                 <param name="obstacle_id" value="8" type="int"/>
-                <rosparam subst_value="true" param="pose_pos">[$(arg top_com_x), $(arg top_com_y), $(arg top_com_z)]</rosparam>
+                <rosparam subst_value="true" param="pose_pos">[$(arg middle_com_x), $(arg middle_com_y), $(arg middle_com_z)]</rosparam>
                 <rosparam subst_value="true" param="pose_quat">[0.0, 0.0, 0.0, 1.0]</rosparam>
                 <rosparam subst_value="true" param="extents">[$(arg hook_width), $(arg hook_length), $(arg hook_width)]</rosparam>
                 <rosparam subst_value="true" param="color">[$(arg dark_cyan)]</rosparam>
             </group>
-            <group ns="bottom">
-                <param name="obstacle_id" value="8" type="int"/>
-                <rosparam subst_value="true" param="pose_pos">[$(arg bottom_com_x), $(arg bottom_com_y), $(arg bottom_com_z)]</rosparam>
-                <rosparam subst_value="true" param="pose_quat">[0.0, 0.0, 0.0, 1.0]</rosparam>
-                <rosparam subst_value="true" param="extents">[$(arg hook_width), $(arg hook_length), $(arg hook_width)]</rosparam>
-                <rosparam subst_value="true" param="color">[$(arg dark_cyan)]</rosparam>
-            </group>
+            <!--<group ns="bottom">-->
+                <!--<param name="obstacle_id" value="8" type="int"/>-->
+                <!--<rosparam subst_value="true" param="pose_pos">[$(arg bottom_com_x), $(arg bottom_com_y), $(arg bottom_com_z)]</rosparam>-->
+                <!--<rosparam subst_value="true" param="pose_quat">[0.0, 0.0, 0.0, 1.0]</rosparam>-->
+                <!--<rosparam subst_value="true" param="extents">[$(arg hook_width), $(arg hook_length), $(arg hook_width)]</rosparam>-->
+                <!--<rosparam subst_value="true" param="color">[$(arg dark_cyan)]</rosparam>-->
+            <!--</group>-->
         </group>
     </group>
 
@@ -247,7 +259,7 @@
             <arg name="hook_length"     value="$(eval grid_resolution * 5)"/>
             <arg name="hook_width"      value="$(eval grid_resolution * 2)"/>
 
-            <arg name="left_com_x"      value="$(eval world_x_mid - grid_resolution * 8)"/>
+            <arg name="left_com_x"      value="$(eval world_x_mid - grid_resolution * 14)"/>
             <arg name="left_com_y"      value="$(eval lower_com_y - (wall_thickness + hook_length) / 2)"/>
             <arg name="left_com_z"      value="$(eval lower_com_z + (lower_height - hook_width) / 2)"/>
 
@@ -255,7 +267,7 @@
             <arg name="middle_com_y"    value="$(eval left_com_y)"/>
             <arg name="middle_com_z"    value="$(eval left_com_z)"/>
 
-            <arg name="right_com_x"     value="$(eval world_x_min + grid_resolution * 8)"/>
+            <arg name="right_com_x"     value="$(eval world_x_min + grid_resolution * 14)"/>
             <arg name="right_com_y"     value="$(eval left_com_y)"/>
             <arg name="right_com_z"     value="$(eval left_com_z)"/>
 
@@ -266,13 +278,13 @@
                 <rosparam subst_value="true" param="extents">[$(arg hook_width), $(arg hook_length), $(arg hook_width)]</rosparam>
                 <rosparam subst_value="true" param="color">[$(arg dark_cyan)]</rosparam>
             </group>
-            <group ns="middle">
-                <param name="obstacle_id" value="7" type="int"/>
-                <rosparam subst_value="true" param="pose_pos">[$(arg middle_com_x), $(arg middle_com_y), $(arg middle_com_z)]</rosparam>
-                <rosparam subst_value="true" param="pose_quat">[0.0, 0.0, 0.0, 1.0]</rosparam>
-                <rosparam subst_value="true" param="extents">[$(arg hook_width), $(arg hook_length), $(arg hook_width)]</rosparam>
-                <rosparam subst_value="true" param="color">[$(arg dark_cyan)]</rosparam>
-            </group>
+            <!--<group ns="middle">-->
+                <!--<param name="obstacle_id" value="7" type="int"/>-->
+                <!--<rosparam subst_value="true" param="pose_pos">[$(arg middle_com_x), $(arg middle_com_y), $(arg middle_com_z)]</rosparam>-->
+                <!--<rosparam subst_value="true" param="pose_quat">[0.0, 0.0, 0.0, 1.0]</rosparam>-->
+                <!--<rosparam subst_value="true" param="extents">[$(arg hook_width), $(arg hook_length), $(arg hook_width)]</rosparam>-->
+                <!--<rosparam subst_value="true" param="color">[$(arg dark_cyan)]</rosparam>-->
+            <!--</group>-->
             <group ns="right">
                 <param name="obstacle_id" value="7" type="int"/>
                 <rosparam subst_value="true" param="pose_pos">[$(arg right_com_x), $(arg right_com_y), $(arg right_com_z)]</rosparam>
@@ -315,7 +327,7 @@
             <arg name="hook_length"     value="$(eval grid_resolution * 5)"/>
             <arg name="hook_width"      value="$(eval grid_resolution * 2)"/>
 
-            <arg name="left_com_x"      value="$(eval world_x_mid + grid_resolution * 8)"/>
+            <arg name="left_com_x"      value="$(eval world_x_mid + grid_resolution * 14)"/>
             <arg name="left_com_y"      value="$(eval lower_com_y + (wall_thickness + hook_length) / 2)"/>
             <arg name="left_com_z"      value="$(eval lower_com_z + (lower_height - hook_width) / 2)"/>
 
@@ -323,7 +335,7 @@
             <arg name="middle_com_y"    value="$(eval left_com_y)"/>
             <arg name="middle_com_z"    value="$(eval left_com_z)"/>
 
-            <arg name="right_com_x"     value="$(eval world_x_max - grid_resolution * 8)"/>
+            <arg name="right_com_x"     value="$(eval world_x_max - grid_resolution * 14)"/>
             <arg name="right_com_y"     value="$(eval left_com_y)"/>
             <arg name="right_com_z"     value="$(eval left_com_z)"/>
 
@@ -334,13 +346,13 @@
                 <rosparam subst_value="true" param="extents">[$(arg hook_width), $(arg hook_length), $(arg hook_width)]</rosparam>
                 <rosparam subst_value="true" param="color">[$(arg dark_cyan)]</rosparam>
             </group>
-            <group ns="middle">
-                <param name="obstacle_id" value="7" type="int"/>
-                <rosparam subst_value="true" param="pose_pos">[$(arg middle_com_x), $(arg middle_com_y), $(arg middle_com_z)]</rosparam>
-                <rosparam subst_value="true" param="pose_quat">[0.0, 0.0, 0.0, 1.0]</rosparam>
-                <rosparam subst_value="true" param="extents">[$(arg hook_width), $(arg hook_length), $(arg hook_width)]</rosparam>
-                <rosparam subst_value="true" param="color">[$(arg dark_cyan)]</rosparam>
-            </group>
+            <!--<group ns="middle">-->
+                <!--<param name="obstacle_id" value="7" type="int"/>-->
+                <!--<rosparam subst_value="true" param="pose_pos">[$(arg middle_com_x), $(arg middle_com_y), $(arg middle_com_z)]</rosparam>-->
+                <!--<rosparam subst_value="true" param="pose_quat">[0.0, 0.0, 0.0, 1.0]</rosparam>-->
+                <!--<rosparam subst_value="true" param="extents">[$(arg hook_width), $(arg hook_length), $(arg hook_width)]</rosparam>-->
+                <!--<rosparam subst_value="true" param="color">[$(arg dark_cyan)]</rosparam>-->
+            <!--</group>-->
             <group ns="right">
                 <param name="obstacle_id" value="8" type="int"/>
                 <rosparam subst_value="true" param="pose_pos">[$(arg right_com_x), $(arg right_com_y), $(arg right_com_z)]</rosparam>
@@ -386,7 +398,7 @@
         </group>
     </group>
 
-    <group ns="smmap_planner_node">
+    <group ns="transition_learning_data_generation_node">
         <group ns="task">
             <param name="first_control_loop_triggers_plan"      value="true"                                type="bool"/>
 
