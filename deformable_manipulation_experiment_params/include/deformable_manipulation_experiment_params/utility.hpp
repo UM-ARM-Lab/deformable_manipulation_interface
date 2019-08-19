@@ -52,6 +52,14 @@ namespace smmap
         }
     }
 
+    template<typename T>
+    std::string IntToHex(const T i)
+    {
+        std::stringstream stream;
+        stream << std::setfill ('0') << std::setw(sizeof(T) * 2)
+               << std::hex << i;
+        return stream.str();
+    }
 
     inline std_msgs::ColorRGBA GetColorFromParamSever(
             ros::NodeHandle& nh,
