@@ -76,7 +76,6 @@
     <arg name="task_progress_wall_width"            value="$(eval grid_resolution * 2.0)"/>
     <arg name="task_progress_wall_length"           value="$(eval world_y_size)"/>
     <arg name="task_progress_wall_lower_height"     value="$(eval world_z_size / 2.0 - 0.05)"/>
-    <!--<arg name="task_progress_wall_lower_height"     value="$(eval world_z_size / 2.0 - 0.2)"/>-->
     <arg name="task_progress_wall_upper_height"     value="$(eval world_z_size - task_progress_wall_lower_height - 0.1)"/>
     <arg name="task_progress_wall_x_com"            value="$(eval world_x_min + 0.7)"/>
     <arg name="task_progress_wall_y_com"            value="$(eval world_y_center)"/>
@@ -96,7 +95,6 @@
     <arg name="gripper_separator_lower_height"      value="$(eval task_progress_wall_lower_height + 0.025)"/>
     <arg name="gripper_separator_upper_height"      value="$(eval task_progress_wall_upper_height + 0.025)"/>
     <arg name="gripper_separator_y_offset"          value="-0.25"/>
-    <!--<arg name="gripper_separator_y_offset"          value="-1.25"/>-->
     <arg name="gripper_separator_x_com"             value="$(eval world_x_min + gripper_separator_length / 2.0)"/>
     <arg name="gripper_separator_y_com"             value="$(eval world_y_center + gripper_separator_y_offset)"/>
     <arg name="gripper_separator_lower_z_com"       value="$(eval world_z_min + gripper_separator_lower_height / 2.0)"/>
@@ -111,10 +109,8 @@
     <param name="gripper_separator_upper_z_com"     value="$(arg gripper_separator_upper_z_com)"    type="double"/>
 
     <arg name="hook_length"             value="0.075"/>
-    <!--<arg name="hook_length"             value="1.075"/>-->
     <arg name="hook_radius"             value="0.025"/>
     <arg name="hook_com_offset_y"       value="-0.15"/>
-    <!--<arg name="hook_com_offset_y"       value="0.0"/>-->
     <arg name="hook_com_x"              value="$(eval task_progress_wall_x_com - task_progress_wall_width / 2.0 - hook_length / 2.0)"/>
     <arg name="hook_com_y"              value="$(eval world_y_center + hook_com_offset_y)"/>
     <arg name="hook_com_z"              value="$(eval world_z_min + gripper_separator_lower_height - hook_radius)"/>
@@ -128,22 +124,22 @@
         <param name="tf_wait_time"                      value="0.0"/>
 
         <param name="num_simsteps_per_gripper_command"  value="4"       type="int"/>
-        <param name="viewer_width"                      value="880"     type="int"/>
-        <param name="viewer_height"                     value="662"     type="int"/>
+        <param name="viewer_width"                      value="480"     type="int"/>
+        <param name="viewer_height"                     value="1000"    type="int"/>
 
         <param name="camera_override"                   value="true"    type="bool"/>
         <group ns="camera">
-            <param name="home_x"                        value="0.0"     type="double"/>
+            <param name="home_x"                        value="-2.3"    type="double"/>
             <param name="home_y"                        value="0.0"     type="double"/>
-            <param name="home_z"                        value="6.0"     type="double"/>
+            <param name="home_z"                        value="4.1"     type="double"/>
 
-            <param name="looks_at_x"                    value="0.0"     type="double"/>
-            <param name="looks_at_y"                    value="0.0"     type="double"/>
-            <param name="looks_at_z"                    value="0.0"     type="double"/>
+            <param name="looks_at_x"                    value="-0.3"    type="double"/>
+            <param name="looks_at_y"                    value="-0.01"   type="double"/>
+            <param name="looks_at_z"                    value="-0.01"   type="double"/>
 
-            <param name="up_x"                          value="0.0"     type="double"/>
+            <param name="up_x"                          value="0.05"    type="double"/>
             <param name="up_y"                          value="0.0"     type="double"/>
-            <param name="up_z"                          value="1.0"     type="double"/>
+            <param name="up_z"                          value="0.01"    type="double"/>
         </group>
     </group>
 
