@@ -139,5 +139,4 @@ if __name__ == "__main__":
     #num_trials = 10
     #np.random.seed(0xa8710913)
     #seeds = np.random.randint(low=0x1000000000000000, high=0x7fffffffffffffff, size=num_trials)
-    seeds = None
-    run_trials(experiment="rope_hooks_multi", seeds=seeds, log_prefix="classifier_test_end_to_end__fewer_hooks", rrt_num_trials=100)
+    run_trials(experiment="rope_hooks_multi", seed=None, log_prefix="classifier_test_end_to_end__fewer_hooks", rrt_num_trials=100)
