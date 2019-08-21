@@ -9,7 +9,7 @@ mkdir -p $LOG_DIR
 
 while [[ ! -f "$TERMINATE_FLAG_FILE" ]];
 do
-    STAMP=`date +"%s"`
+    STAMP=`date +"%s%N"`
     roslaunch deformable_manipulation_experiment_params generic_experiment.launch \
         task_type:=$TASKTYPE \
         start_bullet_viewer:=false \
