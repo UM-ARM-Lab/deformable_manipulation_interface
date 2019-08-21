@@ -3,7 +3,7 @@
 TASKTYPE=rope_hooks_simple
 TESTID=generate_training_examples
 
-TERMINATE_FLAG_FILE=`rospack find deformable_manipulation_experiment_params`/scripts/rerun_terimnate_flag
+TERMINATE_FLAG_FILE=`rospack find deformable_manipulation_experiment_params`/scripts/rerun_terminate_flag
 LOG_DIR=`rospack find smmap`/logs/$TASKTYPE/$TESTID
 mkdir -p $LOG_DIR
 
