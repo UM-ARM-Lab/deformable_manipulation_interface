@@ -59,11 +59,11 @@
     <arg name="rrt_num_trials"                          default="1"/>
     <arg name="test_paths_in_bullet"                    default="false"/>
 
+    <arg name="planner_node_name"       value="smmap_planner_node"/>
     <!-- Setup task parameters -->
-    <group>
-        <remap from="transition_learning_data_generation_node" to="smmap_planner_node"/>
-        <include file="$(find deformable_manipulation_experiment_params)/launch/experiments/$(arg task_type)_params.launch"/>
-    </group>
+    <include file="$(find deformable_manipulation_experiment_params)/launch/experiments/$(arg task_type)_params.launch">
+        <arg name="planner_node_name"   value="$(arg planner_node_name)"/>
+    </include>
     <!-- Logging/data folders -->
     <arg name="root_log_folder" value="$(find smmap)/logs"/>
     <arg name="root_data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans"/>
@@ -82,7 +82,7 @@
     <node name="deform_simulator_node" pkg="deform_simulator" type="custom_scene_node" required="true" if="$(arg launch_simulator)"/>
 
     <!-- Setup the planner -->
-    <group ns="smmap_planner_node">
+    <group ns="$(arg planner_node_name)">
         <param name="trial_type"                        value="$(arg trial_type)"                           type="string"/>
         <param name="use_random_seed"                   value="$(arg use_random_seed)"                      type="bool"/>
         <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   unless="$(arg use_random_seed)"/>
@@ -107,8 +107,8 @@
         <include file="$(find deformable_manipulation_experiment_params)/launch/shared/rrt_params.launch"/>
 
         <group ns="rrt">
-            <param name="num_trials" value="$(arg rrt_num_trials)"/>
-            <param name="test_paths_in_bullet" value="$(arg test_paths_in_bullet)"/>
+            <param name="num_trials"                    value="$(arg rrt_num_trials)"                       type="int"/>
+            <param name="test_paths_in_bullet"          value="$(arg test_paths_in_bullet)"                 type="bool"/>
         </group>
 
         <!-- Only used for debugging -->
@@ -173,5 +173,5 @@
             <param name="max_sampling_counts"           value="5000"                                    type="int"/>
         </group>
     </group>
-    <node name="smmap_planner_node" pkg="smmap" type="planner_test_node" required="true" if="$(arg launch_planner)"/>
+    <node name="$(arg planner_node_name)" pkg="smmap" type="planner_test_node" required="true" if="$(arg launch_planner)"/>
 </launch>
