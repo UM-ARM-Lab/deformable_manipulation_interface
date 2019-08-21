@@ -58,6 +58,7 @@
     <arg name="static_seed"                             default="a8710913d2b5df6c"/>
     <arg name="rrt_num_trials"                          default="1"/>
     <arg name="test_paths_in_bullet"                    default="false"/>
+    <arg name="rerun_forever"                           default="false"/>
 
     <arg name="planner_node_name"       value="smmap_planner_node"/>
     <!-- Setup task parameters -->
@@ -86,8 +87,9 @@
         <param name="trial_type"                        value="$(arg trial_type)"                           type="string"/>
         <param name="use_random_seed"                   value="$(arg use_random_seed)"                      type="bool"/>
         <param name="static_seed"                       value="$(arg static_seed)"                          type="string"   unless="$(arg use_random_seed)"/>
+        <param name="rerun_forever"                     value="$(arg rerun_forever)"                        type="bool"/>
 
-        <param name="disable_smmap_visualizations"        value="$(arg disable_smmap_visualizations)"           type="bool"/>
+        <param name="disable_smmap_visualizations"      value="$(arg disable_smmap_visualizations)"         type="bool"/>
         <param name="visualize_object_desired_motion"   value="$(arg visualize_object_desired_motion)"      type="bool"/>
         <param name="visualize_gripper_motion"          value="$(arg visualize_gripper_motion)"             type="bool"/>
         <param name="visualize_object_predicted_motion" value="$(arg visualize_object_predicted_motion)"    type="bool"/>
