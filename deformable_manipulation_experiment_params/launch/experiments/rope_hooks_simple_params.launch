@@ -129,6 +129,8 @@
 
     <group ns="$(arg planner_node_name)">
         <group ns="task">
+            <param name="first_control_loop_triggers_plan"      value="true"                                type="bool"/>
+
             <param name="max_time"                              value="1e15"                                type="double"/>
             <param name="error_threshold_along_normal"          value="0.055"                               type="double"/>
             <param name="error_threshold_distance_to_normal"    value="0.025"                               type="double"/>
