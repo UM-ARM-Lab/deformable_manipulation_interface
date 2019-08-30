@@ -28,20 +28,22 @@
         <param name="data_file"     value="$(arg root_folder)/scaled_data_$(arg dim)features__$(arg slice_type).ssv" type="string"/>
         <param name="accuracy"      value="0.63"    type="double"   if="$(eval dim == 13 and slice_type =='basic')"/>
         <param name="accuracy"      value="0.56"    type="double"   if="$(eval dim == 7 and slice_type =='basic')"/>
+        <param name="accuracy"      value="0.56"    type="double"   if="$(eval dim == 7 and slice_type =='in_plane_gravity_aligned')"/>
         <param name="accuracy"      value="0.55"    type="double"   if="$(eval dim == 7 and slice_type =='extend_downwards_gravity_aligned')"/>
     </group>
     <group ns="svm" if="$(eval classifier_type == 'svm')">
         <param name="model_file"    value="$(find smmap)/logs/rope_hooks_simple/$(arg dim)feature__$(arg slice_type)__svm.model" type="string"/>
         <param name="accuracy"      value="0.63"    type="double"   if="$(eval dim == 13 and slice_type =='basic')"/>
-        <param name="accuracy"      value="0.52"    type="double"   if="$(eval dim == 7 and slice_type =='basic')"/>
+        <param name="accuracy"      value="0.56"    type="double"   if="$(eval dim == 7 and slice_type =='basic')"/>
+        <param name="accuracy"      value="0.56"    type="double"   if="$(eval dim == 7 and slice_type =='in_plane_gravity_aligned')"/>
         <param name="accuracy"      value="0.55"    type="double"   if="$(eval dim == 7 and slice_type =='extend_downwards_gravity_aligned')"/>
     </group>
     <group ns="dnn" if="$(eval classifier_type == 'dnn')">
         <param name="threshold"     value="0.6"                     type="double"/>
         <param name="model_file"    value="$(find smmap)/logs/rope_hooks_simple/$(arg dim)feature__$(arg slice_type)__torch_model_cpu.pt" type="string"/>
-        <param name="accuracy"      value="0.72"    type="double"   if="$(eval dim == 13 and slice_type =='basic')"/>
+        <param name="accuracy"      value="0.71"    type="double"   if="$(eval dim == 13 and slice_type =='basic')"/>
         <param name="accuracy"      value="0.64"    type="double"   if="$(eval dim == 7 and slice_type =='basic')"/>
-        <param name="accuracy"      value="0.121232141242142122222222222222222222222222222222222222222214214124124"    type="double"   if="$(eval dim == 7 and slice_type =='extend_downwards_gravity_aligned')"/>
+        <param name="accuracy"      value="0.63"    type="double"   if="$(eval dim == 7 and slice_type =='extend_downwards_gravity_aligned')"/>
     </group>
     <group ns="none">
         <!-- Note that this is unused for the 'none' classifier -->
