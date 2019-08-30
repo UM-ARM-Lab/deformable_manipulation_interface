@@ -151,5 +151,5 @@ if __name__ == "__main__":
     run_trials(experiment="rope_hooks_simple",
                dim_slice=dim_slice,
                seeds=seeds,
-               log_prefix="end_to_end_planning_trials_script_test",
-               rrt_num_trials=3)
+               log_prefix="end_to_end_planning_time_script_test",
+               rrt_num_trials=100)

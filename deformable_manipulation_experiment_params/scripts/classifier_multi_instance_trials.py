@@ -87,10 +87,10 @@ def run_multi_trial(experiment,
 
 def run_trials(experiment,
                dim_slice=None,
-               run_knn=False,
+               run_knn=True,
                run_svm=True,
-               run_dnn=False,
-               run_none=False,
+               run_dnn=True,
+               run_none=True,
                seeds=None,
                log_prefix="",
                num_classifier_tests="1"):
@@ -125,14 +125,14 @@ def run_trials(experiment,
 
 if __name__ == "__main__":
     dim_slice = [
-        # ("13", "basic"),
-        # ("7", "basic"),
+        ("13", "basic"),
+        ("7", "basic"),
         # ("7", "in_plane_gravity_aligned"),
         # ("7", "in_plane_gripper_aligned"),
         # ("7", "extend_downwards_gravity_aligned"),
         # ("7", "extend_downwards_gripper_aligned"),
     ]
-    run_trials(experiment="rope_hooks_simple",
+    run_trials(experiment="rope_hooks",
                dim_slice=dim_slice,
-               log_prefix="script_test",
-               num_classifier_tests="10")
+               log_prefix="end_to_end_multi_instance_script_test",
+               num_classifier_tests="100")
