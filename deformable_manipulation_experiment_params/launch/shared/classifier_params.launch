@@ -2,28 +2,34 @@
     <arg name="task_type"/>
     <!-- [none, kNN, svm, dnn]-->
     <arg name="classifier_type"/>
-    <arg name="dim" value="13"/>
+    <arg name="dim" value="7"/>
+    <arg name="slice_type" value="basic_slice"/>
 
     <group ns="classifier">
         <param name="dim"                   value="$(arg dim)"              type="int"/>
         <param name="type"                  value="$(arg classifier_type)"  type="string"/>
-        <param name="accept_scale_factor"   value="6.0"                     type="double"/>
+        <param name="accept_scale_factor"   value="12.0"                     type="double"/>
         <group ns="transformer">
-            <rosparam               file="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature_$(arg classifier_type).scaler" command="load"/>
+            <rosparam file="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature__$(arg slice_type).scaler" command="load"/>
         </group>
     </group>
     <group ns="kNN" if="$(eval classifier_type == 'kNN')">>
-        <param name="data_file"     value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks/scaled_data_13features.ssv" type="string"/>
-        <param name="accuracy"      value="0.80"    type="double"/>
+        <arg name="root_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans/rope_hooks_simple/generate_training_examples"/>
+        <param name="data_file"     value="$(arg root_folder)/scaled_data_$(arg dim)features__$(arg slice_type).ssv" type="string"/>
+        <param name="accuracy"      value="0.63"    type="double"   if="$(eval dim == 13 and slice_type =='basic_slice')"/>
+        <param name="accuracy"      value="0.56"    type="double"   if="$(eval dim == 7 and slice_type =='basic_slice')"/>
+        <param name="accuracy"      value="0.56"    type="double"   if="$(eval dim == 7 and slice_type =='in_plane_gravity_aligned')"/>
     </group>
     <group ns="svm" if="$(eval classifier_type == 'svm')">
-        <param name="model_file"    value="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature_svm.model" type="string"/>
-        <param name="accuracy"      value="0.83"    type="double"/>
+        <param name="model_file"    value="$(find smmap)/logs/rope_hooks_simple/$(arg dim)feature__$(arg slice_type)__svm.model" type="string"/>
+        <param name="accuracy"      value="0.63"    type="double"   if="$(eval dim == 13 and slice_type =='basic_slice')"/>
+        <param name="accuracy"      value="0.52"    type="double"   if="$(eval dim == 7 and slice_type =='basic_slice')"/>
     </group>
-    <group ns="dnn" if="$(eval classifier_type == 'dnn')">>
+    <group ns="dnn" if="$(eval classifier_type == 'dnn')">
         <param name="threshold"     value="0.6"                     type="double"/>
-        <param name="model_file"    value="$(find smmap)/logs/$(arg task_type)/$(arg dim)feature_torch_model_cpu.pt" type="string"/>
-        <param name="accuracy"      value="0.86"    type="double"/>
+        <param name="model_file"    value="$(find smmap)/logs/rope_hooks_simple/$(arg dim)feature__$(arg slice_type)__torch_model_cpu.pt" type="string"/>
+        <param name="accuracy"      value="0.72"    type="double"   if="$(eval dim == 13 and slice_type =='basic_slice')"/>
+        <param name="accuracy"      value="0.64"    type="double"   if="$(eval dim == 7 and slice_type =='basic_slice')"/>
     </group>
     <group ns="none">
         <!-- Note that this is unused for the 'none' classifier -->
