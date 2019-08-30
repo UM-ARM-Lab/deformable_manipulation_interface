@@ -8,24 +8,29 @@ import numpy as np
 import rospkg
 
 
-def run_single_trial(experiment,
-                     classifier_type,
-                     bandits_logging_enabled=None,
-                     controller_logging_enabled=None,
-                     test_id=None,
-                     task_max_time=None,
-                     rrt_num_trials=None,
-                     test_paths_in_bullet=None,
-                     use_random_seed=None,
-                     static_seed=None):
+def run_multi_trial(experiment,
+                    classifier_type,
+                    classifier_dim,
+                    classifier_slice_type,
+                    bandits_logging_enabled=None,
+                    controller_logging_enabled=None,
+                    test_id=None,
+                    task_max_time=None,
+                    num_classifier_tests=None,
+                    test_paths_in_bullet=None,
+                    use_random_seed=None,
+                    static_seed=None):
     # Constant values that we need
-    roslaunch_args = ["roslaunch deformable_manipulation_experiment_params generic_experiment.launch",
+    roslaunch_args = ["roslaunch deformable_manipulation_experiment_params transition_learning.launch",
                       "task_type:=" + experiment,
                       "classifier_type:=" + classifier_type,
+                      "classifier_dim:=" + classifier_dim,
+                      "classifier_slice_type:=" + classifier_slice_type,
                       "launch_simulator:=true",
                       "start_bullet_viewer:=false",
                       "screenshots_enabled:=false",
-                      "launch_planner:=true",
+                      "launch_tester:=true",
+                      "test_classifier:=true",
                       "disable_smmap_visualizations:=true"]
 
     # Setup logging parameters
@@ -52,8 +57,8 @@ def run_single_trial(experiment,
         roslaunch_args.append("use_random_seed:=false")
         roslaunch_args.append("static_seed:=" + static_seed)
 
-    if rrt_num_trials is not None:
-        roslaunch_args.append("rrt_num_trials:=" + rrt_num_trials)
+    if num_classifier_tests is not None:
+        roslaunch_args.append("num_classifier_tests:=" + num_classifier_tests)
 
     if test_paths_in_bullet is not None:
         roslaunch_args.append("test_paths_in_bullet:=" + test_paths_in_bullet)
@@ -81,53 +86,53 @@ def run_single_trial(experiment,
 
 
 def run_trials(experiment,
-               run_none=True,
-               run_knn=True,
+               dim_slice=None,
+               run_knn=False,
                run_svm=True,
-               run_dnn=True,
+               run_dnn=False,
+               run_none=False,
                seeds=None,
                log_prefix="",
-               rrt_num_trials=1):
+               num_classifier_tests="1"):
+
+    if dim_slice == None or len(dim_slice) == 0:
+        dim_slice =[("13", "basic")]
 
     classifiers = []
-
     if run_knn:
         classifiers.append("kNN")
-
     if run_svm:
         classifiers.append("svm")
-
     if run_dnn:
         classifiers.append("dnn")
-
-    # Run "none" last in case it takes forever to succeed 10 times
     if run_none:
         classifiers.append("none")
 
     if log_prefix != "":
         log_prefix += "/"
 
-    for classifier in classifiers:
-        if seeds is not None:
-            for seed in seeds:
-                run_single_trial(experiment=experiment,
-                                 classifier_type=classifier,
-                                 test_id=log_prefix + classifier + "_" + hex(seed)[:-1],
-                                 rrt_num_trials=str(rrt_num_trials),
-                                 use_random_seed="false",
-                                 static_seed=hex(seed)[:-1])
-        else:
-            run_single_trial(experiment=experiment,
-                             classifier_type=classifier,
-                             test_id=log_prefix + "/" + classifier,
-                             rrt_num_trials=str(rrt_num_trials),
-                             test_paths_in_bullet="true",
-                             use_random_seed="false")
+    for dim, slice in dim_slice:
+        for classifier in classifiers:
+            run_multi_trial(experiment=experiment,
+                            classifier_type=classifier,
+                            classifier_dim=dim,
+                            classifier_slice_type=slice,
+                            test_id=log_prefix + dim + "feature__" + slice + "/" + classifier,
+                            num_classifier_tests=num_classifier_tests,
+                            test_paths_in_bullet="true",
+                            use_random_seed="false")
 
 
 if __name__ == "__main__":
-    #num_trials = 10
-    #np.random.seed(0xa8710913)
-    #seeds = np.random.randint(low=0x1000000000000000, high=0x7fffffffffffffff, size=num_trials)
-    seeds = None
-    run_trials(experiment="rope_hooks_simple", seeds=seeds, log_prefix="end_to_end_planning_trials__basic_slice", rrt_num_trials=100)
+    dim_slice = [
+        # ("13", "basic"),
+        # ("7", "basic"),
+        # ("7", "in_plane_gravity_aligned"),
+        # ("7", "in_plane_gripper_aligned"),
+        # ("7", "extend_downwards_gravity_aligned"),
+        # ("7", "extend_downwards_gripper_aligned"),
+    ]
+    run_trials(experiment="rope_hooks_simple",
+               dim_slice=dim_slice,
+               log_prefix="script_test",
+               num_classifier_tests="10")

@@ -18,6 +18,8 @@
 
     <!-- Transition classifier arguments -->
     <arg name="classifier_type"                         default="none"/>
+    <arg name="classifier_dimension"                    default="13"/>
+    <arg name="classifier_slice_type"                   default="basic"/>
 
     <!-- Planner/Tester internal arguments -->
     <arg name="planner_node_name"                       value="transition_learning_data_generation_node"/>
@@ -82,6 +84,8 @@
         <include file="$(find deformable_manipulation_experiment_params)/launch/shared/classifier_params.launch">
             <arg name="task_type"       value="$(arg task_type)"/>
             <arg name="classifier_type" value="$(arg classifier_type)"/>
+            <arg name="dim"             value="$(arg classifier_dimension)"/>
+            <arg name="slice_type"      value="$(arg classifier_slice_type)"/>
         </include>
         <include file="$(find deformable_manipulation_experiment_params)/launch/shared/transition_estimation_params.launch"/>
         <include file="$(find deformable_manipulation_experiment_params)/launch/shared/rrt_params.launch"/>
