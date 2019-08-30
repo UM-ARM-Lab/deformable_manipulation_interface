@@ -10,7 +10,7 @@ import rospkg
 
 def run_single_trial(experiment,
                      classifier_type,
-                     classifier_dim,
+                     classifier_dimension,
                      classifier_slice_type,
                      bandits_logging_enabled=None,
                      controller_logging_enabled=None,
@@ -24,7 +24,7 @@ def run_single_trial(experiment,
     roslaunch_args = ["roslaunch deformable_manipulation_experiment_params generic_experiment.launch",
                       "task_type:=" + experiment,
                       "classifier_type:=" + classifier_type,
-                      "classifier_dim:=" + classifier_dim,
+                      "classifier_dimension:=" + classifier_dimension,
                       "classifier_slice_type:=" + classifier_slice_type,
                       "launch_simulator:=true",
                       "start_bullet_viewer:=false",
@@ -117,7 +117,7 @@ def run_trials(experiment,
                 for seed in seeds:
                     run_single_trial(experiment=experiment,
                                      classifier_type=classifier,
-                                     classifier_dim=dim,
+                                     classifier_dimension=dim,
                                      classifier_slice_type=slice,
                                      test_id=log_prefix + dim + "feature__" + slice + "__" + classifier + "_" + hex(seed)[:-1],
                                      rrt_num_trials=str(rrt_num_trials),
@@ -126,7 +126,7 @@ def run_trials(experiment,
             else:
                 run_single_trial(experiment=experiment,
                                  classifier_type=classifier,
-                                 classifier_dim=dim,
+                                 classifier_dimension=dim,
                                  classifier_slice_type=slice,
                                  test_id=log_prefix + dim + "feature__" + slice + "__" + classifier,
                                  rrt_num_trials=str(rrt_num_trials),
@@ -138,8 +138,13 @@ if __name__ == "__main__":
     #num_trials = 10
     #np.random.seed(0xa8710913)
     #seeds = np.random.randint(low=0x1000000000000000, high=0x7fffffffffffffff, size=num_trials)
-
     seeds = None
+
+    experiments = [
+        "rope_hooks_simple",
+        "rope_hooks",
+        "rope_hooks_multi",
+    ]
     dim_slice = [
         ("13", "basic"),
         ("7", "basic"),
@@ -148,8 +153,10 @@ if __name__ == "__main__":
         # ("7", "extend_downwards_gravity_aligned"),
         # ("7", "extend_downwards_gripper_aligned"),
     ]
-    run_trials(experiment="rope_hooks_simple",
-               dim_slice=dim_slice,
-               seeds=seeds,
-               log_prefix="end_to_end_planning_time_script_test",
-               rrt_num_trials=100)
+
+    for experiment in experiments:
+        run_trials(experiment=experiment,
+                   dim_slice=dim_slice,
+                   seeds=seeds,
+                   log_prefix="end_to_end_planning_time_script_test",
+                   rrt_num_trials=100)

@@ -10,7 +10,7 @@ import rospkg
 
 def run_multi_trial(experiment,
                     classifier_type,
-                    classifier_dim,
+                    classifier_dimension,
                     classifier_slice_type,
                     bandits_logging_enabled=None,
                     controller_logging_enabled=None,
@@ -24,7 +24,7 @@ def run_multi_trial(experiment,
     roslaunch_args = ["roslaunch deformable_manipulation_experiment_params transition_learning.launch",
                       "task_type:=" + experiment,
                       "classifier_type:=" + classifier_type,
-                      "classifier_dim:=" + classifier_dim,
+                      "classifier_dimension:=" + classifier_dimension,
                       "classifier_slice_type:=" + classifier_slice_type,
                       "launch_simulator:=true",
                       "start_bullet_viewer:=false",
@@ -115,7 +115,7 @@ def run_trials(experiment,
         for classifier in classifiers:
             run_multi_trial(experiment=experiment,
                             classifier_type=classifier,
-                            classifier_dim=dim,
+                            classifier_dimension=dim,
                             classifier_slice_type=slice,
                             test_id=log_prefix + dim + "feature__" + slice + "/" + classifier,
                             num_classifier_tests=num_classifier_tests,
@@ -124,15 +124,21 @@ def run_trials(experiment,
 
 
 if __name__ == "__main__":
+    experiments = [
+        "rope_hooks_simple",
+        "rope_hooks",
+        "rope_hooks_multi",
+    ]
     dim_slice = [
-        ("13", "basic"),
+        # ("13", "basic"),
         ("7", "basic"),
         # ("7", "in_plane_gravity_aligned"),
         # ("7", "in_plane_gripper_aligned"),
         # ("7", "extend_downwards_gravity_aligned"),
         # ("7", "extend_downwards_gripper_aligned"),
     ]
-    run_trials(experiment="rope_hooks",
-               dim_slice=dim_slice,
-               log_prefix="end_to_end_multi_instance_script_test",
-               num_classifier_tests="100")
+    for experiment in experiments:
+        run_trials(experiment=experiment,
+                   dim_slice=dim_slice,
+                   log_prefix="end_to_end_multi_instance_script_test",
+                   num_classifier_tests="100")
