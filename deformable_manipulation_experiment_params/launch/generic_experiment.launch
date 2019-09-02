@@ -48,9 +48,11 @@
     <arg name="correlation_strength_factor"             default="0.9"/>
 
     <!-- Transition classifier arguments -->
-    <arg name="classifier_type"                         default="none"/>
-    <arg name="classifier_dimension"                    default="13"/>
-    <arg name="classifier_slice_type"                   default="basic"/>
+    <arg name="classifier_type"                             default="none"/>
+    <arg name="classifier_dimension"                        default="13"/>
+    <arg name="classifier_slice_type"                       default="basic"/>
+    <arg name="classifier_normalize_lengths"                default="false"/>
+    <arg name="classifier_normalize_connected_components"   default="false"/>
 
     <!-- Planner internal arguments -->
     <arg name="launch_planner"                          default="true"/>
@@ -104,10 +106,11 @@
 
         <!-- Params shared by this file and transition_learning.launch -->
         <include file="$(find deformable_manipulation_experiment_params)/launch/shared/classifier_params.launch">
-            <arg name="task_type"       value="$(arg task_type)"/>
-            <arg name="classifier_type" value="$(arg classifier_type)"/>
-            <arg name="dim"             value="$(arg classifier_dimension)"/>
-            <arg name="slice_type"      value="$(arg classifier_slice_type)"/>
+            <arg name="classifier_type"                 value="$(arg classifier_type)"/>
+            <arg name="dim"                             value="$(arg classifier_dimension)"/>
+            <arg name="slice_type"                      value="$(arg classifier_slice_type)"/>
+            <arg name="normalize_lengths"               value="$(arg classifier_normalize_lengths)"/>
+            <arg name="normalize_connected_components"  value="$(arg classifier_normalize_connected_components)"/>
         </include>
         <include file="$(find deformable_manipulation_experiment_params)/launch/shared/transition_estimation_params.launch"/>
         <include file="$(find deformable_manipulation_experiment_params)/launch/shared/rrt_params.launch"/>

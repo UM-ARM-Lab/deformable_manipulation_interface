@@ -12,6 +12,8 @@ def run_multi_trial(experiment,
                     classifier_type,
                     classifier_dimension,
                     classifier_slice_type,
+                    classifier_normalize_lengths,
+                    classifier_normalize_connected_components,
                     bandits_logging_enabled=None,
                     controller_logging_enabled=None,
                     test_id=None,
@@ -26,6 +28,8 @@ def run_multi_trial(experiment,
                       "classifier_type:=" + classifier_type,
                       "classifier_dimension:=" + classifier_dimension,
                       "classifier_slice_type:=" + classifier_slice_type,
+                      "classifier_normalize_lengths:=" + classifier_normalize_lengths,
+                      "classifier_normalize_connected_components:=" + classifier_normalize_connected_components,
                       "launch_simulator:=true",
                       "start_bullet_viewer:=false",
                       "screenshots_enabled:=false",
@@ -86,7 +90,10 @@ def run_multi_trial(experiment,
 
 
 def run_trials(experiment,
-               dim_slice=None,
+               dim,
+               slice,
+               normalize_lengths,
+               normalize_connected_components,
                run_knn=True,
                run_svm=True,
                run_dnn=True,
@@ -94,9 +101,6 @@ def run_trials(experiment,
                seeds=None,
                log_prefix="",
                num_classifier_tests="1"):
-
-    if dim_slice == None or len(dim_slice) == 0:
-        dim_slice =[("13", "basic")]
 
     classifiers = []
     if run_knn:
@@ -111,16 +115,30 @@ def run_trials(experiment,
     if log_prefix != "":
         log_prefix += "/"
 
-    for dim, slice in dim_slice:
-        for classifier in classifiers:
-            run_multi_trial(experiment=experiment,
-                            classifier_type=classifier,
-                            classifier_dimension=dim,
-                            classifier_slice_type=slice,
-                            test_id=log_prefix + dim + "feature__" + slice + "/" + classifier,
-                            num_classifier_tests=num_classifier_tests,
-                            test_paths_in_bullet="true",
-                            use_random_seed="false")
+    foldername = slice + "__"
+    if normalize_lengths:
+        foldername += "normalized_lengths__"
+    else:
+        foldername += "raw_lengths__"
+    if normalize_connected_components:
+        assert(dim == 7)
+        foldername += "normalized_connected_components"
+    else:
+        assert (dim == 13)
+        foldername += "raw_connected_components"
+
+    for classifier in classifiers:
+        test_id = log_prefix + foldername + "/" + classifier
+        run_multi_trial(experiment=experiment,
+                        classifier_type=classifier,
+                        classifier_dimension=str(dim),
+                        classifier_slice_type=slice,
+                        classifier_normalize_lengths=str(normalize_lengths),
+                        classifier_normalize_connected_components=str(normalize_connected_components),
+                        test_id=test_id,
+                        num_classifier_tests=num_classifier_tests,
+                        test_paths_in_bullet="true",
+                        use_random_seed="false")
 
 
 if __name__ == "__main__":
@@ -129,16 +147,12 @@ if __name__ == "__main__":
         "rope_hooks",
         "rope_hooks_multi",
     ]
-    dim_slice = [
-        # ("13", "basic"),
-        ("7", "basic"),
-        # ("7", "in_plane_gravity_aligned"),
-        # ("7", "in_plane_gripper_aligned"),
-        # ("7", "extend_downwards_gravity_aligned"),
-        # ("7", "extend_downwards_gripper_aligned"),
-    ]
+
     for experiment in experiments:
         run_trials(experiment=experiment,
-                   dim_slice=dim_slice,
+                   dim=13,
+                   slice="basic",
+                   normalize_lengths=False,
+                   normalize_connected_components=False,
                    log_prefix="end_to_end_multi_instance_script_test",
                    num_classifier_tests="100")
