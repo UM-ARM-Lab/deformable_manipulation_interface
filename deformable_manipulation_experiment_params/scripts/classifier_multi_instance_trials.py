@@ -146,10 +146,11 @@ if __name__ == "__main__":
         "rope_hooks_simple",
         "rope_hooks_simple_long_rope",
         "rope_hooks_simple_super_long_rope",
+        "rope_hooks_simple_short",
     ]
 
     slices = [
-        # "basic",
+        "basic",
         "in_plane_gravity_aligned",
         "extend_downwards_gravity_aligned",
     ]
