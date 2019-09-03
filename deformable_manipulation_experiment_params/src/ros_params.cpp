@@ -122,6 +122,8 @@ namespace smmap
             {"live_rope_simple",                        TaskType::ROPE_SIMPLE_COVERAGE_TWO_GRIPPERS},
             {"rope_hooks",                              TaskType::ROPE_HOOKS},
             {"rope_hooks_simple",                       TaskType::ROPE_HOOKS_SIMPLE},
+            {"rope_hooks_simple_long_rope",             TaskType::ROPE_HOOKS_SIMPLE},
+            {"rope_hooks_simple_super_long_rope",       TaskType::ROPE_HOOKS_SIMPLE},
             {"rope_hooks_multi",                        TaskType::ROPE_HOOKS_MULTI},
             {"cloth_hooks",                             TaskType::CLOTH_HOOKS},
             {"rope_generic_dijkstras_coverage",         TaskType::ROPE_GENERIC_DIJKSTRAS_COVERAGE},
