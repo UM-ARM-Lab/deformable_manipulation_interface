@@ -149,12 +149,21 @@ if __name__ == "__main__":
     ]
 
     slices = [
-        "basic",
+        # "basic",
         "in_plane_gravity_aligned",
         "extend_downwards_gravity_aligned",
     ]
 
     for slice in slices:
+        for experiment in experiments:
+            run_trials(experiment=experiment,
+                       dim=13,
+                       slice=slice,
+                       normalize_lengths=True,
+                       normalize_connected_components=False,
+                       log_prefix="end_to_end_multi_instance_rope_length_tests",
+                       num_classifier_tests="100",
+                       run_none=False)
 
         for experiment in experiments:
             run_trials(experiment=experiment,
@@ -163,31 +172,25 @@ if __name__ == "__main__":
                        normalize_lengths=False,
                        normalize_connected_components=False,
                        log_prefix="end_to_end_multi_instance_rope_length_tests",
-                       num_classifier_tests="100")
+                       num_classifier_tests="100",
+                       run_none=True)
 
-        for experiment in experiments:
-            run_trials(experiment=experiment,
-                       dim=13,
-                       slice=slice,
-                       normalize_lengths=True,
-                       normalize_connected_components=False,
-                       log_prefix="end_to_end_multi_instance_rope_length_tests",
-                       num_classifier_tests="100")
-
-        for experiment in experiments:
-            run_trials(experiment=experiment,
-                       dim=13,
-                       slice=slice,
-                       normalize_lengths=False,
-                       normalize_connected_components=True,
-                       log_prefix="end_to_end_multi_instance_rope_length_tests",
-                       num_classifier_tests="100")
-
-        for experiment in experiments:
-            run_trials(experiment=experiment,
-                       dim=13,
-                       slice=slice,
-                       normalize_lengths=True,
-                       normalize_connected_components=True,
-                       log_prefix="end_to_end_multi_instance_rope_length_tests",
-                       num_classifier_tests="100")
+        # for experiment in experiments:
+        #     run_trials(experiment=experiment,
+        #                dim=7,
+        #                slice=slice,
+        #                normalize_lengths=True,
+        #                normalize_connected_components=True,
+        #                log_prefix="end_to_end_multi_instance_rope_length_tests",
+        #                num_classifier_tests="100",
+        #                run_none=False)
+        #
+        # for experiment in experiments:
+        #     run_trials(experiment=experiment,
+        #                dim=7,
+        #                slice=slice,
+        #                normalize_lengths=False,
+        #                normalize_connected_components=True,
+        #                log_prefix="end_to_end_multi_instance_rope_length_tests",
+        #                num_classifier_tests="100",
+        #                run_none=False)
