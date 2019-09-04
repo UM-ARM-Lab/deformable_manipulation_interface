@@ -44,8 +44,8 @@
     <!-- Cloth size params -->
     <arg name="cloth_x_size"                    value="0.3"/>
     <arg name="cloth_y_size"                    value="0.7"/>
-    <arg name="cloth_num_control_points_x"      value="31"/>
-    <arg name="cloth_num_control_points_y"      value="71"/>
+    <arg name="cloth_num_control_points_x"      value="22"/>
+    <arg name="cloth_num_control_points_y"      value="50"/>
 
     <param name="cloth_x_size"                  value="$(arg cloth_x_size)"                 type="double"/>
     <param name="cloth_y_size"                  value="$(arg cloth_y_size)"                 type="double"/>
