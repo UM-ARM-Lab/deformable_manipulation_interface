@@ -1,0 +1,114 @@
+<launch>
+    <arg name="planner_node_name"/>
+
+    <!-- Arguments to override default params -->
+    <arg name="task_max_time"               default="3600.0"/>
+
+    <!-- Defines which world building routines we use, and which task specification -->
+    <param name="deformable_type"           value="rope"            type="string"/>
+    <param name="task_type"                 value="engine_assembly" type="string"/>
+
+    <!-- planner, controller params -->
+    <arg name="stretching_cosine_threshold"     default="0.55"/>
+    <arg name="desired_motion_scale_factor"     default="1"/>
+
+    <!-- World parameters for planning - used by both nodes -->
+    <arg name="grid_resolution"         value="0.025"/>
+    <param name="sdf_resolution_scale"  value="1" type="int"/>
+    <arg name="world_x_min"             value="-1.0"/>
+    <arg name="world_x_max"             value="1.0"/>
+    <arg name="world_y_min"             value="-0.8"/>
+    <arg name="world_y_max"             value="0.8"/>
+    <arg name="world_z_min"             value="0.0"/>
+    <arg name="world_z_max"             value="0.8"/>
+    <arg name="world_x_mid"             value="$(eval (world_x_max + world_x_min) / 2.0)"/>
+    <arg name="world_y_mid"             value="$(eval (world_y_max + world_y_min) / 2.0)"/>
+    <arg name="world_z_mid"             value="$(eval (world_z_max + world_z_min) / 2.0)"/>
+    <arg name="world_x_size"            value="$(eval world_x_max - world_x_min)"/>
+    <arg name="world_y_size"            value="$(eval world_y_max - world_y_min)"/>
+    <arg name="world_z_size"            value="$(eval world_z_max - world_z_min)"/>
+
+    <param name="world_x_step"          value="$(arg grid_resolution)"  type="double"/>
+    <param name="world_x_min"           value="$(arg world_x_min)"      type="double"/>
+    <param name="world_x_max"           value="$(arg world_x_max)"      type="double"/>
+
+    <param name="world_y_step"          value="$(arg grid_resolution)"  type="double"/>
+    <param name="world_y_min"           value="$(arg world_y_min)"      type="double"/>
+    <param name="world_y_max"           value="$(arg world_y_max)"      type="double"/>
+
+    <param name="world_z_step"          value="$(arg grid_resolution)"  type="double"/>
+    <param name="world_z_min"           value="$(arg world_z_min)"      type="double"/>
+    <param name="world_z_max"           value="$(arg world_z_max)"      type="double"/>
+
+    <param name="rope_segment_length"   value="0.02"        type="double"/>
+    <param name="rope_num_links"        value="39"          type="int"/>
+    <param name="rope_radius"           value="0.01"        type="double"/>
+
+    <!-- Rope starting position params-->
+    <arg name="rope_com_x"              value="$(eval world_x_min + world_x_size / 4.0)"/>
+    <arg name="rope_com_y"              value="$(eval world_y_min + 0.2)"/>
+    <arg name="rope_com_z"              value="$(eval world_z_mid)"/>
+    <param name="rope_com_x"            value="$(arg rope_com_x)"   type="double"/>
+    <param name="rope_com_y"            value="$(arg rope_com_y)"   type="double"/>
+    <param name="rope_com_z"            value="$(arg rope_com_z)"   type="double"/>
+
+    <!-- Set a unit vector defining what direction the rope is created in -->
+    <param name="rope_extension_x"      value="1.0"     type="double"/>
+    <param name="rope_extension_y"      value="0.0"     type="double"/>
+    <param name="rope_extension_z"      value="0.0"     type="double"/>
+
+    <rosparam param="obstacle_list">
+        [
+        "engine_assembly",
+        ]
+    </rosparam>
+    <arg name="dark_gray"   value="0.3, 0.3, 0.3"/>
+    <arg name="light_gray"  value="0.6, 0.6, 0.6"/>
+    <arg name="dark_cyan"   value="0.0, 0.5, 0.5"/>
+    <arg name="purple"      value="0.7, 0.0, 0.8"/>
+
+    <group ns="engine_assembly">
+        <param name="obstacle_id"   value="2"   type="int"/>
+        <param name="type"          value="stl" type="string"/>
+        <param name="filename"      value="$(find smmap_utilities)/meshes/capsule.stl" type="string"/>
+        <rosparam subst_value="true" param="pose_pos">[$(arg world_x_mid), $(arg world_y_mid), $(arg world_z_mid)]</rosparam>
+        <rosparam subst_value="true" param="pose_quat">[0.0, 0.0, 0.0, 1.0]</rosparam>
+        <rosparam subst_value="true" param="color">[$(arg light_gray)]</rosparam>
+    </group>
+
+    <!-- Cover points transform - applied to rope starting positions -->
+    <group>
+        <arg name="x_offset" value="$(eval world_x_mid + world_x_size / 4 - rope_com_x )"/>
+        <rosparam subst_value="true" param="cover_points_transform_pos">[$(arg x_offset), 0.0, 0.0]</rosparam>
+        <rosparam subst_value="true" param="cover_points_transform_quat">[0.0, 0.0, 0.0, 1.0]</rosparam>
+
+        <!--<arg name="y_offset" value="$(eval -abs(rope_com_y) * 2)"/>-->
+        <!--<rosparam subst_value="true" param="cover_points_transform_pos">[0.0, $(arg y_offset), 0.0]</rosparam>-->
+        <!--Rotation about z by 90 degrees -->
+        <!--<rosparam subst_value="true" param="cover_points_transform_quat">[0.0, 0.0, 1.0, 0.0]</rosparam>-->
+    </group>
+
+    <group ns="deform_simulator_node">
+        <param name="tf_wait_time"                      value="0.0"/>
+
+        <param name="num_simsteps_per_gripper_command"  value="4"       type="int"/>
+        <param name="viewer_width"                      value="1100"    type="int"/>
+        <param name="viewer_height"                     value="950"    type="int"/>
+
+        <param name="camera_override"                   value="true"    type="bool"/>
+        <group ns="camera">
+            <param name="home_x"                        value="-1.4"     type="double"/>
+            <param name="home_y"                        value="-0.7"     type="double"/>
+            <param name="home_z"                        value="4.8"     type="double"/>
+
+            <param name="looks_at_x"                    value="-0.05"     type="double"/>
+            <param name="looks_at_y"                    value="-0.06"     type="double"/>
+            <param name="looks_at_z"                    value="-0.03"     type="double"/>
+
+            <param name="up_x"                          value="0.032"     type="double"/>
+            <param name="up_y"                          value="0.036"     type="double"/>
+            <param name="up_z"                          value="0.012"     type="double"/>
+        </group>
+    </group>
+
+</launch>
