@@ -239,11 +239,11 @@
         <arg name="z_com"           value="$(eval world_z_min + world_z_size - grid_resolution * 15 - width / 2)"/>
 
         <param name="obstacle_id"   value="6"   type="int"/>
-            <param name="type"          value="box" type="string"/>
-            <rosparam subst_value="true" param="pose_pos">[$(arg x_com), $(arg y_com), $(arg z_com)]</rosparam>
-            <rosparam subst_value="true" param="pose_quat">[0.0, 0.0, 0.0, 1.0]</rosparam>
-            <rosparam subst_value="true" param="extents">[$(arg length), $(arg width), $(arg width)]</rosparam>
-            <rosparam subst_value="true" param="color">[$(arg dark_cyan), 1.0]</rosparam>
+        <param name="type"          value="box" type="string"/>
+        <rosparam subst_value="true" param="pose_pos">[$(arg x_com), $(arg y_com), $(arg z_com)]</rosparam>
+        <rosparam subst_value="true" param="pose_quat">[0.0, 0.0, 0.0, 1.0]</rosparam>
+        <rosparam subst_value="true" param="extents">[$(arg length), $(arg width), $(arg width)]</rosparam>
+        <rosparam subst_value="true" param="color">[$(arg dark_cyan), 1.0]</rosparam>
     </group>
     <group ns="gripper_separator">
         <arg name="thickness"       value="$(eval grid_resolution * 2)"/>
