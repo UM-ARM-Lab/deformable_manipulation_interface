@@ -41,6 +41,7 @@ namespace smmap
         ROPE_HOOKS_SIMPLE,
         ROPE_HOOKS_MULTI,
         CLOTH_HOOKS_SIMPLE,
+        CLOTH_HOOKS_COMPLEX,
         ROPE_ENGINE_ASSEMBLY,
 
         // Generic-can-be-anything environments

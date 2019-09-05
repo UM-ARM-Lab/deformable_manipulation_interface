@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 
 
-import os
 import sys
 import subprocess
-import numpy as np
 import rospkg
 
 
@@ -152,48 +150,53 @@ if __name__ == "__main__":
 
     slices = [
         "basic",
-        # "extend_downwards_gravity_aligned",
-        # "in_plane_gravity_aligned",
+        "extend_downwards_gravity_aligned",
+        "in_plane_gravity_aligned",
     ]
+
 
     for slice in slices:
         for experiment in experiments:
+            if experiment[0:4] == "rope":
+                log_prefix = "end_to_end_multi_instance_rope_tests"
+            elif experiment[0:4 == "cloth"]:
+                log_prefix = "end_to_end_multi_instance_cloth_tests"
+            else:
+                log_prefix = "end_to_end_multi_instance_this_should_never_happen_tests"
+
             run_trials(experiment=experiment,
                        dim=13,
                        slice=slice,
                        normalize_lengths=True,
                        normalize_connected_components=False,
-                       log_prefix="end_to_end_multi_instance_rope_length_tests",
+                       log_prefix=log_prefix,
                        num_classifier_tests="100",
                        run_none=False)
 
-        for experiment in experiments:
-            run_trials(experiment=experiment,
-                       dim=7,
-                       slice=slice,
-                       normalize_lengths=True,
-                       normalize_connected_components=True,
-                       log_prefix="end_to_end_multi_instance_rope_length_tests",
-                       num_classifier_tests="100",
-                       run_none=False)
-
-        for experiment in experiments:
-            run_trials(experiment=experiment,
-                       dim=7,
-                       slice=slice,
-                       normalize_lengths=False,
-                       normalize_connected_components=True,
-                       log_prefix="end_to_end_multi_instance_rope_length_tests",
-                       num_classifier_tests="100",
-                       run_none=False)
-
-        for experiment in experiments:
-            run_trials(experiment=experiment,
-                       dim=13,
-                       slice=slice,
-                       normalize_lengths=False,
-                       normalize_connected_components=False,
-                       log_prefix="end_to_end_multi_instance_rope_length_tests",
-                       num_classifier_tests="100",
-                       run_none=True)
+        #     run_trials(experiment=experiment,
+        #                dim=7,
+        #                slice=slice,
+        #                normalize_lengths=True,
+        #                normalize_connected_components=True,
+        #                log_prefix=log_prefix,
+        #                num_classifier_tests="100",
+        #                run_none=False)
+        #
+        #     run_trials(experiment=experiment,
+        #                dim=7,
+        #                slice=slice,
+        #                normalize_lengths=False,
+        #                normalize_connected_components=True,
+        #                log_prefix=log_prefix,
+        #                num_classifier_tests="100",
+        #                run_none=False)
+        #
+        #     run_trials(experiment=experiment,
+        #                dim=13,
+        #                slice=slice,
+        #                normalize_lengths=False,
+        #                normalize_connected_components=False,
+        #                log_prefix=log_prefix,
+        #                num_classifier_tests="100",
+        #                run_none=True)
 

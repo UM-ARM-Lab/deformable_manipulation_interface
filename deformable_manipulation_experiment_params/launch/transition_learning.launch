@@ -68,6 +68,7 @@
 
         <arg name="root_data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans"/>
         <!--<param name="data_folder" value="$(arg root_data_folder)/$(arg task_type)/$(arg test_id)/$(arg classifier_type)_classifier_$(arg static_seed)" type="string"/>-->
+        <!--<param name="data_folder" value="$(arg root_data_folder)/$(arg task_type)/$(arg test_id)/$(arg classifier_type)" type="string"/>-->
         <param name="data_folder" value="$(arg root_data_folder)/$(arg task_type)/$(arg test_id)" type="string"/>
 
         <param name="generate_test_data"                value="$(arg generate_test_data)"                   type="bool"/>
