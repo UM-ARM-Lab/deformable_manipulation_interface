@@ -145,13 +145,14 @@ if __name__ == "__main__":
         # "rope_hooks_simple_long_rope",
         # "rope_hooks_simple_super_long_rope",
         # "rope_hooks_simple_short_rope",
-        "cloth_hooks_simple",
+        # "cloth_hooks_simple",
+        "cloth_hooks_complex",
     ]
 
     slices = [
         "basic",
-        "extend_downwards_gravity_aligned",
-        "in_plane_gravity_aligned",
+        # "extend_downwards_gravity_aligned",
+        # "in_plane_gravity_aligned",
     ]
 
 
@@ -170,7 +171,7 @@ if __name__ == "__main__":
                        normalize_lengths=True,
                        normalize_connected_components=False,
                        log_prefix=log_prefix,
-                       num_classifier_tests="100",
+                       num_classifier_tests="10",
                        run_none=False)
 
         #     run_trials(experiment=experiment,
