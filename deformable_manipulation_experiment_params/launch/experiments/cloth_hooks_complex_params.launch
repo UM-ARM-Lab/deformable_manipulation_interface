@@ -326,9 +326,10 @@
         <param name="tf_wait_time"                      value="0.0"/>
 
         <param name="num_simsteps_per_gripper_command"  value="20"      type="int"/>
-        <param name="cloth_linear_stiffness"            value="0.8"     type="double"/>
+        <param name="cloth_linear_stiffness"            value="0.1"     type="double"/>
         <param name="viewer_width"                      value="960"     type="int"/>
         <param name="viewer_height"                     value="1000"    type="int"/>
+        <param name="display_grippers_axes"             value="false"   type="bool"/>
 
         <param name="camera_override"                   value="true"    type="bool"/>
         <group ns="camera">
@@ -348,17 +349,17 @@
 
     <group ns="$(arg planner_node_name)">
         <group ns="task">
-            <param name="first_control_loop_triggers_plan"      value="true"                                type="bool"/>
+            <param name="first_control_loop_triggers_plan"      value="true"    type="bool"/>
 
-            <param name="max_time"                              value="1e15"                                type="double"/>
-            <param name="error_threshold_along_normal"          value="0.055"                               type="double"/>
-            <param name="error_threshold_distance_to_normal"    value="0.025"                               type="double"/>
-            <param name="error_threshold_task_done"             value="0.4"                                 type="double"/>
-            <param name="max_stretch_factor"                    value="$(eval (0.012 + 0.002) / 0.012)"     type="double"/>
-            <param name="max_band_length"                       value="1.14259"                             type="double"/>
+            <param name="max_time"                              value="1e15"    type="double"/>
+            <param name="error_threshold_along_normal"          value="0.055"   type="double"/>
+            <param name="error_threshold_distance_to_normal"    value="0.025"   type="double"/>
+            <param name="error_threshold_task_done"             value="0.4"     type="double"/>
+            <param name="max_stretch_factor"                    value="1.05"    type="double"/>
+            <param name="max_band_length"                       value="1.02834" type="double"/>
         </group>
 
-        <param name="controller_min_distance_to_obstacles"      value="0.002"                               type="double"/>
+        <param name="controller_min_distance_to_obstacles"      value="0.002"   type="double"/>
 
         <param name="enable_stuck_detection"                                value="true"        type="bool"/>
         <group ns="stuck_detection">
