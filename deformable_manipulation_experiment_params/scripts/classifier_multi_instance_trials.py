@@ -147,6 +147,7 @@ if __name__ == "__main__":
         # "rope_hooks_simple_short_rope",
         # "cloth_hooks_simple",
         "cloth_hooks_complex",
+        # "engine_assembly",
     ]
 
     slices = [
@@ -163,7 +164,7 @@ if __name__ == "__main__":
             elif experiment[0:4 == "cloth"]:
                 log_prefix = "end_to_end_multi_instance_cloth_tests"
             else:
-                log_prefix = "end_to_end_multi_instance_this_should_never_happen_tests"
+                log_prefix = "end_to_end_multi_instance_engine_assembly"
 
             run_trials(experiment=experiment,
                        dim=13,
@@ -172,7 +173,7 @@ if __name__ == "__main__":
                        normalize_connected_components=False,
                        log_prefix=log_prefix,
                        num_classifier_tests="10",
-                       run_none=False)
+                       run_none=True)
 
         #     run_trials(experiment=experiment,
         #                dim=7,
