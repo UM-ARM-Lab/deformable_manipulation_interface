@@ -1433,6 +1433,7 @@ namespace smmap
             {"kNN",     ClassifierType::kNN},
             {"svm",     ClassifierType::SVM},
             {"dnn",     ClassifierType::DNN},
+            {"voxnet",  ClassifierType::VOXNET},
         };
 
         const auto classifier_type = ROSHelpers::GetParamRequiredDebugLog<std::string>(nh, "classifier/type", __func__).GetImmutable();

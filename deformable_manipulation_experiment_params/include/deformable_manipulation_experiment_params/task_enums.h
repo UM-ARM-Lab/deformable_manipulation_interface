@@ -75,7 +75,8 @@ namespace smmap
         None,
         kNN,
         SVM,
-        DNN
+        DNN,
+        VOXNET
     };
 
     enum StretchingConstraintControllerSolverType

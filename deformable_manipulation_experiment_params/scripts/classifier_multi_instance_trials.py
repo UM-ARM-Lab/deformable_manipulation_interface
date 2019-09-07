@@ -95,6 +95,7 @@ def run_trials(experiment,
                run_knn=True,
                run_svm=True,
                run_dnn=True,
+               run_voxnet=True,
                run_none=True,
                seeds=None,
                log_prefix="",
@@ -107,6 +108,8 @@ def run_trials(experiment,
         classifiers.append("svm")
     if run_dnn:
         classifiers.append("dnn")
+    if run_voxnet:
+        classifiers.append("voxnet")
     if run_none:
         classifiers.append("none")
 
@@ -161,7 +164,7 @@ if __name__ == "__main__":
         for experiment in experiments:
             if experiment[0:4] == "rope":
                 log_prefix = "end_to_end_multi_instance_rope_tests"
-            elif experiment[0:4 == "cloth"]:
+            elif experiment[0:5 == "cloth"]:
                 log_prefix = "end_to_end_multi_instance_cloth_tests"
             else:
                 log_prefix = "end_to_end_multi_instance_engine_assembly"

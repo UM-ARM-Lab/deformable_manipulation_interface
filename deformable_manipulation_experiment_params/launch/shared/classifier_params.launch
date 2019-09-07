@@ -62,6 +62,11 @@
         <param name="accuracy"      value="0.72"    type="double"   if="$(eval slice_type =='extend_downwards_gravity_aligned'  and     normalize_lengths and not normalize_connected_components)"/>
         <param name="accuracy"      value="0.63"    type="double"   if="$(eval slice_type =='extend_downwards_gravity_aligned'  and     normalize_lengths and     normalize_connected_components)"/>
     </group>
+    <group ns="voxnet" if="$(eval classifier_type == 'voxnet')">
+        <param name="threshold"     value="0.6"                     type="double"/>
+        <param name="model_file"    value="$(find smmap)/logs/rope_hooks_simple/rope_voxnet_multichannel_b64_cuda.pt" type="string"/>
+        <param name="accuracy"      value="0.81"   type="double"/>
+    </group>
     <group ns="none">
         <!-- Note that this is unused for the 'none' classifier -->
         <param name="accuracy"      value="1.0"    type="double"/>
