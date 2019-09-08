@@ -35,6 +35,7 @@ namespace smmap
         CLOTH_PLACEMAT,
         CLOTH_MFLAG,
         ROPE_SIMPLE_COVERAGE_TWO_GRIPPERS,
+        ROPE_ENGINE_ASSEMBLY_LIVE,
 
         // Hooks
         ROPE_HOOKS,

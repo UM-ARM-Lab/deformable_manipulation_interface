@@ -13,14 +13,14 @@
     <arg name="screenshots_enabled"                     default="false"/>
 
     <!-- Planner/Tester visualization arguments -->
-    <arg name="disable_smmap_visualizations"            default="false"/>
+    <arg name="disable_smmap_visualizations"            default="true"/>
     <arg name="visualize_gripper_motion"                default="false"/>
 
     <!-- Transition classifier arguments -->
     <arg name="classifier_type"                             default="none"/>
     <arg name="classifier_dimension"                        default="13"/>
     <arg name="classifier_slice_type"                       default="basic"/>
-    <arg name="classifier_normalize_lengths"                default="false"/>
+    <arg name="classifier_normalize_lengths"                default="true"/>
     <arg name="classifier_normalize_connected_components"   default="false"/>
 
     <!-- Planner/Tester internal arguments -->
@@ -70,6 +70,7 @@
         <!--<param name="data_folder" value="$(arg root_data_folder)/$(arg task_type)/$(arg test_id)/$(arg classifier_type)_classifier_$(arg static_seed)" type="string"/>-->
         <!--<param name="data_folder" value="$(arg root_data_folder)/$(arg task_type)/$(arg test_id)/$(arg classifier_type)" type="string"/>-->
         <param name="data_folder" value="$(arg root_data_folder)/$(arg task_type)/$(arg test_id)" type="string"/>
+        <!--<param name="data_folder" value="$(arg root_data_folder)/$(arg task_type)/$(arg test_id)/raw_data" type="string"/>-->
 
         <param name="generate_test_data"                value="$(arg generate_test_data)"                   type="bool"/>
         <param name="generate_trajectories"             value="$(arg generate_trajectories)"                type="bool"/>

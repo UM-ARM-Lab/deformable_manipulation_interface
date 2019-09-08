@@ -21,7 +21,7 @@ def run_multi_trial(experiment,
                     use_random_seed=None,
                     static_seed=None):
     # Constant values that we need
-    roslaunch_args = ["roslaunch deformable_manipulation_experiment_params transition_learning.launch",
+    roslaunch_args = ["roslaunch -p 15000 deformable_manipulation_experiment_params transition_learning.launch",
                       "task_type:=" + experiment,
                       "classifier_type:=" + classifier_type,
                       "classifier_dimension:=" + classifier_dimension,
@@ -144,13 +144,15 @@ def run_trials(experiment,
 
 if __name__ == "__main__":
     experiments = [
-        # "rope_hooks_simple",
-        # "rope_hooks_simple_long_rope",
-        # "rope_hooks_simple_super_long_rope",
-        # "rope_hooks_simple_short_rope",
+        "rope_hooks_simple",
+        "rope_hooks",
+        "engine_assembly",
+        "rope_hooks_multi",
+        "rope_hooks_simple_long_rope",
+        "rope_hooks_simple_super_long_rope",
+        "rope_hooks_simple_short_rope",
         # "cloth_hooks_simple",
-        "cloth_hooks_complex",
-        # "engine_assembly",
+        # "cloth_hooks_complex",
     ]
 
     slices = [
@@ -162,7 +164,7 @@ if __name__ == "__main__":
 
     for slice in slices:
         for experiment in experiments:
-            log_prefix = "success_rate_trials__10_tests"
+            log_prefix = "with_start_filtering__threshold_1000.0__success_rate_trials__10_tests"
 
             run_trials(experiment=experiment,
                        dim=13,
@@ -175,7 +177,7 @@ if __name__ == "__main__":
                        run_svm=True,
                        run_dnn=False,
                        run_voxnet=False,
-                       run_none=True)
+                       run_none=False)
 
         #     run_trials(experiment=experiment,
         #                dim=7,

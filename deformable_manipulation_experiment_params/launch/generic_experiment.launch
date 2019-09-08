@@ -51,7 +51,7 @@
     <arg name="classifier_type"                             default="none"/>
     <arg name="classifier_dimension"                        default="13"/>
     <arg name="classifier_slice_type"                       default="basic"/>
-    <arg name="classifier_normalize_lengths"                default="false"/>
+    <arg name="classifier_normalize_lengths"                default="true"/>
     <arg name="classifier_normalize_connected_components"   default="false"/>
 
     <!-- Planner internal arguments -->

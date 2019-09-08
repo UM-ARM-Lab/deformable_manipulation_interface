@@ -21,7 +21,7 @@ def run_single_trial(experiment,
                      use_random_seed=None,
                      static_seed=None):
     # Constant values that we need
-    roslaunch_args = ["roslaunch deformable_manipulation_experiment_params generic_experiment.launch",
+    roslaunch_args = ["roslaunch -p 16000 deformable_manipulation_experiment_params generic_experiment.launch",
                       "task_type:=" + experiment,
                       "classifier_type:=" + classifier_type,
                       "classifier_dimension:=" + classifier_dimension,
