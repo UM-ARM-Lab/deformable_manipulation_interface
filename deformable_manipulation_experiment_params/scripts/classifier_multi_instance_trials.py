@@ -162,12 +162,7 @@ if __name__ == "__main__":
 
     for slice in slices:
         for experiment in experiments:
-            if experiment[0:4] == "rope":
-                log_prefix = "end_to_end_multi_instance_rope_tests"
-            elif experiment[0:5 == "cloth"]:
-                log_prefix = "end_to_end_multi_instance_cloth_tests"
-            else:
-                log_prefix = "end_to_end_multi_instance_engine_assembly"
+            log_prefix = "success_rate_trials__10_tests"
 
             run_trials(experiment=experiment,
                        dim=13,
@@ -176,6 +171,10 @@ if __name__ == "__main__":
                        normalize_connected_components=False,
                        log_prefix=log_prefix,
                        num_classifier_tests="10",
+                       run_knn=True,
+                       run_svm=True,
+                       run_dnn=False,
+                       run_voxnet=False,
                        run_none=True)
 
         #     run_trials(experiment=experiment,
