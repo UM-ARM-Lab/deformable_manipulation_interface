@@ -85,7 +85,7 @@
         </group>
 
         <!-- Params shared by this file and generic_experiment.launch -->
-        <include file="$(find deformable_manipulation_experiment_params)/launch/shared/classifier_params.launch">
+        <include file="$(find deformable_manipulation_experiment_params)/launch/shared/classifier_params__label_based_on_correct.launch">
             <arg name="classifier_type"                 value="$(arg classifier_type)"/>
             <arg name="dim"                             value="$(arg classifier_dimension)"/>
             <arg name="slice_type"                      value="$(arg classifier_slice_type)"/>
