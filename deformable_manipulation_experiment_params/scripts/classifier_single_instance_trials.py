@@ -12,6 +12,8 @@ def run_single_trial(experiment,
                      classifier_type,
                      classifier_dimension,
                      classifier_slice_type,
+                     classifier_normalize_lengths,
+                     classifier_normalize_connected_components,
                      bandits_logging_enabled=None,
                      controller_logging_enabled=None,
                      test_id=None,
@@ -26,6 +28,8 @@ def run_single_trial(experiment,
                       "classifier_type:=" + classifier_type,
                       "classifier_dimension:=" + classifier_dimension,
                       "classifier_slice_type:=" + classifier_slice_type,
+                      "classifier_normalize_lengths:=" + classifier_normalize_lengths,
+                      "classifier_normalize_connected_components:=" + classifier_normalize_connected_components,
                       "launch_simulator:=true",
                       "start_bullet_viewer:=false",
                       "screenshots_enabled:=false",
@@ -86,17 +90,17 @@ def run_single_trial(experiment,
 
 
 def run_trials(experiment,
-               dim_slice=None,
+               dim,
+               slice,
+               normalize_lengths,
+               normalize_connected_components,
                run_knn=True,
                run_svm=True,
                run_dnn=True,
+               run_voxnet=True,
                run_none=True,
-               seeds=None,
                log_prefix="",
                rrt_num_trials=1):
-
-    if dim_slice == None or len(dim_slice) == 0:
-        dim_slice =[("13", "basic")]
 
     classifiers = []
     if run_knn:
@@ -105,33 +109,38 @@ def run_trials(experiment,
         classifiers.append("svm")
     if run_dnn:
         classifiers.append("dnn")
+    if run_voxnet:
+        classifiers.append("voxnet")
     if run_none:
         classifiers.append("none")
 
     if log_prefix != "":
         log_prefix += "/"
 
-    for dim, slice in dim_slice:
-        for classifier in classifiers:
-            if seeds is not None:
-                for seed in seeds:
-                    run_single_trial(experiment=experiment,
-                                     classifier_type=classifier,
-                                     classifier_dimension=dim,
-                                     classifier_slice_type=slice,
-                                     test_id=log_prefix + dim + "feature__" + slice + "__" + classifier + "_" + hex(seed)[:-1],
-                                     rrt_num_trials=str(rrt_num_trials),
-                                     use_random_seed="false",
-                                     static_seed=hex(seed)[:-1])
-            else:
-                run_single_trial(experiment=experiment,
-                                 classifier_type=classifier,
-                                 classifier_dimension=dim,
-                                 classifier_slice_type=slice,
-                                 test_id=log_prefix + dim + "feature__" + slice + "__" + classifier,
-                                 rrt_num_trials=str(rrt_num_trials),
-                                 test_paths_in_bullet="true",
-                                 use_random_seed="false")
+    foldername = slice + "__"
+    if normalize_lengths:
+        foldername += "normalized_lengths__"
+    else:
+        foldername += "raw_lengths__"
+    if normalize_connected_components:
+        assert (dim == 7)
+        foldername += "normalized_connected_components"
+    else:
+        assert (dim == 13)
+        foldername += "raw_connected_components"
+
+    for classifier in classifiers:
+        test_id = log_prefix + foldername + "/" + classifier
+        run_single_trial(experiment=experiment,
+                         classifier_type=classifier,
+                         classifier_dimension=dim,
+                         classifier_slice_type=slice,
+                         classifier_normalize_lengths=str(normalize_lengths),
+                         classifier_normalize_connected_components=str(normalize_connected_components),
+                         test_id=test_id,
+                         rrt_num_trials=str(rrt_num_trials),
+                         test_paths_in_bullet="true",
+                         use_random_seed="false")
 
 
 if __name__ == "__main__":
@@ -143,20 +152,32 @@ if __name__ == "__main__":
     experiments = [
         "rope_hooks_simple",
         "rope_hooks",
+        "engine_assembly",
         "rope_hooks_multi",
-    ]
-    dim_slice = [
-        ("13", "basic"),
-        ("7", "basic"),
-        # ("7", "in_plane_gravity_aligned"),
-        # ("7", "in_plane_gripper_aligned"),
-        # ("7", "extend_downwards_gravity_aligned"),
-        # ("7", "extend_downwards_gripper_aligned"),
+        "rope_hooks_simple_long_rope",
+        "rope_hooks_simple_super_long_rope",
+        "rope_hooks_simple_short_rope",
+        # "cloth_hooks_simple",
+        # "cloth_hooks_complex",
     ]
 
-    for experiment in experiments:
-        run_trials(experiment=experiment,
-                   dim_slice=dim_slice,
-                   seeds=seeds,
-                   log_prefix="end_to_end_planning_time_script_test",
-                   rrt_num_trials=100)
+    slices = [
+        "basic",
+        # "extend_downwards_gravity_aligned",
+        # "in_plane_gravity_aligned",
+    ]
+
+    for slice in slices:
+        for experiment in experiments:
+            run_trials(experiment=experiment,
+                       dim=13,
+                       slice=slice,
+                       normalize_lengths=True,
+                       normalize_connected_components=False,
+                       log_prefix="icra_planning_time_trials",
+                       rrt_num_trials=100,
+                       run_knn=True,
+                       run_svm=True,
+                       run_dnn=True,
+                       run_voxnet=True,
+                       run_none=True)

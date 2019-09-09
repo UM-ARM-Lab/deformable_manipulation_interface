@@ -17,7 +17,6 @@ def run_multi_trial(experiment,
                     test_id=None,
                     task_max_time=None,
                     num_classifier_tests=None,
-                    test_paths_in_bullet=None,
                     use_random_seed=None,
                     static_seed=None):
     # Constant values that we need
@@ -62,9 +61,6 @@ def run_multi_trial(experiment,
     if num_classifier_tests is not None:
         roslaunch_args.append("num_classifier_tests:=" + num_classifier_tests)
 
-    if test_paths_in_bullet is not None:
-        roslaunch_args.append("test_paths_in_bullet:=" + test_paths_in_bullet)
-
     # Add any extra parameters that have been added
     roslaunch_args += sys.argv[1:]
 
@@ -97,7 +93,6 @@ def run_trials(experiment,
                run_dnn=True,
                run_voxnet=True,
                run_none=True,
-               seeds=None,
                log_prefix="",
                num_classifier_tests="1"):
 
@@ -138,7 +133,6 @@ def run_trials(experiment,
                         classifier_normalize_connected_components=str(normalize_connected_components),
                         test_id=test_id,
                         num_classifier_tests=num_classifier_tests,
-                        test_paths_in_bullet="true",
                         use_random_seed="false")
 
 
@@ -205,4 +199,3 @@ if __name__ == "__main__":
         #                log_prefix=log_prefix,
         #                num_classifier_tests="100",
         #                run_none=True)
-
