@@ -16,7 +16,7 @@
     <!-- Rope phyiscal parameters -->
     <arg name="rope_num_links"              value="30"/>
     <!--<arg name="rope_length"                 value="$(eval 38.0 * 0.0254)"/>-->
-    <arg name="rope_length"                 value="$(eval 17 * 0.0254)"/>
+    <arg name="rope_length"                 value="$(eval 15 * 0.0254)"/>
     <arg name="rope_radius"                 value="0.01"/>
     <arg name="rope_segment_length"         value="$(eval rope_length / rope_num_links)"/>
 
@@ -79,7 +79,7 @@
         <arg name="world_y_min"             value="$(eval table_surface_y - table_y_half_extents * 1.5)"/>
         <arg name="world_y_max"             value="$(eval table_surface_y + table_y_half_extents * 1.5)"/>
         <arg name="world_z_min"             value="$(eval table_height - 0.1)"/>
-        <arg name="world_z_max"             value="$(eval table_height + 0.3)"/>
+        <arg name="world_z_max"             value="$(eval table_height + 0.5)"/>
         <arg name="world_x_mid"             value="$(eval (world_x_max + world_x_min) / 2.0)"/>
         <arg name="world_y_mid"             value="$(eval (world_y_max + world_y_min) / 2.0)"/>
         <arg name="world_z_mid"             value="$(eval (world_z_max + world_z_min) / 2.0)"/>
@@ -121,7 +121,7 @@
         <arg name="purple"      value="0.7, 0.0, 0.8"/>
 
         <arg name="physical_height"     value="0.225"/>
-        <arg name="engine_scale"        value="$(eval physical_height / (23 * grid_resolution))"/>
+        <arg name="engine_scale"        value="$(eval physical_height / (25 * grid_resolution))"/>
         <arg name="engine_origin_x"     value="$(eval table_surface_x / engine_scale)"/>
         <arg name="engine_origin_y"     value="$(eval table_surface_y / engine_scale)"/>
         <arg name="engine_origin_z"     value="$(eval table_surface_z / engine_scale)"/>
@@ -366,15 +366,15 @@
         </group>
 
         <group ns="rrt">
-            <param name="min_gripper_distance_to_obstacles" value="0.085"                       type="double"/>
+            <param name="min_gripper_distance_to_obstacles" value="0.05"                        type="double"/>
             <param name="target_min_distance_scale_factor"  value="1.02"                        type="double"/>
             <param name="max_gripper_rotation"              value="2.0"                         type="double"/>
 
             <param name="max_robot_dof_step_size"           value="0.02"                        type="double"/>
             <param name="min_robot_dof_step_size"           value="0.001"                       type="double"/>
 
-            <param name="max_shortcut_index_distance"       value="100"                         type="int"/>
-            <param name="max_smoothing_iterations"          value="500"                         type="int"/>
+            <param name="max_shortcut_index_distance"       value="200"                         type="int"/>
+            <param name="max_smoothing_iterations"          value="1000"                        type="int"/>
             <param name="max_failed_smoothing_iterations"   value="999999999"                   type="int"/>
             <param name="smoothing_band_dist_threshold"     value="0.001"                       type="double"/>
 

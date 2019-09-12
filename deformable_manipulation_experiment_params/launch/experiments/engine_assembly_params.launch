@@ -89,7 +89,7 @@
         <rosparam subst_value="true" param="pose_pos">[$(arg world_x_mid), $(arg world_y_mid), $(arg mid_z)]</rosparam>
         <rosparam subst_value="true" param="pose_quat">[0.0, 0.0, 0.0, 1.0]</rosparam>
         <rosparam subst_value="true" param="extents">[$(arg world_x_size), $(arg world_y_size), $(arg thickness)]</rosparam>
-        <rosparam subst_value="true" param="color">[$(arg light_gray), 0.2]</rosparam>
+        <rosparam subst_value="true" param="color">[$(arg light_gray), 1.0]</rosparam>
     </group>
 
     <group ns="engine_assembly">
@@ -317,17 +317,17 @@
 
         <param name="camera_override"                   value="true"    type="bool"/>
         <group ns="camera">
-            <param name="home_x"                        value="-2.3"    type="double"/>
-            <param name="home_y"                        value="0.0"     type="double"/>
-            <param name="home_z"                        value="4.1"     type="double"/>
+            <param name="home_x"                        value="1.6614"    type="double"/>
+            <param name="home_y"                        value="-0.500727"     type="double"/>
+            <param name="home_z"                        value="2.10348"     type="double"/>
 
-            <param name="looks_at_x"                    value="-0.3"    type="double"/>
-            <param name="looks_at_y"                    value="-0.01"   type="double"/>
-            <param name="looks_at_z"                    value="-0.01"   type="double"/>
+            <param name="looks_at_x"                    value="-0.0214662"    type="double"/>
+            <param name="looks_at_y"                    value="-0.0031263"   type="double"/>
+            <param name="looks_at_z"                    value="0.0241236"   type="double"/>
 
-            <param name="up_x"                          value="0.05"    type="double"/>
-            <param name="up_y"                          value="0.0"     type="double"/>
-            <param name="up_z"                          value="0.01"    type="double"/>
+            <param name="up_x"                          value="-0.0343298"    type="double"/>
+            <param name="up_y"                          value="0.0172922"     type="double"/>
+            <param name="up_z"                          value="0.0319757"    type="double"/>
         </group>
     </group>
 

@@ -39,15 +39,15 @@
         <param name="model_file"    value="$(find smmap)/logs/rope_hooks_simple/$(arg prefix)__svm.model" type="string"/>
         <param name="accuracy"      value="0.73"    type="double"   if="$(eval threshold == 0.5)"/>
     </group>
-    <!--<group ns="dnn" if="$(eval classifier_type == 'dnn')">-->
-        <!--<param name="threshold"     value="0.5"                     type="double"/>-->
-        <!--<param name="model_file"    value="$(find smmap)/logs/rope_hooks_simple/$(arg prefix)__torch_model_cpu.pt" type="string"/>-->
-        <!--<param name="accuracy"      value="0.73"    type="double"   if="$(eval threshold == 0.5)"/>-->
-    <!--</group>-->
+    <group ns="dnn" if="$(eval classifier_type == 'dnn')">
+        <param name="threshold"     value="0.5"                     type="double"/>
+        <param name="model_file"    value="$(find smmap)/logs/rope_hooks_simple/$(arg prefix)__torch_model_cpu.pt" type="string"/>
+        <param name="accuracy"      value="0.73"    type="double"   if="$(eval threshold == 0.5)"/>
+    </group>
     <group ns="voxnet" if="$(eval classifier_type == 'voxnet')">
         <param name="threshold"     value="0.5"                     type="double"/>
         <param name="model_file"    value="$(find smmap)/logs/rope_hooks_simple/rope_voxnet_multichannel_b64_cuda.pt" type="string"/>
-        <param name="accuracy"      value="0.81"   type="double"/>
+        <param name="accuracy"      value="0.89"   type="double"/>
     </group>
     <group ns="none">
         <!-- Note that this is unused for the 'none' classifier -->
