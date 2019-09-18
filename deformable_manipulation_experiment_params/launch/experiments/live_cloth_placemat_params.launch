@@ -1,4 +1,6 @@
 <launch>
+    <arg name="planner_node_name"/>
+
     <!-- Arguments to override default params -->
     <arg name="task_max_time"           default="3600.0"/>
     <param name="max_gripper_velocity"  value="0.5"/>
@@ -131,7 +133,7 @@
     </group>
 
 
-    <group ns="smmap_planner_node">
+    <group ns="$(arg planner_node_name)">
         <!-- TODO: Update these parameters to make them work for this task -->
         <group ns="task">
             <param name="max_time"                              value="$(arg task_max_time)"                type="double"/>

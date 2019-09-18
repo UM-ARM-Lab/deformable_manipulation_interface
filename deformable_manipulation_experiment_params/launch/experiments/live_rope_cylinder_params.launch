@@ -1,4 +1,6 @@
 <launch>
+    <arg name="planner_node_name"/>
+
     <!-- Arguments to override default params -->
     <arg name="task_max_time"               default="3600.0"/>
     <arg name="stretching_cosine_threshold" default="0.55"/>
@@ -80,7 +82,7 @@
 
     <param name="sdf_resolution_scale"  value="2"                       type="int"/>
 
-    <group ns="smmap_planner_node">
+    <group ns="$(arg planner_node_name)">
         <group ns="task">
             <param name="max_time"                              value="$(arg task_max_time)"                type="double"/>
             <param name="error_threshold_along_normal"          value="0.01"                                type="double"/>
