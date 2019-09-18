@@ -142,11 +142,11 @@ if __name__ == "__main__":
         "rope_hooks",
         "engine_assembly",
         "rope_hooks_multi",
-        "rope_hooks_simple_long_rope",
         "rope_hooks_simple_super_long_rope",
         "rope_hooks_simple_short_rope",
-        # "cloth_hooks_simple",
-        # "cloth_hooks_complex",
+        "rope_hooks_simple_long_rope",
+        #"cloth_hooks_simple",
+        #"cloth_hooks_complex",
     ]
 
     slices = [
@@ -158,7 +158,7 @@ if __name__ == "__main__":
 
     for slice in slices:
         for experiment in experiments:
-            log_prefix = "with_start_filtering__threshold_1000.0__success_rate_trials__10_tests"
+            log_prefix = "label_based_on_correct_31-50_trials__single_planning_instance__planning_limit_600"
 
             run_trials(experiment=experiment,
                        dim=13,
@@ -166,36 +166,10 @@ if __name__ == "__main__":
                        normalize_lengths=True,
                        normalize_connected_components=False,
                        log_prefix=log_prefix,
-                       num_classifier_tests="10",
-                       run_knn=True,
-                       run_svm=True,
+                       num_classifier_tests="50",
+                       run_knn=False,
+                       run_svm=False,
                        run_dnn=False,
                        run_voxnet=False,
                        run_none=False)
 
-        #     run_trials(experiment=experiment,
-        #                dim=7,
-        #                slice=slice,
-        #                normalize_lengths=True,
-        #                normalize_connected_components=True,
-        #                log_prefix=log_prefix,
-        #                num_classifier_tests="100",
-        #                run_none=False)
-        #
-        #     run_trials(experiment=experiment,
-        #                dim=7,
-        #                slice=slice,
-        #                normalize_lengths=False,
-        #                normalize_connected_components=True,
-        #                log_prefix=log_prefix,
-        #                num_classifier_tests="100",
-        #                run_none=False)
-        #
-        #     run_trials(experiment=experiment,
-        #                dim=13,
-        #                slice=slice,
-        #                normalize_lengths=False,
-        #                normalize_connected_components=False,
-        #                log_prefix=log_prefix,
-        #                num_classifier_tests="100",
-        #                run_none=True)

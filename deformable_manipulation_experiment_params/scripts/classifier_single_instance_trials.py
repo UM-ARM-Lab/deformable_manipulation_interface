@@ -133,7 +133,7 @@ def run_trials(experiment,
         test_id = log_prefix + foldername + "/" + classifier
         run_single_trial(experiment=experiment,
                          classifier_type=classifier,
-                         classifier_dimension=dim,
+                         classifier_dimension=str(dim),
                          classifier_slice_type=slice,
                          classifier_normalize_lengths=str(normalize_lengths),
                          classifier_normalize_connected_components=str(normalize_connected_components),
