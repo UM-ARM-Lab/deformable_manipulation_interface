@@ -89,7 +89,7 @@ namespace smmap
                     break;
 
                 default:
-                    throw_arc_exception(std::invalid_argument, base_name + " must be 3 or 4 elements; length on param sever is " + std::to_string(stdvec.size()));
+                    throw_arc_exception(std::invalid_argument, base_name + " must be 3 or 4 elements; length is " + std::to_string(stdvec.size()));
             }
         }
 
@@ -119,7 +119,7 @@ namespace smmap
             const auto stdvec = GetVectorRequired<double>(nh, base_name, __func__).GetImmutable();
             if (stdvec.size() != 3)
             {
-                throw_arc_exception(std::invalid_argument, "Parameter is too long; length is " + std::to_string(stdvec.size()));
+                throw_arc_exception(std::invalid_argument, "Parameter is the wrong size; length is " + std::to_string(stdvec.size()));
             }
             return Eigen::Vector3d(stdvec[0], stdvec[1], stdvec[2]);
         }
@@ -143,7 +143,7 @@ namespace smmap
             const auto stdvec = GetVectorRequired<double>(nh, base_name, __func__).GetImmutable();
             if (stdvec.size() != 4)
             {
-                throw_arc_exception(std::invalid_argument, "Parameter is too long; length is " + std::to_string(stdvec.size()));
+                throw_arc_exception(std::invalid_argument, "Parameter is the wrong size; length is " + std::to_string(stdvec.size()));
             }
             // Assumed order on the parameter server is (x, y, z, w)
             // Eigen takes the inputs as (w, x, y, z) (and then stores internally as (x, y, z, w))
