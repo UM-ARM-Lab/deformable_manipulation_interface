@@ -21,6 +21,6 @@
         <!-- Used to test shortcut smoothing -->
         <param name="use_stored_path"                   value="false"                   type="bool"/>
         <param name="path_file_name_prefix"             value="rrt_path"                type="string"/>
-        <param name="path_file_name_suffix_to_load"     value="before_blacklisting_root_idx_4__2019-01-24__13-55-48"     type="string"/>
+        <param name="path_file_name_suffix_to_load"     value="placeholder"             type="string"/>
     </group>
 </launch>

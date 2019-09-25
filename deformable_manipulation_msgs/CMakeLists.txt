@@ -22,6 +22,8 @@ add_message_files(
     VectorPose.msg
     VectorConfiguration.msg
     WorldState.msg
+    RobotPathTest.msg
+    RobotPathTestResult.msg
     TransitionTest.msg
     TransitionTestResult.msg
 )
@@ -51,6 +53,7 @@ add_action_files(
     FILES
     TestRobotMotion.action
     GenerateTransitionData.action
+    TestRobotPaths.action
 )
 
 ## Generate added messages and services with any dependencies listed here

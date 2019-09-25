@@ -1,5 +1,5 @@
 <launch>
-    <!-- [none, kNN, svm, dnn]-->
+    <!-- [none, kNN, svm, mlp, voxnet]-->
     <arg name="classifier_type"/>
     <arg name="normalize_lengths"/>
     <arg name="normalize_connected_components"/>
@@ -39,7 +39,7 @@
         <param name="model_file"    value="$(find smmap)/logs/rope_hooks_simple/$(arg prefix)__svm.model" type="string"/>
         <param name="accuracy"      value="0.73"    type="double"   if="$(eval threshold == 0.5)"/>
     </group>
-    <group ns="dnn" if="$(eval classifier_type == 'dnn')">
+    <group ns="mlp" if="$(eval classifier_type == 'mlp')">
         <param name="threshold"     value="0.5"                     type="double"/>
         <param name="model_file"    value="$(find smmap)/logs/rope_hooks_simple/$(arg prefix)__torch_model_cpu.pt" type="string"/>
         <param name="accuracy"      value="0.76"    type="double"   if="$(eval threshold == 0.5)"/>

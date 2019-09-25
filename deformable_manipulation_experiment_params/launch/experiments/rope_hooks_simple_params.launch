@@ -158,7 +158,6 @@
             <param name="max_gripper_rotation"              value="0.7"                         type="double"/>
             <param name="max_shortcut_index_distance"       value="40"                          type="int"/>
             <param name="max_smoothing_iterations"          value="500"                         type="int"/>
-            <param name="max_failed_smoothing_iterations"   value="15000"                       type="int"/>
             <param name="smoothing_band_dist_threshold"     value="0.001"                       type="double"/>
 
             <param name="planning_x_min"                    value="$(arg world_x_min)"          type="double"/>

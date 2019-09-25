@@ -273,7 +273,6 @@ namespace smmap
     double GetRRTFeasibilityDistanceScaleFactor(ros::NodeHandle& nh);
     int64_t GetRRTMaxShortcutIndexDistance(ros::NodeHandle& nh);
     uint32_t GetRRTMaxSmoothingIterations(ros::NodeHandle& nh);
-    uint32_t GetRRTMaxFailedSmoothingIterations(ros::NodeHandle& nh);
     double GetRRTSmoothingBandDistThreshold(ros::NodeHandle& nh);
     double GetRRTTimeout(ros::NodeHandle& nh);
     size_t GetRRTNumTrials(ros::NodeHandle& nh);
@@ -356,6 +355,7 @@ namespace smmap
     std::string GetExecuteRobotMotionTopic(ros::NodeHandle& nh);
     std::string GetTestRobotMotionMicrostepsTopic(ros::NodeHandle& nh);
     std::string GetGenerateTransitionDataTopic(ros::NodeHandle& nh);
+    std::string GetTestRobotPathsTopic(ros::NodeHandle& nh);
     std::string GetWorldStateTopic(ros::NodeHandle& nh);
     std::string GetCoverPointsTopic(ros::NodeHandle& nh);
     std::string GetCoverPointNormalsTopic(ros::NodeHandle& nh);

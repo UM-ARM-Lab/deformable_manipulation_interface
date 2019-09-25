@@ -167,7 +167,6 @@
 
             <param name="max_shortcut_index_distance"       value="100"                         type="int"/>
             <param name="max_smoothing_iterations"          value="500"                         type="int"/>
-            <param name="max_failed_smoothing_iterations"   value="999999999"                   type="int"/>
             <param name="smoothing_band_dist_threshold"     value="0.001"                       type="double"/>
 
 

@@ -6,6 +6,8 @@
 #include <Eigen/Dense>
 #include <arc_utilities/arc_helpers.hpp>
 #include <arc_utilities/ros_helpers.hpp>
+#include <arc_utilities/filesystem.hpp>
+#include <boost/filesystem.hpp>
 #include <std_msgs/ColorRGBA.h>
 
 namespace smmap
@@ -172,5 +174,13 @@ namespace smmap
             (void)ex;
             return Eigen::Isometry3d(trans);
         }
+    }
+
+    template <typename Derived>
+    inline WriteToCSVFile(const std::string filename, const Eigen::MatrixBase<Derived>& data)
+    {
+        const static Eigen::IOFormat csv_format(Eigen::StreamPrecision, Eigen::DontAlignCols, ", ", "\n");
+        std::ofstream file(filename);
+        file << data.matrix().format(csv_format);
     }
 }

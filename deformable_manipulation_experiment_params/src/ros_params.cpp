@@ -1284,12 +1284,6 @@ namespace smmap
         return (uint32_t)val.GetImmutable();
     }
 
-    uint32_t GetRRTMaxFailedSmoothingIterations(ros::NodeHandle& nh)
-    {
-        const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt/max_failed_smoothing_iterations", __func__);
-        return (uint32_t)val.GetImmutable();
-    }
-
     double GetRRTSmoothingBandDistThreshold(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/smoothing_band_dist_threshold", __func__);
@@ -1433,7 +1427,7 @@ namespace smmap
             {"none",    ClassifierType::None},
             {"kNN",     ClassifierType::kNN},
             {"svm",     ClassifierType::SVM},
-            {"dnn",     ClassifierType::DNN},
+            {"mlp",     ClassifierType::MLP},
             {"voxnet",  ClassifierType::VOXNET},
         };
 
@@ -1688,6 +1682,11 @@ namespace smmap
     std::string GetGenerateTransitionDataTopic(ros::NodeHandle& nh)
     {
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "generate_transition_data_topic" , "generate_transition_data");
+    }
+
+    std::string GetTestRobotPathsTopic(ros::NodeHandle& nh)
+    {
+        return ROSHelpers::GetParamDebugLog<std::string>(nh, "test_robot_paths_topic" , "test_robot_paths");
     }
 
     std::string GetWorldStateTopic(ros::NodeHandle& nh)

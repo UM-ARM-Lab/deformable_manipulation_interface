@@ -76,7 +76,7 @@ namespace smmap
         None,
         kNN,
         SVM,
-        DNN,
+        MLP,
         VOXNET
     };
 
