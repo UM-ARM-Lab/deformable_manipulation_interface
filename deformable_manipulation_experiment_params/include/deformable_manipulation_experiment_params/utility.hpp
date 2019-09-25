@@ -6,8 +6,6 @@
 #include <Eigen/Dense>
 #include <arc_utilities/arc_helpers.hpp>
 #include <arc_utilities/ros_helpers.hpp>
-#include <arc_utilities/filesystem.hpp>
-#include <boost/filesystem.hpp>
 #include <std_msgs/ColorRGBA.h>
 
 namespace smmap
