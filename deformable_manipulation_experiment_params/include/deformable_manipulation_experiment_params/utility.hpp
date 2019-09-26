@@ -1,12 +1,13 @@
 #pragma once
 
-#include <ros/ros.h>
+#include <string>
 #include <type_traits>
 #include <cstdint>
 #include <Eigen/Dense>
+#include <ros/ros.h>
+#include <std_msgs/ColorRGBA.h>
 #include <arc_utilities/arc_helpers.hpp>
 #include <arc_utilities/ros_helpers.hpp>
-#include <std_msgs/ColorRGBA.h>
 
 namespace smmap
 {
@@ -101,7 +102,6 @@ namespace smmap
         return color;
     }
 
-
     inline Eigen::Vector3d GetVector3FromParamServer(
             ros::NodeHandle& nh,
             const std::string& base_name)
@@ -172,6 +172,31 @@ namespace smmap
             (void)ex;
             return Eigen::Isometry3d(trans);
         }
+    }
+
+    template <typename IntType>
+    inline std::string ToStrFill0(const IntType num_trials, const IntType trial_idx)
+    {
+        static_assert(std::is_integral<IntType>::value, "Inegral type required");
+        const auto num_digits = [&]
+        {
+            assert(num_trials >= 0);
+            assert(num_trials < 10000000000);
+            return (num_trials < 10 ? 1 :
+                   (num_trials < 100 ? 2 :
+                   (num_trials < 1000 ? 3 :
+                   (num_trials < 10000 ? 4 :
+                   (num_trials < 100000 ? 5 :
+                   (num_trials < 1000000 ? 6 :
+                   (num_trials < 10000000 ? 7 :
+                   (num_trials < 100000000 ? 8 :
+                   (num_trials < 1000000000 ? 9 :
+                   10)))))))));
+        }();
+
+        std::stringstream ss;
+        ss << std::setw(num_digits) << std::setfill('0') << trial_idx;
+        return ss.str();
     }
 
     template <typename Derived>
