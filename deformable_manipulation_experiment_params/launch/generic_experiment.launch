@@ -60,7 +60,7 @@
     <arg name="use_random_seed"                         default="false"/>
     <!-- MD5 sum of Dale McConachie: a8710913d2b5df6c a30cd67f3860ddb3 -->
     <arg name="static_seed"                             default="a8710913d2b5df6c"/>
-    <arg name="rrt_num_trials"                          default="1"/>
+    <arg name="rrt_num_trials"                          default="0"/>
     <arg name="test_paths_in_bullet"                    default="false"/>
     <arg name="rerun_forever"                           default="false"/>
 

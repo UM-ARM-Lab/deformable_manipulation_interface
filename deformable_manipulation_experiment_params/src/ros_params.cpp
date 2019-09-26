@@ -16,8 +16,7 @@ namespace smmap
 
     bool GetDisableSmmapVisualizations(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "disable_smmap_visualizations", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<bool>(nh, "disable_smmap_visualizations", __func__);
     }
 
     bool GetVisualizeObjectDesiredMotion(ros::NodeHandle& nh)
@@ -75,7 +74,7 @@ namespace smmap
 
     std::string GetTestId(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamRequiredDebugLog<std::string>(nh, "test_id", __func__).GetImmutable();
+        return ROSHelpers::GetParamRequiredDebugLog<std::string>(nh, "test_id", __func__);
     }
 
     DeformableType GetDeformableType(ros::NodeHandle& nh)
@@ -86,13 +85,13 @@ namespace smmap
             {"cloth",   DeformableType::CLOTH},
         };
 
-        const auto deformable_type = ROSHelpers::GetParamRequiredDebugLog<std::string>(nh, "deformable_type", __func__).GetImmutable();
+        const auto deformable_type = ROSHelpers::GetParamRequiredDebugLog<std::string>(nh, "deformable_type", __func__);
         return deformable_type_map.at(deformable_type);
     }
 
     std::string GetTaskTypeString(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamRequiredDebugLog<std::string>(nh, "task_type", __func__).GetImmutable();
+        return ROSHelpers::GetParamRequiredDebugLog<std::string>(nh, "task_type", __func__);
     }
 
     /**
@@ -142,26 +141,22 @@ namespace smmap
 
     double GetMaxTime(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "task/max_time", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "task/max_time", __func__);
     }
 
     double GetMaxStretchFactor(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "task/max_stretch_factor", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "task/max_stretch_factor", __func__);
     }
 
     double GetMaxBandLength(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "task/max_band_length", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "task/max_band_length", __func__);
     }
 
     float GetMaxStrain(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<float>(nh, "max_strain", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<float>(nh, "max_strain", __func__);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -170,20 +165,17 @@ namespace smmap
 
     double GetErrorThresholdAlongNormal(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "task/error_threshold_along_normal", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "task/error_threshold_along_normal", __func__);
     }
 
     double GetErrorThresholdDistanceToNormal(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "task/error_threshold_distance_to_normal", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "task/error_threshold_distance_to_normal", __func__);
     }
 
     double GetErrorThresholdTaskDone(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "task/error_threshold_task_done", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "task/error_threshold_task_done", __func__);
     }
 
     double GetDesiredMotionScalingFactor(ros::NodeHandle& nh)
@@ -235,15 +227,15 @@ namespace smmap
     double GetRRTMinGripperDistanceToObstacles(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/min_gripper_distance_to_obstacles", __func__);
-        assert(val.GetImmutable() >= 0.0);
-        return val.GetImmutable();
+        assert(val >= 0.0);
+        return val;
     }
 
     double GetRRTTargetMinDistanceScaleFactor(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/target_min_distance_scale_factor", __func__);
-        assert(val.GetImmutable() >= 1.0);
-        return val.GetImmutable();
+        assert(val >= 1.0);
+        return val;
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -267,14 +259,12 @@ namespace smmap
 
     float GetTableHalfExtentsX(ros::NodeHandle& nh)  // METERS
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "table_x_half_extents", __func__);
-        return (float)val.GetImmutable();
+        return ROSHelpers::GetParamRequired<float>(nh, "table_x_half_extents", __func__);
     }
 
     float GetTableHalfExtentsY(ros::NodeHandle& nh)  // METERS
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "table_y_half_extents", __func__);
-        return (float)val.GetImmutable();
+        return ROSHelpers::GetParamRequired<float>(nh, "table_y_half_extents", __func__);
     }
 
     float GetTableHeight(ros::NodeHandle& nh)        // METERS
@@ -314,8 +304,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cylinder_radius", 0.04f);
 
             default:
-                const auto val = ROSHelpers::GetParamRequired<double>(nh, "cylinder_radius", __func__);
-                return (float)val.GetImmutable();
+                return ROSHelpers::GetParamRequired<float>(nh, "cylinder_radius", __func__);
         }
     }
 
@@ -336,8 +325,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cylinder_height", 1.0f);
 
             default:
-                const auto val = ROSHelpers::GetParamRequired<double>(nh, "cylinder_height", __func__);
-                return (float)val.GetImmutable();
+                return ROSHelpers::GetParamRequired<float>(nh, "cylinder_height", __func__);
         }
     }
 
@@ -358,8 +346,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cylinder_com_x", -0.3f);
 
             default:
-                const auto val = ROSHelpers::GetParamRequired<double>(nh, "cylinder_com_x", __func__);
-                return (float)val.GetImmutable();
+                return ROSHelpers::GetParamRequired<float>(nh, "cylinder_com_x", __func__);
         }
     }
 
@@ -380,8 +367,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cylinder_com_y", 0.0f);
 
             default:
-                const auto val = ROSHelpers::GetParamRequired<double>(nh, "cylinder_com_y", __func__);
-                return (float)val.GetImmutable();
+                return ROSHelpers::GetParamRequired<float>(nh, "cylinder_com_y", __func__);
         }
     }
 
@@ -402,8 +388,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cylinder_com_z", 1.0f);
 
             default:
-                const auto val = ROSHelpers::GetParamRequired<double>(nh, "cylinder_com_z", __func__);
-                return (float)val.GetImmutable();
+                return ROSHelpers::GetParamRequired<float>(nh, "cylinder_com_z", __func__);
         }
     }
 
@@ -440,42 +425,40 @@ namespace smmap
 
     float GetWallHeight(ros::NodeHandle& nh)             // METERS
     {
-        const auto val = ROSHelpers::GetParamRequired<float>(nh, "wall_height", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<float>(nh, "wall_height", __func__);
     }
 
     float GetWallCenterOfMassZ(ros::NodeHandle& nh)      // METERS
     {
-        const auto val = ROSHelpers::GetParamRequired<float>(nh, "wall_com_z", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<float>(nh, "wall_com_z", __func__);
     }
 
     float GetOuterWallsAlpha(ros::NodeHandle& nh)        // 0.0 thru 1.0 (inclusive)
     {
         const auto val = ROSHelpers::GetParamRequired<float>(nh, "outer_walls_alpha", __func__);
-        assert(val.GetImmutable() >= 0.0 && val.GetImmutable() <= 1.0);
-        return val.GetImmutable();
+        assert(val >= 0.0 && val <= 1.0);
+        return val;
     }
 
     float GetFloorDividerAlpha(ros::NodeHandle& nh)      // 0.0 thru 1.0 (inclusive)
     {
         const auto val = ROSHelpers::GetParamRequired<float>(nh, "floor_divider_alpha", __func__);
-        assert(val.GetImmutable() >= 0.0 && val.GetImmutable() <= 1.0);
-        return val.GetImmutable();
+        assert(val >= 0.0 && val <= 1.0);
+        return val;
     }
 
     float GetFirstFloorAlpha(ros::NodeHandle& nh)        // 0.0 thru 1.0 (inclusive)
     {
         const auto val = ROSHelpers::GetParamRequired<float>(nh, "first_floor_alpha", __func__);
-        assert(val.GetImmutable() >= 0.0 && val.GetImmutable() <= 1.0);
-        return val.GetImmutable();
+        assert(val >= 0.0 && val <= 1.0);
+        return val;
     }
 
     float GetSecondFloorAlpha(ros::NodeHandle& nh)       // 0.0 thru 1.0 (inclusive)
     {
         const auto val = ROSHelpers::GetParamRequired<float>(nh, "second_floor_alpha", __func__);
-        assert(val.GetImmutable() >= 0.0 && val.GetImmutable() <= 1.0);
-        return val.GetImmutable();
+        assert(val >= 0.0 && val <= 1.0);
+        return val;
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -518,20 +501,17 @@ namespace smmap
 
     float GetRopeCenterOfMassX(ros::NodeHandle& nh)    // METERS
     {
-        const auto val = ROSHelpers::GetParamRequired<float>(nh, "rope_com_x", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<float>(nh, "rope_com_x", __func__);
     }
 
     float GetRopeCenterOfMassY(ros::NodeHandle& nh)    // METERS
     {
-        const auto val = ROSHelpers::GetParamRequired<float>(nh, "rope_com_y", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<float>(nh, "rope_com_y", __func__);
     }
 
     float GetRopeCenterOfMassZ(ros::NodeHandle& nh)    // METERS
     {
-        const auto val = ROSHelpers::GetParamRequired<float>(nh, "rope_com_z", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<float>(nh, "rope_com_z", __func__);
     }
 
     ////////////////////////////////////////////////////////////////////
@@ -562,8 +542,7 @@ namespace smmap
             case TaskType::CLOTH_SINGLE_POLE:
             case TaskType::CLOTH_WALL:
             default:
-                const auto val = ROSHelpers::GetParamRequired<double>(nh, "cloth_com_x", __func__);
-                return (float)val.GetImmutable();
+                return ROSHelpers::GetParamRequired<float>(nh, "cloth_com_x", __func__);
         }
     }
 
@@ -581,8 +560,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_com_y", GetCylinderCenterOfMassY(nh));
 
             default:
-                const auto val = ROSHelpers::GetParamRequired<double>(nh, "cloth_com_y", __func__);
-                return (float)val.GetImmutable();
+                return ROSHelpers::GetParamRequired<float>(nh, "cloth_com_y", __func__);
         }
     }
 
@@ -600,15 +578,13 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "cloth_com_z", GetCylinderCenterOfMassZ(nh));
 
             default:
-                const auto val = ROSHelpers::GetParamRequired<double>(nh, "cloth_com_z", __func__);
-                return (float)val.GetImmutable();
+                return ROSHelpers::GetParamRequired<float>(nh, "cloth_com_z", __func__);
         }
     }
 
     float GetClothLinearStiffness(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "cloth_linear_stiffness", __func__);
-        return (float)val.GetImmutable();
+        return ROSHelpers::GetParamRequired<float>(nh, "cloth_linear_stiffness", __func__);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -750,8 +726,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_x_min", GetClothCenterOfMassX(nh) - 1.4 * GetClothXSize(nh));
 
             default:
-                const auto val = ROSHelpers::GetParamRequired<double>(nh, "world_x_min", __func__);
-                return val.GetImmutable();
+                return ROSHelpers::GetParamRequired<double>(nh, "world_x_min", __func__);
         }
     }
 
@@ -766,8 +741,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_x_max", GetClothCenterOfMassX(nh) + 0.4 * GetClothXSize(nh));
 
             default:
-                const auto val = ROSHelpers::GetParamRequired<double>(nh, "world_x_max", __func__);
-                return val.GetImmutable();
+                return ROSHelpers::GetParamRequired<double>(nh, "world_x_max", __func__);
         }
     }
 
@@ -813,8 +787,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_y_min", GetClothCenterOfMassY(nh) - 0.75 * GetClothYSize(nh));
 
             default:
-                const auto val = ROSHelpers::GetParamRequired<double>(nh, "world_y_min", __func__);
-                return val.GetImmutable();
+                return ROSHelpers::GetParamRequired<double>(nh, "world_y_min", __func__);
         }
     }
 
@@ -838,8 +811,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_y_max", GetClothCenterOfMassY(nh) + 0.75 * GetClothYSize(nh));
 
             default:
-                const auto val = ROSHelpers::GetParamRequired<double>(nh, "world_y_max", __func__);
-                return val.GetImmutable();
+                return ROSHelpers::GetParamRequired<double>(nh, "world_y_max", __func__);
         }
     }
 
@@ -884,8 +856,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_z_min", GetClothCenterOfMassZ(nh) - 1.0 * GetClothXSize(nh));
 
             default:
-                const auto val = ROSHelpers::GetParamRequired<double>(nh, "world_z_min", __func__);
-                return val.GetImmutable();
+                return ROSHelpers::GetParamRequired<double>(nh, "world_z_min", __func__);
         }
     }
 
@@ -908,8 +879,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "world_z_max", GetClothCenterOfMassZ(nh) + 0.5 * GetClothXSize(nh));
 
             default:
-                const auto val = ROSHelpers::GetParamRequired<double>(nh, "world_z_max", __func__);
-                return val.GetImmutable();
+                return ROSHelpers::GetParamRequired<double>(nh, "world_z_max", __func__);
         }
     }
 
@@ -952,8 +922,7 @@ namespace smmap
                 return ROSHelpers::GetParam(nh, "sdf_resolution_scale", 2);
 
             default:
-                const auto val = ROSHelpers::GetParamRequired<int>(nh, "sdf_resolution_scale", __func__);
-                return val.GetImmutable();
+                return ROSHelpers::GetParamRequired<int>(nh, "sdf_resolution_scale", __func__);
         }
     }
 
@@ -975,7 +944,7 @@ namespace smmap
             {"multi_model_accuracy_test",                                                           TrialType::MULTI_MODEL_ACCURACY_TEST}
         };
 
-        const auto trial_type = ROSHelpers::GetParamRequired<std::string>(nh, "trial_type", __func__).GetImmutable();
+        const auto trial_type = ROSHelpers::GetParamRequired<std::string>(nh, "trial_type", __func__);
         return task_map.at(trial_type);
     }
 
@@ -988,7 +957,7 @@ namespace smmap
             {"KFMANDB", KFMANDB}
         };
 
-        const auto mab_algorithm = ROSHelpers::GetParamRequired<std::string>(nh, "multi_model/bandit_algorithm", __func__).GetImmutable();
+        const auto mab_algorithm = ROSHelpers::GetParamRequired<std::string>(nh, "multi_model/bandit_algorithm", __func__);
         return algorithm_map.at(mab_algorithm);
     }
 
@@ -998,8 +967,7 @@ namespace smmap
 
     double GetDefaultDeformability(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "diminishing_rigidity/default_deformability", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "diminishing_rigidity/default_deformability", __func__);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1017,22 +985,22 @@ namespace smmap
 
     double GetConstraintTranslationalDir(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamRequired<double>(nh, "constraint_model/translational_dir_deformability", __func__).GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "constraint_model/translational_dir_deformability", __func__);
     }
 
     double GetConstraintTranslationalDis(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamRequired<double>(nh, "constraint_model/translational_dis_deformability", __func__).GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "constraint_model/translational_dis_deformability", __func__);
     }
 
     double GetConstraintRotational(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamRequired<double>(nh, "constraint_model/rotational_dis_deformability", __func__).GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "constraint_model/rotational_dis_deformability", __func__);
     }
 
     double GetConstraintTranslationalOldVersion(ros::NodeHandle& nh)
     {
-        return ROSHelpers::GetParamRequired<double>(nh, "constraint_model/translational_old_version_deformability", __func__).GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "constraint_model/translational_old_version_deformability", __func__);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1046,88 +1014,77 @@ namespace smmap
 
     double GetRewardScaleAnnealingFactor(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/reward_scale_annealing_factor", __func__);
-        const double factor = val.GetImmutable();
+        const auto factor = ROSHelpers::GetParamRequired<double>(nh, "multi_model/reward_scale_annealing_factor", __func__);
         assert(0.0 <= factor && factor < 1.0);
         return factor;
     }
 
     double GetRewardScaleFactorStart(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/reward_std_dev_factor_start", __func__);
-        const double factor = val.GetImmutable();
+        const auto factor = ROSHelpers::GetParamRequired<double>(nh, "multi_model/reward_std_dev_factor_start", __func__);
         assert(0.0 <= factor);
         return factor;
     }
 
     double GetProcessNoiseFactor(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/process_noise_factor", __func__);
-        const double factor = val.GetImmutable();
+        const auto factor = ROSHelpers::GetParamRequired<double>(nh, "multi_model/process_noise_factor", __func__);
         assert(0.0 <= factor);
         return factor;
     }
 
     double GetObservationNoiseFactor(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/observation_noise_factor", __func__);
-        const double factor = val.GetImmutable();
+        const auto factor = ROSHelpers::GetParamRequired<double>(nh, "multi_model/observation_noise_factor", __func__);
         assert(0.0 <= factor);
         return factor;
     }
 
     double GetCorrelationStrengthFactor(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/correlation_strength_factor", __func__);
-        const double factor = val.GetImmutable();
+        const auto factor = ROSHelpers::GetParamRequired<double>(nh, "multi_model/correlation_strength_factor", __func__);
         assert(0.0 <= factor && factor <= 1.0);
         return factor;
     }
 
     double GetDeformabilityRangeMin(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/deformability_range_min", __func__);
-        const double factor = val.GetImmutable();
+        const auto factor = ROSHelpers::GetParamRequired<double>(nh, "multi_model/deformability_range_min", __func__);
         assert(0.0 <= factor);
         return factor;
     }
 
     double GetDeformabilityRangeMax(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/deformability_range_max", __func__);
-        const double factor = val.GetImmutable();
+        const auto factor = ROSHelpers::GetParamRequired<double>(nh, "multi_model/deformability_range_max", __func__);
         assert(0.0 <= factor);
         return factor;
     }
 
     double GetDeformabilityRangeStep(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/deformability_range_step", __func__);
-        const double factor = val.GetImmutable();
+        const auto factor = ROSHelpers::GetParamRequired<double>(nh, "multi_model/deformability_range_step", __func__);
         assert(0.0 <= factor);
         return factor;
     }
 
     double GetAdaptiveLearningRateRangeMin(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/adaptive_learning_rate_min", __func__);
-        const double factor = val.GetImmutable();
+        const auto factor = ROSHelpers::GetParamRequired<double>(nh, "multi_model/adaptive_learning_rate_min", __func__);
         assert(0.0 < factor);
         return factor;
     }
 
     double GetAdaptiveLearningRateRangeMax(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/adaptive_learning_rate_max", __func__);
-        const double factor = val.GetImmutable();
+        const auto factor = ROSHelpers::GetParamRequired<double>(nh, "multi_model/adaptive_learning_rate_max", __func__);
         assert(0.0 < factor);
         return factor;
     }
 
     double GetAdaptiveLearningRateRangeStep(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "multi_model/adaptive_learning_rate_step", __func__);
-        const double factor = val.GetImmutable();
+        const auto factor = ROSHelpers::GetParamRequired<double>(nh, "multi_model/adaptive_learning_rate_step", __func__);
         assert(0.0 < factor);
         return factor;
     }
@@ -1152,7 +1109,7 @@ namespace smmap
         else
         {
             std::stringstream ss;
-            ss << std::hex << ROSHelpers::GetParamRequired<std::string>(nh, "static_seed", __func__).GetImmutable();
+            ss << std::hex << ROSHelpers::GetParamRequired<std::string>(nh, "static_seed", __func__);
             ss >> seed;
         }
         return seed;
@@ -1170,16 +1127,14 @@ namespace smmap
 
     size_t GetNumLookaheadSteps(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<int>(nh, "stuck_detection/num_lookahead_steps", __func__);
-        const int steps = val.GetImmutable();
+        const auto steps = ROSHelpers::GetParamRequired<int>(nh, "stuck_detection/num_lookahead_steps", __func__);
         assert(steps >= 1);
         return (size_t)steps;
     }
 
     double GetRubberBandOverstretchPredictionAnnealingFactor(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "stuck_detection/band_overstretch_prediction_annealing_factor", __func__);
-        const double factor = val.GetImmutable();
+        const auto factor = ROSHelpers::GetParamRequired<double>(nh, "stuck_detection/band_overstretch_prediction_annealing_factor", __func__);
         assert(0.0 <= factor && factor < 1.0);
         return factor;
     }
@@ -1193,14 +1148,12 @@ namespace smmap
 
     double GetErrorDeltaThresholdForProgress(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "stuck_detection/error_delta_threshold_for_progress", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "stuck_detection/error_delta_threshold_for_progress", __func__);
     }
 
     double GetGrippersDistanceDeltaThresholdForProgress(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "stuck_detection/grippers_distance_delta_threshold_for_progress", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "stuck_detection/grippers_distance_delta_threshold_for_progress", __func__);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1209,14 +1162,12 @@ namespace smmap
 
     bool GetRRTReuseOldResults(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "rrt/reuse_old_results", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<bool>(nh, "rrt/reuse_old_results", __func__);
     }
 
     bool GetRRTStoreNewResults(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "rrt/store_new_results", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<bool>(nh, "rrt/store_new_results", __func__);
     }
 
     double GetRRTHomotopyDistancePenalty()
@@ -1226,75 +1177,64 @@ namespace smmap
 
     double GetRRTBandDistance2ScalingFactor(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/band_dist2_scaling_factor", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "rrt/band_dist2_scaling_factor", __func__);
     }
 
     size_t GetRRTBandMaxPoints(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt/band_max_points", __func__);
-        return (size_t)val.GetImmutable();
+        return ROSHelpers::GetParamRequired<int>(nh, "rrt/band_max_points", __func__);
     }
 
     double GetRRTMaxRobotDOFStepSize(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/max_robot_dof_step_size", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "rrt/max_robot_dof_step_size", __func__);
     }
 
     double GetRRTMinRobotDOFStepSize(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/min_robot_dof_step_size", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "rrt/min_robot_dof_step_size", __func__);
     }
 
     double GetRRTMaxGripperRotation(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/max_gripper_rotation", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "rrt/max_gripper_rotation", __func__);
     }
 
     double GetRRTGoalBias(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/goal_bias", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "rrt/goal_bias", __func__);
     }
 
     double GetRRTBestNearRadius(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/best_near_radius", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "rrt/best_near_radius", __func__);
     }
 
     double GetRRTFeasibilityDistanceScaleFactor(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/feasibility_distance_scale_factor", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "rrt/feasibility_distance_scale_factor", __func__);
     }
 
     int64_t GetRRTMaxShortcutIndexDistance(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt/max_shortcut_index_distance", __func__);
-        return (int64_t)val.GetImmutable();
+        return (int64_t)ROSHelpers::GetParamRequired<int>(nh, "rrt/max_shortcut_index_distance", __func__);
     }
 
     uint32_t GetRRTMaxSmoothingIterations(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt/max_smoothing_iterations",  __func__);
-        return (uint32_t)val.GetImmutable();
+        return (uint32_t)ROSHelpers::GetParamRequired<int>(nh, "rrt/max_smoothing_iterations",  __func__);
     }
 
     double GetRRTSmoothingBandDistThreshold(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/smoothing_band_dist_threshold", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "rrt/smoothing_band_dist_threshold", __func__);
     }
 
     double GetRRTTimeout(ros::NodeHandle& nh)
     {
         const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/timeout", __func__);
-        assert(val.GetImmutable() > 0.0);
-        return val.GetImmutable();
+        assert(val > 0.0);
+        return val;
     }
 
     size_t GetRRTNumTrials(ros::NodeHandle& nh)
@@ -1304,74 +1244,62 @@ namespace smmap
 
     double GetRRTPlanningXMinBulletFrame(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_x_min", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_x_min", __func__);
     }
 
     double GetRRTPlanningXMaxBulletFrame(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_x_max", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_x_max", __func__);
     }
 
     double GetRRTPlanningYMinBulletFrame(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_y_min", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_y_min", __func__);
     }
 
     double GetRRTPlanningYMaxBulletFrame(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_y_max", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_y_max", __func__);
     }
 
     double GetRRTPlanningZMinBulletFrame(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_z_min", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_z_min", __func__);
     }
 
     double GetRRTPlanningZMaxBulletFrame(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_z_max", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "rrt/planning_z_max", __func__);
     }
 
     bool GetUseCBiRRTStyleProjection(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "rrt/use_cbirrt_style_projection", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<bool>(nh, "rrt/use_cbirrt_style_projection", __func__);
     }
 
     size_t GetRRTForwardTreeExtendIterations(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt/forward_tree_extend_iterations", __func__);
-        return (size_t)val.GetImmutable();
+        return (size_t)ROSHelpers::GetParamRequired<int>(nh, "rrt/forward_tree_extend_iterations", __func__);
     }
 
     size_t GetRRTBackwardTreeExtendIterations(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt/backward_tree_extend_iterations", __func__);
-        return (size_t)val.GetImmutable();
+        return (size_t)ROSHelpers::GetParamRequired<int>(nh, "rrt/backward_tree_extend_iterations", __func__);
     }
 
     bool GetRRTUseBruteForceNN(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "rrt/use_brute_force_nn", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<bool>(nh, "rrt/use_brute_force_nn", __func__);
     }
 
     size_t GetRRTKdTreeGrowThreshold(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<int>(nh, "rrt/kd_tree_grow_threshold", __func__);
-        return (size_t)val.GetImmutable();
+        return ROSHelpers::GetParamRequired<int>(nh, "rrt/kd_tree_grow_threshold", __func__);
     }
 
     bool GetRRTTestPathsInBullet(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "rrt/test_paths_in_bullet", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<bool>(nh, "rrt/test_paths_in_bullet", __func__);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1380,44 +1308,37 @@ namespace smmap
 
     double GetTransitionMistakeThreshold(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/mistake_distance_threshold", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/mistake_distance_threshold", __func__);
     }
 
     double GetTransitionDefaultPropagationConfidence(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/default_propagation_confidence", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/default_propagation_confidence", __func__);
     }
 
     double GetTransitionDefaultBandDistThreshold(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/default_band_dist_threshold", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/default_band_dist_threshold", __func__);
     }
 
     double GetTransitionConfidenceThreshold(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/confidence_threshold", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/confidence_threshold", __func__);
     }
 
     double GetTransitionTemplateMisalignmentScaleFactor(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/template_misalignment_scale_factor", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/template_misalignment_scale_factor", __func__);
     }
 
     double GetTransitionTightenDeltaScaleFactor(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/tighten_delta_scale_factor", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/tighten_delta_scale_factor", __func__);
     }
 
     double GetTransitionHomotopyChangesScaleFactor(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/homotopy_changes_scale_factor", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "transition_estimation/homotopy_changes_scale_factor", __func__);
     }
 
     ClassifierType GetClassifierType(ros::NodeHandle& nh)
@@ -1431,7 +1352,7 @@ namespace smmap
             {"voxnet",  ClassifierType::VOXNET},
         };
 
-        const auto classifier_type = ROSHelpers::GetParamRequiredDebugLog<std::string>(nh, "classifier/type", __func__).GetImmutable();
+        const auto classifier_type = ROSHelpers::GetParamRequiredDebugLog<std::string>(nh, "classifier/type", __func__);
         return classifier_type_map.at(classifier_type);
     }
 
@@ -1446,8 +1367,7 @@ namespace smmap
 
     double GetCollisionScalingFactor(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "jacobian_controller/collision_scaling_factor", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "jacobian_controller/collision_scaling_factor", __func__);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1463,26 +1383,23 @@ namespace smmap
             {"gradient_descent",    StretchingConstraintControllerSolverType::GRADIENT_DESCENT},
         };
 
-        const auto solver_type = ROSHelpers::GetParamRequired<std::string>(nh, "stretching_constraint_controller/solver_type", __func__).GetImmutable();
+        const auto solver_type = ROSHelpers::GetParamRequired<std::string>(nh, "stretching_constraint_controller/solver_type", __func__);
         return solver_map.at(solver_type);
     }
 
     int64_t GetMaxSamplingCounts(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<int>(nh, "stretching_constraint_controller/max_sampling_counts", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<int>(nh, "stretching_constraint_controller/max_sampling_counts", __func__);
     }
 
     bool GetUseFixedGripperDeltaSize(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<bool>(nh, "stretching_constraint_controller/fix_step_size", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<bool>(nh, "stretching_constraint_controller/fix_step_size", __func__);
     }
 
     double GetStretchingCosineThreshold(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "stretching_constraint_controller/stretching_cosine_threshold", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "stretching_constraint_controller/stretching_cosine_threshold", __func__);
     }
 
     bool GetVisualizeOverstretchCones(ros::NodeHandle& nh)
@@ -1571,38 +1488,32 @@ namespace smmap
 
     double GetGripperStraightLineMotionTransX(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "straight_line_motion_controller/vx", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "straight_line_motion_controller/vx", __func__);
     }
 
     double GetGripperStraightLineMotionTransY(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "straight_line_motion_controller/vy", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "straight_line_motion_controller/vy", __func__);
     }
 
     double GetGripperStraightLineMotionTransZ(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "straight_line_motion_controller/vz", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "straight_line_motion_controller/vz", __func__);
     }
 
     double GetGripperStraightLineMotionAngularX(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "straight_line_motion_controller/wx", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "straight_line_motion_controller/wx", __func__);
     }
 
     double GetGripperStraightLineMotionAngularY(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "straight_line_motion_controller/wy", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "straight_line_motion_controller/wy", __func__);
     }
 
     double GetGripperStraightLineMotionAngularZ(ros::NodeHandle& nh)
     {
-        const auto val = ROSHelpers::GetParamRequired<double>(nh, "straight_line_motion_controller/wz", __func__);
-        return val.GetImmutable();
+        return ROSHelpers::GetParamRequired<double>(nh, "straight_line_motion_controller/wz", __func__);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -1632,7 +1543,7 @@ namespace smmap
     std::string GetDijkstrasStorageLocation(ros::NodeHandle& nh)
     {
         const std::string base_path = GetLogFolder(nh);
-        const std::string task_name = ROSHelpers::GetParamRequired<std::string>(nh, "task_type", __func__).GetImmutable();
+        const std::string task_name = ROSHelpers::GetParamRequired<std::string>(nh, "task_type", __func__);
         const std::string default_dijkstras_file_path =
                 base_path + "../" + task_name + ".dijkstras_serialized";
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "dijkstras_file_path", default_dijkstras_file_path);
@@ -1641,7 +1552,7 @@ namespace smmap
     std::string GetCollisionMapStorageLocation(ros::NodeHandle& nh)
     {
         const std::string base_path = GetLogFolder(nh);
-        const std::string task_name = ROSHelpers::GetParamRequired<std::string>(nh, "task_type", __func__).GetImmutable();
+        const std::string task_name = ROSHelpers::GetParamRequired<std::string>(nh, "task_type", __func__);
         const std::string default_collision_map_file_path =
                 base_path + "../" + task_name + ".collision_map_serialized";
         return ROSHelpers::GetParamDebugLog<std::string>(nh, "collision_map_file_path", default_collision_map_file_path);
@@ -1817,8 +1728,8 @@ namespace smmap
     {
         const std::string name = GetGripper0Name(nh);
         assert(name == "left" || name == "right");
-        const bool use_victor = ROSHelpers::GetParamRequired<bool>(nh, "use_victor", __func__).GetImmutable();
-        const bool use_val = ROSHelpers::GetParamRequired<bool>(nh, "use_val", __func__).GetImmutable();
+        const bool use_victor = ROSHelpers::GetParamRequired<bool>(nh, "use_victor", __func__);
+        const bool use_val = ROSHelpers::GetParamRequired<bool>(nh, "use_val", __func__);
         assert ((use_victor ^ use_val) && "Only one of Victor or Val can be specified");
         if (use_victor)
         {
@@ -1838,8 +1749,8 @@ namespace smmap
     {
         const std::string name = GetGripper1Name(nh);
         assert(name == "left" || name == "right");
-        const bool use_victor = ROSHelpers::GetParamRequired<bool>(nh, "use_victor", __func__).GetImmutable();
-        const bool use_val = ROSHelpers::GetParamRequired<bool>(nh, "use_val", __func__).GetImmutable();
+        const bool use_victor = ROSHelpers::GetParamRequired<bool>(nh, "use_victor", __func__);
+        const bool use_val = ROSHelpers::GetParamRequired<bool>(nh, "use_val", __func__);
         assert ((use_victor ^ use_val) && "Only one of Victor or Val can be specified");
         if (use_victor)
         {
@@ -1858,9 +1769,8 @@ namespace smmap
     size_t GetGripperAttachedIdx(ros::NodeHandle& nh, const std::string& gripper_name)
     {
         const auto val = ROSHelpers::GetParamRequired<int>(nh, gripper_name + "_gripper_attached_node_idx", __func__);
-        const int idx = val.GetImmutable();
-        assert(idx >= 0);
-        return (size_t)idx;
+        assert(val >= 0);
+        return (size_t)val;
     }
 
     ////////////////////////////////////////////////////////////////////////////

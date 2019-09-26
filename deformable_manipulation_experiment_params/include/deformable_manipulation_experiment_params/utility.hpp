@@ -77,7 +77,7 @@ namespace smmap
         }
         catch (const std::invalid_argument& /* ex */)
         {
-            const auto stdvec = GetVectorRequired<float>(nh, base_name, __func__).GetImmutable();
+            const auto stdvec = GetVectorRequired<float>(nh, base_name, __func__);
             switch(stdvec.size())
             {
                 case 4:
@@ -116,7 +116,7 @@ namespace smmap
         }
         catch (const std::invalid_argument& /* ex */)
         {
-            const auto stdvec = GetVectorRequired<double>(nh, base_name, __func__).GetImmutable();
+            const auto stdvec = GetVectorRequired<double>(nh, base_name, __func__);
             if (stdvec.size() != 3)
             {
                 throw_arc_exception(std::invalid_argument, "Parameter is the wrong size; length is " + std::to_string(stdvec.size()));
@@ -140,7 +140,7 @@ namespace smmap
         }
         catch (const std::invalid_argument& /* ex */)
         {
-            const auto stdvec = GetVectorRequired<double>(nh, base_name, __func__).GetImmutable();
+            const auto stdvec = GetVectorRequired<double>(nh, base_name, __func__);
             if (stdvec.size() != 4)
             {
                 throw_arc_exception(std::invalid_argument, "Parameter is the wrong size; length is " + std::to_string(stdvec.size()));

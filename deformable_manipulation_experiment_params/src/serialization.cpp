@@ -71,8 +71,8 @@ namespace smmap
 
             // Compress and save to file
             ROS_DEBUG_NAMED("dmi_serialization", "Compressing and writing data");
-            CreateDirectory(folder_name);
             const std::string file_path = folder_name + "/" + file_name;
+            CreateDirectory(folder_name);
             ZlibHelpers::CompressAndWriteToFile(buffer, file_path);
         }
         catch (const std::exception& e)
