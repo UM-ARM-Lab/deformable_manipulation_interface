@@ -9,11 +9,11 @@
 
     <!-- Simulator arguments -->
     <arg name="launch_simulator"                        default="true"/>
-    <arg name="start_bullet_viewer"                     default="false"/>
+    <arg name="start_bullet_viewer"                     default="true"/>
     <arg name="screenshots_enabled"                     default="false"/>
 
     <!-- Planner/Tester visualization arguments -->
-    <arg name="disable_smmap_visualizations"            default="true"/>
+    <arg name="disable_smmap_visualizations"            default="false"/>
     <arg name="visualize_gripper_motion"                default="false"/>
 
     <!-- Transition classifier arguments -->
@@ -32,7 +32,7 @@
     <arg name="launch_tester"                           default="true"/>
     <arg name="generate_test_data"                      default="false"/>
     <arg name="generate_trajectories"                   default="false"/>
-    <arg name="visualize_incomplete_trajectories"       default="false"/>
+    <arg name="visualize_trajectories"                  default="true"/>
     <arg name="generate_transitions"                    default="false"/>
     <arg name="generate_meaningful_mistakes"            default="false"/>
     <arg name="generate_features"                       default="false"/>
@@ -74,7 +74,7 @@
 
         <param name="generate_test_data"                value="$(arg generate_test_data)"                   type="bool"/>
         <param name="generate_trajectories"             value="$(arg generate_trajectories)"                type="bool"/>
-        <param name="visualize_incomplete_trajectories" value="$(arg visualize_incomplete_trajectories)"    type="bool"/>
+        <param name="visualize_trajectories"            value="$(arg visualize_trajectories)"               type="bool"/>
         <param name="generate_transitions"              value="$(arg generate_transitions)"                 type="bool"/>
         <param name="generate_meaningful_mistakes"      value="$(arg generate_meaningful_mistakes)"         type="bool"/>
         <param name="generate_features"                 value="$(arg generate_features)"                    type="bool"/>
