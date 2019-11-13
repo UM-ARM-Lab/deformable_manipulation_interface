@@ -70,11 +70,11 @@
         <arg name="planner_node_name"   value="$(arg planner_node_name)"/>
     </include>
     <!-- Logging/data folders -->
-    <arg name="root_log_folder" value="$(find smmap)/logs"/>
+    <arg name="root_log_folder"  value="$(find smmap)/logs"/>
     <arg name="root_data_folder" value="/mnt/big_narstie_data/dmcconac/transition_learning_data_generation/smmap_generated_plans"/>
-    <param name="test_id"                               value="$(arg test_id)"                                              type="string"/>
-    <param name="log_folder"                            value="$(arg root_log_folder)/$(arg task_type)/$(arg test_id)/"     type="string"/>
-    <param name="data_folder"                           value="$(arg root_data_folder)/$(arg task_type)/$(arg test_id)/"    type="string"/>
+    <param name="test_id"        value="$(arg test_id)"                                              type="string"/>
+    <param name="log_folder"     value="$(arg root_log_folder)/$(arg task_type)/$(arg test_id)/"     type="string"/>
+    <param name="data_folder"    value="$(arg root_data_folder)/$(arg task_type)/$(arg test_id)/"    type="string"/>
 
     <!-- Setup the simulator -->
     <group ns="deform_simulator_node">
