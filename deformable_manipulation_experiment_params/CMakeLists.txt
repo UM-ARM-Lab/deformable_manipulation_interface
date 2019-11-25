@@ -2,8 +2,8 @@ cmake_minimum_required(VERSION 2.8.3)
 project(deformable_manipulation_experiment_params)
 
 set(CATKIN_PACKAGES
-    arc_utilities
-    roscpp
+  arc_utilities
+  roscpp
 )
 
 ## Find catkin macros and libraries

@@ -36,15 +36,15 @@
     <node name="deform_simulator_node" pkg="deform_simulator" type="custom_scene_node" required="true" if="$(arg launch_simulator)"/>
 
     <!-- Setup the tester -->
-    <arg name="base_filename" value="$(arg root_data_folder)/$(arg task_type)/$(arg test_id)/seed_a8710913d2b5df6c__batch_test_4__2019-11-13__11-33-56"/>
+    <arg name="base_filename" value="$(arg root_data_folder)/$(arg task_type)/$(arg test_id)/seed_a8710913d2b5df6c__batch_test_4__2019-11-15__11-23-42"/>
     <group ns="$(arg planner_node_name)">
         <param name="disable_smmap_visualizations"      value="$(arg disable_smmap_visualizations)"         type="bool"/>
         <param name="visualize_free_space_graph"        value="$(arg visualize_free_space_graph)"           type="bool"/>
         <param name="visualize_correspondences"         value="$(arg visualize_correspondences)"            type="bool"/>
 
         <param name="world_state_file"  value="$(arg base_filename)__starting_world_state.compressed"               type="string"/>
-        <param name="rrt_path_file"     value="$(arg base_filename)__trial_idx_091__rrt_path.compressed"            type="string"/>
-        <param name="test_result_file"  value="$(arg base_filename)__trial_idx_091__path_test_results.compressed"   type="string"/>
+        <param name="rrt_path_file"     value="$(arg base_filename)__trial_idx_001__rrt_path.compressed"            type="string"/>
+        <param name="test_result_file"  value="$(arg base_filename)__trial_idx_001__path_test_results.compressed"   type="string"/>
 
         <!-- Params shared by this file and transition_learning.launch -->
         <include file="$(find deformable_manipulation_experiment_params)/launch/shared/rrt_params.launch"/>
